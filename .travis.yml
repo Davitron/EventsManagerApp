@@ -1,0 +1,9 @@
+dist: trusty
+language: node_js
+node_js:
+  - stable
+script:
+  - npm test
+after_success:
+  - npm run coveralls
+  - npm run report-coverage
