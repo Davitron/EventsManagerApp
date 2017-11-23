@@ -4,7 +4,7 @@
   "description": "An Event Management Application for event centers and  event booking.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ./server/tests/server.test.js --require babel-register",
+    "test": "mocha ./server/tests/* --require babel-register",
     "babel-node": "babel-node --preset=es2015",
     "start": "nodemon --exec npm run babel-node -- ./server/server.js"
   },
