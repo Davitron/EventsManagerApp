@@ -4,7 +4,6 @@ node_js:
   - stable
 script:
   - npm test
-  - travis_wait mvn install
 after_success:
   - npm run coveralls
   - npm run report-coverage
