@@ -1,0 +1,39 @@
+{
+  "name": "eventsmanagerapp",
+  "version": "1.0.0",
+  "description": "An Event Management Application for event centers and  event booking.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "babel-node": "babel-node --preset=es2015",
+    "start": "nodemon --exec npm run babel-node -- ./server/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Davitron/EventsManagerApp.git"
+  },
+  "author": "OLUWASEGUN MATTHEWS",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Davitron/EventsManagerApp/issues"
+  },
+  "homepage": "https://github.com/Davitron/EventsManagerApp#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
+    "eslint": "^4.11.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.5.1",
+    "mocha": "^4.0.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "morgan": "^1.9.0",
+    "nodemon": "^1.12.1"
+  }
+}
