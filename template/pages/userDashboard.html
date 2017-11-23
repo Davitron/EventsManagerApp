@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../plugins/materialize/css/materialize.min.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/icon.css" />
+    <link rel="stylesheet" href="../css/animate.css" />
+    
+  </head>
+  <body class=" responsive-image">
+    <header>
+      <div class="navbar-fixed">
+        <nav class=" z-depth-0" style="background-color: #26a69a !important;">
+          <div class="nav-wrapper">
+            <div class="row">
+              <div class="col s12">
+                <a href="#" data-activates="mobile-demo" class="button-collapse hide-on-med-and-up"><i class="material-icons">menu</i></a>
+                <a href="../index.html" class="brand-logo" target="">EventsManager</a>
+                <ul class="right hide-on-med-and-down">
+                  <li><a href="" target="">UserName</a></li>
+                  <li><a href="../index.html" target="">Logout</a></li>
+                </ul>
+              </div>
+            </div>
+            <ul class="side-nav" id="mobile-demo">
+              <li><a href="" target="">UserName</a></li>
+              <li><a href="../index.html" target="">Logout</a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <div class="" style="padding-top: 50px;">
+      <div class=" row">
+      </div>
+      <div class=" container animated bounceInRight" >
+        <div class="col s12 m8 l12">
+          <div class="card-panel white">
+              <h4 class="header col s12 light ">
+                  My Events
+              </h4>
+            <table class="bordered">
+                <thead>
+                  <tr>
+                      <th>Event Name</th>
+                      <th>Event Center</th>
+                      <th>Event Status</th>
+                      <th>Action</th>
+                  </tr>
+                </thead>
+        
+                <tbody>
+                  <tr>
+                    <td>Alvin</td>
+                    <td>Eclair</td>
+                    <td>pending</td>
+                    <td>
+                        <a class="waves-effect waves-light  btn" onclick="$('#Edit').modal('open')"><i class=" material-icons">create</i></a>
+                        <a class="waves-effect waves-light red btn" onclick="$('#delete').modal('open')"><i class=" material-icons">delete</i></a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Alan</td>
+                    <td>Jellybean</td>
+                    <td>canceled</td>
+                    <td>
+                      <a class="waves-effect waves-light  btn" onclick="$('#Edit').modal('open')"><i class=" material-icons">create</i></a>
+                      <a class="waves-effect waves-light red btn" onclick="$('#delete').modal('open')"><i class=" material-icons">delete</i></a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Jonathan</td>
+                    <td>Lollipop</td>
+                    <td>approved</td>
+                    <td>
+                      <a class="waves-effect waves-light  btn" onclick="$('#Edit').modal('open')"><i class=" material-icons">create</i></a>
+                      <a class="waves-effect waves-light red btn" onclick="$('#delete').modal('open')"><i class=" material-icons">delete</i></a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Jonathan</td>
+                    <td>Lollipop</td>
+                    <td>approved</td>
+                    <td>
+                      <a class="waves-effect waves-light  btn" onclick="$('#Edit').modal('open')"><i class=" material-icons">create</i></a>
+                      <a class="waves-effect waves-light red btn" onclick="$('#delete').modal('open')"><i class=" material-icons">delete</i></a>
+                    </td>
+                  </tr>
+                  <tr>
+                      <td>Alvin</td>
+                      <td>Eclair</td>
+                      <td>pending</td>
+                      <td>
+                        <a class="waves-effect waves-light  btn" onclick="$('#Edit').modal('open')"><i class=" material-icons">create</i></a>
+                        <a class="waves-effect waves-light red btn" onclick="$('#delete').modal('open')"><i class=" material-icons">delete</i></a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Alan</td>
+                      <td>Jellybean</td>
+                      <td>canceled</td>
+                      <td>
+                        <a class="waves-effect waves-light  btn" onclick="$('#Edit').modal('open')"><i class=" material-icons">create</i></a>
+                        <a class="waves-effect waves-light red btn" onclick="$('#delete').modal('open')"><i class=" material-icons">delete</i></a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Jonathan</td>
+                      <td>Lollipop</td>
+                      <td>approved</td>
+                      <td>
+                        <a class="waves-effect waves-light  btn" onclick="$('#Edit').modal('open')"><i class=" material-icons">create</i></a>
+                        <a class="waves-effect waves-light red btn" onclick="$('#delete').modal('open')"><i class=" material-icons">delete</i></a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Jonathan</td>
+                      <td>Lollipop</td>
+                      <td>approved</td>
+                      <td>
+                        <a class="waves-effect waves-light  btn" onclick="$('#Edit').modal('open')"><i class=" material-icons">create</i></a>
+                        <a class="waves-effect waves-light red btn" onclick="$('#delete').modal('open')"><i class=" material-icons">delete</i></a>
+                      </td>
+                    </tr>
+                </tbody>
+              </table>
+              <div class="fixed-action-btn  click-to-toggle spin-close">
+                <a class="btn-floating btn-large waves-effect waves-light animated rotateInUpRight" onclick="$('#create').modal('open');" href="#modal1">
+                  <i class="material-icons">add</i>
+                </a>
+              </div>
+              <ul class="pagination">
+                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                <li class="active"><a href="#!">1</a></li>
+                <li class="waves-effect"><a href="#!">2</a></li>
+                <li class="waves-effect"><a href="#!">3</a></li>
+                <li class="waves-effect"><a href="#!">4</a></li>
+                <li class="waves-effect"><a href="#!">5</a></li>
+                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+              </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="create" class="modal">
+      <div class="modal-content">
+        <h4>Create Event</h4>
+  
+        <div class="row">
+          <form class="col s12">
+            <div class="row modal-form-row">
+              <div class="input-field col s12">
+                <input id="image_url" type="text" class="validate">
+                <label for="image_url">Event Name</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="image_title" type="text" class="validate">
+                <label for="image_title">Event Center</label>
+              </div>
+            </div>       
+            <div class="row">
+              <div class="input-field col s12">
+                  <input type="text" class="datepicker">
+                <label for="image_description">Event Date</label>
+              </div>
+            </div>             
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a class=" modal-action modal-close waves-effect waves-green btn">Submit</a>
+      </div>
+    </div>
+    <div id="Edit" class="modal">
+      <div class="modal-content">
+        <h4>Modify Event</h4>
+  
+        <div class="row">
+          <form class="col s12">
+            <div class="row modal-form-row">
+              <div class="input-field col s12">
+                <input value="dummy event" id="image_url" type="text" class="validate">
+                <label for="image_url">Event Name</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input value="dummy center" id="image_title" type="text" class="validate">
+                <label for="image_title">Event Center</label>
+              </div>
+            </div>       
+            <div value="18 November, 2017" class="row">
+              <div class="input-field col s12">
+                  <input type="text" class="datepicker">
+                <label for="image_description">Event Date</label>
+              </div>
+            </div>             
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a class=" modal-action modal-close waves-effect waves-green btn">Submit</a>
+      </div>
+    </div>
+    <div id="delete" class="modal">
+      <div class="modal-content">
+        <h4>Delete Event</h4>
+        <h5>Are you sure you want to delete this event?</h5>
+      </div>
+      <div class="modal-footer">
+        <a class=" modal-action modal-close waves-effect waves-green btn">Confirm</a>
+        <a class=" modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+      </div>
+    </div>
+    <script src="../plugins/jquery-3.2.1.min.js" ></script>
+    <script src="../plugins/materialize/js/materialize.min.js" ></script>
+    <script src="../js/index.js"></script>
+  </body>
+</html>

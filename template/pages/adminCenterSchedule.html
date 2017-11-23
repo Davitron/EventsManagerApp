@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../plugins/materialize/css/materialize.min.css" />
+    <link rel="stylesheet" href="../plugins/fullcalendar-3.7.0/fullcalendar.min.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/icon.css" />
+  </head>
+  <body class="">
+    <header>
+      <div class="navbar-fixed">
+        <nav class=" z-depth-0" style="background-color: #26a69a !important;">
+          <div class="nav-wrapper">
+            <div class="row">
+              <div class="col s12">
+                <a href="#" data-activates="mobile-demo" class="button-collapse hide-on-med-and-up"><i class="material-icons">menu</i></a>
+                <a href="../index.html" class="brand-logo" target="">EventsManager</a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="" target="">Admin</a></li>
+                    <li><a href="adminDashboard.html" target="">Centers</a></li>
+                    <li><a href="adminPendingEvents.html">Pending events</a></li>
+                    <li><a href="../index.html" target="">Logout</a></li></li>
+                </ul>
+              </div>
+            </div>
+            <ul class="side-nav" id="mobile-demo">
+                <li><a href="" target="">Admin</a></li>
+                <li><a href="" target="">Centers</a></li>
+                <li><a href="adminPendingEvents.html">Pending events</a></li>
+                <li><a href="../index.html" target="">Logout</a></li></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <div class="container" style="padding-top:100px;">
+        <h3 class="white">Center Name</h3>
+        <div id='calendar'></div>
+    </div>
+    <script src="../plugins/jquery-3.2.1.min.js" ></script>
+    <script src="../plugins/materialize/js/materialize.min.js" ></script>
+    <script src='../plugins/moment.min.js'></script>
+    <script src="../plugins/fullcalendar-3.7.0/fullcalendar.min.js"></script>
+    <script src="../js/index.js"></script>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+.topbar  {
+  background-color: #26a69a !important;
+}
+
+.navbar-fixed {
+  position: absolute;z-index:999999999;
+}
+
+.check [type="checkbox"] + label, .fixed [type="radio"] + label {
+  pointer-events: auto;
+}
+
+.responsive-image{
+  height: inherit !important;
+  background-size: 100% 100vh !important;
+  background-image: url('../image/wallup.jpg') !important;
+} 
+
+
+
+

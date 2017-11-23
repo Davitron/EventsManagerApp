@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../plugins/materialize/css/materialize.min.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/icon.css" />
+    <link rel="stylesheet" href="../css/animate.css" />
+  </head>
+  <body class="responsive-image">
+    <header>
+      <nav class="topbar" style="background-color: #26a69a !important; ">
+        <div class="nav-wrapper">
+            <a href="../index.html" class="brand-logo">EventManager</a>
+        </div>
+      </nav>
+    </header>
+    <div class="container" >
+        <div class="row valign-wrapper" style="margin-top: 50px">
+          <div class="col s6 offset-s3 valign">
+            <div class="card white animated bounceInRight">
+              <div class="card-content black-text">
+                <span class="card-title center"><b>SignIn</b></span>
+                <div class="row">
+                    <div class="input-field col s12">
+                      <input id="email" type="text" class="validate">
+                      <label for="disabled">Email</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                      <input id="password" type="password" class="validate">
+                      <label for="disabled">Password </label>
+                    </div>
+                </div>
+              </div>
+              <div class="card-action center">
+                  <a onclick="adminRout()" id="explore-button" class="btn-large waves-effect waves-light">SignIn</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <script src="../plugins/jquery-3.2.1.min.js" ></script>
+    <script src="../plugins/materialize/js/materialize.min.js" ></script>
+    <script src="../js/index.js"></script>
+    <script>
+        function adminRout() {
+          var email = $('#email').val();
+          var password = $('#password').val();
+  
+          if(email === 'admin@adminmail.com' && password === '123qwe') {
+            document.location.href = 'adminDashboard.html';
+          } else {
+            document.location.href = 'userDashboard.html';
+          }
+        }
+      </script>
+  </body>
+</html>
