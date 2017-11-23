@@ -23,12 +23,12 @@ export default class CenterController {
    * @returns {json} returns created center
    */
   static create(req, res) {
-    if (!req.body.name) return res.status(400).send('canter name is required');
-    if (!req.body.state) return res.status(400).send('state name is required');
-    if (!req.body.address) return res.status(400).send('address is required');
-    if (!req.body.hasProjectors) return res.status(400).send('hasProjectors is required');
-    if (!req.body.hallCapacity) return res.status(400).send(' hallCapacity is required');
-    if (!req.body.carParkCapacity) return res.status(400).send('carParkCapacity name is required');
+    if (!req.body.name) return res.status(400).json({ message: 'canter name is required' });
+    if (!req.body.state) return res.status(400).json({ message: 'state name is required' });
+    if (!req.body.address) return res.status(400).json({ message: 'address is required' });
+    if (!req.body.hasProjectors) return res.status(400).json({ message: 'hasProjectors is required' });
+    if (!req.body.hallCapacity) return res.status(400).json({ message: ' hallCapacity is required' });
+    if (!req.body.carParkCapacity) return res.status(400).json({ message: 'carParkCapacity name is required' });
 
     const newId = store.centers.length + 1;
     const newCenter = new Center(
