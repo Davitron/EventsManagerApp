@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/Davitron/EventsManagerApp.svg?branch=develop)](https://travis-ci.org/Davitron/EventsManagerApp)
 # EventsManagerApp
 An Event Management Application for event centers and  event booking.
 
