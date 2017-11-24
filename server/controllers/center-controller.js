@@ -9,7 +9,7 @@ const getBool = (str) => {
   if (str === 'false') {
     return false;
   }
-  return false;
+  return null;
 };
 
 /**
@@ -28,7 +28,7 @@ export default class CenterController {
     if (!req.body.address) return res.status(400).json({ message: 'address is required' });
     if (!req.body.hasProjectors) return res.status(400).json({ message: 'hasProjectors is required' });
     if (!req.body.hallCapacity) return res.status(400).json({ message: ' hallCapacity is required' });
-    if (!req.body.carParkCapacity) return res.status(400).json({ message: 'carParkCapacity name is required' });
+    if (!req.body.carPackCapacity) return res.status(400).json({ message: 'carParkCapacity name is required' });
 
     const newId = store.centers.length + 1;
     const newCenter = new Center(
@@ -38,7 +38,7 @@ export default class CenterController {
       req.body.address,
       getBool(req.body.hasProjectors),
       Number(req.body.hallCapacity),
-      Number(req.body.carParkCapacity)
+      Number(req.body.carPackCapacity)
     );
     store.centers.push(newCenter);
     res.status(201).json(newCenter);

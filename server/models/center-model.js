@@ -2,16 +2,16 @@
  *
  */
 export default class Center {
-/**
-     *
-     * @param {*} id
-     * @param {*} name
-     * @param {*} state
-     * @param {*} address
-     * @param {*} hasProjectors
-     * @param {*} hallCapacity
-     * @param {*} carPackCapacity
-     */
+  /**
+   *
+   * @param {*} id
+   * @param {*} name
+   * @param {*} state
+   * @param {*} address
+   * @param {*} hasProjectors
+   * @param {*} hallCapacity
+   * @param {*} carPackCapacity
+   */
   constructor(id, name, state, address, hasProjectors, hallCapacity, carPackCapacity) {
     if (typeof id !== 'number') {
       throw new Error('Id is not a number');
@@ -28,16 +28,16 @@ export default class Center {
       this.hasProjectors = hasProjectors;
     }
 
-    if (typeof hallCapacity !== 'number') {
+    if (Number.isNaN(hallCapacity)) {
       throw new Error(' hallCapacity is not a number');
     } else {
       this.hallCapacity = hallCapacity;
     }
 
-    if (typeof carPackCapacity !== 'number') {
+    if (Number.isNaN(carPackCapacity)) {
       throw new Error(' carPackCapacity is not a number ');
     } else {
-      this.carPackCapacity = carPackCapacity;
+      this.carParkCapacity = carPackCapacity;
     }
   }
 }
