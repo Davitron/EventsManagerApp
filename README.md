@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/Davitron/EventsManagerApp.svg?branch=ft-validation)](https://travis-ci.org/Davitron/EventsManagerApp)
+[![Coverage Status](https://coveralls.io/repos/github/Davitron/EventsManagerApp/badge.svg?branch=develop)](https://coveralls.io/github/Davitron/EventsManagerApp?branch=bg-handleException)
 # EventsManagerApp
 An Event Management Application for event centers and  event booking.
 
