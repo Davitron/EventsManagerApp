@@ -18,7 +18,7 @@ export default class Event {
       this.id = id;
     }
 
-    if (typeof centerId !== 'number') {
+    if (Number.isNaN(centerId)) {
       throw new TypeError('centerId is not a number');
     } else {
       this.centerId = centerId;
@@ -36,7 +36,7 @@ export default class Event {
       throw new TypeError('eventDate is not a date');
     }
 
-    if (typeof creatorId !== 'number') {
+    if (Number.isNaN(creatorId)) {
       throw new TypeError('creatorId is not a number');
     } else {
       this.creatorId = creatorId;
