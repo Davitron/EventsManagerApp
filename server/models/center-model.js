@@ -23,7 +23,7 @@ export default class Center {
     this.address = address;
 
     if (typeof hasProjectors !== 'boolean') {
-      throw new Error('hasProjectors must be boolean')
+      throw new Error('hasProjectors must be boolean');
     } else {
       this.hasProjectors = hasProjectors;
     }
