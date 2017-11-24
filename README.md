@@ -15,7 +15,7 @@ Clone this repository
 
 To install all dependencies, run;
 ```
-Npm install
+npm install
 
 ```
 To start server, run:
