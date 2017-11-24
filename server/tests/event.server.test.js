@@ -29,7 +29,7 @@ describe('Test API', () => {
           .post('/events')
           .send({
             eventName: 'The Wedding Party',
-            eventDate: '2017-11-21T22:19:17.66Z',
+            eventDate: '21-09-1991',
             creatorId: 5
           })
           .end((err, res) => {
@@ -44,7 +44,7 @@ describe('Test API', () => {
           .post('/events')
           .send({
             centerId: 3,
-            eventDate: '2017-11-21T22:19:17.66Z',
+            eventDate: '21-09-1991',
             creatorId: 5
           })
           .end((err, res) => {
@@ -75,7 +75,7 @@ describe('Test API', () => {
           .send({
             centerId: 3,
             eventName: 'The Wedding Party',
-            eventDate: '2017-11-21T22:19:17.66Z',
+            eventDate: '21-09-1991',
           })
           .end((err, res) => {
             res.should.have.status(400);
@@ -91,7 +91,7 @@ describe('Test API', () => {
           .send({
             centerId: 3,
             eventName: 'The Wedding Party',
-            eventDate: '2017-11-21T22:19:17.66Z',
+            eventDate: '21-09-1991',
             creatorId: 5
           })
           .end((err, res) => {
@@ -156,7 +156,7 @@ describe('Test API', () => {
           .send({
             centerId: 3,
             eventName: 'The Wedding',
-            eventDate: '2017-11-21T22:19:17.66Z',
+            eventDate: '21-09-1991',
             creatorId: 5
           })
           .end((err, res) => {

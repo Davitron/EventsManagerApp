@@ -8,35 +8,35 @@ const store = {
       id: 1,
       centerId: 3,
       eventName: 'The Wedding Party',
-      eventDate: '2017-11-21',
+      eventDate: '21-09-1991',
       creatorId: 5
     },
     {
       id: 2,
       centerId: 3,
       eventName: 'Date Night',
-      eventDate: '2017-11-21',
+      eventDate: '21-09-1991',
       creatorId: 5
     },
     {
       id: 3,
       centerId: 1,
       eventName: 'Bachelor Eve',
-      eventDate: '2017-11-21',
+      eventDate: '21-09-1991',
       creatorId: 5
     },
     {
       id: 4,
       centerId: 2,
       eventName: 'Birthday Party',
-      eventDate: '2017-11-21',
+      eventDate: '21-09-1991',
       creatorId: 5
     },
     {
       id: 5,
       centerId: 2,
       eventName: 'Conference',
-      eventDate: '2017-11-21',
+      eventDate: '21-09-1991',
       creatorId: 5
     },
   ],
@@ -48,7 +48,7 @@ const store = {
       address: '7, xyz avenue, ikaja',
       hasProjectors: true,
       hallCapacity: 600,
-      carParkCapacity: 200
+      carPackCapacity: 200
     },
     {
       id: 2,
@@ -57,7 +57,7 @@ const store = {
       address: '8, alama road, ikaja',
       hasProjectors: true,
       hallCapacity: 500,
-      carParkCapacity: 500
+      carPackCapacity: 500
     },
     {
       id: 3,
@@ -66,7 +66,7 @@ const store = {
       address: '8, pamlm road, ikaja',
       hasProjectors: true,
       hallCapacity: 400,
-      carParkCapacity: 700
+      carPackCapacity: 700
     }
   ]
 };
