@@ -8,35 +8,35 @@ const store = {
       id: 1,
       centerId: 3,
       eventName: 'The Wedding Party',
-      eventDate: '2017-11-21T22:19:17.66Z',
+      eventDate: '2017-11-21',
       creatorId: 5
     },
     {
       id: 2,
       centerId: 3,
       eventName: 'Date Night',
-      eventDate: '2017-11-21T22:19:17.66Z',
+      eventDate: '2017-11-21',
       creatorId: 5
     },
     {
       id: 3,
       centerId: 1,
       eventName: 'Bachelor Eve',
-      eventDate: '2017-11-21T22:19:17.66Z',
+      eventDate: '2017-11-21',
       creatorId: 5
     },
     {
       id: 4,
       centerId: 2,
       eventName: 'Birthday Party',
-      eventDate: '2017-11-21T22:19:17.66Z',
+      eventDate: '2017-11-21',
       creatorId: 5
     },
     {
       id: 5,
       centerId: 2,
       eventName: 'Conference',
-      eventDate: '2017-11-21T22:19:17.66Z',
+      eventDate: '2017-11-21',
       creatorId: 5
     },
   ],
