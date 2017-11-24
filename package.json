@@ -4,12 +4,12 @@
   "description": "An Event Management Application for event centers and  event booking.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ./server/tests/* --exit --require babel-register --reporter spec",
+    "test": " nyc --reporter=html --reporter=text mocha ./server/tests/* --exit --require babel-register --reporter spec",
     "babel-node": "babel-node --preset=es2015",
     "start": "nodemon --exec npm run babel-node -- ./server/server.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test",
-    "startdev": "npm run test && coverage"
+    "test:dev": "npm run test && npm run coverage"
   },
   "repository": {
     "type": "git",
