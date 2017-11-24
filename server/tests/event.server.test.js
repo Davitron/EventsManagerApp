@@ -39,6 +39,7 @@ describe('Test API', () => {
             done();
           });
       });
+
       it('Should return 400 and message for post without eventName', (done) => {
         chai.request(app)
           .post('/events')
@@ -54,6 +55,7 @@ describe('Test API', () => {
             done();
           });
       });
+
       it('Should return 400 and message for post without eventDate', (done) => {
         chai.request(app)
           .post('/events')
@@ -84,7 +86,69 @@ describe('Test API', () => {
             done();
           });
       });
-      // ======INVALID REQUEST ===== //
+      it('Should return 500 if eventDate is invalid Date', (done) => {
+        chai.request(app)
+          .post('/events')
+          .send({
+            centerId: 3,
+            eventName: 'The Wedding Party',
+            eventDate: '21-09-iejrie',
+            creatorId: 3
+          })
+          .end((err, res) => {
+            res.should.have.status(500);
+            res.body.should.be.an('object');
+            done();
+          });
+      });
+      it('Should return 500 if creatorId is not a number', (done) => {
+        chai.request(app)
+          .post('/events')
+          .send({
+            centerId: 3,
+            eventName: 'The Wedding Party',
+            eventDate: '21-09-iejrie',
+            creatorId: 'obvhfe'
+          })
+          .end((err, res) => {
+            res.should.have.status(500);
+            res.body.should.be.an('object');
+            done();
+          });
+      });
+      it('Should return 500 if centerId is not a number', (done) => {
+        chai.request(app)
+          .post('/events')
+          .send({
+            centerId: 'hfjh',
+            eventName: 'The Wedding Party',
+            eventDate: '21-09-2017',
+            creatorId: 6
+          })
+          .end((err, res) => {
+            res.should.have.status(500);
+            res.body.should.be.an('object');
+            done();
+          });
+      });
+
+      it('Should return 500 if eventName is not a string', (done) => {
+        chai.request(app)
+          .post('/events')
+          .send({
+            centerId: '4',
+            eventName: 99,
+            eventDate: '21-09-2017',
+            creatorId: 6
+          })
+          .end((err, res) => {
+            res.should.have.status(500);
+            res.body.should.be.an('object');
+            done();
+          });
+      });
+
+      // ======VALID REQUEST ===== //
       it('Should return 201 and event created for post if all request object properties exist', (done) => {
         chai.request(app)
           .post('/events')

@@ -19,7 +19,7 @@ export default class EventController {
     if (!req.body.eventDate) return res.status(400).json({ message: 'event date is required' });
     if (!req.body.creatorId) return res.status(400).json({ message: 'creator id is required' });
     const newId = store.events.length + 1;
-    
+
     const newEvent = new Event(
       newId,
       Number(req.body.centerId),
