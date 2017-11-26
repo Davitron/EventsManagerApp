@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">93.75% </span>
+        <span class="strong">26.67% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>15/16</span>
+        <span class='fraction'>4/15</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>2/2</span>
+        <span class='fraction'>0/2</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/2</span>
+        <span class='fraction'>0/2</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">93.75% </span>
+        <span class="strong">26.67% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>15/16</span>
+        <span class='fraction'>4/15</span>
       </div>
     </div>
   </div>
-  <div class='status-line high'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -67,27 +67,31 @@
 22
 23
 24
-25</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+25
+26
+27</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -95,23 +99,25 @@
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import eventRoutes from './routes/event-route';
-import centerRoutes from './routes/center-route';
+// import centerRoutes from './routes/center-route';
 &nbsp;
-const app = express();
-const port = process.env.port || 8000;
+const app = <span class="cstat-no" title="statement not covered" >express();</span>
+const port = <span class="cstat-no" title="statement not covered" >process.env.port || 8000;</span>
 &nbsp;
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+<span class="cstat-no" title="statement not covered" >app.use(logger('dev'));</span>
+<span class="cstat-no" title="statement not covered" >app.use(bodyParser.json());</span>
+<span class="cstat-no" title="statement not covered" >app.use(bodyParser.urlencoded({ extended: true }));</span>
 &nbsp;
-eventRoutes(app);
-centerRoutes(app);
-app.get('*', <span class="fstat-no" title="function not covered" >(</span>req, res) =&gt; {
+const eventsApiV1 = <span class="cstat-no" title="statement not covered" >eventRoutes(app);</span>
+// const centerApiV1 = centerRoutes(app);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >app.use('/api/v1/', eventsApiV1);</span>
+<span class="cstat-no" title="statement not covered" >app.get('*', <span class="fstat-no" title="function not covered" >(</span>req, res) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  res.status(404).send('404: Not Found');</span>
 });
 &nbsp;
-app.listen(port, () =&gt; {
-  console.log(`Server running on port ${port}`);
+<span class="cstat-no" title="statement not covered" >app.listen(port, <span class="fstat-no" title="function not covered" >() =&gt; </span>{</span>
+<span class="cstat-no" title="statement not covered" >  console.log(`Server running on port ${port}`);</span>
 });
 &nbsp;
 export default app;
@@ -121,7 +127,7 @@ export default app;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Nov 26 2017 12:36:22 GMT+0100 (WAT)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Nov 26 2017 13:24:46 GMT+0100 (WAT)
 </div>
 </div>
 <script src="../prettify.js"></script>

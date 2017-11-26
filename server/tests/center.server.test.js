@@ -7,10 +7,10 @@ const should = chai.should();
 chai.use(chaiHttp);
 
 describe('Testing Api endpoints for centers', () => {
-  describe('POST /centers', () => {
+  describe('POST /api/v1/centers', () => {
     it('Should return HTTP status 400 and message for post without center name', (done) => {
       chai.request(app)
-        .post('/centers')
+        .post('/api/v1/centers')
         .send({
           state: 'Logos',
           address: '7, xyz avenue, ikaja',
@@ -27,7 +27,7 @@ describe('Testing Api endpoints for centers', () => {
     });
     it('Should return HTTP status 400 and message for post without center state', (done) => {
       chai.request(app)
-        .post('/centers')
+        .post('/api/v1/centers')
         .send({
           name: 'The centers Place',
           address: '7, xyz avenue, ikaja',
@@ -44,7 +44,7 @@ describe('Testing Api endpoints for centers', () => {
     });
     it('Should return HTTP status 400 and message for post without center address', (done) => {
       chai.request(app)
-        .post('/centers')
+        .post('/api/v1/centers')
         .send({
           name: 'The centers Place',
           state: 'Logos',
@@ -61,7 +61,7 @@ describe('Testing Api endpoints for centers', () => {
     });
     it('Should return HTTP status 400 and message for post without hasProjector', (done) => {
       chai.request(app)
-        .post('/centers')
+        .post('/api/v1/centers')
         .send({
           name: 'The centers Place',
           state: 'Logos',
@@ -78,7 +78,7 @@ describe('Testing Api endpoints for centers', () => {
     });
     it('Should return HTTP status 400 and message for post without hallCapacity', (done) => {
       chai.request(app)
-        .post('/centers')
+        .post('/api/v1/centers')
         .send({
           name: 'The centers Place',
           state: 'Logos',
@@ -95,7 +95,7 @@ describe('Testing Api endpoints for centers', () => {
     });
     it('Should return HTTP status 400 and message for post without carParkCapacity', (done) => {
       chai.request(app)
-        .post('/centers')
+        .post('/api/v1/centers')
         .send({
           name: 'The centers Place',
           state: 'Logos',
@@ -112,7 +112,7 @@ describe('Testing Api endpoints for centers', () => {
     });
     it('Should return HTTP status 400 hallCapacity is not a number', (done) => {
       chai.request(app)
-        .post('/centers')
+        .post('/api/v1/centers')
         .send({
           name: 'The centers Place',
           state: 'Logos',
@@ -130,7 +130,7 @@ describe('Testing Api endpoints for centers', () => {
     });
     it('Should return HTTP status 400 hallCapacity is not a number', (done) => {
       chai.request(app)
-        .post('/centers')
+        .post('/api/v1/centers')
         .send({
           name: 'The centers Place',
           state: 'Logos',
@@ -148,7 +148,7 @@ describe('Testing Api endpoints for centers', () => {
     });
     it('Should return HTTP status 400 carParkCapacity is not a number', (done) => {
       chai.request(app)
-        .post('/centers')
+        .post('/api/v1/centers')
         .send({
           name: 'The centers Place',
           state: 'Logos',
@@ -166,7 +166,7 @@ describe('Testing Api endpoints for centers', () => {
     });
     it('Should return HTTP status 400 hasProjector is not a boolean', (done) => {
       chai.request(app)
-        .post('/centers')
+        .post('/api/v1/centers')
         .send({
           name: 'The centers Place',
           state: 'Logos',
@@ -184,7 +184,7 @@ describe('Testing Api endpoints for centers', () => {
     });
     it('Should return HTTP status 400 center address is not a string', (done) => {
       chai.request(app)
-        .post('/centers')
+        .post('/api/v1/centers')
         .send({
           name: 'the palace',
           state: 'Logos',
@@ -203,7 +203,7 @@ describe('Testing Api endpoints for centers', () => {
     // =====VALID INPUT====== //
     it('Should return HTTP 201 with response object', (done) => {
       chai.request(app)
-        .post('/centers')
+        .post('/api/v1/centers')
         .send({
           name: 'The centers Place',
           state: 'Logos',
@@ -228,11 +228,11 @@ describe('Testing Api endpoints for centers', () => {
   });
 });
 
-describe('GET /centers', () => {
+describe('GET /api/v1/centers', () => {
   // Testing  to get all centers
   it('Should return 200 with an array of all centers', (done) => {
     chai.request(app)
-      .get('/centers')
+      .get('/api/v1/centers')
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.an('array');
@@ -241,11 +241,11 @@ describe('GET /centers', () => {
   });
 });
 
-describe('GET /centers/:id', () => {
+describe('GET /api/v1/centers/:id', () => {
   // Testing to get all centers
   it('Should return 200 with center object requested for', (done) => {
     chai.request(app)
-      .get(`/centers/${1}`)
+      .get(`/api/v1/centers/${1}`)
       .send({
         id: 1
       })
@@ -257,11 +257,11 @@ describe('GET /centers/:id', () => {
   });
 });
 
-describe('PUT /centers/:id', () => {
+describe('PUT /api/v1/centers/:id', () => {
   // Testing to modify an center
   it('Should return 404 if center does not exist', (done) => {
     chai.request(app)
-      .put(`/centers/${16}`)
+      .put(`/api/v1/centers/${16}`)
       .end((err, res) => {
         res.should.have.status(404);
         res.body.should.be.an('object');
@@ -272,7 +272,7 @@ describe('PUT /centers/:id', () => {
 
   it('Should return 200 with modified center', (done) => {
     chai.request(app)
-      .put(`/centers/${1}`)
+      .put(`/api/v1/centers/${1}`)
       .send({
         name: 'The centers',
         state: 'Logos',
@@ -288,11 +288,11 @@ describe('PUT /centers/:id', () => {
       });
   });
 
-  describe('DELETE /centers/:id', () => {
+  describe('DELETE /api/v1/centers/:id', () => {
     // Testing to modify an center
     it('Should return 404 if center does not exist', (done) => {
       chai.request(app)
-        .put(`/centers/${7}`)
+        .put(`/api/v1/centers/${7}`)
         .end((err, res) => {
           res.should.have.status(404);
           res.body.should.be.an('object');
@@ -303,7 +303,7 @@ describe('PUT /centers/:id', () => {
 
     it('Should return 200 with modified center', (done) => {
       chai.request(app)
-        .delete(`/centers/${2}`)
+        .delete(`/api/v1/centers/${2}`)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.an('object');
