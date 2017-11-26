@@ -1,4 +1,5 @@
 import Center from '../models/center-model';
+import Validator from '../config/validate';
 import store from '../config/mockDB';
 
 
@@ -23,14 +24,13 @@ export default class CenterController {
    * @returns {json} returns created center
    */
   static create(req, res) {
-    if (!req.body.name) return res.status(400).json({ message: 'canter name is required' });
-    if (!req.body.state) return res.status(400).json({ message: 'state name is required' });
-    if (!req.body.address) return res.status(400).json({ message: 'address is required' });
-    if (!req.body.hasProjectors) return res.status(400).json({ message: 'hasProjectors is required' });
-    if (!req.body.hallCapacity) return res.status(400).json({ message: ' hallCapacity is required' });
-    if (!req.body.carPackCapacity) return res.status(400).json({ message: 'carParkCapacity name is required' });
-
+    if (!req.body.hasProjectors) req.body.hasProjectors = false;
+    if (getBool(req.body.hasProjectors) === null) return res.status(400).json({ message: 'hasProjectors must be boolean and is required' });
     const newId = store.centers.length + 1;
+    const validationResponse = Validator.validateCenter(req.body);
+    if (!validationResponse.value) {
+      return res.status(400).json({ message: validationResponse.message });
+    }
     const newCenter = new Center(
       newId,
       req.body.name,
@@ -38,7 +38,7 @@ export default class CenterController {
       req.body.address,
       getBool(req.body.hasProjectors),
       Number(req.body.hallCapacity),
-      Number(req.body.carPackCapacity)
+      Number(req.body.carParkCapacity)
     );
     store.centers.push(newCenter);
     res.status(201).json(newCenter);
@@ -62,6 +62,9 @@ export default class CenterController {
    */
   static get(req, res) {
     const singleCenter = store.centers.find(center => center.id === Number(req.params.centerId));
+    if (singleCenter === null) {
+      return res.status(404).json({ message: 'center does not exist' });
+    }
     return res.status(200).json(singleCenter);
   }
 

@@ -1,4 +1,5 @@
 import Event from '../models/event-model';
+import Validator from '../config/validate';
 import store from '../config/mockDB';
 
 
@@ -14,12 +15,13 @@ export default class EventController {
    * @returns {json} adds an event
    */
   static create(req, res) {
-    if (!req.body.centerId) return res.status(400).json({ message: 'centerId is required' });
-    if (!req.body.eventName) return res.status(400).json({ message: 'event name is required' });
-    if (!req.body.eventDate) return res.status(400).json({ message: 'event date is required' });
-    if (!req.body.creatorId) return res.status(400).json({ message: 'creator id is required' });
-    const newId = store.events.length + 1;
+    req.body.centerId = Number(req.body.centerId);
+    const validationResponse = Validator.validateEvent(req.body);
+    if (!validationResponse.value) {
+      return res.status(400).json({ message: validationResponse.message });
+    }
 
+    const newId = store.events.length + 1;
     const newEvent = new Event(
       newId,
       Number(req.body.centerId),
@@ -62,8 +64,10 @@ export default class EventController {
     if (singleEvent === null || singleEvent === undefined) {
       return res.status(404).json({ message: 'Event does not exist' });
     }
-    singleEvent.centerId = req.body.centerId;
-    singleEvent.creatorId = req.body.creatorId;
+
+
+    singleEvent.centerId = Number(req.body.centerId);
+    singleEvent.creatorId = Number(req.body.creatorId);
     singleEvent.eventDate = req.body.eventDate;
     singleEvent.eventName = req.body.eventName;
 
@@ -81,7 +85,7 @@ export default class EventController {
   static delete(req, res) {
     const singleEvent = store.events.find(event => event.id === Number(req.params.eventId));
     if (singleEvent === null || singleEvent === undefined) {
-      return res.status(404).send('Event does not exit');
+      return res.status(404).json({ message: 'Event does not exist' });
     }
     const eventPos = store.events.map(event => event.id).indexOf(singleEvent.id);
     store.events.splice(eventPos, 1);

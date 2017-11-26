@@ -48,7 +48,7 @@ const store = {
       address: '7, xyz avenue, ikaja',
       hasProjectors: true,
       hallCapacity: 600,
-      carPackCapacity: 200
+      carParkCapacity: 200
     },
     {
       id: 2,
@@ -57,7 +57,7 @@ const store = {
       address: '8, alama road, ikaja',
       hasProjectors: true,
       hallCapacity: 500,
-      carPackCapacity: 500
+      carParkCapacity: 500
     },
     {
       id: 3,
@@ -66,7 +66,7 @@ const store = {
       address: '8, pamlm road, ikaja',
       hasProjectors: true,
       hallCapacity: 400,
-      carPackCapacity: 700
+      carParkCapacity: 700
     }
   ]
 };

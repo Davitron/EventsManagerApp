@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">75% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>12/16</span>
+        <span class='fraction'>8/8</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>4/8</span>
+        <span class='fraction'>0/0</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -35,13 +35,13 @@
         <span class='fraction'>0/0</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">75% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>12/16</span>
+        <span class='fraction'>8/8</span>
       </div>
     </div>
   </div>
-  <div class='status-line medium'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -68,26 +68,7 @@
 23
 24
 25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+26</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -103,31 +84,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -143,35 +105,16 @@ export default class Center {
    * @param {*} address
    * @param {*} hasProjectors
    * @param {*} hallCapacity
-   * @param {*} carPackCapacity
+   * @param {*} carParkCapacity
    */
-  constructor(id, name, state, address, hasProjectors, hallCapacity, carPackCapacity) {
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof id !== 'number') {
-<span class="cstat-no" title="statement not covered" >      throw new Error('Id is not a number');</span>
-    } else {
-      this.id = id;
-    }
+  constructor(id, name, state, address, hasProjectors, hallCapacity, carParkCapacity) {
+    this.id = id;
     this.name = name;
     this.state = state;
     this.address = address;
-&nbsp;
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof hasProjectors !== 'boolean') {
-<span class="cstat-no" title="statement not covered" >      throw new Error('hasProjectors must be boolean');</span>
-    } else {
-      this.hasProjectors = hasProjectors;
-    }
-&nbsp;
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (Number.isNaN(hallCapacity)) {
-<span class="cstat-no" title="statement not covered" >      throw new Error(' hallCapacity is not a number');</span>
-    } else {
-      this.hallCapacity = hallCapacity;
-    }
-&nbsp;
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (Number.isNaN(carPackCapacity)) {
-<span class="cstat-no" title="statement not covered" >      throw new Error(' carPackCapacity is not a number ');</span>
-    } else {
-      this.carParkCapacity = carPackCapacity;
-    }
+    this.hasProjectors = hasProjectors;
+    this.hallCapacity = hallCapacity;
+    this.carParkCapacity = carParkCapacity;
   }
 }
 &nbsp;
@@ -181,7 +124,7 @@ export default class Center {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Nov 24 2017 17:31:48 GMT+0100 (WAT)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Nov 26 2017 12:36:22 GMT+0100 (WAT)
 </div>
 </div>
 <script src="../../prettify.js"></script>

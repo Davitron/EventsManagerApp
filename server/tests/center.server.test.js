@@ -110,7 +110,7 @@ describe('Testing Api endpoints for centers', () => {
           done();
         });
     });
-    it('Should return HTTP status 500 hallCapacity is not a number', (done) => {
+    it('Should return HTTP status 400 hallCapacity is not a number', (done) => {
       chai.request(app)
         .post('/centers')
         .send({
@@ -124,6 +124,25 @@ describe('Testing Api endpoints for centers', () => {
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.be.an('object');
+          res.body.should.have.property('message');
+          done();
+        });
+    });
+    it('Should return HTTP status 400 hallCapacity is not a number', (done) => {
+      chai.request(app)
+        .post('/centers')
+        .send({
+          name: 'The centers Place',
+          state: 'Logos',
+          address: '7, xyz avenue, ikaja',
+          hasProjectors: true,
+          hallCapacity: 'ghjfj',
+          carParkCapacity: 450
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.an('object');
+          res.body.should.have.property('message');
           done();
         });
     });
@@ -141,6 +160,7 @@ describe('Testing Api endpoints for centers', () => {
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.be.an('object');
+          res.body.should.have.property('message');
           done();
         });
     });
@@ -158,44 +178,11 @@ describe('Testing Api endpoints for centers', () => {
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.be.an('object');
+          res.body.should.have.property('message');
           done();
         });
     });
-    it('Should return HTTP status 400 center name is not a string', (done) => {
-      chai.request(app)
-        .post('/centers')
-        .send({
-          name: 99,
-          state: 'Logos',
-          address: '7, xyz avenue, ikaja',
-          hasProjectors: false,
-          hallCapacity: 600,
-          carParkCapacity: 450,
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.be.an('object');
-          done();
-        });
-    });
-    it('Should return HTTP status 500 center state is not a string', (done) => {
-      chai.request(app)
-        .post('/centers')
-        .send({
-          name: 'the palace',
-          state: 99,
-          address: '7, xyz avenue, ikaja',
-          hasProjectors: false,
-          hallCapacity: 600,
-          carParkCapacity: 450,
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.be.an('object');
-          done();
-        });
-    });
-    it('Should return HTTP status 500 center address is not a string', (done) => {
+    it('Should return HTTP status 400 center address is not a string', (done) => {
       chai.request(app)
         .post('/centers')
         .send({
@@ -223,7 +210,7 @@ describe('Testing Api endpoints for centers', () => {
           address: '7, xyz avenue, ikaja',
           hasProjectors: 'true',
           hallCapacity: 600,
-          carPackCapacity: 900
+          carParkCapacity: 900
         })
         .end((err, res) => {
           res.should.have.status(201);

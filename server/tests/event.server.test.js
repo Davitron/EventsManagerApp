@@ -51,7 +51,6 @@ describe('Test API', () => {
           .end((err, res) => {
             res.should.have.status(400);
             res.body.should.be.an('object');
-            res.body.should.have.property('message');
             done();
           });
       });
@@ -71,6 +70,7 @@ describe('Test API', () => {
             done();
           });
       });
+
       it('Should return 400 and message for post without creatorId', (done) => {
         chai.request(app)
           .post('/events')
@@ -86,7 +86,7 @@ describe('Test API', () => {
             done();
           });
       });
-      it('Should return 500 if eventDate is invalid Date', (done) => {
+      it('Should return 400 if eventDate is invalid Date', (done) => {
         chai.request(app)
           .post('/events')
           .send({
@@ -96,12 +96,14 @@ describe('Test API', () => {
             creatorId: 3
           })
           .end((err, res) => {
-            res.should.have.status(500);
+            res.should.have.status(400);
             res.body.should.be.an('object');
+            res.body.should.have.property('message');
             done();
           });
       });
-      it('Should return 500 if creatorId is not a number', (done) => {
+
+      it('Should return 400 if creatorId is not a number', (done) => {
         chai.request(app)
           .post('/events')
           .send({
@@ -111,39 +113,26 @@ describe('Test API', () => {
             creatorId: 'obvhfe'
           })
           .end((err, res) => {
-            res.should.have.status(500);
+            res.should.have.status(400);
             res.body.should.be.an('object');
+            res.body.should.have.property('message');
             done();
           });
       });
-      it('Should return 500 if centerId is not a number', (done) => {
+
+      it('Should return 400 if centerId is not a number', (done) => {
         chai.request(app)
           .post('/events')
           .send({
-            centerId: 'hfjh',
+            centerId: 'kdfgkd',
             eventName: 'The Wedding Party',
             eventDate: '21-09-2017',
             creatorId: 6
           })
           .end((err, res) => {
-            res.should.have.status(500);
+            res.should.have.status(400);
             res.body.should.be.an('object');
-            done();
-          });
-      });
-
-      it('Should return 500 if eventName is not a string', (done) => {
-        chai.request(app)
-          .post('/events')
-          .send({
-            centerId: '4',
-            eventName: 99,
-            eventDate: '21-09-2017',
-            creatorId: 6
-          })
-          .end((err, res) => {
-            res.should.have.status(500);
-            res.body.should.be.an('object');
+            res.body.should.have.property('message');
             done();
           });
       });
@@ -232,10 +221,10 @@ describe('Test API', () => {
     });
 
     describe('DELETE /events/:id', () => {
-      // Testing to modify an event
+    // Testing to modify an event
       it('Should return 404 if event does not exist', (done) => {
         chai.request(app)
-          .put(`/events/${7}`)
+          .delete(`/events/${8}`)
           .end((err, res) => {
             res.should.have.status(404);
             res.body.should.be.an('object');
@@ -244,7 +233,7 @@ describe('Test API', () => {
           });
       });
 
-      it('Should return 200 with modified event', (done) => {
+      it('Should return 200 with success message', (done) => {
         chai.request(app)
           .delete(`/events/${1}`)
           .end((err, res) => {
