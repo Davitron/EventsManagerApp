@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">97.37% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>37/38</span>
+        <span class='fraction'>35/35</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">93.75% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>15/16</span>
+        <span class='fraction'>10/10</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>5/5</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">96.55% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>28/29</span>
+        <span class='fraction'>30/30</span>
       </div>
     </div>
   </div>
@@ -133,7 +133,12 @@
 88
 89
 90
-91</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+91
+92
+93
+94
+95</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -149,13 +154,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -193,9 +199,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -214,9 +222,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -224,6 +232,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import Event from '../models/event-model';
+import Validator from '../config/validate';
 import store from '../config/mockDB';
 &nbsp;
 &nbsp;
@@ -239,12 +248,13 @@ export default class EventController {
    * @returns {json} adds an event
    */
   static create(req, res) {
-    if (!req.body.centerId) return res.status(400).json({ message: 'centerId is required' });
-    if (!req.body.eventName) return res.status(400).json({ message: 'event name is required' });
-    if (!req.body.eventDate) return res.status(400).json({ message: 'event date is required' });
-    if (!req.body.creatorId) return res.status(400).json({ message: 'creator id is required' });
-    const newId = store.events.length + 1;
+    req.body.centerId = Number(req.body.centerId);
+    const validationResponse = Validator.validateEvent(req.body);
+    if (!validationResponse.value) {
+      return res.status(400).json({ message: validationResponse.message });
+    }
 &nbsp;
+    const newId = store.events.length + 1;
     const newEvent = new Event(
       newId,
       Number(req.body.centerId),
@@ -287,8 +297,10 @@ export default class EventController {
     if (singleEvent === null || singleEvent === undefined) {
       return res.status(404).json({ message: 'Event does not exist' });
     }
-    singleEvent.centerId = req.body.centerId;
-    singleEvent.creatorId = req.body.creatorId;
+&nbsp;
+&nbsp;
+    singleEvent.centerId = Number(req.body.centerId);
+    singleEvent.creatorId = Number(req.body.creatorId);
     singleEvent.eventDate = req.body.eventDate;
     singleEvent.eventName = req.body.eventName;
 &nbsp;
@@ -305,8 +317,8 @@ export default class EventController {
    */
   static delete(req, res) {
     const singleEvent = store.events.find(event =&gt; event.id === Number(req.params.eventId));
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (singleEvent === null || singleEvent === undefined) {
-<span class="cstat-no" title="statement not covered" >      return res.status(404).send('Event does not exit');</span>
+    if (singleEvent === null || singleEvent === undefined) {
+      return res.status(404).json({ message: 'Event does not exist' });
     }
     const eventPos = store.events.map(event =&gt; event.id).indexOf(singleEvent.id);
     store.events.splice(eventPos, 1);
@@ -319,7 +331,7 @@ export default class EventController {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Nov 24 2017 17:31:48 GMT+0100 (WAT)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Nov 26 2017 12:36:22 GMT+0100 (WAT)
 </div>
 </div>
 <script src="../../prettify.js"></script>
