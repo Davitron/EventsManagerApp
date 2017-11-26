@@ -21,12 +21,12 @@ describe('Test API', () => {
   });
 
   describe('Testing Api endpoints for event', () => {
-    describe('POST /events', () => {
+    describe('POST /api/v1/events', () => {
       // Testing for creating an event
       // ======INVALID REQUEST ===== //
       it('Should return 400 and message for post without centerId', (done) => {
         chai.request(app)
-          .post('/events')
+          .post('/api/v1/events')
           .send({
             eventName: 'The Wedding Party',
             eventDate: '21-09-1991',
@@ -42,7 +42,7 @@ describe('Test API', () => {
 
       it('Should return 400 and message for post without eventName', (done) => {
         chai.request(app)
-          .post('/events')
+          .post('/api/v1/events')
           .send({
             centerId: 3,
             eventDate: '21-09-1991',
@@ -57,7 +57,7 @@ describe('Test API', () => {
 
       it('Should return 400 and message for post without eventDate', (done) => {
         chai.request(app)
-          .post('/events')
+          .post('/api/v1/events')
           .send({
             centerId: 3,
             eventName: 'The Wedding Party',
@@ -73,7 +73,7 @@ describe('Test API', () => {
 
       it('Should return 400 and message for post without creatorId', (done) => {
         chai.request(app)
-          .post('/events')
+          .post('/api/v1/events')
           .send({
             centerId: 3,
             eventName: 'The Wedding Party',
@@ -88,7 +88,7 @@ describe('Test API', () => {
       });
       it('Should return 400 if eventDate is invalid Date', (done) => {
         chai.request(app)
-          .post('/events')
+          .post('/api/v1/events')
           .send({
             centerId: 3,
             eventName: 'The Wedding Party',
@@ -105,7 +105,7 @@ describe('Test API', () => {
 
       it('Should return 400 if creatorId is not a number', (done) => {
         chai.request(app)
-          .post('/events')
+          .post('/api/v1/events')
           .send({
             centerId: 3,
             eventName: 'The Wedding Party',
@@ -122,7 +122,7 @@ describe('Test API', () => {
 
       it('Should return 400 if centerId is not a number', (done) => {
         chai.request(app)
-          .post('/events')
+          .post('/api/v1/events')
           .send({
             centerId: 'kdfgkd',
             eventName: 'The Wedding Party',
@@ -140,7 +140,7 @@ describe('Test API', () => {
       // ======VALID REQUEST ===== //
       it('Should return 201 and event created for post if all request object properties exist', (done) => {
         chai.request(app)
-          .post('/events')
+          .post('/api/v1/events')
           .send({
             centerId: 3,
             eventName: 'The Wedding Party',
@@ -161,11 +161,11 @@ describe('Test API', () => {
     });
 
 
-    describe('GET /events', () => {
+    describe('GET /api/v1/events', () => {
       // Testing  to get all events
       it('Should return 200 with an array of all events', (done) => {
         chai.request(app)
-          .get('/events')
+          .get('/api/v1/events')
           .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.an('array');
@@ -174,11 +174,11 @@ describe('Test API', () => {
       });
     });
 
-    describe('GET /events/:id', () => {
+    describe('GET /api/v1/events/:id', () => {
       // Testing to get all events
       it('Should return 200 with event object requested for', (done) => {
         chai.request(app)
-          .get(`/events/${1}`)
+          .get(`/api/v1/events/${1}`)
           .send({
             id: 1
           })
@@ -190,11 +190,11 @@ describe('Test API', () => {
       });
     });
 
-    describe('PUT /events/:id', () => {
+    describe('PUT /api/v1/events/:id', () => {
       // Testing to modify an event
       it('Should return 404 if event does not exist', (done) => {
         chai.request(app)
-          .put('/events/:id')
+          .put('/api/v1/events/:id')
           .end((err, res) => {
             res.should.have.status(404);
             res.body.should.be.an('object');
@@ -205,7 +205,7 @@ describe('Test API', () => {
 
       it('Should return 200 with modified event', (done) => {
         chai.request(app)
-          .put(`/events/${1}`)
+          .put(`/api/v1/events/${1}`)
           .send({
             centerId: 3,
             eventName: 'The Wedding',
@@ -220,11 +220,11 @@ describe('Test API', () => {
       });
     });
 
-    describe('DELETE /events/:id', () => {
+    describe('DELETE /api/v1/events/:id', () => {
     // Testing to modify an event
       it('Should return 404 if event does not exist', (done) => {
         chai.request(app)
-          .delete(`/events/${8}`)
+          .delete(`/api/v1/events/${8}`)
           .end((err, res) => {
             res.should.have.status(404);
             res.body.should.be.an('object');
@@ -235,7 +235,7 @@ describe('Test API', () => {
 
       it('Should return 200 with success message', (done) => {
         chai.request(app)
-          .delete(`/events/${1}`)
+          .delete(`/api/v1/events/${1}`)
           .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.an('object');
