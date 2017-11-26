@@ -13,6 +13,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 eventRoutes(app);
 centerRoutes(app);
+
+app.use('/', (req, res) => {
+  res.status(200).send('This is EventManager');
+});
+
+
 app.get('*', (req, res) => {
   res.status(404).send('404: Not Found');
 });
