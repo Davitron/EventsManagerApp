@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 eventRoutes(app);
 centerRoutes(app);
 
-app.use('/', (req, res) => {
+app.use('/api', (req, res) => {
   res.status(200).send('This is EventManager');
 });
 

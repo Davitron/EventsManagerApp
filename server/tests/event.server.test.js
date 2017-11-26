@@ -20,6 +20,18 @@ describe('Test API', () => {
     });
   });
 
+  describe('GET /', () => {
+    // Testing for incorrect routes
+    it('Incorrect Routes should return HTTP 200', (done) => {
+      chai.request(app)
+        .post('/api')
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
+    });
+  });
+
   describe('Testing Api endpoints for event', () => {
     describe('POST /api/v1/events', () => {
       // Testing for creating an event
