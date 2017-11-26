@@ -5,7 +5,7 @@ import eventRoutes from './routes/event-route';
 import centerRoutes from './routes/center-route';
 
 const app = express();
-const port = process.env.port || 8000;
+const port = process.env.PORT || 8000;
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
