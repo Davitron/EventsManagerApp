@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
   State.associate = (models) => {
-    State.hasMany(models.Centers, {
+    State.hasMany(models.Center, {
       foreignKey: 'stateId',
       as: 'centers',
     });

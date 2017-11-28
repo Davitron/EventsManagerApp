@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       as: 'events',
     });
-    User.hasMany(models.Centers, {
+    User.hasMany(models.Center, {
       foreignKey: 'createdBy',
       as: 'centers',
     });

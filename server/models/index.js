@@ -1,19 +1,19 @@
 import fs from 'fs';
 import path from 'path';
 import Sequelize from 'sequelize';
-import * as config from '../config/config.json';
+import config from '../config/config.json';
 
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 
-config = config[env];
+const envConfig = config[env];
 const db = {};
 
 let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+if (envConfig.use_env_variable) {
+  sequelize = new Sequelize(process.env[envConfig.use_env_variable], envConfig);
 } else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
+  sequelize = new Sequelize(envConfig.database, envConfig.username, envConfig.password, envConfig);
 }
 
 fs
@@ -23,6 +23,8 @@ fs
     const model = sequelize.import(path.join(__dirname, file));
     db[model.name] = model;
   });
+
+console.log(db);
 
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {

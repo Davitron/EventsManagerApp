@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import eventRoutes from './routes/event-route';
 import centerRoutes from './routes/center-route';
+import userRoutes from './routes/user-routes';
 
 dotenv.config();
 
@@ -12,7 +13,7 @@ const app = express();
 const port = process.env.PORT || 8000;
 
 
-app.set('secret_key', process.env.SECRET_KEY);
+app.set('secret_key', process.env.SECRET_KEY); 
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -20,6 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 eventRoutes(app);
 centerRoutes(app);
+userRoutes(app);
 
 app.use('/api', (req, res) => {
   res.status(200).send('This is EventManager');
