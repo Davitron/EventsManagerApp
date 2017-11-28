@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
+    image: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     endDate: {
       type: DataTypes.STRING,
       allowNull: false
@@ -15,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
     days: {
       type: DataTypes.INTEGER,
       allowNull: false
+    },
+    status: {
+      type: DataTypes.ENUM,
+      values: ['pending', 'canceled', 'approved'],
     }
   });
   Event.associate = (models) => {

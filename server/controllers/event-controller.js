@@ -1,4 +1,4 @@
-import Event from '../models/event-model';
+import Event from '../models/event';
 import Validator from '../config/validate';
 import store from '../config/mockDB';
 

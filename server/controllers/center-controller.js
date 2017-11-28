@@ -1,4 +1,4 @@
-import Center from '../models/center-model';
+import Center from '../models/center';
 import Validator from '../config/validate';
 import store from '../config/mockDB';
 

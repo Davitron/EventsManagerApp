@@ -9,30 +9,53 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       stateId: {
-        type: Sequelize.INTEGER
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'States',
+          key: 'id',
+          as: 'stateId'
+        }
       },
       address: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      image: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       hallCapacity: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       carParkCapacity: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       facilities: {
+        allowNull: false,
         type: Sequelize.ARRAY(Sequelize.TEXT)
       },
       price: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       createdBy: {
-        type: Sequelize.INTEGER
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id',
+          as: 'createdBy'
+        }
       },
       updatedBy: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       createdAt: {

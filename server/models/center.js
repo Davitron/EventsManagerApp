@@ -12,6 +12,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
+    image: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     hallCapacity: {
       type: DataTypes.INTEGER,
       allowNull: false
@@ -34,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
   Center.associate = (models) => {
-    Center.hasMany(models.Events, {
+    Center.hasMany(models.Event, {
       foreignKey: 'centerId',
       onDelete: 'CASCADE'
     });

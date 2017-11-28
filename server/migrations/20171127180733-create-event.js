@@ -1,4 +1,3 @@
-'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Events', {
@@ -9,22 +8,49 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       eventName: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      image: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       startDate: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       endDate: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       days: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       centerId: {
-        type: Sequelize.INTEGER
+        allowNull: false,
+        onDelete: 'CASCADE',
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Centers',
+          key: 'id',
+          as: 'centerId'
+        }
       },
       userId: {
-        type: Sequelize.INTEGER
+        allowNull: false,
+        onDelete: 'CASCADE',
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id',
+          as: 'userId'
+        }
+      },
+      status: {
+        allowNull: false,
+        type: Sequelize.STRING,
+        values: ['pending', 'canceled', 'approved']
       },
       createdAt: {
         allowNull: false,
