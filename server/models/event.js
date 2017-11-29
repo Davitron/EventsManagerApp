@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     image: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     endDate: {
       type: DataTypes.STRING,
@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       onDelete: 'CASCADE'
     });
-    Event.belongsTo(models.User, {
+    Event.belongsTo(models.Center, {
       foreignKey: 'centerId',
       onDelete: 'CASCADE'
     });

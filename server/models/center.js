@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     image: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     hallCapacity: {
       type: DataTypes.INTEGER,
@@ -31,6 +31,10 @@ module.exports = (sequelize, DataTypes) => {
     price: {
       type: DataTypes.INTEGER,
       allowNull: false
+    },
+    createdBy: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
     },
     updatedBy: {
       type: DataTypes.INTEGER,
