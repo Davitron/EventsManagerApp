@@ -1,316 +1,316 @@
-import chai from 'chai';
-import chaiHttp from 'chai-http';
-import app from '../server';
+// import chai from 'chai';
+// import chaiHttp from 'chai-http';
+// import app from '../server';
 
-const should = chai.should();
+// const should = chai.should();
 
-chai.use(chaiHttp);
+// chai.use(chaiHttp);
 
-describe('Testing Api endpoints for centers', () => {
-  describe('POST /api/v1/centers', () => {
-    it('Should return HTTP status 400 and message for post without center name', (done) => {
-      chai.request(app)
-        .post('/api/v1/centers')
-        .send({
-          state: 'Logos',
-          address: '7, xyz avenue, ikaja',
-          hasProjectors: true,
-          hallCapacity: 600,
-          carParkCapacity: 200
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.be.an('object');
-          res.body.should.have.property('message');
-          done();
-        });
-    });
-    it('Should return HTTP status 400 and message for post without center state', (done) => {
-      chai.request(app)
-        .post('/api/v1/centers')
-        .send({
-          name: 'The centers Place',
-          address: '7, xyz avenue, ikaja',
-          hasProjectors: true,
-          hallCapacity: 600,
-          carParkCapacity: 200
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.be.an('object');
-          res.body.should.have.property('message');
-          done();
-        });
-    });
-    it('Should return HTTP status 400 and message for post without center address', (done) => {
-      chai.request(app)
-        .post('/api/v1/centers')
-        .send({
-          name: 'The centers Place',
-          state: 'Logos',
-          hasProjectors: true,
-          hallCapacity: 600,
-          carParkCapacity: 200
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.be.an('object');
-          res.body.should.have.property('message');
-          done();
-        });
-    });
-    it('Should return HTTP status 400 and message for post without hasProjector', (done) => {
-      chai.request(app)
-        .post('/api/v1/centers')
-        .send({
-          name: 'The centers Place',
-          state: 'Logos',
-          address: '7, xyz avenue, ikaja',
-          hallCapacity: 600,
-          carParkCapacity: 200
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.be.an('object');
-          res.body.should.have.property('message');
-          done();
-        });
-    });
-    it('Should return HTTP status 400 and message for post without hallCapacity', (done) => {
-      chai.request(app)
-        .post('/api/v1/centers')
-        .send({
-          name: 'The centers Place',
-          state: 'Logos',
-          address: '7, xyz avenue, ikaja',
-          hasProjectors: true,
-          carParkCapacity: 200
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.be.an('object');
-          res.body.should.have.property('message');
-          done();
-        });
-    });
-    it('Should return HTTP status 400 and message for post without carParkCapacity', (done) => {
-      chai.request(app)
-        .post('/api/v1/centers')
-        .send({
-          name: 'The centers Place',
-          state: 'Logos',
-          address: '7, xyz avenue, ikaja',
-          hasProjectors: true,
-          hallCapacity: 600,
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.be.an('object');
-          res.body.should.have.property('message');
-          done();
-        });
-    });
-    it('Should return HTTP status 400 hallCapacity is not a number', (done) => {
-      chai.request(app)
-        .post('/api/v1/centers')
-        .send({
-          name: 'The centers Place',
-          state: 'Logos',
-          address: '7, xyz avenue, ikaja',
-          hasProjectors: true,
-          hallCapacity: 'ghjfj',
-          carParkCapacity: 450
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.be.an('object');
-          res.body.should.have.property('message');
-          done();
-        });
-    });
-    it('Should return HTTP status 400 hallCapacity is not a number', (done) => {
-      chai.request(app)
-        .post('/api/v1/centers')
-        .send({
-          name: 'The centers Place',
-          state: 'Logos',
-          address: '7, xyz avenue, ikaja',
-          hasProjectors: true,
-          hallCapacity: 'ghjfj',
-          carParkCapacity: 450
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.be.an('object');
-          res.body.should.have.property('message');
-          done();
-        });
-    });
-    it('Should return HTTP status 400 carParkCapacity is not a number', (done) => {
-      chai.request(app)
-        .post('/api/v1/centers')
-        .send({
-          name: 'The centers Place',
-          state: 'Logos',
-          address: '7, xyz avenue, ikaja',
-          hasProjectors: true,
-          hallCapacity: 450,
-          carParkCapacity: '45kf0'
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.be.an('object');
-          res.body.should.have.property('message');
-          done();
-        });
-    });
-    it('Should return HTTP status 400 hasProjector is not a boolean', (done) => {
-      chai.request(app)
-        .post('/api/v1/centers')
-        .send({
-          name: 'The centers Place',
-          state: 'Logos',
-          address: '7, xyz avenue, ikaja',
-          hasProjectors: 'male',
-          hallCapacity: 600,
-          carParkCapacity: 450,
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.be.an('object');
-          res.body.should.have.property('message');
-          done();
-        });
-    });
-    it('Should return HTTP status 400 center address is not a string', (done) => {
-      chai.request(app)
-        .post('/api/v1/centers')
-        .send({
-          name: 'the palace',
-          state: 'Logos',
-          address: 99,
-          hasProjectors: false,
-          hallCapacity: 600,
-          carParkCapacity: 450,
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.be.an('object');
-          done();
-        });
-    });
+// describe('Testing Api endpoints for centers', () => {
+//   describe('POST /api/v1/centers', () => {
+//     it('Should return HTTP status 400 and message for post without center name', (done) => {
+//       chai.request(app)
+//         .post('/api/v1/centers')
+//         .send({
+//           state: 'Logos',
+//           address: '7, xyz avenue, ikaja',
+//           hasProjectors: true,
+//           hallCapacity: 600,
+//           carParkCapacity: 200
+//         })
+//         .end((err, res) => {
+//           res.should.have.status(400);
+//           res.body.should.be.an('object');
+//           res.body.should.have.property('message');
+//           done();
+//         });
+//     });
+//     it('Should return HTTP status 400 and message for post without center state', (done) => {
+//       chai.request(app)
+//         .post('/api/v1/centers')
+//         .send({
+//           name: 'The centers Place',
+//           address: '7, xyz avenue, ikaja',
+//           hasProjectors: true,
+//           hallCapacity: 600,
+//           carParkCapacity: 200
+//         })
+//         .end((err, res) => {
+//           res.should.have.status(400);
+//           res.body.should.be.an('object');
+//           res.body.should.have.property('message');
+//           done();
+//         });
+//     });
+//     it('Should return HTTP status 400 and message for post without center address', (done) => {
+//       chai.request(app)
+//         .post('/api/v1/centers')
+//         .send({
+//           name: 'The centers Place',
+//           state: 'Logos',
+//           hasProjectors: true,
+//           hallCapacity: 600,
+//           carParkCapacity: 200
+//         })
+//         .end((err, res) => {
+//           res.should.have.status(400);
+//           res.body.should.be.an('object');
+//           res.body.should.have.property('message');
+//           done();
+//         });
+//     });
+//     it('Should return HTTP status 400 and message for post without hasProjector', (done) => {
+//       chai.request(app)
+//         .post('/api/v1/centers')
+//         .send({
+//           name: 'The centers Place',
+//           state: 'Logos',
+//           address: '7, xyz avenue, ikaja',
+//           hallCapacity: 600,
+//           carParkCapacity: 200
+//         })
+//         .end((err, res) => {
+//           res.should.have.status(400);
+//           res.body.should.be.an('object');
+//           res.body.should.have.property('message');
+//           done();
+//         });
+//     });
+//     it('Should return HTTP status 400 and message for post without hallCapacity', (done) => {
+//       chai.request(app)
+//         .post('/api/v1/centers')
+//         .send({
+//           name: 'The centers Place',
+//           state: 'Logos',
+//           address: '7, xyz avenue, ikaja',
+//           hasProjectors: true,
+//           carParkCapacity: 200
+//         })
+//         .end((err, res) => {
+//           res.should.have.status(400);
+//           res.body.should.be.an('object');
+//           res.body.should.have.property('message');
+//           done();
+//         });
+//     });
+//     it('Should return HTTP status 400 and message for post without carParkCapacity', (done) => {
+//       chai.request(app)
+//         .post('/api/v1/centers')
+//         .send({
+//           name: 'The centers Place',
+//           state: 'Logos',
+//           address: '7, xyz avenue, ikaja',
+//           hasProjectors: true,
+//           hallCapacity: 600,
+//         })
+//         .end((err, res) => {
+//           res.should.have.status(400);
+//           res.body.should.be.an('object');
+//           res.body.should.have.property('message');
+//           done();
+//         });
+//     });
+//     it('Should return HTTP status 400 hallCapacity is not a number', (done) => {
+//       chai.request(app)
+//         .post('/api/v1/centers')
+//         .send({
+//           name: 'The centers Place',
+//           state: 'Logos',
+//           address: '7, xyz avenue, ikaja',
+//           hasProjectors: true,
+//           hallCapacity: 'ghjfj',
+//           carParkCapacity: 450
+//         })
+//         .end((err, res) => {
+//           res.should.have.status(400);
+//           res.body.should.be.an('object');
+//           res.body.should.have.property('message');
+//           done();
+//         });
+//     });
+//     it('Should return HTTP status 400 hallCapacity is not a number', (done) => {
+//       chai.request(app)
+//         .post('/api/v1/centers')
+//         .send({
+//           name: 'The centers Place',
+//           state: 'Logos',
+//           address: '7, xyz avenue, ikaja',
+//           hasProjectors: true,
+//           hallCapacity: 'ghjfj',
+//           carParkCapacity: 450
+//         })
+//         .end((err, res) => {
+//           res.should.have.status(400);
+//           res.body.should.be.an('object');
+//           res.body.should.have.property('message');
+//           done();
+//         });
+//     });
+//     it('Should return HTTP status 400 carParkCapacity is not a number', (done) => {
+//       chai.request(app)
+//         .post('/api/v1/centers')
+//         .send({
+//           name: 'The centers Place',
+//           state: 'Logos',
+//           address: '7, xyz avenue, ikaja',
+//           hasProjectors: true,
+//           hallCapacity: 450,
+//           carParkCapacity: '45kf0'
+//         })
+//         .end((err, res) => {
+//           res.should.have.status(400);
+//           res.body.should.be.an('object');
+//           res.body.should.have.property('message');
+//           done();
+//         });
+//     });
+//     it('Should return HTTP status 400 hasProjector is not a boolean', (done) => {
+//       chai.request(app)
+//         .post('/api/v1/centers')
+//         .send({
+//           name: 'The centers Place',
+//           state: 'Logos',
+//           address: '7, xyz avenue, ikaja',
+//           hasProjectors: 'male',
+//           hallCapacity: 600,
+//           carParkCapacity: 450,
+//         })
+//         .end((err, res) => {
+//           res.should.have.status(400);
+//           res.body.should.be.an('object');
+//           res.body.should.have.property('message');
+//           done();
+//         });
+//     });
+//     it('Should return HTTP status 400 center address is not a string', (done) => {
+//       chai.request(app)
+//         .post('/api/v1/centers')
+//         .send({
+//           name: 'the palace',
+//           state: 'Logos',
+//           address: 99,
+//           hasProjectors: false,
+//           hallCapacity: 600,
+//           carParkCapacity: 450,
+//         })
+//         .end((err, res) => {
+//           res.should.have.status(400);
+//           res.body.should.be.an('object');
+//           done();
+//         });
+//     });
 
-    // =====VALID INPUT====== //
-    it('Should return HTTP 201 with response object', (done) => {
-      chai.request(app)
-        .post('/api/v1/centers')
-        .send({
-          name: 'The centers Place',
-          state: 'Logos',
-          address: '7, xyz avenue, ikaja',
-          hasProjectors: 'true',
-          hallCapacity: 600,
-          carParkCapacity: 900
-        })
-        .end((err, res) => {
-          res.should.have.status(201);
-          res.body.should.be.an('object');
-          res.body.should.have.property('id');
-          res.body.should.have.property('name');
-          res.body.should.have.property('state');
-          res.body.should.have.property('address');
-          res.body.should.have.property('hasProjectors');
-          res.body.should.have.property('hallCapacity');
-          res.body.should.have.property('carParkCapacity');
-          done();
-        });
-    });
-  });
-});
+//     // =====VALID INPUT====== //
+//     it('Should return HTTP 201 with response object', (done) => {
+//       chai.request(app)
+//         .post('/api/v1/centers')
+//         .send({
+//           name: 'The centers Place',
+//           state: 'Logos',
+//           address: '7, xyz avenue, ikaja',
+//           hasProjectors: 'true',
+//           hallCapacity: 600,
+//           carParkCapacity: 900
+//         })
+//         .end((err, res) => {
+//           res.should.have.status(201);
+//           res.body.should.be.an('object');
+//           res.body.should.have.property('id');
+//           res.body.should.have.property('name');
+//           res.body.should.have.property('state');
+//           res.body.should.have.property('address');
+//           res.body.should.have.property('hasProjectors');
+//           res.body.should.have.property('hallCapacity');
+//           res.body.should.have.property('carParkCapacity');
+//           done();
+//         });
+//     });
+//   });
+// });
 
-describe('GET /api/v1/centers', () => {
-  // Testing  to get all centers
-  it('Should return 200 with an array of all centers', (done) => {
-    chai.request(app)
-      .get('/api/v1/centers')
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.should.be.an('array');
-        done();
-      });
-  });
-});
+// describe('GET /api/v1/centers', () => {
+//   // Testing  to get all centers
+//   it('Should return 200 with an array of all centers', (done) => {
+//     chai.request(app)
+//       .get('/api/v1/centers')
+//       .end((err, res) => {
+//         res.should.have.status(200);
+//         res.body.should.be.an('array');
+//         done();
+//       });
+//   });
+// });
 
-describe('GET /api/v1/centers/:id', () => {
-  // Testing to get all centers
-  it('Should return 200 with center object requested for', (done) => {
-    chai.request(app)
-      .get(`/api/v1/centers/${1}`)
-      .send({
-        id: 1
-      })
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.should.be.an('object');
-        done();
-      });
-  });
-});
+// describe('GET /api/v1/centers/:id', () => {
+//   // Testing to get all centers
+//   it('Should return 200 with center object requested for', (done) => {
+//     chai.request(app)
+//       .get(`/api/v1/centers/${1}`)
+//       .send({
+//         id: 1
+//       })
+//       .end((err, res) => {
+//         res.should.have.status(200);
+//         res.body.should.be.an('object');
+//         done();
+//       });
+//   });
+// });
 
-describe('PUT /api/v1/centers/:id', () => {
-  // Testing to modify an center
-  it('Should return 404 if center does not exist', (done) => {
-    chai.request(app)
-      .put(`/api/v1/centers/${16}`)
-      .end((err, res) => {
-        res.should.have.status(404);
-        res.body.should.be.an('object');
-        res.body.should.have.property('message');
-        done();
-      });
-  });
+// describe('PUT /api/v1/centers/:id', () => {
+//   // Testing to modify an center
+//   it('Should return 404 if center does not exist', (done) => {
+//     chai.request(app)
+//       .put(`/api/v1/centers/${16}`)
+//       .end((err, res) => {
+//         res.should.have.status(404);
+//         res.body.should.be.an('object');
+//         res.body.should.have.property('message');
+//         done();
+//       });
+//   });
 
-  it('Should return 200 with modified center', (done) => {
-    chai.request(app)
-      .put(`/api/v1/centers/${1}`)
-      .send({
-        name: 'The centers',
-        state: 'Logos',
-        address: '7, xyz avenue, ikaja',
-        hasProjectors: false,
-        hallCapacity: 600,
-        carParkCapacity: 90055
-      })
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.should.be.an('object');
-        done();
-      });
-  });
+//   it('Should return 200 with modified center', (done) => {
+//     chai.request(app)
+//       .put(`/api/v1/centers/${1}`)
+//       .send({
+//         name: 'The centers',
+//         state: 'Logos',
+//         address: '7, xyz avenue, ikaja',
+//         hasProjectors: false,
+//         hallCapacity: 600,
+//         carParkCapacity: 90055
+//       })
+//       .end((err, res) => {
+//         res.should.have.status(200);
+//         res.body.should.be.an('object');
+//         done();
+//       });
+//   });
 
-  describe('DELETE /api/v1/centers/:id', () => {
-    // Testing to modify an center
-    it('Should return 404 if center does not exist', (done) => {
-      chai.request(app)
-        .put(`/api/v1/centers/${7}`)
-        .end((err, res) => {
-          res.should.have.status(404);
-          res.body.should.be.an('object');
-          res.body.should.have.property('message');
-          done();
-        });
-    });
+//   describe('DELETE /api/v1/centers/:id', () => {
+//     // Testing to modify an center
+//     it('Should return 404 if center does not exist', (done) => {
+//       chai.request(app)
+//         .put(`/api/v1/centers/${7}`)
+//         .end((err, res) => {
+//           res.should.have.status(404);
+//           res.body.should.be.an('object');
+//           res.body.should.have.property('message');
+//           done();
+//         });
+//     });
 
-    it('Should return 200 with modified center', (done) => {
-      chai.request(app)
-        .delete(`/api/v1/centers/${2}`)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.an('object');
-          res.body.should.have.property('message');
-          done();
-        });
-    });
-  });
-});
+//     it('Should return 200 with modified center', (done) => {
+//       chai.request(app)
+//         .delete(`/api/v1/centers/${2}`)
+//         .end((err, res) => {
+//           res.should.have.status(200);
+//           res.body.should.be.an('object');
+//           res.body.should.have.property('message');
+//           done();
+//         });
+//     });
+//   });
+// });
 

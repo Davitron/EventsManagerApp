@@ -11,9 +11,10 @@ const Users = model.User;
 
 const newUserRules = {
   email: 'required|email',
-  username: 'required|string|min:3',
+  username: 'required|string|min:3|max:10',
   password: 'required|min:6',
-  confirmPassword: 'required|min:6'
+  confirmPassword: 'required|min:6',
+  isAdmin: 'boolean'
 };
 
 const existingUserRules = {
@@ -51,12 +52,14 @@ export default class UserController {
         return Users.create({
           email: req.body.email,
           username: req.body.username,
-          password: newPassword
+          password: newPassword,
+          isAdmin: Boolean(req.body.isAdmin) || false
         }).then(user => res.status(201).json({
           message: 'New User Is Created Successfully!', userDetails: user
         })).catch(err => res.status(500).json({ message: 'Oops!, an error has occured', error: err }));
       });
     }
+    return res.status(400).json({ message: validate.errors })
   }
 
   /**
