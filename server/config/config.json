@@ -2,7 +2,7 @@
   "development": {
     "username": "postgres",
     "password": "postgres",
-    "database": "eventManager-dev4",
+    "database": "eventManager_dev3",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },

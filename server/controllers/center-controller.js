@@ -1,12 +1,12 @@
 import validator from 'validatorjs';
-import Sequelize from 'sequelize';
 import model from '../models';
 
 
 const Centers = model.Center;
+const Events = model.Event;
 
 const centerRules = {
-  name: 'required|string|min:3',
+  name: 'required|string|min:3|max:20',
   stateId: 'required|integer',
   address: 'required|string|min:10',
   hallCapacity: 'required|string',
@@ -38,29 +38,32 @@ export default class CenterController {
             message: 'Center already exist '
           });
         }
-        const facilityArr = req.body.facilities.split(',')
-          .map(facility => facility.trim().toLowerCase())
-          .filter(word => word !== ' ');
-        return Centers.create({
-          name: req.body.name,
-          stateId: parseInt(req.body.stateId, 10),
-          address: req.body.address,
-          hallCapacity: parseInt(req.body.hallCapacity, 10),
-          carParkCapacity: parseInt(req.body.carParkCapacity, 10),
-          facilities: facilityArr,
-          image: 'uhvhsiuvsivi',
-          createdBy: parseInt(req.decoded.id, 10),
-          updatedBy: parseInt(req.decoded.id, 10),
-          price: parseInt(req.body.price, 10)
-        })
-          .then(center => res.status(201).json({
-            message: 'New Center Is Created Successully',
-            [center]: center
-          }))
-          .catch(err => res.status(500).json({
-            message: 'Oops!, an error has occured',
-            error: err
-          }));
+        if (req.decoded.isAdmin !== true) {
+          const facilityArr = req.body.facilities.split(',')
+            .map(facility => facility.trim().toLowerCase())
+            .filter(word => word !== ' ');
+          return Centers.create({
+            name: req.body.name,
+            stateId: parseInt(req.body.stateId, 10),
+            address: req.body.address,
+            hallCapacity: parseInt(req.body.hallCapacity, 10),
+            carParkCapacity: parseInt(req.body.carParkCapacity, 10),
+            facilities: facilityArr,
+            image: 'uhvhsiuvsivi',
+            createdBy: parseInt(req.decoded.id, 10),
+            updatedBy: parseInt(req.decoded.id, 10),
+            price: parseInt(req.body.price, 10)
+          })
+            .then(center => res.status(201).json({
+              message: 'New Center Is Created Successully',
+              [center]: center
+            }))
+            .catch(err => res.status(500).json({
+              message: 'Oops!, an error has occured',
+              error: err
+            }));
+        }
+        return res.status(401).json({ message: 'You do not have admin priviledge' });
       });
     }
     res.status(400).json({ message: validate.errors });
@@ -93,7 +96,15 @@ export default class CenterController {
    * @returns {json} returns a single center by id
    */
   static get(req, res) {
-    return Centers.findById(req.params.centerId).then((center) => {
+    return Centers.findOne({
+      where: {
+        id: req.params.centerId
+      },
+      include: [{
+        model: Events,
+        as: 'events'
+      }]
+    }).then((center) => {
       if (!center) {
         return res.status(404).json({
           message: 'Center Not Found',
@@ -112,35 +123,47 @@ export default class CenterController {
   static update(req, res) {
     const validate = new validator(req.body, centerRules);
     if (validate.passes()) {
-      Centers.findOne({
-        name: req.body.name
-      }).then((center) => {
-        if (center) {
-          if (center.id !== req.params.id) {
-            res.status(400).json({ message: 'center with name already exist' });
+      return Centers.findById(req.params.centerId)
+        .then((center) => {
+          if (!center) {
+            return res.status(404).json({
+              message: 'Center does not exist',
+            });
           }
-        }
-        const facilityArr = req.body.facilities.split(',')
-          .map(facility => facility.trim().toLowerCase())
-          .filter(word => word !== ' ');
 
-        if (req.decoded.isAdmin === true) {
-          center.update({
-            name: req.body.name || center.name,
-            stateId: parseInt(req.body.stateId, 10) || center.stateId,
-            address: req.body.address || center.address,
-            hallCapacity: parseInt(req.body.hallCapacity, 10) || center.hallCapacity,
-            carParkCapacity: parseInt(req.body.carParkCapacity, 10) || center.carParkCapacity,
-            facilities: facilityArr || center.facilities,
-            image: center.image,
-            updatedBy: parseInt(req.decoded.id, 10) || center.updatedBy,
-            price: parseInt(req.body.price, 10) || center.price,
-          }).then(modifiedCenter => res.status(200).json({ message: 'center was modified successfully', center: modifiedCenter }))
-            .catch(error => res.status(400).json(error));
-        }
-        return res.status(401).json({ message: 'User is not an Admin' });
-      }).catch(error => res.status(500).json({ message: error }));
+          if (req.decoded.isAdmin === true) {
+            const facilityArr = req.body.facilities.split(',')
+              .map(facility => facility.trim().toLowerCase())
+              .filter(word => word !== ' ');
+
+            center.update({
+              name: req.body.name || center.name,
+              stateId: parseInt(req.body.stateId, 10) || center.stateId,
+              address: req.body.address || center.address,
+              hallCapacity: parseInt(req.body.hallCapacity, 10) || center.hallCapacity,
+              carParkCapacity: parseInt(req.body.carParkCapacity, 10) || center.carParkCapacity,
+              facilities: facilityArr || center.facilities,
+              image: 'uhvhsiuvsivi' || center.image,
+              updatedBy: parseInt(req.decoded.id, 10) || center.updatedBy,
+              price: parseInt(req.body.price, 10) || center.price
+            })
+              .then((modifiedCenter) => {
+                return res.status(200).json({
+                  message: 'Center Is Modified',
+                  center: modifiedCenter
+                });
+              })
+              .catch(error => res.status(500).json({
+                errorMessage: error
+              }));
+          }
+          return res.status(401).json({ message: 'You do not have admin priviledge' });
+        })
+        .catch((error) => { 
+          res.status(500).json({ errorMessage: error });
+        });
     }
+    res.status(400).json({ message: validate.errors });
   }
 
 
@@ -151,7 +174,7 @@ export default class CenterController {
    * @returns {json} returns message object
    */
   static delete(req, res) {
-    return Centers.findById(req.params.id)
+    return Centers.findById(req.params.centerId)
       .then((center) => {
         if (!center) {
           return res.status(404).json({
@@ -159,7 +182,7 @@ export default class CenterController {
           });
         }
         center.destroy()
-          .then(() => res.status(204).json())
+          .then(() => res.status(204).json({ message: 'Center is successfully  deleted' }))
           .catch(error => res.status(400).json(error));
       })
       .catch(error => res.status(400).json(error));
