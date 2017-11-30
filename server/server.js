@@ -28,8 +28,12 @@ app.use('/api', (req, res) => {
 });
 
 
+app.get('/', (req, res) => {
+  res.status(200).send('Hey There, welcome to Event Manager');
+});
+
 app.get('*', (req, res) => {
-  res.status(404).send('404: Not Found');
+  res.status(404).send('Not Found');
 });
 
 app.listen(port, () => {
