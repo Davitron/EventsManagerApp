@@ -38,7 +38,7 @@ export default class CenterController {
             message: 'Center already exist '
           });
         }
-        if (req.decoded.isAdmin !== true) {
+        if (req.decoded.isAdmin === true) {
           const facilityArr = req.body.facilities.split(',')
             .map(facility => facility.trim().toLowerCase())
             .filter(word => word !== ' ');
@@ -174,18 +174,20 @@ export default class CenterController {
    * @returns {json} returns message object
    */
   static delete(req, res) {
-    return Centers.findById(req.params.centerId)
-      .then((center) => {
-        if (!center) {
-          return res.status(404).json({
-            message: 'Center does not exist',
-          });
-        }
-        center.destroy()
-          .then(() => res.status(204).json({ message: 'Center is successfully  deleted' }))
-          .catch(error => res.status(400).json(error));
-      })
-      .catch(error => res.status(400).json(error));
+    if (req.decoded.isAdmin === true ) {
+      return Centers.findById(req.params.centerId)
+        .then((center) => {
+          if (!center) {
+            return res.status(404).json({
+              message: 'Center does not exist',
+            });
+          }
+          center.destroy()
+            .then(() => res.status(200).json({ message: 'Center is successfully  deleted' }))
+            .catch(error => res.status(400).json(error));
+        })
+        .catch(error => res.status(400).json(error));
+    }
   }
 
   /**

@@ -1,5 +1,4 @@
 import validator from 'validatorjs';
-import isDateFormat from 'is-date-format';
 import moment from 'moment';
 import model from '../models';
 
@@ -34,23 +33,16 @@ export default class EventController {
       Events.findOne({
         where: {
           centerId: req.body.centerId,
-          $and: [
-            {
-              startDate: {
-                $gte: eventStartDate,
-                $lte: eventStartDate,
-              }
-            },
-            {
-              endDate: {
-                $gte: eventEndDate,
-                $lte: eventEndDate,
-              }
-            }
-          ]
+          startDate: {
+            $gte: eventStartDate,
+            $lte: eventEndDate
+          },
+          endDate: {
+            $gte: eventStartDate,
+            $lte: eventEndDate,
+          }
         }
       }).then((event) => {
-        console.log(event)
         if (!event) {
           Events.create({
             eventName: req.body.eventName,
@@ -62,7 +54,6 @@ export default class EventController {
             image: 'xfgxgdhxgdh',
             status: req.body.status
           }).then((createdEvent) => {
-            console.log('you are');
             return res.status(201).send({
               message: 'Event Created Successfully',
               newEvent: createdEvent
@@ -71,7 +62,6 @@ export default class EventController {
         }
         return res.status(400).json({ message: 'The selected date is booked' });
       }).catch((err) => {
-        console.log(err);
         return res.status(500).send({ message: err });
       });
     } else {
