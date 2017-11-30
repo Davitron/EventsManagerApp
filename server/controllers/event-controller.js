@@ -1,12 +1,24 @@
-import Event from '../models/event';
-import Validator from '../config/validate';
-import store from '../config/mockDB';
+import validator from 'validatorjs';
+import isDateFormat from 'is-date-format';
+import moment from 'moment';
+import model from '../models';
+
+const Events = model.Event;
+
+
+const eventRules = {
+  eventName: 'required|string|min:3|max:20',
+  startDate: 'required|string',
+  days: 'required|string',
+  centerId: 'required|string'
+};
 
 
 /**
   *
   */
 export default class EventController {
+
   /**
    *
    *
@@ -15,22 +27,56 @@ export default class EventController {
    * @returns {json} adds an event
    */
   static create(req, res) {
-    req.body.centerId = Number(req.body.centerId);
-    const validationResponse = Validator.validateEvent(req.body);
-    if (!validationResponse.value) {
-      return res.status(400).json({ message: validationResponse.message });
+    const validate = new validator(req.body, eventRules);
+    const eventStartDate = new Date(req.body.startDate);
+    const eventEndDate = moment(eventStartDate).add(req.body.days, 'days').toDate();
+    if (validate.passes()) {
+      Events.findOne({
+        where: {
+          centerId: req.body.centerId,
+          $and: [
+            {
+              startDate: {
+                $gte: eventStartDate,
+                $lte: eventStartDate,
+              }
+            },
+            {
+              endDate: {
+                $gte: eventEndDate,
+                $lte: eventEndDate,
+              }
+            }
+          ]
+        }
+      }).then((event) => {
+        console.log(event)
+        if (!event) {
+          Events.create({
+            eventName: req.body.eventName,
+            centerId: req.body.centerId,
+            startDate: eventStartDate,
+            days: req.body.days,
+            endDate: eventEndDate,
+            userId: req.decoded.id,
+            image: 'xfgxgdhxgdh',
+            status: req.body.status
+          }).then((createdEvent) => {
+            console.log('you are');
+            return res.status(201).send({
+              message: 'Event Created Successfully',
+              newEvent: createdEvent
+            });
+          }).catch(err => res.status(500).send({ message: err }));
+        }
+        return res.status(400).json({ message: 'The selected date is booked' });
+      }).catch((err) => {
+        console.log(err);
+        return res.status(500).send({ message: err });
+      });
+    } else {
+      return res.status(400).json({ message: validate.errors });
     }
-
-    const newId = store.events.length + 1;
-    const newEvent = new Event(
-      newId,
-      Number(req.body.centerId),
-      req.body.eventName,
-      req.body.eventDate,
-      Number(req.body.creatorId),
-    );
-    store.events.push(newEvent);
-    return res.status(201).json(newEvent);
   }
 
   /**
@@ -40,7 +86,17 @@ export default class EventController {
    * @returns {json} return all events
    */
   static getAll(req, res) {
-    res.status(200).json(store.events);
+    return Events.findAll().then((events) => {
+      if (events.length < 1) {
+        res.status(200).json({
+          message: 'No Centers Available'
+        });
+      }
+      res.status(200).json({ allEvents: events });
+    }).catch(err => res.status(500).json({
+      message: 'Oops!, an error has occured',
+      error: err.name
+    }));
   }
 
   /**
@@ -50,8 +106,15 @@ export default class EventController {
    * @returns {json} returns an event by id
    */
   static get(req, res) {
-    const singleEvent = store.events.find(event => event.id === Number(req.params.eventId));
-    return res.status(200).json(singleEvent);
+    return Events.findById(req.params.eventId).then((event) => {
+      if (!event) {
+        return res.status(404).json({
+          message: 'Center Not Found',
+        });
+      }
+      return res.status(200).send(event);
+    })
+      .catch(error => res.status(500).send(error));
   }
 
   /**
@@ -60,20 +123,43 @@ export default class EventController {
    * @returns {json} returns edited event
    */
   static update(req, res) {
-    const singleEvent = store.events.find(event => event.id === Number(req.params.eventId));
-    if (singleEvent === null || singleEvent === undefined) {
-      return res.status(404).json({ message: 'Event does not exist' });
+    const validate = new validator(req.body, eventRules);
+    const sDate = req.body.startDate.split('/');
+    const sMonth = parseInt(sDate[1], 10) - 1;
+    const eventStartDate = new Date(sDate[2], sMonth, sDate[0]);
+    const eventEndDate = moment(eventStartDate).add(req.body.days, 'days').toDate();
+    if (validate.passes()) {
+      Events.findOne({
+        where: {
+          id: req.params.eventId
+        }
+      }).then((event) => {
+        if (req.decoded.id === event.userId) {
+          event.update({
+            eventName: req.body.eventName || event.eventName,
+            centerId: req.body.centerId || event.centerId,
+            startDate: eventStartDate || event.startDate,
+            days: req.body.days || event.days,
+            endDate: eventEndDate || event.endDate,
+            image: 'xfgxgdhxgdh' || event.image,
+            status: req.body.status || event.status
+          }).then((modifiedEvent) => {
+            res.status(200).json({
+              message: 'Event Updated Successfully',
+              newEvent: modifiedEvent
+            });
+          }).catch((err) => {
+            console.log(err);
+            res.status(500).json({ message: err });
+          });
+        } else {
+          return res.status(401).json({ message: 'Not Authorized' });
+        }
+      }).catch((err) => {
+        console.log(err);
+        res.status(500).json({ message: err });
+      });
     }
-
-
-    singleEvent.centerId = Number(req.body.centerId);
-    singleEvent.creatorId = Number(req.body.creatorId);
-    singleEvent.eventDate = req.body.eventDate;
-    singleEvent.eventName = req.body.eventName;
-
-    const pos = store.events.map(event => event.id).indexOf(singleEvent.id);
-    store.events[pos] = singleEvent;
-    return res.status(200).json(store.events[pos]);
   }
 
   /**
@@ -83,12 +169,17 @@ export default class EventController {
    * @returns {json} returns message object
    */
   static delete(req, res) {
-    const singleEvent = store.events.find(event => event.id === Number(req.params.eventId));
-    if (singleEvent === null || singleEvent === undefined) {
-      return res.status(404).json({ message: 'Event does not exist' });
-    }
-    const eventPos = store.events.map(event => event.id).indexOf(singleEvent.id);
-    store.events.splice(eventPos, 1);
-    res.status(200).json({ message: 'event was successfully deleted' });
+    return Events.findById(req.params.eventId)
+      .then((event) => {
+        if (!event) {
+          return res.status(404).json({
+            message: 'Event does not exist',
+          });
+        }
+        event.destroy()
+          .then(() => res.status(200).send({ message: 'Event is successfully  deleted' }))
+          .catch(error => res.status(400).json({ err: error }));
+      })
+      .catch(error => res.status(400).json({ err: error }));
   }
 }

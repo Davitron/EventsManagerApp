@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     startDate: {
-      type: DataTypes.STRING,
+      type: DataTypes.DATE,
       allowNull: false
     },
     image: {
@@ -13,10 +13,18 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     },
     endDate: {
-      type: DataTypes.STRING,
+      type: DataTypes.DATE,
       allowNull: false
     },
     days: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    centerId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
