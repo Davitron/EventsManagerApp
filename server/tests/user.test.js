@@ -1,6 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import validator from 'validatorjs';
+import faker from 'faker';
 import app from '../server';
 
 const should = chai.should();
@@ -9,7 +9,7 @@ chai.use(chaiHttp);
 
 describe('Testing Authentication Routes', () => {
   describe('POST /users', () => {
-    // Testing for invalid user input
+    // TESTING INVAILD USER INPUT FOR REGISTRATION
     it('Invalid email should return HTTP 400', (done) => {
       chai.request(app)
         .post('/users')
@@ -93,7 +93,7 @@ describe('Testing Authentication Routes', () => {
         .post('/users')
         .send({
           email: 'mail@mail.com',
-          username: 'dojkorajpoajpiajpriaPBJPIBj',
+          username: faker.internet.userName(),
           confirmPassword: 'lolomimi'
         })
         .end((err, res) => {
@@ -167,22 +167,89 @@ describe('Testing Authentication Routes', () => {
     });
 
     // VALID USER INPUT
-    it('should return HTTP 201 when fields are pass validation', (done) => {
+    it('should return HTTP 400 when fields are pass validation but user email is taken', (done) => {
       chai.request(app)
         .post('/users')
         .send({
-          email: 'mail@mail.com',
-          username: 'dojkorajp',
+          email: 'eggar@googlr.com',
+          username: faker.internet.userName(),
+          password: 'lolojhjsovh',
+          confirmPassword: 'lolojhjsovh',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.an('object');
+          res.body.should.have.property('message');
+          // res.body.should.have.property('token');
+          done();
+        });
+    });
+
+    it('should return HTTP 201 when fields are pass validation', (done) => {
+      const newEmail = `${faker.name.lastName()}@testmail.com`;
+      const userName = faker.name.firstName();
+      chai.request(app)
+        .post('/users')
+        .send({
+          email: newEmail,
+          username: userName,
           password: 'lolojhjsovh',
           confirmPassword: 'lolojhjsovh',
         })
         .end((err, res) => {
           res.should.have.status(201);
           res.body.should.be.an('object');
-          // res.body.should.have.property('message');
-          // res.body.should.have.property('token');
+          res.body.should.have.property('message');
           done();
         });
     });
+  });
+
+  describe('POST /users/login', () => {
+    // TESTING FOR INVALID USER INPUT
+    it('It should return invalid 400 if email exist', (done) => {
+      chai.request(app)
+        .post('/users/login')
+        .send({
+          email: 'nomail@nomial.nomail',
+          password: 'gojfiepfe'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.an('object');
+          res.body.should.have.property('message');
+          done();
+        });
+    });
+  });
+
+  it('should return HTTP 400 when password is not correct', (done) => {
+    chai.request(app)
+      .post('/users/login')
+      .send({
+        email: 'eggar@googlr.com',
+        password: 'gojfiepfe'
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.be.an('object');
+        res.body.should.have.property('message');
+        done();
+      });
+  });
+
+  it('should return HTTP 200 when email and password are correct', (done) => {
+    chai.request(app)
+      .post('/users/login')
+      .send({
+        email: 'eggar@googlr.com',
+        password: 'minerva'
+      })
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.an('object');
+        res.body.should.have.property('message');
+        done();
+      });
   });
 });
