@@ -4,6 +4,7 @@
   "description": "An Event Management Application for event centers and  event booking.",
   "main": "index.js",
   "scripts": {
+    "prestart": "sequelize db:migrate",
     "test": " nyc --reporter=html --reporter=text mocha ./server/tests/* --exit --require babel-register --reporter spec",
     "babel-node": "babel-node --preset=es2015",
     "start": "nodemon --exec npm run babel-node -- ./server/server.js",
@@ -43,6 +44,7 @@
     "body-parser": "^1.18.2",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
+    "faker": "^4.1.0",
     "is-date-format": "^0.1.1",
     "is-valid-date": "0.0.1",
     "jsonwebtoken": "^8.1.0",
