@@ -1,21 +1,49 @@
-.topbar  {
-  background-color: #26a69a !important;
-}
-
-.navbar-fixed {
-  position: absolute;z-index:999999999;
-}
-
-.check [type="checkbox"] + label, .fixed [type="radio"] + label {
-  pointer-events: auto;
-}
-
-.responsive-image{
-  height: inherit !important;
-  background-size: 100% 100vh !important;
-  background-image: url('../image/wallup.jpg') !important;
-} 
-
-
-
-
+body {
+    
+  }
+  
+  .topbar  {
+    background-color: #26a69a !important;
+  }
+  
+  main {
+    flex: 1 0 auto;
+    margin-top: auto;
+  }
+  
+  .navbar-fixed {
+    position: absolute;z-index:999999999;
+  }
+  
+  .check [type="checkbox"] + label, .fixed [type="radio"] + label {
+    pointer-events: auto;
+  }
+  
+  .responsive-image{
+    height: inherit !important;
+    background-size: 100% 100vh !important;
+    background-image: url('../image/banner4.jpg') !important;
+  } 
+  
+  .login {
+      position:fixed;
+      top: 40%;
+      left: 40%;
+      margin-top: -9em; /*set to a negative number 1/2 of your height*/
+      margin-left: -13em; /*set to a negative number 1/2 of your width*/
+  
+  }
+  
+  .register {
+      position:fixed;
+      top: 35%;
+      left: 50%;
+      margin-top: -9em; /*set to a negative number 1/2 of your height*/
+      margin-left: -13em; /*set to a negative number 1/2 of your width*/
+  
+  }
+  
+  
+  
+  
+  

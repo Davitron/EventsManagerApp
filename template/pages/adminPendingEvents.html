@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../css/icon.css" />
     <link rel="stylesheet" href="../css/animate.css" />
   </head>
-  <body class=" responsive-image">
+  <body style=" background-color: rgb(5, 22, 22)">
     <header>
       <div class="navbar-fixed">
         <nav class=" z-depth-0" style="background-color: #26a69a !important;">
@@ -37,7 +37,7 @@
       </div>
     </header>
 
-    <div class="" style="padding-top: 50px;">
+    <div class="" style="padding-top: 100px;">
       <div class=" row">
       </div>
       <div class=" container animated bounceInRight" >
@@ -46,7 +46,7 @@
             <h4 class="header col s12 light ">
                 Pending Events
             </h4>
-            <table class="bordered">
+            <table class="bordered centered">
                 <thead>
                   <tr>
                       <th>Event Name</th>
@@ -60,7 +60,7 @@
                   <tr>
                     <td>Alvin</td>
                     <td>Eclair</td>
-                    <td>pending</td>
+                    <td><span class="chip orange">Pending</span></td>
                     <td>
                         <a class="waves-effect waves-light  btn" onclick="$('#Edit').modal('open')"><i class=" material-icons">done</i></a>
                         
@@ -70,7 +70,7 @@
                   <tr>
                     <td>Alan</td>
                     <td>Jellybean</td>
-                    <td>canceled</td>
+                    <td><span class="chip red">Canceled</span></td>
                     <td>
                       <a class="waves-effect waves-light  btn" onclick="$('#Edit').modal('open')"><i class=" material-icons">done</i></a>
                       <a class="waves-effect waves-light red btn" onclick="$('#cancel').modal('open')"><i class=" material-icons">cancel</i></a>
@@ -79,7 +79,7 @@
                   <tr>
                     <td>Jonathan</td>
                     <td>Lollipop</td>
-                    <td>approved</td>
+                    <td><span class="chip cyan">Approved</span></td>
                     <td>
                       <a class="waves-effect waves-light  btn" onclick="$('#Edit').modal('open')"><i class=" material-icons">done</i></a>
                       <a class="waves-effect waves-light red btn" onclick="$('#cancel').modal('open')"><i class=" material-icons">cancel</i></a>
@@ -88,7 +88,7 @@
                   <tr>
                     <td>Jonathan</td>
                     <td>Lollipop</td>
-                    <td>approved</td>
+                    <td><span class="chip cyan">Approved</span></td>
                     <td>
                       <a class="waves-effect waves-light  btn" onclick="$('#Edit').modal('open')"><i class=" material-icons">done</i></a>
                       <a class="waves-effect waves-light red btn" onclick="$('#cancel').modal('open')"><i class=" material-icons">cancel</i></a>
@@ -97,7 +97,7 @@
                   <tr>
                       <td>Alvin</td>
                       <td>Eclair</td>
-                      <td>pending</td>
+                      <td><span class="chip orange">Pending</span></td>
                       <td>
                         <a class="waves-effect waves-light  btn" onclick="$('#Edit').modal('open')"><i class=" material-icons">done</i></a>
                         
@@ -107,7 +107,7 @@
                     <tr>
                       <td>Alan</td>
                       <td>Jellybean</td>
-                      <td>canceled</td>
+                      <td><span class="chip red">Canceled</span></td>
                       <td>
                         <a class="waves-effect waves-light  btn" onclick="$('#Edit').modal('open')"><i class=" material-icons">done</i></a>
                         
@@ -117,7 +117,7 @@
                     <tr>
                       <td>Jonathan</td>
                       <td>Lollipop</td>
-                      <td>approved</td>
+                      <td><span class="chip cyan">Approved</span></td>
                       <td>
                         <a class="waves-effect waves-light  btn" onclick="$('#Edit').modal('open')"><i class=" material-icons">done</i></a>
                         
@@ -127,7 +127,7 @@
                     <tr>
                       <td>Jonathan</td>
                       <td>Lollipop</td>
-                      <td>approved</td>
+                      <td><span class="chip cyan">Approved</span></td>
                       <td>
                         <a class="waves-effect waves-light  btn" onclick="$('#Edit').modal('open')"><i class=" material-icons">done</i></a>
                         
@@ -149,23 +149,23 @@
               </ul>
           </div>
         </div>
-        <div id="cancel" class="modal">
-            <div class="modal-content">
-              <h4>Cancel Event</h4>
-              <h5>Are you sure you want to cancel this event?</h5>
-              <div class="row">
-                  <div class=" input-field col s6">
-                      <input type="text" class="datepicker" />
-                      <label for="">Suggest Date</label>
-                  </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <a class=" modal-action modal-close waves-effect waves-green btn">Confirm</a>
-              <a class=" modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
-            </div>
-        </div>
       </div>
+      <div id="cancel" class="modal">
+        <div class="modal-content">
+          <h4>Cancel Event</h4>
+          <h5>Are you sure you want to cancel this event?</h5>
+          <div class="row">
+              <div class=" input-field col s6">
+                  <input type="text" class="datepicker" />
+                  <label for="">Suggest Date</label>
+              </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a class=" modal-action modal-close waves-effect waves-green btn">Confirm</a>
+          <a class=" modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+        </div>
+    </div>
     </div>
     <script src="../plugins/jquery-3.2.1.min.js" ></script>
     <script src="../plugins/materialize/js/materialize.min.js" ></script>

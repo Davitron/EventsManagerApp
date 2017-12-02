@@ -14,6 +14,7 @@ $(document).ready(function(){
     $('#deleteCenter').modal();
     $('#delete').modal();
     $('#cancel').modal();
+    $('#Calend').modal();
     $(".dropdown-button").dropdown(
       {
         belowOrigin: true
