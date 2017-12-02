@@ -59,8 +59,9 @@ export default class EventController {
               newEvent: createdEvent
             });
           }).catch(err => res.status(500).send({ message: err }));
+        } else {
+          return res.status(400).json({ message: 'The selected date is booked' });
         }
-        return res.status(400).json({ message: 'The selected date is booked' });
       }).catch((err) => {
         return res.status(500).send({ message: err });
       });
@@ -79,7 +80,7 @@ export default class EventController {
     return Events.findAll().then((events) => {
       if (events.length < 1) {
         res.status(200).json({
-          message: 'No Centers Available'
+          message: 'No Events Available'
         });
       }
       res.status(200).json({ allEvents: events });

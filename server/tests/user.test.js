@@ -8,11 +8,11 @@ const should = chai.should();
 chai.use(chaiHttp);
 
 describe('Testing Authentication Routes', () => {
-  describe('POST /users', () => {
+  describe('POST /api/v1/users', () => {
     // TESTING INVAILD USER INPUT FOR REGISTRATION
     it('Invalid email should return HTTP 400', (done) => {
       chai.request(app)
-        .post('/users')
+        .post('/api/v1/users')
         .send({
           email: 'fjlahflaehfa',
           username: 'danny',
@@ -28,7 +28,7 @@ describe('Testing Authentication Routes', () => {
 
     it('should return HTTP 400 if email is not given', (done) => {
       chai.request(app)
-        .post('/users')
+        .post('/api/v1/users')
         .send({
           username: 'danny',
           password: 'lolomimi',
@@ -43,7 +43,7 @@ describe('Testing Authentication Routes', () => {
 
     it('should return HTTP 400 when given username is less than minimum string required', (done) => {
       chai.request(app)
-        .post('/users')
+        .post('/api/v1/users')
         .send({
           email: 'mail@mail.com',
           username: 'd',
@@ -59,7 +59,7 @@ describe('Testing Authentication Routes', () => {
 
     it('should return HTTP 400 when username is not given', (done) => {
       chai.request(app)
-        .post('/users')
+        .post('/api/v1/users')
         .send({
           email: 'mail@mail.com',
           password: 'lolomimi',
@@ -74,7 +74,7 @@ describe('Testing Authentication Routes', () => {
 
     it('should return HTTP 400 when given username is more than maximum string required', (done) => {
       chai.request(app)
-        .post('/users')
+        .post('/api/v1/users')
         .send({
           email: 'mail@mail.com',
           username: 'dojkorajpoajpiajpriaPBJPIBj',
@@ -90,7 +90,7 @@ describe('Testing Authentication Routes', () => {
 
     it('should return HTTP 400 when password is not given', (done) => {
       chai.request(app)
-        .post('/users')
+        .post('/api/v1/users')
         .send({
           email: 'mail@mail.com',
           username: faker.internet.userName(),
@@ -105,7 +105,7 @@ describe('Testing Authentication Routes', () => {
 
     it('should return HTTP 400 when given password is less than minimum string required', (done) => {
       chai.request(app)
-        .post('/users')
+        .post('/api/v1/users')
         .send({
           email: 'mail@mail.com',
           username: 'dojkorajpoajpiajpriaPBJPIBj',
@@ -121,7 +121,7 @@ describe('Testing Authentication Routes', () => {
 
     it('should return HTTP 400 when given password is less than minimum string required', (done) => {
       chai.request(app)
-        .post('/users')
+        .post('/api/v1/users')
         .send({
           email: 'mail@mail.com',
           username: 'dojkorajpoajpiajpriaPBJPIBj',
@@ -137,7 +137,7 @@ describe('Testing Authentication Routes', () => {
 
     it('should return HTTP 400 when given password is not the same with the password confirmation', (done) => {
       chai.request(app)
-        .post('/users')
+        .post('/api/v1/users')
         .send({
           email: 'mail@mail.com',
           username: 'dojkorajpoajpiajpriaPBJPIBj',
@@ -153,7 +153,7 @@ describe('Testing Authentication Routes', () => {
 
     it('should return HTTP 400 when password confirmation is not provided', (done) => {
       chai.request(app)
-        .post('/users')
+        .post('/api/v1/users')
         .send({
           email: 'mail@mail.com',
           username: 'dojkorajpoajpiajpriaPBJPIBj',
@@ -168,11 +168,12 @@ describe('Testing Authentication Routes', () => {
 
     // VALID USER INPUT
     it('should return HTTP 400 when fields are pass validation but user email is taken', (done) => {
+      const userName = faker.name.firstName();
       chai.request(app)
-        .post('/users')
+        .post('/api/v1/users')
         .send({
           email: 'eggar@googlr.com',
-          username: faker.internet.userName(),
+          username: userName,
           password: 'lolojhjsovh',
           confirmPassword: 'lolojhjsovh',
         })
@@ -189,7 +190,7 @@ describe('Testing Authentication Routes', () => {
       const newEmail = `${faker.name.lastName()}@testmail.com`;
       const userName = faker.name.firstName();
       chai.request(app)
-        .post('/users')
+        .post('/api/v1/users')
         .send({
           email: newEmail,
           username: userName,
@@ -205,11 +206,11 @@ describe('Testing Authentication Routes', () => {
     });
   });
 
-  describe('POST /users/login', () => {
+  describe('POST /api/v1/users/login', () => {
     // TESTING FOR INVALID USER INPUT
     it('It should return invalid 400 if email exist', (done) => {
       chai.request(app)
-        .post('/users/login')
+        .post('/api/v1/users/login')
         .send({
           email: 'nomail@nomial.nomail',
           password: 'gojfiepfe'
@@ -225,7 +226,7 @@ describe('Testing Authentication Routes', () => {
 
   it('should return HTTP 400 when password is not correct', (done) => {
     chai.request(app)
-      .post('/users/login')
+      .post('/api/v1/users/login')
       .send({
         email: 'eggar@googlr.com',
         password: 'gojfiepfe'
@@ -240,7 +241,7 @@ describe('Testing Authentication Routes', () => {
 
   it('should return HTTP 200 when email and password are correct', (done) => {
     chai.request(app)
-      .post('/users/login')
+      .post('/api/v1/users/login')
       .send({
         email: 'eggar@googlr.com',
         password: 'minerva'

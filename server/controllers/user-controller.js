@@ -59,7 +59,7 @@ export default class UserController {
         })).catch(err => res.status(500).json({ message: 'Oops!, an error has occured', error: err }));
       });
     }
-    return res.status(400).json({ message: validate.errors })
+    return res.status(400).json({ message: validate.errors });
   }
 
   /**
