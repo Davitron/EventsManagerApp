@@ -29,7 +29,7 @@ app.use('/api', (req, res) => {
   res.status(200).send('This is EventManager');
 });
 
-app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 app.get('/', (req, res) => {
   res.status(200).send('Hey There, welcome to Event Manager');

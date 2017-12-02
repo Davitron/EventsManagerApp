@@ -5,7 +5,7 @@
       "title": "Events Manager",
       "description": " API documetationn for an event management system"
     },
-    "host": "localhost:8000",
+    "host": "event-manager-andela.herokuapp.com",
     "basePath": "/api/v1",
     "schemes": [
       "http"
