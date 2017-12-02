@@ -27,10 +27,13 @@ export default class EventController {
    */
   static create(req, res) {
     const validate = new validator(req.body, eventRules);
+    // format user date input to sequelize date input
     const eventStartDate = new Date(req.body.startDate);
     const eventEndDate = moment(eventStartDate).add(req.body.days, 'days').toDate();
     if (validate.passes()) {
+      // check validation compliance of user input
       Events.findOne({
+        // to checked if date is booked
         where: {
           centerId: req.body.centerId,
           startDate: {
@@ -55,12 +58,12 @@ export default class EventController {
             status: req.body.status
           }).then((createdEvent) => {
             return res.status(201).send({
-              message: 'Event Created Successfully',
+              message: 'Event Created Successfully', // to return this if event is created successfully
               newEvent: createdEvent
             });
           }).catch(err => res.status(500).send({ message: err }));
         } else {
-          return res.status(400).json({ message: 'The selected date is booked' });
+          return res.status(400).json({ message: 'The selected date is booked' }); // to return this if date is booked
         }
       }).catch((err) => {
         return res.status(500).send({ message: err });
@@ -94,7 +97,7 @@ export default class EventController {
    *
    * @param {*} req
    * @param {*} res
-   * @returns {json} returns an event by id
+   * @returns {json} returns an event with Id provided
    */
   static get(req, res) {
     return Events.findById(req.params.eventId).then((event) => {
@@ -115,16 +118,16 @@ export default class EventController {
    */
   static update(req, res) {
     const validate = new validator(req.body, eventRules);
-    const sDate = req.body.startDate.split('/');
-    const sMonth = parseInt(sDate[1], 10) - 1;
-    const eventStartDate = new Date(sDate[2], sMonth, sDate[0]);
+    const eventStartDate = new Date(req.body.startDate);
     const eventEndDate = moment(eventStartDate).add(req.body.days, 'days').toDate();
+    // check validation compliance of user input
     if (validate.passes()) {
       Events.findOne({
         where: {
           id: req.params.eventId
         }
       }).then((event) => {
+        // check if this event was created by this user
         if (req.decoded.id === event.userId) {
           event.update({
             eventName: req.body.eventName || event.eventName,
@@ -136,7 +139,7 @@ export default class EventController {
             status: req.body.status || event.status
           }).then((modifiedEvent) => {
             res.status(200).json({
-              message: 'Event Updated Successfully',
+              message: 'Event Updated Successfully', // to return this if user event is updated successfully
               newEvent: modifiedEvent
             });
           }).catch((err) => {
@@ -157,7 +160,7 @@ export default class EventController {
    *
    * @param {*} req
    * @param {*} res
-   * @returns {json} returns message object
+   * @returns {json} returns message object if event is deleted successfully
    */
   static delete(req, res) {
     return Events.findById(req.params.eventId)
