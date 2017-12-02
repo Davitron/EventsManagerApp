@@ -29,9 +29,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     status: {
-      type: DataTypes.ENUM,
-      values: ['pending', 'canceled', 'approved'],
-    }
+      allowNull: false,
+      type: DataTypes.ENUM('pending', 'accepted', 'cancelled', 'rejected'),
+      defaultValue: 'pending'
+    },
   });
   Event.associate = (models) => {
     Event.belongsTo(models.User, {

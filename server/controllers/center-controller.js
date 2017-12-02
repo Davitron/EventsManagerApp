@@ -135,7 +135,7 @@ export default class CenterController {
             const facilityArr = req.body.facilities.split(',')
               .map(facility => facility.trim().toLowerCase())
               .filter(word => word !== ' ');
-
+            console.log(req.decoded.isAdmin);
             center.update({
               name: req.body.name || center.name,
               stateId: parseInt(req.body.stateId, 10) || center.stateId,
@@ -156,8 +156,9 @@ export default class CenterController {
               .catch(error => res.status(500).json({
                 errorMessage: error
               }));
+          } else {
+            return res.status(401).json({ message: 'You do not have admin priviledge' });
           }
-          return res.status(401).json({ message: 'You do not have admin priviledge' });
         })
         .catch((error) => { 
           res.status(500).json({ errorMessage: error });

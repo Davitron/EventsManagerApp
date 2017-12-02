@@ -31,14 +31,14 @@ npm test
 ```
 Possible API routes
 <ol>
-   <li>POST  `/events/` to create a new event </li>
-   <li>GET  `/events/` to get all events.</li>
-   <li>PUT  `/events/:eventId` to modify an event</li>
-   <li>DELETE  `/events/:eventId` to delete an event</li>
-   <li>GET `/events/:eventId` to get a single event</li>
-   <li>POST  `/centers/` to create a new center </li>
-   <li>GET  `/centers/` to get all centers.</li>
-   <li>PUT  `/centers/:centerId` to modify a center</li>
-   <li>DELETE  `/centers/:centerId` to delete a center</li>
-   <li>GET `/centers/:centerId` to get a single center</li>
+   <li>POST  `/api/v1/events/` to create a new event </li>
+   <li>GET  `/api/v1/events/` to get all events.</li>
+   <li>PUT  `/api/v1/events/:eventId` to modify an event</li>
+   <li>DELETE  `/api/v1/events/:eventId` to delete an event</li>
+   <li>GET `/api/v1/events/:eventId` to get a single event</li>
+   <li>POST  `/api/v1/centers/` to create a new center </li>
+   <li>GET  `/api/v1/centers/` to get all centers.</li>
+   <li>PUT  `/api/v1/centers/:centerId` to modify a center</li>
+   <li>DELETE  `/api/v1/centers/:centerId` to delete a center</li>
+   <li>GET `/api/v1/centers/:centerId` to get a single center</li>
 </ol>
