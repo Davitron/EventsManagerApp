@@ -2,10 +2,12 @@ import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import jwt from 'jsonwebtoken';
+import swaggerUi from 'swagger-ui-express';
 import dotenv from 'dotenv';
 import eventRoutes from './routes/event-route';
 import centerRoutes from './routes/center-route';
 import userRoutes from './routes/user-routes';
+import swaggerDoc from './doc/swagger.json';
 
 dotenv.config();
 
@@ -27,6 +29,7 @@ app.use('/api', (req, res) => {
   res.status(200).send('This is EventManager');
 });
 
+app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 app.get('/', (req, res) => {
   res.status(200).send('Hey There, welcome to Event Manager');

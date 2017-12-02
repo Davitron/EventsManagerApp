@@ -1,0 +1,384 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Events Manager",
+      "description": " API documetationn for an event management system"
+    },
+    "host": "localhost:8000",
+    "basePath": "/api/v1",
+    "schemes": [
+      "http"
+    ],
+    "paths": {
+      "/users/login": {
+        "post": {
+          "tags": ["User"],
+          "summary": "Authenticates a user",
+          "description": "Authenticates a new user by cross checking the database",
+          "parameters": [{
+            "name": "person",
+            "in": "body",
+            "description": "user to authenticate",
+            "schema": {
+              "$ref": "#/definitions/UserLogin"
+            }
+          }],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "500": {
+              "description": "Server Error"
+            }
+          }
+        }
+      },
+      "/users": {
+        "post": {
+          "tags": ["User"],
+          "summary": "Login a user",
+          "description": "Registers a user and stores it to the database.",
+          "parameters": [{
+            "name": "person",
+            "in": "body",
+            "description": "The user to Register.",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }],
+          "responses": {
+            "201": {
+              "description": "Created"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "500": {
+              "description": "Server Error"
+            }
+          }
+        }
+      },
+      "/events": {
+        "post": {
+          "tags": ["Events"],
+          "summary": "Creates a new event",
+          "description": "Creates a new events and stores it to the database.",
+          "parameters": [{
+            "name": "event",
+            "in": "body",
+            "description": "The event to create.",
+            "schema": {
+              "$ref": "#/definitions/Event"
+            }
+          }],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "500": {
+              "description": "Server Error"
+            }
+          }
+        }
+      },
+      "/events/{id}": {
+        "put": {
+          "tags": ["Events"],
+          "summary": "Update an event",
+          "description": "Update an existing event in the database.",
+          "parameters": [{
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "description": "The event to update.",
+            "schema": {
+              "$ref": "#/definitions/Event"
+            }
+          }],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "500": {
+              "description": "Server Error"
+            }
+          }
+        },
+        "delete": {
+          "tags": ["Events"],
+          "summary": "Delete an event",
+          "description": "Delete an existing event from the database.",
+          "parameters": [{
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "description": "The event to delete."
+          }],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "500": {
+              "description": "Server Error"
+            }
+          }
+        },
+        "get": {
+            "tags": ["Events"],
+            "summary": "Update an event",
+            "description": "Get an existing event in the database.",
+            "parameters": [{
+              "name": "id",
+              "in": "path",
+              "type": "integer",
+              "description": "The event to get."
+            }],
+            "responses": {
+              "200": {
+                "description": "OK"
+              },
+              "400": {
+                "description": "Bad Request"
+              },
+              "500": {
+                "description": "Server Error"
+              }
+            }
+        }
+      },
+      "/centers": {
+        "post": {
+          "tags": ["Centers"],
+          "summary": "Creates a center",
+          "description": "Creates a new center and stores to the database.",
+          "parameters": [{
+            "name": "center",
+            "in": "body",
+            "description": "The center to create.",
+            "schema": {
+              "$ref": "#/definitions/Center"
+            }
+          }],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "500": {
+              "description": "Server Error"
+            }
+          }
+        },
+        "get": {
+          "tags": ["Centers"],
+          "summary": "Gets all center",
+          "description": "gets all center and adds to the database.",
+          "parameters": [{
+            "name": "centers",
+            "in": "body",
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Center"
+            }
+          }],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "500": {
+              "description": "Server Error"
+            }
+          }
+        }
+      },
+      "centers/{id}": {
+        "get": {
+          "tags": ["Centers"],
+          "summary": "gets a single center",
+          "description": "gets a center and adds to the database.",
+          "parameters": [{
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "description": "The event to retrieve."
+          }],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "500": {
+              "description": "Server Error"
+            }
+          }
+        },
+        "put": {
+          "tags": ["Centers"],
+          "summary": "Modifies a center",
+          "description": "modifies a center and saves it to the database.",
+          "parameters": [{
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "description": "The center to update.",
+            "schema": {
+              "$ref": "#/definitions/Center"
+            }
+          }],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "500": {
+              "description": "Server Error"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "User": {
+        "required": [
+          "email",
+          "username",
+          "password",
+          "confirmPassword"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "confirmPassword": {
+            "type": "string"
+          },
+          "isAdmin": {
+            "type": "boolean"
+          }
+        }
+      },
+      "UserLogin": {
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "Event": {
+        "required": [
+          "name",
+          "location",
+          "startDate",
+          "days",
+          "centerId"
+        ],
+        "properties": {
+          "eventName": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "centerId": {
+            "type": "integer"
+          },
+          "startDate": {
+            "type": "string"
+          },
+          "days": {
+            "type": "integer"
+          },
+          "status": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "integer"
+          },
+          "updatedBy": {
+            "type": "integer"
+          },
+          "image": {
+            "type": "string"
+          }
+        }
+      },
+      "Center": {
+        "required": [
+          "name",
+          "stateId",
+          "address",
+          "facilities",
+          "hallCapacity",
+          "carParkCapacity",
+          "price"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "stateId": {
+            "type": "integer"
+          },
+          "address": {
+            "type": "integer"
+          },
+          "facilities": {
+            "type": "string"
+          },
+          "hallCapacity": {
+            "type": "integer"
+          },
+          "carParkCapacity": {
+            "type": "integer"
+          },
+          "createdBy": {
+            "type": "integer"
+          },
+          "updatedBy": {
+            "type": "integer"
+          },
+          "price": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
+  
