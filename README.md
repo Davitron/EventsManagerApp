@@ -29,6 +29,10 @@ To test, run:
 npm test
 
 ```
+For api documentation
+```
+`/docs`
+```
 Possible API routes
 <ol>
    <li>POST  `/api/v1/events/` to create a new event </li>
