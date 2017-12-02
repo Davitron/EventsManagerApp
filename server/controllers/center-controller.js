@@ -5,8 +5,9 @@ import model from '../models';
 const Centers = model.Center;
 const Events = model.Event;
 
+// compliance rules for user input
 const centerRules = {
-  name: 'required|string|min:3|max:20',
+  name: 'required|string|min:3|max:30',
   stateId: 'required|integer',
   address: 'required|string|min:10',
   hallCapacity: 'required|string',
@@ -27,7 +28,9 @@ export default class CenterController {
    */
   static create(req, res) {
     const validate = new validator(req.body, centerRules);
+    // check for validation compliance
     if (validate.passes()) {
+      // chaeck if center name already exist
       return Centers.findAll({
         where: {
           name: req.body.name
@@ -35,9 +38,10 @@ export default class CenterController {
       }).then((centers) => {
         if (centers.length > 0) {
           res.status(400).json({
-            message: 'Center already exist '
+            message: 'Center already exist ' // return this if  center name is taken
           });
         }
+        // check if useris an admin
         if (req.decoded.isAdmin === true) {
           const facilityArr = req.body.facilities.split(',')
             .map(facility => facility.trim().toLowerCase())
@@ -55,18 +59,19 @@ export default class CenterController {
             price: parseInt(req.body.price, 10)
           })
             .then(center => res.status(201).json({
-              message: 'New Center Is Created Successully',
+              message: 'New Center Is Created Successully', // return this if center creation is successful is successful
               [center]: center
             }))
             .catch(err => res.status(500).json({
-              message: 'Oops!, an error has occured',
+              message: 'Oops!, an error has occured', // return this if center creation is not successful
               error: err
             }));
         }
+        // return this if user is not an admin
         return res.status(401).json({ message: 'You do not have admin priviledge' });
       });
     }
-    res.status(400).json({ message: validate.errors });
+    res.status(400).json({ message: validate.errors }); // return this if validation compliancr fails
   }
 
   /**
@@ -76,15 +81,16 @@ export default class CenterController {
    * @returns {json} returns a list of all centers
    */
   static getAll(req, res) {
+    // to fetch all centers available in the database
     return Centers.findAll().then((centers) => {
       if (centers.length < 1) {
         res.status(200).json({
-          message: 'No Centers Available'
+          message: 'No Centers Available' // return this if centers table is empty
         });
       }
-      res.status(200).json(centers);
+      res.status(200).json(centers); // return all centers retrieved from the database
     }).catch(err => res.status(500).json({
-      message: 'Oops!, an error has occured',
+      message: 'Oops!, an error has occured', // return this if an error occurs
       error: err.name
     }));
   }
@@ -96,6 +102,7 @@ export default class CenterController {
    * @returns {json} returns a single center by id
    */
   static get(req, res) {
+    // fecth single center with id provided in the request include dwith events in that center
     return Centers.findOne({
       where: {
         id: req.params.centerId
@@ -107,12 +114,12 @@ export default class CenterController {
     }).then((center) => {
       if (!center) {
         return res.status(404).json({
-          message: 'Center Not Found',
+          message: 'Center Not Found', // return this when center is not present
         });
       }
-      return res.status(200).send(center);
+      return res.status(200).send(center); // return this if center is present
     })
-      .catch(error => res.status(500).send(error));
+      .catch(error => res.status(500).send(error)); 
   }
 
   /**
@@ -122,6 +129,7 @@ export default class CenterController {
    */
   static update(req, res) {
     const validate = new validator(req.body, centerRules);
+    // to check for validation conpliance
     if (validate.passes()) {
       return Centers.findById(req.params.centerId)
         .then((center) => {
@@ -131,7 +139,9 @@ export default class CenterController {
             });
           }
 
+          // check if user is admin
           if (req.decoded.isAdmin === true) {
+            // to convert facilities string to an array
             const facilityArr = req.body.facilities.split(',')
               .map(facility => facility.trim().toLowerCase())
               .filter(word => word !== ' ');
@@ -157,13 +167,15 @@ export default class CenterController {
                 errorMessage: error
               }));
           } else {
+            // to return this if user is not an admin
             return res.status(401).json({ message: 'You do not have admin priviledge' });
           }
         })
         .catch((error) => { 
-          res.status(500).json({ errorMessage: error });
+          res.status(500).json({ errorMessage: error }); 
         });
     }
+    // to return this if validation compliance fails
     res.status(400).json({ message: validate.errors });
   }
 
@@ -172,9 +184,10 @@ export default class CenterController {
    *
    * @param {*} req
    * @param {*} res
-   * @returns {json} returns message object
+   * @returns {json} returns message object id deletion is successful
    */
   static delete(req, res) {
+    // to check if user is an admin
     if (req.decoded.isAdmin === true ) {
       return Centers.findById(req.params.centerId)
         .then((center) => {
@@ -184,22 +197,11 @@ export default class CenterController {
             });
           }
           center.destroy()
+          // to return this center is deleted successfully
             .then(() => res.status(200).json({ message: 'Center is successfully  deleted' }))
             .catch(error => res.status(400).json(error));
         })
         .catch(error => res.status(400).json(error));
     }
   }
-
-  /**
-   *
-   */
-  // static getStates(req, res) {
-  //   return States.findAll().then((states) => {
-  //     res.status(200).json(states);
-  //   }).catch(err => res.status(500).json({
-  //     message: 'Oops!, an error has occured',
-  //     error: err.name
-  //   }));
-  // }
 }
