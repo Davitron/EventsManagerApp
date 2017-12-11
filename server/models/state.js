@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
   State.associate = (models) => {
     State.hasMany(models.Center, {
       foreignKey: 'stateId',
-      as: 'centers',
+      as: 'stateId',
     });
   };
   return State;

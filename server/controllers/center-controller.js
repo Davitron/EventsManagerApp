@@ -33,7 +33,9 @@ export default class CenterController {
       // chaeck if center name already exist
       return Centers.findAll({
         where: {
-          name: req.body.name
+          name: req.body.name,
+          stateId: req.body.stateId,
+          address: req.body.address
         }
       }).then((centers) => {
         if (centers.length > 0) {
@@ -59,7 +61,7 @@ export default class CenterController {
             price: parseInt(req.body.price, 10)
           })
             .then(center => res.status(201).json({
-              message: 'New Center Is Created Successully', // return this if center creation is successful is successful
+              message: 'New Center Is Created Successfully', // return this if center creation is successful is successful
               [center]: center
             }))
             .catch(err => res.status(500).json({
@@ -107,9 +109,19 @@ export default class CenterController {
       where: {
         id: req.params.centerId
       },
+      attributes: ['id', 'name', 'address', 'facilities', 'hallCapacity', 'carParkCapacity', 'price', 'createdBy'],
       include: [{
+        model: model.State,
+        required: true,
+        attributes: ['statName']
+      }, {
+        model: model.User,
+        required: true,
+        attributes: ['username']
+      }, {
         model: Events,
-        as: 'events'
+        as: 'events',
+        attributes: ['id', 'eventName', 'startDate', 'endDate']
       }]
     }).then((center) => {
       if (!center) {
@@ -119,7 +131,7 @@ export default class CenterController {
       }
       return res.status(200).send(center); // return this if center is present
     })
-      .catch(error => res.status(500).send(error)); 
+      .catch(error => res.status(500).send(error));
   }
 
   /**
@@ -145,7 +157,6 @@ export default class CenterController {
             const facilityArr = req.body.facilities.split(',')
               .map(facility => facility.trim().toLowerCase())
               .filter(word => word !== ' ');
-            console.log(req.decoded.isAdmin);
             center.update({
               name: req.body.name || center.name,
               stateId: parseInt(req.body.stateId, 10) || center.stateId,
@@ -172,7 +183,7 @@ export default class CenterController {
           }
         })
         .catch((error) => { 
-          res.status(500).json({ errorMessage: error }); 
+          res.status(500).json({ errorMessage: error });
         });
     }
     // to return this if validation compliance fails
