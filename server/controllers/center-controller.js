@@ -1,9 +1,10 @@
 import validator from 'validatorjs';
 import model from '../models';
-
+import centerService from '../services/center-service';
 
 const Centers = model.Center;
 const Events = model.Event;
+
 
 // compliance rules for user input
 const centerRules = {
@@ -14,6 +15,16 @@ const centerRules = {
   carParkCapacity: 'required|string',
   facilities: 'required|string',
   price: 'required|string',
+};
+
+const centerUpdateRules = {
+  name: 'string|min:3|max:30',
+  stateId: 'integer',
+  address: 'string|min:10',
+  hallCapacity: 'string',
+  carParkCapacity: 'string',
+  facilities: 'string',
+  price: 'string',
 };
 
 /**
@@ -38,42 +49,40 @@ export default class CenterController {
           address: req.body.address
         }
       }).then((centers) => {
+        // return this if  center name is taken
         if (centers.length > 0) {
-          res.status(400).json({
-            message: 'Center already exist ' // return this if  center name is taken
+          return res.status(400).json({
+            message: 'Center already exist',
+            statusCode: 400
           });
         }
         // check if useris an admin
         if (req.decoded.isAdmin === true) {
-          const facilityArr = req.body.facilities.split(',')
-            .map(facility => facility.trim().toLowerCase())
-            .filter(word => word !== ' ');
-          return Centers.create({
-            name: req.body.name,
-            stateId: parseInt(req.body.stateId, 10),
-            address: req.body.address,
-            hallCapacity: parseInt(req.body.hallCapacity, 10),
-            carParkCapacity: parseInt(req.body.carParkCapacity, 10),
-            facilities: facilityArr,
-            image: 'uhvhsiuvsivi',
-            createdBy: parseInt(req.decoded.id, 10),
-            updatedBy: parseInt(req.decoded.id, 10),
-            price: parseInt(req.body.price, 10)
-          })
-            .then(center => res.status(201).json({
-              message: 'New Center Is Created Successfully', // return this if center creation is successful is successful
-              [center]: center
-            }))
-            .catch(err => res.status(500).json({
-              message: 'Oops!, an error has occured', // return this if center creation is not successful
-              error: err
-            }));
+          return centerService.create(req)
+            .then((center) => {
+              // return this if center creation is successful is successful
+              const result = {
+                message: `${center.name} Is Created Successfully`,
+                statusCode: 201
+              };
+              res.status(result.statusCode).json(result);
+            })
+            .catch((err) => {
+              // return this if center creation is not successful
+              console.log(err);
+              const result = {
+                message: 'Oops!, Server Error',
+                statusCode: 500
+              };
+              res.status(result.statusCode).json(result);
+            });
         }
         // return this if user is not an admin
         return res.status(401).json({ message: 'You do not have admin priviledge' });
       });
     }
-    res.status(400).json({ message: validate.errors }); // return this if validation compliancr fails
+    // return this if validation compliancr fails
+    res.status(400).json({ message: validate.errors });
   }
 
   /**
@@ -84,7 +93,7 @@ export default class CenterController {
    */
   static getAll(req, res) {
     // to fetch all centers available in the database
-    return Centers.findAll().then((centers) => {
+    return centerService.getAll().then((centers) => {
       if (centers.length < 1) {
         res.status(200).json({
           message: 'No Centers Available' // return this if centers table is empty
@@ -105,32 +114,15 @@ export default class CenterController {
    */
   static get(req, res) {
     // fecth single center with id provided in the request include dwith events in that center
-    return Centers.findOne({
-      where: {
-        id: req.params.centerId
-      },
-      attributes: ['id', 'name', 'address', 'facilities', 'hallCapacity', 'carParkCapacity', 'price', 'createdBy'],
-      include: [{
-        model: model.State,
-        required: true,
-        attributes: ['statName']
-      }, {
-        model: model.User,
-        required: true,
-        attributes: ['username']
-      }, {
-        model: Events,
-        as: 'events',
-        attributes: ['id', 'eventName', 'startDate', 'endDate']
-      }]
-    }).then((center) => {
-      if (!center) {
-        return res.status(404).json({
-          message: 'Center Not Found', // return this when center is not present
-        });
-      }
-      return res.status(200).send(center); // return this if center is present
-    })
+    return centerService.getOne(req.params.centerId)
+      .then((center) => {
+        if (!center) {
+          return res.status(404).json({
+            message: 'Center Not Found', // return this when center is not present
+          });
+        }
+        return res.status(200).send(center); // return this if center is present
+      })
       .catch(error => res.status(500).send(error));
   }
 
@@ -140,54 +132,81 @@ export default class CenterController {
    * @returns {json} returns the updated center object
    */
   static update(req, res) {
-    const validate = new validator(req.body, centerRules);
-    // to check for validation conpliance
-    if (validate.passes()) {
-      return Centers.findById(req.params.centerId)
-        .then((center) => {
-          if (!center) {
-            return res.status(404).json({
-              message: 'Center does not exist',
-            });
-          }
-
-          // check if user is admin
-          if (req.decoded.isAdmin === true) {
-            // to convert facilities string to an array
-            const facilityArr = req.body.facilities.split(',')
-              .map(facility => facility.trim().toLowerCase())
-              .filter(word => word !== ' ');
-            center.update({
-              name: req.body.name || center.name,
-              stateId: parseInt(req.body.stateId, 10) || center.stateId,
-              address: req.body.address || center.address,
-              hallCapacity: parseInt(req.body.hallCapacity, 10) || center.hallCapacity,
-              carParkCapacity: parseInt(req.body.carParkCapacity, 10) || center.carParkCapacity,
-              facilities: facilityArr || center.facilities,
-              image: 'uhvhsiuvsivi' || center.image,
-              updatedBy: parseInt(req.decoded.id, 10) || center.updatedBy,
-              price: parseInt(req.body.price, 10) || center.price
-            })
+    const validate = new validator(req.body, centerUpdateRules);
+    if (req.decoded.isAdmin === true) {
+      if (validate.passes()) {
+        return Centers.findById(req.params.centerId)
+          .then((center) => {
+            if (!center) {
+              return res.status(404).json({
+                message: 'Center does not exist',
+                statusCode: 404
+              });
+            }
+            if (req.body.name) {
+              return centerService.checkNameAvalability(req)
+                .then((doesNotExist) => {
+                  console.log(!doesNotExist);
+                  if (doesNotExist) {
+                    res.status(400).json({
+                      message: 'Center with name and location already exist',
+                      statusCode: 400
+                    });
+                  } else {
+                    centerService.update(req, center)
+                      .then((modifiedCenter) => {
+                      // console.log(modifiedCenter);
+                        return res.status(200).json({
+                          message: 'Center Is Modified',
+                          center: modifiedCenter,
+                          statusCode: 200
+                        });
+                      })
+                      .catch((error) => {
+                        console.log(error);
+                        return res.status(500).json({
+                          message: 'Server Error',
+                          statusCode: 500
+                        });
+                      });
+                  }
+                })
+                .catch((error) => {
+                  console.log(error);
+                  return res.status(500).json({
+                    message: 'Server Error',
+                    statusCode: 500
+                  });
+                });
+            }
+            return centerService.update(req, center)
               .then((modifiedCenter) => {
+                // console.log(modifiedCenter);
                 return res.status(200).json({
                   message: 'Center Is Modified',
-                  center: modifiedCenter
+                  center: modifiedCenter,
+                  statusCode: 200
                 });
               })
-              .catch(error => res.status(500).json({
-                errorMessage: error
-              }));
-          } else {
-            // to return this if user is not an admin
-            return res.status(401).json({ message: 'You do not have admin priviledge' });
-          }
-        })
-        .catch((error) => { 
-          res.status(500).json({ errorMessage: error });
-        });
+              .catch((error) => {
+                console.log(error);
+                return res.status(500).json({
+                  message: 'Server Error',
+                  statusCode: 500
+                });
+              });
+          })
+          .catch((error) => {
+            console.log(error);
+            return res.status(500).json({
+              message: 'Server Error',
+              statusCode: 500
+            });
+          });
+      }
+    } else {
+      return res.status(401).json({ message: 'You do not have admin priviledge' });
     }
-    // to return this if validation compliance fails
-    res.status(400).json({ message: validate.errors });
   }
 
 
@@ -199,7 +218,7 @@ export default class CenterController {
    */
   static delete(req, res) {
     // to check if user is an admin
-    if (req.decoded.isAdmin === true ) {
+    if (req.decoded.isAdmin === true) {
       return Centers.findById(req.params.centerId)
         .then((center) => {
           if (!center) {
