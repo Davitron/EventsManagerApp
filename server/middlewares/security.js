@@ -20,7 +20,6 @@ export default class Security {
         if (err) {
           return res.status(403).json({ message: err });
         }
-        console.log(token);
         req.decoded = resolved;
         return next();
       });
@@ -28,4 +27,5 @@ export default class Security {
       return res.status(403).json({ message: 'No Token Was Provided' });
     }
   }
+
 }
