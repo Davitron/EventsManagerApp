@@ -1,6 +1,6 @@
 import validator from 'validatorjs';
 import model from '../models';
-import centerService from '../services/center-service';
+import CenterService from '../services/center-service';
 
 const Centers = model.Center;
 const Events = model.Event;
@@ -58,7 +58,7 @@ export default class CenterController {
         }
         // check if useris an admin
         if (req.decoded.isAdmin === true) {
-          return centerService.create(req)
+          return CenterService.create(req)
             .then((center) => {
               // return this if center creation is successful is successful
               const result = {
@@ -93,7 +93,7 @@ export default class CenterController {
    */
   static getAll(req, res) {
     // to fetch all centers available in the database
-    return centerService.getAll().then((centers) => {
+    return CenterService.getAll().then((centers) => {
       if (centers.length < 1) {
         res.status(200).json({
           message: 'No Centers Available' // return this if centers table is empty
@@ -114,7 +114,7 @@ export default class CenterController {
    */
   static get(req, res) {
     // fecth single center with id provided in the request include dwith events in that center
-    return centerService.getOne(req.params.centerId)
+    return CenterService.getOne(req.params.centerId)
       .then((center) => {
         if (!center) {
           return res.status(404).json({
@@ -144,7 +144,7 @@ export default class CenterController {
               });
             }
             if (req.body.name) {
-              return centerService.checkNameAvalability(req)
+              return CenterService.checkNameAvalability(req)
                 .then((doesNotExist) => {
                   console.log(!doesNotExist);
                   if (doesNotExist) {
@@ -153,7 +153,7 @@ export default class CenterController {
                       statusCode: 400
                     });
                   } else {
-                    centerService.update(req, center)
+                    CenterService.update(req, center)
                       .then((modifiedCenter) => {
                       // console.log(modifiedCenter);
                         return res.status(200).json({
@@ -179,7 +179,7 @@ export default class CenterController {
                   });
                 });
             }
-            return centerService.update(req, center)
+            return CenterService.update(req, center)
               .then((modifiedCenter) => {
                 // console.log(modifiedCenter);
                 return res.status(200).json({

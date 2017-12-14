@@ -1,6 +1,7 @@
 import validator from 'validatorjs';
 import moment from 'moment';
 import model from '../models';
+import EventService from '../services/event-service';
 
 const Events = model.Event;
 
@@ -12,12 +13,18 @@ const eventRules = {
   centerId: 'required|string'
 };
 
+const eventUpdateRules = {
+  eventName: 'string|min:3|max:20',
+  startDate: 'string',
+  days: 'string',
+  centerId: 'string'
+};
+
 
 /**
   *
   */
 export default class EventController {
-
   /**
    *
    *
@@ -29,48 +36,44 @@ export default class EventController {
     const validate = new validator(req.body, eventRules);
     // format user date input to sequelize date input
     const eventStartDate = new Date(req.body.startDate);
-    const eventEndDate = moment(eventStartDate).add(req.body.days, 'days').toDate();
+    const eventEndDate = moment(eventStartDate).add(req.body.days - 1, 'days').toDate();
     if (validate.passes()) {
       // check validation compliance of user input
-      Events.findOne({
-        // to checked if date is booked
-        where: {
-          centerId: req.body.centerId,
-          startDate: {
-            $gte: eventStartDate,
-            $lte: eventEndDate
-          },
-          endDate: {
-            $gte: eventStartDate,
-            $lte: eventEndDate,
-          }
-        }
-      }).then((event) => {
-        if (!event) {
-          Events.create({
-            eventName: req.body.eventName,
-            centerId: req.body.centerId,
-            startDate: eventStartDate,
-            days: req.body.days,
-            endDate: eventEndDate,
-            userId: req.decoded.id,
-            image: 'xfgxgdhxgdh',
-            status: req.body.status
-          }).then((createdEvent) => {
-            return res.status(201).send({
-              message: 'Event Created Successfully', // to return this if event is created successfully
-              newEvent: createdEvent
+      return EventService.checkDateAvailabity(req.body.centerId, eventStartDate, eventEndDate)
+        .then((event) => {
+          console.log(event);
+          if (event === null) {
+            EventService.create(req, eventStartDate, eventEndDate)
+              .then((createdEvent) => {
+                return res.status(201).send({
+                  message: `${createdEvent.eventName} event Created Successfully`, // to return this if event is created successfully
+                  statusCode: 201
+                });
+              }).catch((error) => {
+                console.log(error);
+                return res.status(500).json({
+                  message: 'Server Error',
+                  statusCode: 500
+                });
+              });
+          } else {
+            return res.status(400).json({
+              message: 'The selected date is booked',
+              statusCode: 400
             });
-          }).catch(err => res.status(500).send({ message: err }));
-        } else {
-          return res.status(400).json({ message: 'The selected date is booked' }); // to return this if date is booked
-        }
-      }).catch((err) => {
-        return res.status(500).send({ message: err });
-      });
-    } else {
-      return res.status(400).json({ message: validate.errors });
+          }
+        }).catch((error) => {
+          console.log(error);
+          return res.status(500).json({
+            message: 'Server Error',
+            statusCode: 500
+          });
+        });
     }
+    return res.status(400).json({
+      message: validate.errors,
+      statusCode: 400
+    });
   }
 
   /**
@@ -80,17 +83,25 @@ export default class EventController {
    * @returns {json} return all events
    */
   static getAll(req, res) {
-    return Events.findAll().then((events) => {
-      if (events.length < 1) {
-        res.status(200).json({
-          message: 'No Events Available'
+    return EventService.getAll(req)
+      .then((events) => {
+        if (events.length < 1) {
+          return res.status(404).json({
+            message: 'No Events Available',
+            statusCode: 404
+          });
+        }
+        return res.status(200).json({
+          allEvents: events,
+          statusCode: 200
         });
-      }
-      res.status(200).json({ allEvents: events });
-    }).catch(err => res.status(500).json({
-      message: 'Oops!, an error has occured',
-      error: err.name
-    }));
+      }).catch((error) => {
+        console.log(error);
+        res.status(500).json({
+          message: 'Server Error',
+          statusCode: 500
+        });
+      });
   }
 
   /**
@@ -119,39 +130,63 @@ export default class EventController {
   static update(req, res) {
     const validate = new validator(req.body, eventRules);
     const eventStartDate = new Date(req.body.startDate);
-    const eventEndDate = moment(eventStartDate).add(req.body.days, 'days').toDate();
-    // check validation compliance of user input
-    if (validate.passes()) {
-      Events.findOne({
-        where: {
-          id: req.params.eventId
-        }
-      }).then((event) => {
-        // check if this event was created by this user
-        if (req.decoded.id === event.userId) {
-          event.update({
-            eventName: req.body.eventName || event.eventName,
-            centerId: req.body.centerId || event.centerId,
-            startDate: eventStartDate || event.startDate,
-            days: req.body.days || event.days,
-            endDate: eventEndDate || event.endDate,
-            image: 'xfgxgdhxgdh' || event.image,
-            status: req.body.status || event.status
-          }).then((modifiedEvent) => {
-            res.status(200).json({
-              message: 'Event Updated Successfully', // to return this if user event is updated successfully
-              newEvent: modifiedEvent
+    const eventEndDate = moment(eventStartDate).add(req.body.days - 1, 'days').toDate();
+    const now = new Date();
+    if (eventStartDate < now) {
+      return res.status(400).json({
+        message: 'Date must be in the future',
+        statusCode: 400
+      });
+    }
+    if (validate.passes(req.body, eventUpdateRules)) {
+      EventService.get(req)
+        .then((event) => {
+          if (event === null) {
+            return res.status(404).json({
+              message: 'Event not found',
+              statusCode: 404
             });
-          }).catch((err) => {
-            console.log(err);
-            res.status(500).json({ message: err });
+          }
+          EventService.checkDateAvailabity(event.centerId, eventStartDate, eventEndDate)
+            .then((existingEvent) => {
+              if (existingEvent !== null) {
+                return res.status(404).json({
+                  message: 'The selected date is booked',
+                  statusCode: 400
+                });
+              }
+              EventService.update(event, req, eventStartDate, eventEndDate)
+                .then((modifiedEvent) => {
+                  console.log(modifiedEvent);
+                  return res.status(200).json({
+                    message: 'Event Updated Successfully', // to return this if user event is updated successfully
+                    statusCode: 200
+                  });
+                }).catch((error) => {
+                  console.log(error);
+                  return res.status(500).json({
+                    message: 'Server Error',
+                    statusCode: 500
+                  });
+                });
+            }).catch((error) => {
+              console.log(error);
+              return res.status(500).json({
+                message: 'Server Error',
+                statusCode: 500
+              });
+            });
+        }).catch((error) => {
+          console.log(error);
+          return res.status(500).json({
+            message: 'Server Error',
+            statusCode: 500
           });
-        } else {
-          return res.status(401).json({ message: 'Not Authorized' });
-        }
-      }).catch((err) => {
-        console.log(err);
-        res.status(500).json({ message: err });
+        });
+    } else {
+      return res.status(400).json({
+        message: validate.errors,
+        statusCode: 400
       });
     }
   }
@@ -163,7 +198,7 @@ export default class EventController {
    * @returns {json} returns message object if event is deleted successfully
    */
   static delete(req, res) {
-    return Events.findById(req.params.eventId)
+    return EventService.get(req)
       .then((event) => {
         if (!event) {
           return res.status(404).json({
@@ -171,8 +206,18 @@ export default class EventController {
           });
         }
         event.destroy()
-          .then(() => res.status(200).send({ message: 'Event is successfully  deleted' }))
-          .catch(error => res.status(400).json({ err: error }));
+          .then(() => {
+            return res.status(200).send({
+              message: 'Event is successfully  deleted',
+              statusCode: 200
+            });
+          }).catch((error) => {
+            console.log(error);
+            res.status(500).json({
+              error: 'Server Error',
+              statusCode: 500
+            });
+          });
       })
       .catch(error => res.status(400).json({ err: error }));
   }

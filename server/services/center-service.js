@@ -7,7 +7,7 @@ const Events = model.Event;
 /**
  *
  */
-export default class centerService {
+export default class CenterService {
   /**
    *
    * @param {*} req
