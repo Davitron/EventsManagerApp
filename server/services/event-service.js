@@ -1,0 +1,100 @@
+import Sequelize from 'sequelize';
+import model from '../models';
+
+const Centers = model.Center;
+const Events = model.Event;
+
+/**
+ *
+ */
+export default class EventService {
+  /**
+   *
+   * @param {*} eventCenterId
+   * @param {*} startDate
+   * @param {*} endDate
+   * @returns {*} object or null
+   */
+  static checkDateAvailabity(eventCenterId, startDate, endDate) {
+    const availableEvent = Events.findOne({
+      // to checked if date is booked
+      where: {
+        centerId: eventCenterId,
+        [Sequelize.Op.or]: {
+          startDate: {
+            [Sequelize.Op.between]: [startDate, endDate]
+          },
+          endDate: {
+            [Sequelize.Op.between]: [startDate, endDate]
+          }
+        }
+      }
+    });
+    return availableEvent;
+  }
+
+  /**
+   *
+   * @param {*} req
+   * @param {*} startDate
+   * @param {*} endDate
+   * @returns {json} returns event object when created
+   */
+  static create(req, startDate, endDate) {
+    return Events.create({
+      eventName: req.body.eventName,
+      centerId: req.body.centerId,
+      startDate,
+      days: req.body.days,
+      endDate,
+      userId: req.decoded.id,
+      image: 'xfgxgdhxgdh',
+      status: req.body.status
+    });
+  }
+
+  /**
+ * fetches all events created by user
+ * @param {*} req
+ * @returns {json} an array of events
+ *
+ */
+  static getAll(req) {
+    return Events.findAll({
+      where: {
+        userId: req.decoded.id
+      }
+    });
+  }
+
+  /**
+   *
+   * @param {*} req
+   * @returns {json} returns an event
+   */
+  static get(req) {
+    return Events.findOne({
+      where: {
+        id: req.params.eventId,
+        userId: req.decoded.id
+      }
+    });
+  }
+
+  /**
+   * 
+   * @param {*} event
+   * @param {*} req
+   */
+  static update(event, req, eventStartDate, eventEndDate) {
+    return event.update({
+      eventName: req.body.eventName || event.eventName,
+      centerId: req.body.centerId || event.centerId,
+      startDate: eventStartDate || event.startDate,
+      days: req.body.days || event.days,
+      endDate: eventEndDate || event.endDate,
+      image: 'xfgxgdhxgdh' || event.image,
+      status: req.body.status || event.status
+    });
+  }
+}
