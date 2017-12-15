@@ -11,7 +11,7 @@ addons:
 services:
 - postgresql
 before_script:
-- psql -c 'create database eventManager-DTO;' -U postgres
+- psql -c 'create database eventManagerDTO;' -U postgres
 script:
 - npm test
 - npm run coverage
