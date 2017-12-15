@@ -37,6 +37,13 @@ export default class EventController {
     // format user date input to sequelize date input
     const eventStartDate = new Date(req.body.startDate);
     const eventEndDate = moment(eventStartDate).add(req.body.days - 1, 'days').toDate();
+    const now = new Date();
+    if (eventStartDate < now) {
+      return res.status(400).json({
+        message: 'Date must be in the future',
+        statusCode: 400
+      });
+    }
     if (validate.passes()) {
       // check validation compliance of user input
       return EventService.checkDateAvailabity(req.body.centerId, eventStartDate, eventEndDate)
@@ -45,8 +52,10 @@ export default class EventController {
           if (event === null) {
             EventService.create(req, eventStartDate, eventEndDate)
               .then((createdEvent) => {
+                // to return this if event is created successfully
                 return res.status(201).send({
-                  message: `${createdEvent.eventName} event Created Successfully`, // to return this if event is created successfully
+                  message: `${createdEvent.eventName} event Created Successfully`,
+                  eventId: createdEvent.id,
                   statusCode: 201
                 });
               }).catch((error) => {

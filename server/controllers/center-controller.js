@@ -58,14 +58,15 @@ export default class CenterController {
         }
         // check if useris an admin
         if (req.decoded.isAdmin === true) {
-          return CenterService.create(req)
+          CenterService.create(req)
             .then((center) => {
               // return this if center creation is successful is successful
               const result = {
                 message: `${center.name} Is Created Successfully`,
+                centerId: center.id,
                 statusCode: 201
               };
-              res.status(result.statusCode).json(result);
+              return res.status(result.statusCode).json(result);
             })
             .catch((err) => {
               // return this if center creation is not successful
@@ -74,11 +75,12 @@ export default class CenterController {
                 message: 'Oops!, Server Error',
                 statusCode: 500
               };
-              res.status(result.statusCode).json(result);
+              return res.status(result.statusCode).json(result);
             });
+        } else {
+          // return this if user is not an admin
+          return res.status(401).json({ message: 'You do not have admin priviledge' });
         }
-        // return this if user is not an admin
-        return res.status(401).json({ message: 'You do not have admin priviledge' });
       });
     }
     // return this if validation compliancr fails
