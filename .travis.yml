@@ -2,8 +2,10 @@ language: node_js
 node_js:
 - "stable"
 env:
-# global:
-#   - export NODE_ENV=development
+global:
+  - export NODE_ENV=test
+addons:
+  postgresql: "9.4"
 services:
   - postgresql
 before_script:
