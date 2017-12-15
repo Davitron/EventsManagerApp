@@ -2,14 +2,16 @@ language: node_js
 node_js:
 - "stable"
 env:
-global:
-  - export NODE_ENV=test
+- NODE_ENV=test
+cache:
+ directories:
+ - node_modules
 addons:
-  postgresql: "9.4"
+- postgresql: "9.4"
 services:
-  - postgresql
+- postgresql
 before_script:
-  - psql -c 'create database travis_ci_test;' -U postgres
+- psql -c 'create database travis_ci_test;' -U postgres
 script:
 - npm test
 - npm run coverage
