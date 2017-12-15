@@ -13,7 +13,7 @@ services:
 before_script:
 - psql -c 'create database test;' -U postgres
 - npm install
-- sequelize db:migrate && sequelize db:seed
+- sequelize db:migrate && sequelize db:seed:all
 script:
 - npm test
 - npm run coverage
