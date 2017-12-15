@@ -260,7 +260,7 @@ describe('Testing Api endpoints for centers', () => {
         .post('/api/v1/centers/')
         .set('x-access-token', notAdminToken)
         .send({
-          name: 'The power house',
+          name: 'The power spot',
           stateId: 1,
           address: '7, xyz avenue, ikaja',
           hallCapacity: '600',
@@ -269,6 +269,7 @@ describe('Testing Api endpoints for centers', () => {
           price: '1200000'
         })
         .end((err, res) => {
+          console.log(res.body);
           res.should.have.status(401);
           res.body.should.be.an('object');
           res.body.should.have.property('message').eql('You do not have admin priviledge');
@@ -281,7 +282,7 @@ describe('Testing Api endpoints for centers', () => {
         .post('/api/v1/centers/')
         .set('x-access-token', token)
         .send({
-          name: 'The power house',
+          name: 'The power spot',
           stateId: 1,
           address: '7, xyz avenue, ikaja',
           hallCapacity: '600',
@@ -293,13 +294,12 @@ describe('Testing Api endpoints for centers', () => {
           centerID = res.body.centerId;
           res.should.have.status(201);
           res.body.should.be.an('object');
-          res.body.should.have.property('message').eql('The power house Is Created Successfully');
+          res.body.should.have.property('message').eql('The power spot Is Created Successfully');
           res.body.should.have.property('centerId');
           res.body.should.have.property('statusCode');
           done();
         });
     });
-
   });
 
   describe('GET /api/v1/centers', () => {
@@ -336,7 +336,7 @@ describe('Testing Api endpoints for centers', () => {
         .put(`/api/v1/centers/${centerID}/`)
         .set('x-access-token', token)
         .send({
-          name: 'The power spot',
+          name: 'The power space',
           stateId: 1,
           address: '7, abc avenue, ikeja',
           hallCapacity: '600',
@@ -378,15 +378,5 @@ describe('Testing Api endpoints for centers', () => {
           done();
         });
     });
-  });
-
-
-  after((done) => {
-    Centers.destroy({
-      where: {
-        name: 'The power house'
-      }
-    });
-    done();
   });
 });
