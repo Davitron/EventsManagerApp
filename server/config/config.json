@@ -2,12 +2,15 @@
   "development": {
     "username": "postgres",
     "password": "postgres",
-    "database": "eventManagerDTO",
+    "database": "eventManager-DTO",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
-    "use_env_variable": "postgres://gkrfnvnl:FGQEywQpbxk9wbvnayLqjL3r3ptPLRQ9@baasu.db.elephantsql.com:5432/gkrfnvnl",
+    "username": "postgres",
+    "password": "postgres",
+    "database": "test",
+    "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "production": {
