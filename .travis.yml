@@ -2,7 +2,7 @@ language: node_js
 node_js:
 - "stable"
 env:
-- DB=postgres://postgres@localhost/test
+- NODE_ENV=test
 cache:
  directories:
  - node_modules
