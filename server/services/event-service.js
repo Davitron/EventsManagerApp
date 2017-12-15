@@ -83,10 +83,13 @@ export default class EventService {
   }
 
   /**
-   * 
-   * @param {*} event
-   * @param {*} req
-   */
+ *
+ * @param {*} event
+ * @param {*} req
+ * @param {*} eventStartDate
+ * @param {*} eventEndDate
+ * @returns {json} returns updatedEvent
+ */
   static update(event, req, eventStartDate, eventEndDate) {
     let newStatus;
     if (req.body.status === undefined) {
