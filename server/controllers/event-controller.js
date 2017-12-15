@@ -95,9 +95,9 @@ export default class EventController {
     return EventService.getAll(req)
       .then((events) => {
         if (events.length < 1) {
-          return res.status(404).json({
+          return res.status(200).json({
             message: 'No Events Available',
-            statusCode: 404
+            statusCode: 200
           });
         }
         return res.status(200).json({

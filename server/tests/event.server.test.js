@@ -4,6 +4,7 @@ import app from '../server';
 import model from '../models';
 
 const Events = model.Event;
+const Centers = model.Center;
 
 const should = chai.should();
 
@@ -12,6 +13,7 @@ chai.use(chaiHttp);
 
 let token;
 let eventID;
+let centerID;
 
 describe('Test API', () => {
   describe('GET /', () => {
@@ -57,6 +59,31 @@ describe('Test API', () => {
           done();
         });
     });
+
+    it('Should return HTTP 201 with response object', (done) => {
+      chai.request(app)
+        .post('/api/v1/centers/')
+        .set('x-access-token', token)
+        .send({
+          name: 'Mock Center',
+          stateId: 1,
+          address: '7, xyz avenue, ikaja',
+          hallCapacity: '600',
+          carParkCapacity: '200',
+          facilities: 'swimming pool, projectors, cctv, vip lounges',
+          price: '1200000'
+        })
+        .end((err, res) => {
+          centerID = res.body.centerId;
+          res.should.have.status(201);
+          res.body.should.be.an('object');
+          res.body.should.have.property('message').eql('Mock Center Is Created Successfully');
+          res.body.should.have.property('centerId');
+          res.body.should.have.property('statusCode');
+          done();
+        });
+    });
+
     describe('POST /api/v1/events', () => {
       // Testing for creating an event
       // ======INVALID REQUEST ===== //
@@ -189,14 +216,14 @@ describe('Test API', () => {
           .post('/api/v1/events')
           .set('x-access-token', token)
           .send({
-            centerId: '4',
+            centerId: centerID,
             eventName: 'The Wedding',
             startDate: '1909-11-12',
             days: '4',
           })
           .end((err, res) => {
             eventID = res.body.eventId;
-            console.log(eventID);
+            console.log(centerID);
             res.should.have.status(400);
             res.body.should.be.an('object');
             res.body.should.have.property('message').eql('Date must be in the future');
@@ -211,14 +238,14 @@ describe('Test API', () => {
           .post('/api/v1/events')
           .set('x-access-token', token)
           .send({
-            centerId: '4',
+            centerId: centerID.toString(),
             eventName: 'The Wedding',
             startDate: '2040-11-12',
             days: '4',
           })
           .end((err, res) => {
             eventID = res.body.eventId;
-            console.log(eventID);
+            console.log(res.body.message.errors);
             res.should.have.status(201);
             res.body.should.be.an('object');
             res.body.should.have.property('message');
@@ -232,9 +259,9 @@ describe('Test API', () => {
           .post('/api/v1/events')
           .set('x-access-token', token)
           .send({
-            centerId: '4',
+            centerId: centerID.toString(),
             eventName: 'The Wedding',
-            startDate: '2040-12-12',
+            startDate: '2040-11-11',
             days: '4',
           })
           .end((err, res) => {
@@ -291,7 +318,7 @@ describe('PUT /api/v1/events/:id', () => {
       .put(`/api/v1/events/${-1}`)
       .set('x-access-token', token)
       .send({
-        centerId: '3',
+        centerId: centerID.toString(),
         eventName: 'My Wedding',
         startDate: '2040-12-12',
         days: '4'
@@ -310,7 +337,7 @@ describe('PUT /api/v1/events/:id', () => {
       .put(`/api/v1/events/${eventID}`)
       .set('x-access-token', token)
       .send({
-        centerId: '4',
+        centerId: centerID.toString(),
         eventName: 'My Wedding',
         startDate: '2040-12-12',
         days: '4'
@@ -321,14 +348,6 @@ describe('PUT /api/v1/events/:id', () => {
         done();
       });
   });
-  // after((done) => {
-  //   Events.destroy({
-  //     where: {
-  //       eventName: 'The Wedding'
-  //     }
-  //   });
-  //   done();
-  // });
 });
 
 describe('DELETE /api/v1/events/:id', () => {
@@ -355,5 +374,13 @@ describe('DELETE /api/v1/events/:id', () => {
         res.body.should.have.property('message').eql('Event is successfully  deleted');
         done();
       });
+  });
+  after((done) => {
+    Centers.destroy({
+      where: {
+        name: 'Mock Center'
+      }
+    });
+    done();
   });
 });

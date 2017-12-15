@@ -89,7 +89,7 @@ export default class EventService {
    */
   static update(event, req, eventStartDate, eventEndDate) {
     let newStatus;
-    if(req.body.status === undefined) {
+    if (req.body.status === undefined) {
       newStatus = event.status;
     } else {
       newStatus = req.body.status;
