@@ -77,7 +77,8 @@ export default class EventService {
       where: {
         id: req.params.eventId,
         userId: req.decoded.id
-      }
+      },
+      attributes: ['id', 'eventName', 'startDate', 'endDate', 'status']
     });
   }
 
@@ -87,6 +88,13 @@ export default class EventService {
    * @param {*} req
    */
   static update(event, req, eventStartDate, eventEndDate) {
+    let newStatus;
+    if(req.body.status === undefined) {
+      newStatus = event.status;
+    } else {
+      newStatus = req.body.status;
+    }
+    console.log(req.body.status);
     return event.update({
       eventName: req.body.eventName || event.eventName,
       centerId: req.body.centerId || event.centerId,
@@ -94,7 +102,7 @@ export default class EventService {
       days: req.body.days || event.days,
       endDate: eventEndDate || event.endDate,
       image: 'xfgxgdhxgdh' || event.image,
-      status: req.body.status || event.status
+      status: newStatus
     });
   }
 }

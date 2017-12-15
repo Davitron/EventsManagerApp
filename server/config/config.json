@@ -9,7 +9,7 @@
   "test": {
     "username": "postgres",
     "password": "postgres",
-    "database": "eventManager-dev-test",
+    "database": "eventmanager-testdb",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },

@@ -71,7 +71,7 @@ export default class CenterService {
       }, {
         model: Events,
         as: 'events',
-        attributes: ['id', 'eventName', 'startDate', 'endDate']
+        attributes: ['id', 'eventName', 'startDate', 'endDate', 'status']
       }]
     });
   }

@@ -48,7 +48,7 @@ export default class UserController {
             message: 'User with mail already exists' // to return this if user exists
           });
         } else if (req.body.password !== req.body.confirmPassword) {
-          return res.status(403).json({ message: 'Passwords do not match' });
+          return res.status(400).json({ message: 'Passwords do not match' });
         } else {
           const newPassword = bcrypt.hashSync(req.body.password, 10); // hash password
           return Users.create({
