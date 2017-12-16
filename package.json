@@ -4,7 +4,6 @@
   "description": "An Event Management Application for event centers and  event booking.",
   "main": "index.js",
   "scripts": {
-    "prestart": "sequelize db:migrate && sequelize db:seed",
     "test": " nyc --reporter=html --reporter=text mocha ./server/tests/* --exit --require babel-register --reporter spec",
     "babel-node": "babel-node --preset=es2015",
     "start": "nodemon --exec npm run babel-node -- ./server/server.js",
