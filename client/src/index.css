@@ -1,0 +1,13 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  height: 100%;
+}
+
+.header {
+  background-color: #26a69a !important;
+  color: white;
+  position: relative;
+  z-index: 2;
+}
