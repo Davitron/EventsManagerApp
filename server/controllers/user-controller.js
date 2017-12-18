@@ -76,7 +76,7 @@ export default class UserController {
                 message: 'User registration successfull. An email has been sent for verification',
                 userDetails: user
               });
-            } 
+            }
           }).catch(err => res.status(500).json({ message: 'Oops!, an error has occured', error: err }));
         }
       }).catch(err => res.status(500).json({ message: 'Oops!, an error has occured', error: err }));
