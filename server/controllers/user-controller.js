@@ -34,6 +34,7 @@ export default class UserController {
    * @return {json} returns ststus and message
    */
   static create(req, res) {
+    console.log(req.body);
     const validate = new validator(req.body, newUserRules);
     // check for user input compliance
     if (validate.passes()) {
@@ -70,16 +71,20 @@ export default class UserController {
             };
             const mailer = new Mailer();
             if (mailer.isMailSent(mailBody)) {
-              res.status(500).json({ message: 'Oops!, an error has occured' });
+              res.status(500).json({ 
+                message: 'Oops!, an error has occured',
+                statusCode: 500
+              });
             } else {
               res.status(201).json({
                 message: 'User registration successfull. An email has been sent for verification',
-                userDetails: user
+                userDetails: user,
+                statusCode: 201
               });
             }
-          }).catch(err => res.status(500).json({ message: 'Oops!, an error has occured', error: err }));
+          }).catch(err => res.status(500).json({ message: 'Oops!, an error has occured', error: err, statusCode: 500 }));
         }
-      }).catch(err => res.status(500).json({ message: 'Oops!, an error has occured', error: err }));
+      }).catch(err => res.status(500).json({ message: 'Oops!, an error has occured', error: err, statusCode: 500 }));
     }
     return res.status(400).json({ message: validate.errors }); // to record this if validation fails
   }
