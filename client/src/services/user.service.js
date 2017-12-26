@@ -13,7 +13,6 @@ class UserService {
    */
   static createUser(newUser) {
     return axios.post(`${baseUrl}/users`, newUser);
-  
   }
 
   /**

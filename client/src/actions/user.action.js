@@ -1,6 +1,10 @@
+import Cookies from 'universal-cookie';
 import userActionsType from './actionTypes/userAtionType';
 import UserService from '../services/user.service';
 import history from '../helpers/history';
+
+const cookies = new Cookies();
+
 /**
  *
  */
@@ -16,8 +20,8 @@ export default class UserActions {
       const requestAction = { type: userActionsType.SIGNUP_REQUEST, user };
       return requestAction;
     };
-    const success = (user) => {
-      const successAction = { type: userActionsType.SIGNUP_SUCCESS, user };
+    const success = (message) => {
+      const successAction = { type: userActionsType.SIGNUP_SUCCESS, message };
       return successAction;
     };
     const failure = (error) => {
@@ -30,13 +34,12 @@ export default class UserActions {
 
       UserService.createUser(newUser)
         .then((result) => {
-          dispatch(success(newUser));
+          dispatch(success(result.data.message));
           history.push('/users/verify');
-          document.location.href = '/users/verify';
-          console.log(result);
         })
         .catch((error) => {
-          dispatch(failure(error));
+          console.log(error.response);
+          dispatch(failure(error.response.data));
         });
     };
   }
@@ -66,14 +69,15 @@ export default class UserActions {
 
       UserService.authenticateUser(thisUser)
         .then((result) => {
-          dispatch(success(thisUser));
+          dispatch(success(result.data.userDetails));
+          cookies.set('jwt-events-manager', result.data.Token, { path: '/' });
           history.push('/');
-          console.log(result);
+          // console.log(result);
         })
         .catch((error) => {
-          dispatch(failure(error));
+          dispatch(failure(error.response));
         });
-    }
+    };
   }
 
   /**

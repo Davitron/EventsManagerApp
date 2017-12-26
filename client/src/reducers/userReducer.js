@@ -20,19 +20,20 @@ export default class UserReducer {
         newState.creating = true;
         newState.created = false;
         newState.failed = false;
-        console.log(`${userActionType.SIGNUP_REQUEST} ${newState}`);
+        newState.user = null;
         return newState;
       case userActionType.SIGNUP_SUCCESS:
         newState.creating = false;
         newState.created = true;
         newState.failed = false;
-        console.log(`${userActionType.SIGNUP_SUCCESS} ${newState}`);
+        newState.user = action.message;
         return newState;
       case userActionType.SIGNUP_FAILURE:
         newState.creating = false;
         newState.created = false;
         newState.failed = true;
-        console.log(`${userActionType.SIGNUP_FAILURE} ${newState}`);
+        newState.message = null;
+        newState.error = action.error.message;
         return newState;
       default:
         return state;
@@ -54,19 +55,23 @@ export default class UserReducer {
         newState.authenticating = true;
         newState.authenticated = false;
         newState.failed = false;
-        console.log(`${userActionType.SIGNIN_REQUEST} ${newState}`);
+        newState.user = null;
+        console.log(`${userActionType.SIGNIN_REQUEST} ${JSON.stringify(newState)}`);
         return newState;
       case userActionType.SIGNIN_SUCCESS:
         newState.authenticating = false;
         newState.authenticated = true;
         newState.failed = false;
-        console.log(`${userActionType.SIGNIN_SUCCESS} ${newState}`);
+        newState.user = action.user;
+        console.log(`${userActionType.SIGNIN_SUCCESS} ${JSON.stringify(newState)}`);
         return newState;
       case userActionType.SIGNIN_FAILURE:
         newState.authenticating = false;
         newState.authenticated = false;
         newState.failed = true;
-        console.log(`${userActionType.SIGNIN_FAILURE} ${newState}`);
+        newState.user = null;
+        newState.error = action.error.data.message;
+        console.log(`${userActionType.SIGNIN_FAILURE} ${JSON.stringify(newState)}`);
         return newState;
       default:
         return state;
