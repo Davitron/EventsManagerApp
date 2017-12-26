@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import AlertContainer from 'react-alert';
 import { bindActionCreators } from 'redux';
+import Loader from '../../Loader/Loader';
 import UserActions from '../../../../actions/user.action';
 import '../../../../App.css';
 
@@ -57,19 +59,50 @@ class SignIn extends Component {
     // const { dispatch } = this.props;
     this.props.dispatch(userActions.signin(this.state.user));
   }
+
+  alertOptions = {
+    offset: 14,
+    position: 'top center',
+    theme: 'dark',
+    time: 5000,
+    transition: 'scale'
+  }
+
+  showAlert = () => {
+    const { stateProps } = this.props;
+    let message;
+    if (stateProps.error.errors) {
+      message = Object.values(stateProps.error.errors).join(' ');
+    } else {
+      message = stateProps.error;
+    }
+    this.msg.show(message, {
+      time: 5000,
+      type: 'error',
+      icon: <i className='material-icons'>cancel</i>,
+      onClose: () => { stateProps.error = null; }
+    });
+  }
+
   /**
    *@returns {*} view htmlFor langing page
    */
   render() {
     const { user } = this.state;
+    const { stateProps } = this.props;
     return (
       <main className='signup'>
+        {!stateProps.error ? '' : this.showAlert()}
         <center>
           <div className='section'></div>
           <h3 className='white-text'><b>Login</b></h3>
           <div className='container'>
+          {stateProps.error !== null &&
+            <AlertContainer ref={a => this.msg = a} {...this.alertOptions} />
+          }
             <form name='singInForm' onSubmit={this.onSubmit}>
               <div className={['z-depth-1', 'grey', 'lighten-4', 'row', 'App-signup', 'animated', 'bounceInRight'].join(' ')} >
+              {stateProps.authenticating === true && <Loader />}
                 <div className={['col', 's12'].join(' ')}>
                   <div className='row'>
                     <div className={['col', 's12'].join(' ')}>
@@ -93,7 +126,8 @@ class SignIn extends Component {
                   <br />
                   <center>
                     <div className='row'>
-                      <button className={['col', 's12', 'btn', 'btn-large', 'waves-effect'].join(' ')} onClick={this.onSubmit}>Login</button>
+                      <button className={['col', 's12', 'btn', 'btn-large', 'waves-effect'].join(' ')}
+                      disabled={user.email.length <= 0 || user.password.length <= 6} onClick={this.onSubmit}>Login</button>
                     </div>
                     <div className='row'>
                       <Link to='/signup' className={['col', 's12', 'btn', 'btn-large', 'waves-effect', 'red'].join(' ')}>Create an account</Link>
@@ -112,7 +146,7 @@ class SignIn extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    user: state.userAuthentication
+    stateProps: state.userSignIn
   };
 };
 

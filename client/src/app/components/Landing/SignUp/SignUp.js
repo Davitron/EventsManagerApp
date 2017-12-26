@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import AlertContainer from 'react-alert';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import Loader from '../../Loader/Loader';
 import UserActions from '../../../../actions/user.action';
 import '../../../../App.css';
 
@@ -21,10 +22,8 @@ class SignUp extends Component {
         username: '',
         password: '',
         confirmPassword: ''
-      },
-      submitted: false
+      }
     };
-
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -43,10 +42,6 @@ class SignUp extends Component {
         [name]: value
       }
     });
-
-
-    this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
   }
 
   /**
@@ -59,27 +54,54 @@ class SignUp extends Component {
     const userActions = new UserActions();
     event.preventDefault();
 
-    this.setState({ submitted: true });
     // const { user } = this.state;
     // const { dispatch } = this.props;
     this.props.dispatch(userActions.signUp(this.state.user));
   }
 
+  alertOptions = {
+    offset: 14,
+    position: 'top center',
+    theme: 'dark',
+    time: 5000,
+    transition: 'scale'
+  }
+
+  showAlert = () => {
+    const { stateProps } = this.props;
+    let message;
+    if (stateProps.error.errors) {
+      message = Object.values(stateProps.error.errors).join('\n');
+    } else {
+      message = stateProps.error;
+    }
+    this.msg.show(message, {
+      time: 5000,
+      type: 'error',
+      icon: <i className='material-icons'>cancel</i>,
+      onClose: () => { stateProps.error = null; }
+    });
+  }
 
   /**
    *@returns {*} view htmlFor langing page
    */
   render() {
-    const { registering } = this.props;
-    const { user, submitted } = this.state;
+    const { user } = this.state;
+    const { stateProps } = this.props;
     return (
-        <main className='signup'>
+      <main className='signup'>
+        {!stateProps.error ? '' : this.showAlert()}
         <center>
           <div className='section'></div>
           <h3 className='white-text'><b>REGISTER</b></h3>
           <div className='container'>
+          {stateProps.error !== null &&
+            <AlertContainer ref={a => this.msg = a} {...this.alertOptions} />
+          }
             <form name='signUpForm' onSubmit={this.onSubmit}>
               <div className={['z-depth-1', 'grey', 'lighten-4', 'row', 'App-signup', 'animated', 'bounceInRight'].join(' ')} >
+                {stateProps.creating === true && <Loader />}
                 <div className={['col', 's12'].join(' ')}>
                   <div className='row'>
                     <div className={['col', 's12'].join(' ')}>
@@ -110,11 +132,15 @@ class SignUp extends Component {
                   <br />
                   <center>
                     <div className='row'>
-                      <button type='submit' className={['col', 's12', 'btn', 'btn-large', 'waves-effect'].join(' ')}>Create Account</button>
+                      <button type='submit' 
+                      disabled={user.email.length <= 0 || user.password.length <= 6
+                      || user.username.length < 3 || user.confirmPassword !== user.password}
+                      className={['col', 's12', 'btn', 'btn-large', 'waves-effect'].join(' ')}>Create Account</button>
                     </div>
                     <div className='row'>
                       <Link className={['col', 's12', 'btn', 'btn-large', 'waves-effect', 'red'].join(' ')} to='/signin'>Already a User?</Link>
                     </div>
+                    
                   </center>
                 </div>
               </div>
@@ -130,7 +156,7 @@ class SignUp extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.userCreation
+    stateProps: state.userSignUp
   };
 };
 

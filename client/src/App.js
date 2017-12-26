@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Landing from './app/components/Landing/Landing';
+import history from './helpers/history';
 import './App.css';
 
 /**
@@ -23,7 +24,6 @@ class App extends Component {
       //     To get started, edit <code>src/App.js</code> and save to reload.
       //   </p>
       // </div>
-      
     );
   }
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'react-materialize';
 import '../../../../App.css';
 
@@ -21,8 +22,8 @@ class Home extends Component {
           </h3>
         </Row>
         <Row className='center'>
-          <Button waves='light' large={true} className={['animated', 'bounceInLeft'].join(' ')}>SignIn</Button>
-          <Button waves='light' large={true} className={['red', 'animated', 'bounceInRight'].join(' ')}>SignUp</Button>
+          <Link to='/signin' className={['btn', 'btn-large', 'waves-effect'].join(' ')}>SignIn</Link>
+          <Link to='/signup' className={['btn', 'btn-large', 'waves-effect', 'red'].join(' ')}>SignUp</Link>
         </Row>
         <Row className='center'>
           <Button waves='light' large={true} className={['orange', 'animated', 'bounceInUp'].join(' ')}>View Upcoming Events</Button>

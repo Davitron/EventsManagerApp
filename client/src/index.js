@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';  
-import { createStore, applyMiddleware } from 'redux';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { Router, Route, Switch } from 'react-router';
 import reduxThunk from 'redux-thunk';
 import './index.css';
 import configureStore from './store/configureStore';
@@ -17,25 +16,27 @@ import VerifyEmail from './app/components/Landing/VerifyEmail/VerifyEmail';
 import history from './helpers/history';
 import registerServiceWorker from './registerServiceWorker';
 
-const store = configureStore();
+const store = configureStore;
 
 ReactDOM.render(
     <Provider store={store}>
         <Header />
     </Provider>,
-    document.getElementById('header'));
+    document.getElementById('header')
+);
+
 ReactDOM.render(
     <Provider store={store}>
-        <BrowserRouter history={history}>
+        <Router history={history}>
             <Route path='/' component={App}/>
-        </BrowserRouter>
+        </Router>
     </Provider>,
     document.getElementById('root')
 );
 
 ReactDOM.render(
     <Provider store={store}>
-        <BrowserRouter history={history}>
+        <Router history={history}>
             <Switch>
                 <Route exact path='/' component={Home}/>
                 <Route exact path='/SignIn' component={SignIn}/>
@@ -43,7 +44,7 @@ ReactDOM.render(
                 <Route exact path='/ForgotPassword' component={ForgotPassword}/>
                 <Route exact path='/Users/Verify' component={VerifyEmail}/>
             </Switch>
-        </BrowserRouter>
+        </Router>
     </Provider>,
     document.getElementById('landing')
 );
