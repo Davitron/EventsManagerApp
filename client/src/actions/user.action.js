@@ -81,6 +81,38 @@ export default class UserActions {
   }
 
   /**
+   *
+   * @param {8} token
+   * @returns {*}
+   * this action handles user verification
+   */
+  completeRegistration(token) {
+    const request = (user) => {
+      const requestAction = { type: userActionsType.VERIFY_REQUEST, user };
+      return requestAction;
+    };
+    const success = (data) => {
+      const successAction = { type: userActionsType.VERIFY_SUCCESS, data };
+      return successAction;
+    };
+    const failure = (error) => {
+      const failureAction = { type: userActionsType.VERIFY_FAILURE, error };
+      return failureAction;
+    };
+
+    return (dispatch) => {
+      dispatch(request(token));
+      UserService.completeRegistration(token)
+        .then((result) => {
+          dispatch(success(result.data));
+          cookies.set('jwt-events-manager', result.data.Token, { path: '/' });
+        })
+        .catch((error) => {
+          dispatch(failure(error.response.data));
+        });
+    };
+  }
+  /**
    *@returns {*}
    *this action handles user logout
    */

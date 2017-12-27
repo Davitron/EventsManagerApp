@@ -24,6 +24,16 @@ class UserService {
   static authenticateUser(user) {
     return axios.post(`${baseUrl}/users/login`, user);
   }
+
+  /**
+   *
+   * @param {*} token
+   * @returns {*}
+   * this service handles user verification
+   */
+  static completeRegistration(token) {
+    return axios.get(`${baseUrl}/users/completeRegistration?token=${token}`);
+  }
 }
 
 export default UserService;

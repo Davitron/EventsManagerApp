@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col, Button } from 'react-materialize';
+import { Row, Col, Button } from 'react-materialize';
 import '../../../../App.css';
 
 /**

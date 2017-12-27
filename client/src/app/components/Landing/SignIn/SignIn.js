@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import AlertContainer from 'react-alert';
-import { bindActionCreators } from 'redux';
 import Loader from '../../Loader/Loader';
 import UserActions from '../../../../actions/user.action';
 import '../../../../App.css';

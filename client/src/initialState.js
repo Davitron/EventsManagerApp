@@ -12,6 +12,13 @@ const initialState = {
     failed: false,
     user: null,
     error: null
+  },
+  userVerification: {
+    verifying: false,
+    verified: false,
+    failed: false,
+    data: null,
+    error: null
   }
 };
 

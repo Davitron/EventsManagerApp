@@ -61,7 +61,7 @@ export default class UserController {
             const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, { expiresIn: '15m' });
             const message = `<p>Welcome ${user.username}.</p><br/>
                             <p>Click the link below to complete your registration</p><br />
-                            <a href="http://localhost:8000/api/v1/users/completeRegistration?token=${token}">Complete Registration</a><br/>
+                            <a href="http://localhost:3000/users/verified?token=${token}">Complete Registration</a><br/>
                             This link expires in 15 mins`;
             const mailBody = {
               from: 'matthews.segun@gmail.com',
@@ -71,7 +71,7 @@ export default class UserController {
             };
             const mailer = new Mailer();
             if (mailer.isMailSent(mailBody)) {
-              res.status(500).json({ 
+              res.status(500).json({
                 message: 'Oops!, an error has occured',
                 statusCode: 500
               });
@@ -146,7 +146,7 @@ export default class UserController {
           isVerified: true
         }).then(() => {
           const token = jwt.sign({ id: user.id, isAdmin: user.isAdmin }, process.env.SECRET_KEY, { expiresIn: '1d' });
-          res.status(200).json({ message: 'Welcome to Event Manager', Token: token });
+          res.status(200).json({ message: 'Welcome to Event Manager', user: user.username, Token: token });
         }).catch(err => res.status(500).json({
           message: 'Oops!, an error has occured',
           error: err.name
