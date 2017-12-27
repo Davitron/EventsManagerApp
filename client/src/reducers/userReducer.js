@@ -77,4 +77,41 @@ export default class UserReducer {
         return state;
     }
   }
+
+  /**
+   *
+   * @param {*} state
+   * @param {*} action
+   * @returns {*}
+   * This is the user verification reducer
+   * it returns a new state if an action is dispatched
+   */
+  static completeRegistration(state = initialState.userVerification, action) {
+    const newState = {};
+    switch (action.type) {
+      case userActionType.VERIFY_REQUEST:
+        newState.verifying = true;
+        newState.verified = false;
+        newState.failed = false;
+        newState.data = null;
+        newState.error = null;
+        return newState;
+      case userActionType.VERIFY_SUCCESS:
+        newState.verifying = false;
+        newState.verified = true;
+        newState.failed = false;
+        newState.data = action.data;
+        newState.error = null;
+        return newState;
+      case userActionType.VERIFY_FAILURE:
+        newState.verifying = false;
+        newState.verified = false;
+        newState.failed = true;
+        newState.data = null;
+        newState.error = action.error.message;
+        return newState;
+      default:
+        return state;
+    }
+  }
 }

@@ -11,6 +11,7 @@
     "jsonwebtoken": "^8.1.0",
     "node-sass-chokidar": "^0.0.3",
     "npm-run-all": "^4.1.2",
+    "query-string": "^5.0.1",
     "react": "^16.2.0",
     "react-alert": "^2.4.0",
     "react-animate-css": "^0.0.1",

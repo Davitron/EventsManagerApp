@@ -13,6 +13,7 @@ import SignIn from './app/components/Landing/SignIn/SignIn';
 import SignUp from './app/components/Landing/SignUp/SignUp';
 import ForgotPassword from './app/components//Landing/ForgotPassword/ForgotPassword';
 import VerifyEmail from './app/components/Landing/VerifyEmail/VerifyEmail';
+import VerifiedEmail from './app/components/Landing/VerifyEmail/Verified';
 import history from './helpers/history';
 import registerServiceWorker from './registerServiceWorker';
 
@@ -43,6 +44,7 @@ ReactDOM.render(
                 <Route exact path='/SignUp' component={SignUp}/>
                 <Route exact path='/ForgotPassword' component={ForgotPassword}/>
                 <Route exact path='/Users/Verify' component={VerifyEmail}/>
+                <Route exact path='/Users/Verified' component={VerifiedEmail}/>
             </Switch>
         </Router>
     </Provider>,

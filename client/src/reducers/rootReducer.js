@@ -4,9 +4,11 @@ import UserReducer from './userReducer';
 
 const userSignUp = UserReducer.signup;
 const userSignIn = UserReducer.signin;
+const userVerification = UserReducer.completeRegistration;
 const rootReducer = combineReducers({
   userSignUp,
-  userSignIn
+  userSignIn,
+  userVerification
 });
 
 export default rootReducer;
