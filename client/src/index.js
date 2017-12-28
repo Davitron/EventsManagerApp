@@ -15,6 +15,8 @@ import ForgotPassword from './app/components//Landing/ForgotPassword/ForgotPassw
 import VerifyEmail from './app/components/Landing/VerifyEmail/VerifyEmail';
 import VerifiedEmail from './app/components/Landing/VerifyEmail/Verified';
 import history from './helpers/history';
+import PrivateRoute from './helpers/PrivateRoute';
+import AuthChecker from './helpers/authChecker';
 import registerServiceWorker from './registerServiceWorker';
 
 const store = configureStore;
@@ -44,7 +46,7 @@ ReactDOM.render(
                 <Route exact path='/SignUp' component={SignUp}/>
                 <Route exact path='/ForgotPassword' component={ForgotPassword}/>
                 <Route exact path='/Users/Verify' component={VerifyEmail}/>
-                <Route exact path='/Users/Verified' component={VerifiedEmail}/>
+                <PrivateRoute exact authenticated={AuthChecker.checkUserAuth()} path='/Users/Verified' component={VerifiedEmail}/>
             </Switch>
         </Router>
     </Provider>,
