@@ -11,123 +11,6 @@ import CenterActions from '../../../actions/center.action';
 
 const centerAction = new CenterActions();
 
-
-const TABLE_DATA = [
-  {
-    id: 1,
-    name: 'Frozen yogurt',
-    calories: '159',
-    fat: '6.0',
-    carbs: '24',
-    protein: '4.0',
-    sodium: '87',
-    calcium: '14%',
-    iron: '1%',
-  }, {
-    id: 2,
-    name: 'Ice cream sandwich',
-    calories: '159',
-    fat: '6.0',
-    carbs: '24',
-    protein: '4.0',
-    sodium: '87',
-    calcium: '14%',
-    iron: '1%',
-  }, {
-    id: 3,
-    name: 'Eclair',
-    calories: '159',
-    fat: '6.0',
-    carbs: '24',
-    protein: '4.0',
-    sodium: '87',
-    calcium: '14%',
-    iron: '1%',
-  }, {
-    id: 4,
-    name: 'Cupcake',
-    calories: '159',
-    fat: '6.0',
-    carbs: '24',
-    protein: '4.0',
-    sodium: '87',
-    calcium: '14%',
-    iron: '1%',
-  }, {
-    id: 5,
-    name: 'Gingerbread',
-    calories: '159',
-    fat: '6.0',
-    carbs: '24',
-    protein: '4.0',
-    sodium: '87',
-    calcium: '14%',
-    iron: '1%',
-  }, {
-    id: 6,
-    name: 'Jelly bean',
-    calories: '159',
-    fat: '6.0',
-    carbs: '24',
-    protein: '4.0',
-    sodium: '87',
-    calcium: '14%',
-    iron: '1%',
-  }, {
-    id: 7,
-    name: 'Lollipop',
-    calories: '159',
-    fat: '6.0',
-    carbs: '24',
-    protein: '4.0',
-    sodium: '87',
-    calcium: '14%',
-    iron: '1%',
-  }, {
-    id: 8,
-    name: 'Honeycomb',
-    calories: '159',
-    fat: '6.0',
-    carbs: '24',
-    protein: '4.0',
-    sodium: '87',
-    calcium: '14%',
-    iron: '1%',
-  }, {
-    id: 9,
-    name: 'Donut',
-    calories: '159',
-    fat: '6.0',
-    carbs: '24',
-    protein: '4.0',
-    sodium: '87',
-    calcium: '14%',
-    iron: '1%',
-  }, {
-    id: 10,
-    name: 'KitKat',
-    calories: '159',
-    fat: '6.0',
-    carbs: '24',
-    protein: '4.0',
-    sodium: '87',
-    calcium: '14%',
-    iron: '1%',
-  }, {
-    id: 11,
-    name: 'burger',
-    calories: '159',
-    fat: '6.0',
-    carbs: '24',
-    protein: '4.0',
-    sodium: '87',
-    calcium: '14%',
-    iron: '1%',
-  },
-];
-
-const searchFor = search => x => x.name.toLowerCase().includes(search.toLowerCase()) || !search;
-
 /**
  *
  */
@@ -222,7 +105,7 @@ class Center extends Component {
   }
 
   /**
-   *
+   *@returns {*} fetches all centers
    */
   componentDidMount() {
     const { stateProps } = this.props;
@@ -231,13 +114,14 @@ class Center extends Component {
   }
 
   /**
-   *
+   * @param {*} nextProps
+   * @returns {*} change state if new prop is recieved
    */
   componentWillReceiveProps(nextProps) {
     if (nextProps.stateProps.data !== this.state.data) {
       this.setState({ data: nextProps.stateProps.data }, () => {
         console.log(this.state.data);
-      })
+      });
     }
   }
 
@@ -252,7 +136,6 @@ class Center extends Component {
       pageOfItems,
     } = this.state;
     const { stateProps } = this.props;
-    console.log(data, 'in render');
     return (
       <div style={{
         backgroundColor: 'rgb(5, 22, 22)',
@@ -316,7 +199,6 @@ class Center extends Component {
             </div>
         </div>
       </div>
-      
     );
   }
 }
