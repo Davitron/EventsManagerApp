@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, Route, Switch } from 'react-router';
 import reduxThunk from 'redux-thunk';
+import 'materialize-css/dist/js/materialize.min';
+import 'materialize-css/dist/css/materialize.min.css';
+import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 import configureStore from './store/configureStore';
 import App from './App';
@@ -14,10 +17,11 @@ import SignUp from './app/components/Landing/SignUp/SignUp';
 import ForgotPassword from './app/components//Landing/ForgotPassword/ForgotPassword';
 import VerifyEmail from './app/components/Landing/VerifyEmail/VerifyEmail';
 import VerifiedEmail from './app/components/Landing/VerifyEmail/Verified';
+import Center from './app/components/Admin/Centers';
 import history from './helpers/history';
 import PrivateRoute from './helpers/PrivateRoute';
 import AuthChecker from './helpers/authChecker';
-import registerServiceWorker from './registerServiceWorker';
+
 
 const store = configureStore;
 
@@ -31,17 +35,9 @@ ReactDOM.render(
 ReactDOM.render(
     <Provider store={store}>
         <Router history={history}>
-            <Route path='/' component={App}/>
-        </Router>
-    </Provider>,
-    document.getElementById('root')
-);
-
-ReactDOM.render(
-    <Provider store={store}>
-        <Router history={history}>
             <Switch>
-                <Route exact path='/' component={Home}/>
+                <Route exact path='/' component={Home} />
+                <Route exact path='/admin/centers' component={Center}/>
                 <Route exact path='/SignIn' component={SignIn}/>
                 <Route exact path='/SignUp' component={SignUp}/>
                 <Route exact path='/ForgotPassword' component={ForgotPassword}/>
@@ -50,6 +46,7 @@ ReactDOM.render(
             </Switch>
         </Router>
     </Provider>,
-    document.getElementById('landing')
+    document.getElementById('root')
 );
+
 registerServiceWorker();

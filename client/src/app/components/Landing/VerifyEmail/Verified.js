@@ -34,13 +34,15 @@ class VerifiedEmail extends Component {
    */
   render() {
     return (
-      <div className={['landing', 'container', 'animated', 'bounceInUp'].join(' ')}>
-        <Row className='center'>
-            <Col s={12} className={['light', 'white-text', 'center', 'animated', 'bounceInDown'].join(' ')}>
-             <h3> <b>Your email has been veriried</b><br /></h3>
-            </Col>
-        </Row>
-        <Row className='center'> <Link className={['btn', 'btn-large', 'waves-effect', 'blue'].join(' ')} to='/'>Continue as user</Link></Row>
+      <div className="App-main">
+        <div className={['landing', 'container', 'animated', 'bounceInUp'].join(' ')}>
+          <Row className='center'>
+              <Col s={12} className={['light', 'white-text', 'center', 'animated', 'bounceInDown'].join(' ')}>
+              <h3> <b>Your email has been veriried</b><br /></h3>
+              </Col>
+          </Row>
+          <Row className='center'> <Link className={['btn', 'btn-large', 'waves-effect', 'blue'].join(' ')} to='/'>Continue as user</Link></Row>
+        </div>
       </div>
     );
   }

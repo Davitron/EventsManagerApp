@@ -6,6 +6,7 @@ import '../../../App.css';
  *
  */
 class Landing extends Component {
+
   /**
    *@returns {*} view for langding page
    */
