@@ -30,6 +30,7 @@
     "react-dom": "^16.2.0",
     "react-js-pagination": "^3.0.0",
     "react-materialize": "^1.1.1",
+    "react-mf-modal": "^0.2.1",
     "react-paginate": "^5.0.0",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",

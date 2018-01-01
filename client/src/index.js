@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, Route, Switch } from 'react-router';
 import reduxThunk from 'redux-thunk';
-import 'materialize-css/dist/js/materialize.min';
-import 'materialize-css/dist/css/materialize.min.css';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 import configureStore from './store/configureStore';

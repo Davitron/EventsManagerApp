@@ -41,5 +41,30 @@
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script> -->
+    <script>
+      $(document).ready(function () {
+        var modal = $('.modal');
+        modal.modal({
+            dismissible: true, 
+            opacity: .5, 
+            inDuration: 300, 
+            outDuration: 200,
+            startingTop: '4%',
+            endingTop: '10%',
+            ready: function (modal, trigger) {
+                // $('.body__holdr').addClass('blur__fits');
+            },
+            complete: function () {
+                // $('.body__holdr').removeClass('blur__fits');
+                // $('.modal-overlay').css({'display': 'none'});
+                // this.removeClass('search__pane');
+            } 
+        });
+        $('select').material_select();
+        $('.parallax').parallax();
+        $('.dropdown-button').dropdown();
+        $('.tooltipped').tooltip({delay: 50});
+      })
+    </script>
   </body>
 </html>
