@@ -87,3 +87,12 @@
   margin-top: auto;
 }
 
+// .modal { width: 400px !important  }
+
+.center-modal {
+  display: flex;
+}
+.center-modal .modal {
+  position: relative;
+  width: auto;
+}
