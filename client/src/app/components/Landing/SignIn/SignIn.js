@@ -90,56 +90,58 @@ class SignIn extends Component {
     const { user } = this.state;
     const { stateProps } = this.props;
     return (
-      <main className='signup'>
-        {!stateProps.error ? '' : this.showAlert()}
-        <center>
-          <div className='section'></div>
-          <h3 className='white-text'><b>Login</b></h3>
-          <div className='container'>
-          {stateProps.error !== null &&
-            <AlertContainer ref={a => this.msg = a} {...this.alertOptions} />
-          }
-            <form name='singInForm' onSubmit={this.onSubmit}>
-              <div className={['z-depth-1', 'grey', 'lighten-4', 'row', 'App-signup', 'animated', 'bounceInRight'].join(' ')} >
-              {stateProps.authenticating === true && <Loader />}
-                <div className={['col', 's12'].join(' ')}>
-                  <div className='row'>
-                    <div className={['col', 's12'].join(' ')}>
-                    </div>
-                  </div>
-                  <div className='row'>
-                    <div className={['input-field', 'col', 's12'].join(' ')}>
-                      <input type='email' name='email' value={user.email} id='email' onChange={this.onChange} />
-                      <label htmlFor='email'>Email</label>
-                    </div>
-                  </div>
-                  <div className='row'>
-                    <div className={['input-field', 'col', 's12'].join(' ')}>
-                      <input type='password' name='password' value={user.password} id='password' onChange={this.onChange} />
-                      <label htmlFor='password'>Password</label>
-                    </div>
-                    <label style={{float: 'right'}}>
-                      <Link to='/forgotpassword' className='red-text' href='#!'><b>Forgot Password?</b></Link>
-                    </label>
-                  </div>
-                  <br />
-                  <center>
+      <div className="App-main">
+        <main className='signup'>
+          {!stateProps.error ? '' : this.showAlert()}
+          <center>
+            <div className='section'></div>
+            <h3 className='white-text'><b>Login</b></h3>
+            <div className='container'>
+            {stateProps.error !== null &&
+              <AlertContainer ref={(a) => { this.msg = a; }} {...this.alertOptions} />
+            }
+              <form name='singInForm' onSubmit={this.onSubmit}>
+                <div className={['z-depth-1', 'grey', 'lighten-4', 'row', 'App-signup', 'animated', 'bounceInRight'].join(' ')} >
+                {stateProps.authenticating === true && <Loader />}
+                  <div className={['col', 's12'].join(' ')}>
                     <div className='row'>
-                      <button className={['col', 's12', 'btn', 'btn-large', 'waves-effect'].join(' ')}
-                      disabled={user.email.length <= 0 || user.password.length <= 6} onClick={this.onSubmit}>Login</button>
+                      <div className={['col', 's12'].join(' ')}>
+                      </div>
                     </div>
                     <div className='row'>
-                      <Link to='/signup' className={['col', 's12', 'btn', 'btn-large', 'waves-effect', 'red'].join(' ')}>Create an account</Link>
+                      <div className={['input-field', 'col', 's12'].join(' ')}>
+                        <input type='email' name='email' value={user.email} id='email' onChange={this.onChange} />
+                        <label htmlFor='email'>Email</label>
+                      </div>
                     </div>
-                  </center>
+                    <div className='row'>
+                      <div className={['input-field', 'col', 's12'].join(' ')}>
+                        <input type='password' name='password' value={user.password} id='password' onChange={this.onChange} />
+                        <label htmlFor='password'>Password</label>
+                      </div>
+                      <label style={{ float: 'right' }}>
+                        <Link to='/forgotpassword' className='red-text' href='#!'><b>Forgot Password?</b></Link>
+                      </label>
+                    </div>
+                    <br />
+                    <center>
+                      <div className='row'>
+                        <button className={['col', 's12', 'btn', 'btn-large', 'waves-effect'].join(' ')}
+                        disabled={user.email.length <= 0 || user.password.length <= 6} onClick={this.onSubmit}>Login</button>
+                      </div>
+                      <div className='row'>
+                        <Link to='/signup' className={['col', 's12', 'btn', 'btn-large', 'waves-effect', 'red'].join(' ')}>Create an account</Link>
+                      </div>
+                    </center>
+                  </div>
                 </div>
-              </div>
-            </form>
-          </div>
-        </center>
-        <div className='section'></div>
-        <div className='section'></div>
-      </main>
+              </form>
+            </div>
+          </center>
+          <div className='section'></div>
+          <div className='section'></div>
+        </main>
+      </div>
     );
   }
 }

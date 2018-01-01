@@ -19,6 +19,15 @@ const initialState = {
     failed: false,
     data: null,
     error: null
+  },
+
+  center: {
+    requesting: false,
+    success: false,
+    failed: false,
+    requestType: '',
+    data: null,
+    error: null
   }
 };
 

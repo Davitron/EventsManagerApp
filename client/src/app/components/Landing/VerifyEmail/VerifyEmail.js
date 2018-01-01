@@ -11,15 +11,17 @@ class VerifyEmail extends Component {
    */
   render() {
     return (
-      <div className={['landing', 'container', 'animated', 'bounceInUp'].join(' ')}>
-        <Row className='center'>
-          <h3>
-            <Col s={12} className={['light', 'white-text', 'center', 'animated', 'bounceInDown'].join(' ')}>
-              <b>A verificaton link has been sent to your email address<br />
-              Check your inbox to complete your registration.</b>
-            </Col>
-          </h3>
-        </Row>
+      <div className="App-main">
+        <div className={['landing', 'container', 'animated', 'bounceInUp'].join(' ')}>
+          <Row className='center'>
+            <h3>
+              <Col s={12} className={['light', 'white-text', 'center', 'animated', 'bounceInDown'].join(' ')}>
+                <b>A verificaton link has been sent to your email address<br />
+                Check your inbox to complete your registration.</b>
+              </Col>
+            </h3>
+          </Row>
+        </div>
       </div>
     );
   }

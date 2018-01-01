@@ -90,66 +90,68 @@ class SignUp extends Component {
     const { user } = this.state;
     const { stateProps } = this.props;
     return (
-      <main className='signup'>
-        {!stateProps.error ? '' : this.showAlert()}
-        <center>
-          <div className='section'></div>
-          <h3 className='white-text'><b>REGISTER</b></h3>
-          <div className='container'>
-          {stateProps.error !== null &&
-            <AlertContainer ref={a => this.msg = a} {...this.alertOptions} />
-          }
-            <form name='signUpForm' onSubmit={this.onSubmit}>
-              <div className={['z-depth-1', 'grey', 'lighten-4', 'row', 'App-signup', 'animated', 'bounceInRight'].join(' ')} >
-                {stateProps.creating === true && <Loader />}
-                <div className={['col', 's12'].join(' ')}>
-                  <div className='row'>
-                    <div className={['col', 's12'].join(' ')}>
-                    </div>
-                  </div>
-                  <div className='row'>
-                    <div className={['input-field', 'col', 's12'].join(' ')}>
-                      <input className='' type='email' name='email' value={user.email} id='email' onChange={this.onChange} />
-                      <label htmlFor='email'>Email</label>
-                    </div>
-                  </div>
-                  <div className='row'>
-                    <div className={['input-field', 'col', 's12'].join(' ')}>
-                      <input className='' type='text' name='username' value={user.username} id='username' onChange={this.onChange} />
-                      <label htmlFor='username'>Username</label>
-                    </div>
-                  </div>
-                  <div className='row'>
-                    <div className={['input-field', 'col', 's6'].join(' ')}>
-                      <input className='' type='password' name='password' value={user.password} id='password' onChange={this.onChange} />
-                      <label htmlFor='password'>Pasword</label>
-                    </div>
-                    <div className={['input-field', 'col', 's6'].join(' ')}>
-                      <input className='' type='password' name='confirmPassword' value={user.confirmPassword} id='confirmPassword' onChange={this.onChange} />
-                      <label htmlFor='confirmPassword'>Confirm Password</label>
-                    </div>
-                  </div>
-                  <br />
-                  <center>
+      <div className="App-main">
+        <main className='signup'>
+          {!stateProps.error ? '' : this.showAlert()}
+          <center>
+            <div className='section'></div>
+            <h3 className='white-text'><b>REGISTER</b></h3>
+            <div className='container'>
+            {stateProps.error !== null &&
+              <AlertContainer ref={a => this.msg = a} {...this.alertOptions} />
+            }
+              <form name='signUpForm' onSubmit={this.onSubmit}>
+                <div className={['z-depth-1', 'grey', 'lighten-4', 'row', 'App-signup', 'animated', 'bounceInRight'].join(' ')} >
+                  {stateProps.creating === true && <Loader />}
+                  <div className={['col', 's12'].join(' ')}>
                     <div className='row'>
-                      <button type='submit' 
-                      disabled={user.email.length <= 0 || user.password.length <= 6
-                      || user.username.length < 3 || user.confirmPassword !== user.password}
-                      className={['col', 's12', 'btn', 'btn-large', 'waves-effect'].join(' ')}>Create Account</button>
+                      <div className={['col', 's12'].join(' ')}>
+                      </div>
                     </div>
                     <div className='row'>
-                      <Link className={['col', 's12', 'btn', 'btn-large', 'waves-effect', 'red'].join(' ')} to='/signin'>Already a User?</Link>
+                      <div className={['input-field', 'col', 's12'].join(' ')}>
+                        <input className='' type='email' name='email' value={user.email} id='email' onChange={this.onChange} />
+                        <label htmlFor='email'>Email</label>
+                      </div>
                     </div>
-                    
-                  </center>
+                    <div className='row'>
+                      <div className={['input-field', 'col', 's12'].join(' ')}>
+                        <input className='' type='text' name='username' value={user.username} id='username' onChange={this.onChange} />
+                        <label htmlFor='username'>Username</label>
+                      </div>
+                    </div>
+                    <div className='row'>
+                      <div className={['input-field', 'col', 's6'].join(' ')}>
+                        <input className='' type='password' name='password' value={user.password} id='password' onChange={this.onChange} />
+                        <label htmlFor='password'>Pasword</label>
+                      </div>
+                      <div className={['input-field', 'col', 's6'].join(' ')}>
+                        <input className='' type='password' name='confirmPassword' value={user.confirmPassword} id='confirmPassword' onChange={this.onChange} />
+                        <label htmlFor='confirmPassword'>Confirm Password</label>
+                      </div>
+                    </div>
+                    <br />
+                    <center>
+                      <div className='row'>
+                        <button type='submit' 
+                        disabled={user.email.length <= 0 || user.password.length <= 6
+                        || user.username.length < 3 || user.confirmPassword !== user.password}
+                        className={['col', 's12', 'btn', 'btn-large', 'waves-effect'].join(' ')}>Create Account</button>
+                      </div>
+                      <div className='row'>
+                        <Link className={['col', 's12', 'btn', 'btn-large', 'waves-effect', 'red'].join(' ')} to='/signin'>Already a User?</Link>
+                      </div>
+                      
+                    </center>
+                  </div>
                 </div>
-              </div>
-            </form>
-          </div>
-        </center>
-        <div className='section'></div>
-        <div className='section'></div>
-      </main>
+              </form>
+            </div>
+          </center>
+          <div className='section'></div>
+          <div className='section'></div>
+        </main>
+      </div>
     );
   }
 }
