@@ -223,7 +223,7 @@ class Center extends Component {
                   </div>
                   <div className='row'>
                     <div className={['input-field', 'col', 's6'].join(' ')}>
-                        <input id='hall' type='number' className='validate'></input>
+                        <input id='hall' type='text' className='validate'></input>
                         <label htmlFor='hall'>Hall Capacity</label>
                     </div>
                     <div className={['input-field', 'col', 's6'].join(' ')}>
@@ -246,9 +246,13 @@ class Center extends Component {
                     </div>
                   </div>
                   <div className={['row'].join(' ')}>
-                    <div className={['input-field', 'col', 's12'].join(' ')}>
+                    <div className={['input-field', 'col', 's6'].join(' ')}>
                       <input id='image_url' type='text' className='validate'></input>
                       <label htmlFor='image_url'>Price</label>
+                    </div>
+                    <div className={['input-field', 'col', 's6'].join(' ')}>
+                      <input id='image_url' type='file' className='validate'></input>
+                      <label htmlFor='image_url'>Image</label>
                     </div>
                   </div>
                 </form>
