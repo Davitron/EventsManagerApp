@@ -3,6 +3,7 @@ import model from '../models';
 
 const Centers = model.Center;
 const Events = model.Event;
+const States = model.State;
 
 /**
  *
@@ -11,9 +12,10 @@ export default class CenterService {
   /**
    *
    * @param {*} req
+   * @param {*} data
    * @returns {json} returns center object if successful and error object if otherwise
    */
-  static create(req) {
+  static create(req, data) {
     const facilityArr = req.body.facilities.split(',')
       .map(facility => facility.trim().toLowerCase())
       .filter(word => word !== ' ');
@@ -24,7 +26,7 @@ export default class CenterService {
       hallCapacity: parseInt(req.body.hallCapacity, 10),
       carParkCapacity: parseInt(req.body.carParkCapacity, 10),
       facilities: facilityArr,
-      image: 'uhvhsiuvsivi',
+      image: data.url,
       createdBy: parseInt(req.decoded.id, 10),
       updatedBy: parseInt(req.decoded.id, 10),
       price: parseInt(req.body.price, 10)
@@ -36,7 +38,7 @@ export default class CenterService {
    */
   static getAll() {
     return Centers.findAll({
-      attributes: ['id', 'stateId', 'name', 'address', 'facilities', 'hallCapacity', 'carParkCapacity', 'price', 'createdBy'],
+      attributes: ['id', 'stateId', 'name', 'image', 'address', 'facilities', 'hallCapacity', 'carParkCapacity', 'price', 'createdBy'],
       include: [{
         model: model.State,
         required: true,
@@ -119,5 +121,12 @@ export default class CenterService {
       updatedBy: parseInt(req.decoded.id, 10) || center.updatedBy,
       price: parseInt(req.body.price, 10) || center.price
     });
+  }
+
+  /**
+   *@returns {json} returns all states
+   */
+  static getAllStates() {
+    return States.findAll({ limit: 37 });
   }
 }
