@@ -1,10 +1,30 @@
 import validator from 'validatorjs';
+import multer from 'multer';
+import path from 'path';
+import cloudinary from 'cloudinary';
 import model from '../models';
 import CenterService from '../services/center-service';
 
 const Centers = model.Center;
 const Events = model.Event;
-
+const uploadPath = path.resolve(__dirname, './public');
+// const storage = multer.diskStorage({
+//   destination: (req, file, next) => {
+//     next(null, `${uploadPath}/uploads`);
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, `${file.fieldname}-${Date.now()}`);
+//   }
+// });
+// const upload = multer({
+//   storage,
+//   filefilter: (req, file, next) => {
+//     const isImage = file.mimetype.startsWith('image/');
+//     if (isImage) return next(null, true);
+//     return next({ err: 'File type rejected' }, false);
+//   },
+//   limits: { fileSize: 1024 * 1024 }
+// });
 
 // compliance rules for user input
 const centerRules = {
@@ -35,9 +55,26 @@ export default class CenterController {
    *
    * @param {*} req
    * @param {*} res
+   * @returns {*} passes req.body and req.file to the next function
+   */
+  static imageUpload() {
+    return upload.single('image');
+  }
+  /**
+   *
+   * @param {*} req
+   * @param {*} res
    * @returns {json} returns created center
    */
   static create(req, res) {
+    console.log(req.files);
+    console.log(req.body);
+    if (req.files.image.size > 10485760) {
+      return res.status(400).json({
+        message: 'Image size to large. maximum size is 5MB',
+        statusCode: 400
+      });
+    }
     const validate = new validator(req.body, centerRules);
     // check for validation compliance
     if (validate.passes()) {
@@ -56,27 +93,37 @@ export default class CenterController {
             statusCode: 400
           });
         }
+
         // check if useris an admin
         if (req.decoded.isAdmin === true) {
-          CenterService.create(req)
-            .then((center) => {
-              // return this if center creation is successful is successful
-              const result = {
-                message: `${center.name} Is Created Successfully`,
-                centerId: center.id,
-                statusCode: 201
-              };
-              return res.status(result.statusCode).json(result);
-            })
-            .catch((err) => {
-              // return this if center creation is not successful
-              console.log(err);
-              const result = {
-                message: 'Oops!, Server Error',
-                statusCode: 500
-              };
-              return res.status(result.statusCode).json(result);
-            });
+          cloudinary.config({
+            cloud_name: 'eventsmanager',
+            api_key: '829791658334495',
+            api_secret: 'yf6RHQWR4EFFUm3eLcCnz2e7GRI'
+          });
+
+          cloudinary.uploader.upload(req.files.image.path, (response) => {
+            console.log(response);
+            CenterService.create(req, response)
+              .then((center) => {
+                // return this if center creation is successful is successful
+                const result = {
+                  message: `${center.name} Is Created Successfully`,
+                  centerId: center.id,
+                  statusCode: 201
+                };
+                return res.status(result.statusCode).json(result);
+              })
+              .catch((err) => {
+                // return this if center creation is not successful
+                console.log(err);
+                const result = {
+                  message: 'Oops!, Server Error',
+                  statusCode: 500
+                };
+                return res.status(result.statusCode).json(result);
+              });
+          });
         } else {
           // return this if user is not an admin
           return res.status(401).json({ message: 'You do not have admin priviledge' });
@@ -84,6 +131,7 @@ export default class CenterController {
       });
     }
     // return this if validation compliancr fails
+    console.log(validate.errors);
     res.status(400).json({ message: validate.errors });
   }
 
@@ -234,6 +282,30 @@ export default class CenterController {
             .catch(error => res.status(400).json(error));
         })
         .catch(error => res.status(400).json(error));
+    }
+  }
+
+  /**
+   *
+   * @param {*} req
+   * @param {*} res
+   * @returns {*} returns all states
+   */
+  static getAllStates(req, res) {
+    if (req.decoded.isAdmin === true) {
+      return CenterService.getAllStates()
+        .then((states) => {
+          if (!states) {
+            return res.status(404).json({
+              massage: 'There are no centers'
+            });
+          }
+          res.status(200).json(states);
+        })
+        .catch((error) => {
+          console.log(error);
+          return res.status(400).json(error);
+        });
     }
   }
 }

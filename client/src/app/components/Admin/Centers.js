@@ -1,12 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import $ from 'jquery.2';
 import debounce from 'throttle-debounce/debounce';
 import { Input, Modal, Icon } from 'react-materialize';
+import ReactDOM from 'react-dom';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import Pagination from '../Reusables/Pagination';
 import CenterActions from '../../../actions/center.action';
 
 const centerAction = new CenterActions();
+
+const facilities = [
+  'CCTV',
+  'VIP LOUNGE',
+  'PROJECTOR',
+  'MEDIA SUPPORT',
+  'SECURITY',
+  'WIFI'
+];
 
 /**
  *
@@ -17,19 +31,31 @@ class Center extends Component {
    */
   constructor(props) {
     super(props);
-    const { stateProps } = this.props;
-    console.log(stateProps.data, 'in constructor');
     this.state = {
       data: [],
+      states: [],
       searchNotfound: '',
       pageOfItems: [],
-      itemsPerPage: 7
+      itemsPerPage: 7,
+      center: {
+        name: '',
+        price: '',
+        address: '',
+        image: undefined,
+        hallCapacity: '',
+        carParkCapacity: '',
+        stateId: '',
+        facilities: []
+      }
     };
 
     this.handleSearch = this.handleSearch.bind(this);
     this.onChangePage = this.onChangePage.bind(this);
     this.triggerSearch = debounce(100, this.triggerSearch);
-    this.handleSelect = this.handleSelect.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onFileChange = this.onFileChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onMultiSelect = this.onMultiSelect.bind(this);
   }
 
 
@@ -64,7 +90,7 @@ class Center extends Component {
         this.setState({ searchNotfound: 'no center matches this query' });
       }
     } else {
-      this.setState({ data: stateProps.data });
+      this.setState({ data: stateProps.centers.data });
     }
   }
 
@@ -76,8 +102,87 @@ class Center extends Component {
     clearTimeout(this.state.loadTimeOut);
     const { value } = event.target;
     const { stateProps } = this.props;
-    this.triggerSearch(value, stateProps.data);
+    this.triggerSearch(value, stateProps.centers.data);
   }
+
+  /**
+  *@param {*} event
+  *@returns {*}
+  *this handles the event when any property in the state changes
+  */
+  onChange(event) {
+    const { name, value } = event.target;
+    const { center } = this.state;
+    this.setState({
+      center: {
+        ...center,
+        [name]: value
+      }
+    });
+  }
+
+  /**
+  *@param {*} event
+  *@returns {*}
+  *this handles the event when any property in the state changes
+  */
+  onFileChange(event) {
+    const { name, files } = event.target;
+    const { center } = this.state;
+    this.setState({
+      center: {
+        ...center,
+        [name]: files[0]
+      }
+    });
+  }
+
+  /**
+   *
+   * @param {*} event
+   * @param {*} index
+   * @param {*} values
+   * @returns {*} handles selecttion of facilities
+   */
+  onMultiSelect(event, index, values) {
+    const { center } = this.state;
+    this.setState({
+      center: {
+        ...center,
+        facilities: values
+      }
+    });
+  }
+
+  /**
+   *
+   * @param {*} values
+   * @returns {*}
+   * this handles population facilities in a select box
+   */
+  menuItems(values) {
+    return facilities.map(facility => (
+      <MenuItem
+        key={facility}
+        insetChildren={true}
+        checked={values && values.indexOf(facility) > -1}
+        value={facility}
+        primaryText={facility}
+      />
+    ));
+  }
+  /**
+   *
+   * @param {*} event
+   * @returns {*}
+   * this handles the event when form is submitted
+   */
+  onSubmit(event) {
+    event.preventDefault();
+    const { createCenter } = this.props;
+    createCenter(this.state.center);
+  }
+
   /**
    *
    * @param {*} pageOfItems
@@ -95,19 +200,12 @@ class Center extends Component {
   }
 
   /**
-   *@param {*} event
-   *@returns{*} handle selection of items oer page
-   */
-  handleSelect(event) {
-  }
-
-  /**
    *@returns {*} fetches all centers
    */
   componentDidMount() {
-    const { stateProps } = this.props;
-    const { getAll } = this.props;
+    const { getAll, getStates } = this.props;
     getAll();
+    getStates();
   }
 
   /**
@@ -115,9 +213,18 @@ class Center extends Component {
    * @returns {*} change state if new prop is recieved
    */
   componentWillReceiveProps(nextProps) {
-    if (nextProps.stateProps.data !== this.state.data) {
-      this.setState({ data: nextProps.stateProps.data }, () => {
+    if (nextProps.stateProps.centers.data !== this.state.data) {
+      this.setState({
+        data: nextProps.stateProps.centers.data
+      }, () => {
         console.log(this.state.data);
+      });
+    }
+    if (nextProps.stateProps.states.data !== this.state.states && nextProps.stateProps.states.data) {
+      this.setState({
+        states: nextProps.stateProps.states.data
+      }, () => {
+        console.log(this.state.states);
       });
     }
   }
@@ -129,10 +236,11 @@ class Center extends Component {
   render() {
     const {
       data,
+      states,
       searchNotfound,
       pageOfItems,
+      center,
     } = this.state;
-    const { stateProps } = this.props;
     return (
       <div>
         <div style={{
@@ -203,64 +311,82 @@ class Center extends Component {
             <div className='modal-content'>
               <h4>Create Center</h4>
               <div className='row'>
-                <form className={['col', 'row', 's12'].join(' ')}>
+                <form className={['col', 'row', 's12'].join(' ')} onSubmit={this.onSubmit}>
                   <div className={['row'].join(' ')}>
                     <div className={['input-field', 'col', 's6'].join(' ')}>
-                      <input id='image_url' type='text' className='validate'></input>
+                      <input id='image_url' type='text' name='name' value={center.name} onChange={this.onChange} className='validate'></input>
                       <label htmlFor='image_url'>Center Name</label>
                     </div>
-                    <Input s={6} type='select' label='States' defaultValue='States'>
-                      <option value='1'>Option 1</option>
-                      <option value='2'>Option 2</option>
-                      <option value='3'>Option 3</option>
+                    <Input s={6} name='stateId' value={center.stateId} onChange={this.onChange} type='select' label='States'>
+                      <option defaultValue='State' disabled>Select States</option>
+                      { 
+                        states.map((state) => {
+                          return <option key={state.id}
+                            value={state.id}>{state.statName}</option>;
+                        })
+                      }
                     </Input>
                   </div>
                   <div className='row'>
                     <div className={['input-field', 'col', 's12'].join(' ')}>
-                        <input id='address' type='text' className='validate'></input>
+                      <input id='address' type='text' className='validate' name='address' value={center.address} onChange={this.onChange}></input>
                       <label htmlFor='address'>Address</label>
                     </div>
                   </div>
                   <div className='row'>
                     <div className={['input-field', 'col', 's6'].join(' ')}>
-                        <input id='hall' type='text' className='validate'></input>
-                        <label htmlFor='hall'>Hall Capacity</label>
+                      <input id='hall' name='hallCapacity' value={center.hallCapacity} type='number' onChange={this.onChange} className='validate'></input>
+                      <label htmlFor='hall'>Hall Capacity</label>
                     </div>
                     <div className={['input-field', 'col', 's6'].join(' ')}>
-                        <input id='carPark' type='text' className='validate'></input>
+                        <input id='carPark' name='carParkCapacity' value={center.carParkCapacity} type='number' onChange={this.onChange} className='validate'></input>
                         <label htmlFor='carPark'>Parking Capactiy</label>
                     </div>
                   </div>
                   <div className='row'>
                     <div className={['input-field', 'col', 's12'].join(' ')}>
-                      <select multiple>
-                        <option value="" disabled selected>select faciliteis</option>
-                        <option value="1">Option 1</option>
-                        <option value="2">Option 2</option>
-                        <option value="3">Option 3</option>
-                        <option value="4">Option 4</option>
-                        <option value="5">Option 5</option>
-                        <option value="6">Option 6</option>
-                      </select>
-                      <label>Facilities</label>
+                      <MuiThemeProvider>
+                        <SelectField
+                          multiple={true}
+                          hintText="Select Facilities"
+                          value={center.facilities}
+                          onChange={this.onMultiSelect}
+                        >
+                          {this.menuItems(center.facilities)}
+                        </SelectField>
+                      </MuiThemeProvider>
                     </div>
                   </div>
                   <div className={['row'].join(' ')}>
-                    <div className={['input-field', 'col', 's6'].join(' ')}>
-                      <input id='image_url' type='text' className='validate'></input>
+                    <div className={['input-field', 'col', 's12'].join(' ')}>
+                      <input id='image_url' name='price' value={center.price} type='number' onChange={this.onChange} className='validate'></input>
                       <label htmlFor='image_url'>Price</label>
                     </div>
-                    <div className={['input-field', 'col', 's6'].join(' ')}>
-                      <input id='image_url' type='file' className='validate'></input>
-                      <label htmlFor='image_url'>Image</label>
+                  </div>
+                  <div className={['file-field', 'input-field', 's12'].join(' ')}>
+                    <div className='btn'>
+                      <span>Center image</span>
+                      <input type='file' name='image' onChange={this.onFileChange} accept='image/*'></input>
+                    </div>
+                    <div className='file-path-wrapper'>
+                      <input className={['file-path', 'validate'].join(' ')} type='text'></input>
                     </div>
                   </div>
+                  <div className=''>
+                  <button className={['col', 's12', 'l12', 'btn', 'btn-large', 'waves-effect'].join(' ')}
+                    disabled='' onClick={this.onSubmit}>Create</button>
+                  </div>
                 </form>
+                <div className='row'>
+                  <button className={['col', 's12', 'l12', 'modal-action', 'modal-close', 'waves-effect', 'btn', 'btn-large', 'red'].join(' ')}>
+                    Cancel</button>
+                </div>
               </div>
             </div>
-            <div className='modal-footer'>
-              <a className={['modal-action', 'modal-close', 'waves-effect', 'waves-green', 'btn'].join(' ')}>Submit</a>
-            </div>
+            {/* <div className='modal-footer'>
+
+                  Cancel</button>
+            </div> */}
           </div>
         </div>
       </div>
@@ -270,13 +396,18 @@ class Center extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    stateProps: state.getAllCenters
+    stateProps: {
+      centers: state.getAllCenters,
+      states: state.getStates
+    }
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    getAll: centerAction.getAll
+    getAll: centerAction.getAll,
+    getStates: centerAction.getAllStates,
+    createCenter: centerAction.createCenter
   }, dispatch);
 };
 

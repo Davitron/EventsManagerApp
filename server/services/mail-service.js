@@ -1,10 +1,12 @@
 import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
 
+dotenv.load();
 const mailTransport = nodemailer.createTransport({
   service: 'Gmail',
   auth: {
-    user: 'matthews.segun@gmail.com',
-    pass: 'davitron'
+    user: process.env.EMAIL_ADDRESS,
+    pass: process.env.EMAIL_PASSWORD
   }
 });
 
@@ -21,7 +23,7 @@ export default class Mailer {
     mailTransport.sendMail(mail, (err, info) => {
       let status;
       if (err) {
-        console.log(err);
+        console.log(err, process.env.EMAIL_ADDRESS, process.env.EMAIL_PASSWORD);
         status = false;
       } else {
         console.log(`Message sent: ${info.messageId}`);
