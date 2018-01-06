@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, Route, Switch } from 'react-router';
+import { Router, Route, Switch, Redirect } from 'react-router';
 import reduxThunk from 'redux-thunk';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
@@ -39,7 +39,7 @@ ReactDOM.render(
                 <Route exact path='/SignIn' component={SignIn}/>
                 <Route exact path='/SignUp' component={SignUp}/>
                 <Route exact path='/ForgotPassword' component={ForgotPassword}/>
-                <Route exact path='/Users/Verify' component={VerifyEmail}/>
+                <Route exact path='/verify' component={VerifyEmail}/>
                 <PrivateRoute exact authenticated={AuthChecker.checkUserAuth()} path='/Users/Verified' component={VerifiedEmail}/>
             </Switch>
         </Router>

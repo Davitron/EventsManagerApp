@@ -10,9 +10,9 @@ const mutipartMiddleware = multipart({ uploadDir: uploadPath });
 
 const centerRoutes = (app) => {
   app.post('/api/v1/centers', Security.check, mutipartMiddleware, CenterController.create);
-  app.get('/api/v1/centers', Security.check, CenterController.getAll);
+  app.get('/api/v1/centers', CenterController.getAll);
   app.get('/api/v1/centers/:centerId', Security.check, CenterController.get);
-  app.get('/api/v1/states', Security.check, CenterController.getAllStates);
+  app.get('/api/v1/states', CenterController.getAllStates);
   app.put('/api/v1/centers/:centerId', Security.check, CenterController.update);
   app.delete('/api/v1/centers/:centerId', Security.check, CenterController.delete);
 };

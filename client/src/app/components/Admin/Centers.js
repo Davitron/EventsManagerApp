@@ -10,6 +10,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Pagination from '../Reusables/Pagination';
 import CenterActions from '../../../actions/center.action';
+import CreateCenterModal from '../modals/CreateCenter';
 
 const centerAction = new CenterActions();
 
@@ -52,10 +53,10 @@ class Center extends Component {
     this.handleSearch = this.handleSearch.bind(this);
     this.onChangePage = this.onChangePage.bind(this);
     this.triggerSearch = debounce(100, this.triggerSearch);
-    this.onChange = this.onChange.bind(this);
-    this.onFileChange = this.onFileChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onMultiSelect = this.onMultiSelect.bind(this);
+    // this.onChange = this.onChange.bind(this);
+    // this.onFileChange = this.onFileChange.bind(this);
+    // this.onSubmit = this.onSubmit.bind(this);
+    // this.onMultiSelect = this.onMultiSelect.bind(this);
   }
 
 
@@ -306,7 +307,8 @@ class Center extends Component {
               </div>
           </div>
         </div>
-        <div className='center-modal'>
+        <CreateCenterModal states={states} />
+        {/* <div className='center-modal'>
           <div id='createCenter' className='modal' ref={(md) => { this.modal = md; }}>
             <div className='modal-content'>
               <h4>Create Center</h4>
@@ -386,9 +388,9 @@ class Center extends Component {
             {/* <div className='modal-footer'>
 
                   Cancel</button>
-            </div> */}
+            </div> 
           </div>
-        </div>
+        </div> */}
       </div>
     );
   }
@@ -406,8 +408,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     getAll: centerAction.getAll,
-    getStates: centerAction.getAllStates,
-    createCenter: centerAction.createCenter
+    getStates: centerAction.getAllStates
+    // createCenter: centerAction.createCenter
   }, dispatch);
 };
 

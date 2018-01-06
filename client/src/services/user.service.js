@@ -1,6 +1,6 @@
 import axios from 'axios';
-import cookie from 'react-cookies';
-import baseUrl from './baseUrl';
+
+
 /**
  * this class handles services necessarry for user authentication and registration
  */
@@ -12,7 +12,7 @@ class UserService {
    * this service handles user registration
    */
   static createUser(newUser) {
-    return axios.post(`${baseUrl}/users`, newUser);
+    return axios.post('/api/v1/users', newUser);
   }
 
   /**
@@ -22,7 +22,7 @@ class UserService {
    * this service handles user authentication
    */
   static authenticateUser(user) {
-    return axios.post(`${baseUrl}/users/login`, user);
+    return axios.post('/api/v1/users/login', user);
   }
 
   /**
@@ -32,7 +32,7 @@ class UserService {
    * this service handles user verification
    */
   static completeRegistration(token) {
-    return axios.get(`${baseUrl}/users/completeRegistration?token=${token}`);
+    return axios.get(`/api/v1/users/completeRegistration?token=${token}`);
   }
 }
 
