@@ -61,7 +61,7 @@ export default class UserController {
             const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, { expiresIn: '15m' });
             const message = `<p>Welcome ${user.username}.</p><br/>
                             <p>Click the link below to complete your registration</p><br />
-                            <a href="http://localhost:3000/users/verified?token=${token}">Complete Registration</a><br/>
+                            <a href="http://localhost:8000/users/verified?token=${token}">Complete Registration</a><br/>
                             This link expires in 15 mins`;
             const mailBody = {
               from: 'matthews.segun@gmail.com',

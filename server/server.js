@@ -5,6 +5,7 @@ import cors from 'cors';
 import jwt from 'jsonwebtoken';
 import swaggerUi from 'swagger-ui-express';
 import dotenv from 'dotenv';
+import path from 'path';
 import eventRoutes from './routes/event-route';
 import centerRoutes from './routes/center-route';
 import userRoutes from './routes/user-routes';
@@ -26,18 +27,21 @@ eventRoutes(app);
 centerRoutes(app);
 userRoutes(app);
 
-app.use('/api', (req, res) => {
-  res.status(200).send('This is EventManager');
-});
+app.use(express.static(path.join(__dirname, '../client/public')));
+app.use('/admin/centers/', express.static(path.join(__dirname, '../client/public')));
+app.set('views', path.join(__dirname, '..', 'client', 'public'));
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
-app.get('/', (req, res) => {
-  res.status(200).send('Hey There, welcome to Event Manager');
+app.get('*', (req, res) => {
+  res.status(200).sendFile(path.join(__dirname, '..', 'client/public/index.html'));
 });
 
-app.get('*', (req, res) => {
-  res.status(404).send('Not Found');
+app.use((req, res, next) => {
+  const err = res.status(404).send({
+    error: '404: Sorry Page Not Found!'
+  });
+  next(err);
 });
 
 app.listen(port, () => {

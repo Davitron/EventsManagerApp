@@ -31,7 +31,7 @@ export default class CenterActions {
       dispatch(request());
       axios({
         method: 'GET',
-        url: `${baseUrl}/centers`,
+        url: '/api/v1/centers',
         headers: {
           'x-access-token': token
         }
@@ -67,7 +67,7 @@ export default class CenterActions {
       dispatch(request());
       axios({
         method: 'GET',
-        url: `${baseUrl}/states`,
+        url: '/api/v1/states',
         headers: {
           'x-access-token': token
         }
@@ -117,7 +117,7 @@ export default class CenterActions {
       dispatch(request(newCenter));
       axios({
         method: 'POST',
-        url: `${baseUrl}/centers`,
+        url: '/api/v1/centers',
         headers: {
           'x-access-token': token
         },

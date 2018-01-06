@@ -292,20 +292,18 @@ export default class CenterController {
    * @returns {*} returns all states
    */
   static getAllStates(req, res) {
-    if (req.decoded.isAdmin === true) {
-      return CenterService.getAllStates()
-        .then((states) => {
-          if (!states) {
-            return res.status(404).json({
-              massage: 'There are no centers'
-            });
-          }
-          res.status(200).json(states);
-        })
-        .catch((error) => {
-          console.log(error);
-          return res.status(400).json(error);
-        });
-    }
+    return CenterService.getAllStates()
+      .then((states) => {
+        if (!states) {
+          return res.status(404).json({
+            massage: 'There are no centers'
+          });
+        }
+        res.status(200).json(states);
+      })
+      .catch((error) => {
+        console.log(error);
+        return res.status(400).json(error);
+      });
   }
 }
