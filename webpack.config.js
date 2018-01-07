@@ -1,6 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
 
+const hotPath = path.join(__dirname, 'client', 'public', 'hot');
+
+
 module.exports = {
   devtool: 'eval-source-map',
   entry: [
@@ -8,7 +11,9 @@ module.exports = {
   ],
   output: {
     path: path.join(__dirname, 'client', 'public'),
-    filename: 'app.bundle.js'
+    filename: 'app.bundle.js',
+    hotUpdateChunkFilename: './hot/hot-update.js',
+    hotUpdateMainFilename: './hot/hot-update.json'
   },
   devServer: {
     publicPath: '/',

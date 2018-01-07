@@ -38,16 +38,16 @@ class Center extends Component {
       searchNotfound: '',
       pageOfItems: [],
       itemsPerPage: 7,
-      center: {
-        name: '',
-        price: '',
-        address: '',
-        image: undefined,
-        hallCapacity: '',
-        carParkCapacity: '',
-        stateId: '',
-        facilities: []
-      }
+      // center: {
+      //   name: '',
+      //   price: '',
+      //   address: '',
+      //   image: undefined,
+      //   hallCapacity: '',
+      //   carParkCapacity: '',
+      //   stateId: '',
+      //   facilities: []
+      // }
     };
 
     this.handleSearch = this.handleSearch.bind(this);
@@ -55,7 +55,7 @@ class Center extends Component {
     this.triggerSearch = debounce(100, this.triggerSearch);
     // this.onChange = this.onChange.bind(this);
     // this.onFileChange = this.onFileChange.bind(this);
-    // this.onSubmit = this.onSubmit.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
     // this.onMultiSelect = this.onMultiSelect.bind(this);
   }
 
@@ -106,84 +106,83 @@ class Center extends Component {
     this.triggerSearch(value, stateProps.centers.data);
   }
 
-  /**
-  *@param {*} event
-  *@returns {*}
-  *this handles the event when any property in the state changes
-  */
-  onChange(event) {
-    const { name, value } = event.target;
-    const { center } = this.state;
-    this.setState({
-      center: {
-        ...center,
-        [name]: value
-      }
-    });
-  }
+  // /**
+  // *@param {*} event
+  // *@returns {*}
+  // *this handles the event when any property in the state changes
+  // */
+  // onChange(event) {
+  //   const { name, value } = event.target;
+  //   const { center } = this.state;
+  //   this.setState({
+  //     center: {
+  //       ...center,
+  //       [name]: value
+  //     }
+  //   });
+  // }
 
-  /**
-  *@param {*} event
-  *@returns {*}
-  *this handles the event when any property in the state changes
-  */
-  onFileChange(event) {
-    const { name, files } = event.target;
-    const { center } = this.state;
-    this.setState({
-      center: {
-        ...center,
-        [name]: files[0]
-      }
-    });
-  }
+  // /**
+  // *@param {*} event
+  // *@returns {*}
+  // *this handles the event when any property in the state changes
+  // */
+  // onFileChange(event) {
+  //   const { name, files } = event.target;
+  //   const { center } = this.state;
+  //   this.setState({
+  //     center: {
+  //       ...center,
+  //       [name]: files[0]
+  //     }
+  //   });
+  // }
 
+  // /**
+  //  *
+  //  * @param {*} event
+  //  * @param {*} index
+  //  * @param {*} values
+  //  * @returns {*} handles selecttion of facilities
+  //  */
+  // onMultiSelect(event, index, values) {
+  //   const { center } = this.state;
+  //   this.setState({
+  //     center: {
+  //       ...center,
+  //       facilities: values
+  //     }
+  //   });
+  // }
+
+  // /**
+  //  *
+  //  * @param {*} values
+  //  * @returns {*}
+  //  * this handles population facilities in a select box
+  //  */
+  // menuItems(values) {
+  //   return facilities.map(facility => (
+  //     <MenuItem
+  //       key={facility}
+  //       insetChildren={true}
+  //       checked={values && values.indexOf(facility) > -1}
+  //       value={facility}
+  //       primaryText={facility}
+  //     />
+  //   ));
+  // }
   /**
    *
-   * @param {*} event
-   * @param {*} index
-   * @param {*} values
-   * @returns {*} handles selecttion of facilities
-   */
-  onMultiSelect(event, index, values) {
-    const { center } = this.state;
-    this.setState({
-      center: {
-        ...center,
-        facilities: values
-      }
-    });
-  }
-
-  /**
-   *
-   * @param {*} values
-   * @returns {*}
-   * this handles population facilities in a select box
-   */
-  menuItems(values) {
-    return facilities.map(facility => (
-      <MenuItem
-        key={facility}
-        insetChildren={true}
-        checked={values && values.indexOf(facility) > -1}
-        value={facility}
-        primaryText={facility}
-      />
-    ));
-  }
-  /**
-   *
-   * @param {*} event
+   * @param {*} center
    * @returns {*}
    * this handles the event when form is submitted
    */
-  onSubmit(event) {
-    event.preventDefault();
+  onSubmit(center) {
     const { createCenter } = this.props;
-    createCenter(this.state.center);
+    // createCenter(center);
+    console.log(center);
   }
-
   /**
    *
    * @param {*} pageOfItems

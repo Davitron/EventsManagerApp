@@ -1,6 +1,7 @@
 import validator from 'validatorjs';
 import multer from 'multer';
 import path from 'path';
+import del from 'node-delete';
 import cloudinary from 'cloudinary';
 import model from '../models';
 import CenterService from '../services/center-service';
@@ -8,23 +9,6 @@ import CenterService from '../services/center-service';
 const Centers = model.Center;
 const Events = model.Event;
 const uploadPath = path.resolve(__dirname, './public');
-// const storage = multer.diskStorage({
-//   destination: (req, file, next) => {
-//     next(null, `${uploadPath}/uploads`);
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, `${file.fieldname}-${Date.now()}`);
-//   }
-// });
-// const upload = multer({
-//   storage,
-//   filefilter: (req, file, next) => {
-//     const isImage = file.mimetype.startsWith('image/');
-//     if (isImage) return next(null, true);
-//     return next({ err: 'File type rejected' }, false);
-//   },
-//   limits: { fileSize: 1024 * 1024 }
-// });
 
 // compliance rules for user input
 const centerRules = {
@@ -51,15 +35,6 @@ const centerUpdateRules = {
  *
  */
 export default class CenterController {
-  /**
-   *
-   * @param {*} req
-   * @param {*} res
-   * @returns {*} passes req.body and req.file to the next function
-   */
-  static imageUpload() {
-    return upload.single('image');
-  }
   /**
    *
    * @param {*} req
@@ -112,6 +87,9 @@ export default class CenterController {
                   centerId: center.id,
                   statusCode: 201
                 };
+                del(['/server/public/uploads/*'], (err, paths) => {
+                  console.log('Deleted files:\n', paths.join('\n'));
+                });
                 return res.status(result.statusCode).json(result);
               })
               .catch((err) => {
