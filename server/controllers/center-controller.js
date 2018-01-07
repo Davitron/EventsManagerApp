@@ -1,6 +1,7 @@
 import validator from 'validatorjs';
 import multer from 'multer';
 import path from 'path';
+import fs from 'fs';
 import del from 'node-delete';
 import cloudinary from 'cloudinary';
 import model from '../models';
@@ -87,8 +88,12 @@ export default class CenterController {
                   centerId: center.id,
                   statusCode: 201
                 };
-                del(['/server/public/uploads/*'], (err, paths) => {
-                  console.log('Deleted files:\n', paths.join('\n'));
+                fs.unlink(req.files.image.path, (err) => {
+                  if (err) {
+                    console.log('ERROR DELETING FILE');
+                  } else {
+                    console.log('DELETED FILE SUCCESSFULLY');
+                  }
                 });
                 return res.status(result.statusCode).json(result);
               })
