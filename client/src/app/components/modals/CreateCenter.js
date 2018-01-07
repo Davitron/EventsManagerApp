@@ -8,8 +8,11 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import CenterActions from '../../../actions/center.action';
 import Loader from './../Loader/Loader';
+import FormValidator from '../forms/formInputValidator';
+
 
 const centerAction = new CenterActions();
+
 
 const facilities = [
   'CCTV',
@@ -44,7 +47,9 @@ class CreateCenterModal extends Component {
         carParkCapacity: '',
         stateId: '',
         facilities: []
-      }
+      },
+      errors: {},
+      loading: false
     };
 
     this.onChange = this.onChange.bind(this);
@@ -119,6 +124,24 @@ class CreateCenterModal extends Component {
       />
     ));
   }
+
+  /**
+   *@returns {*} check if form imputs are valid
+   */
+  isValid() {
+    console.log(this.state.center);
+    let validity = true;
+    const formValidator = new FormValidator();
+    const { errors, isValid } = formValidator.validateCenterInput(this.state.center);
+    console.log(errors, this.state.center);
+    if (isValid === false) {
+      this.setState({ errors });
+      validity = false;
+      return validity;
+    }
+    return validity;
+  }
+
   /**
    *
    * @param {*} event
@@ -127,15 +150,20 @@ class CreateCenterModal extends Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    const { createCenter } = this.props;
-    this.props.dipatch(centerAction.createCenter(this.state.center));
+    if (this.isValid() === true) {
+      this.setState({
+        loading: true
+      });
+      const { createCenter } = this.props;
+      createCenter(this.state.center);
+    }
   }
 
   /**
    *@returns {*} renders the modal
    */
   render() {
-    const { center } = this.state;
+    const { center, errors, loading } = this.state;
     const { states } = this.props;
     return (
       <div className='center-modal'>
@@ -143,12 +171,13 @@ class CreateCenterModal extends Component {
 
           <div className='modal-content'>
             <h4>Create Center</h4>
+            {loading === true && <Loader/>}
             <div className='row'>
               <form className={['col', 'row', 's12'].join(' ')} onSubmit={this.onSubmit}>
                 <div className={['row'].join(' ')}>
                   <div className={['input-field', 'col', 's6'].join(' ')}>
                     <input id='image_url' type='text' name='name' value={center.name} onChange={this.onChange} className='validate'></input>
-                    <label htmlFor='image_url'>Center Name</label>
+                    {errors.name ? <label htmlFor='image_url' className='red-text'>{errors.name}</label> : <label htmlFor='image_url'>Center Name</label>}
                   </div>
                   <Input s={6} name='stateId' value={center.stateId} onChange={this.onChange} type='select' label='States'>
                     <option defaultValue='State' disabled>Select States</option>
@@ -163,17 +192,17 @@ class CreateCenterModal extends Component {
                 <div className='row'>
                   <div className={['input-field', 'col', 's12'].join(' ')}>
                     <input id='address' type='text' className='validate' name='address' value={center.address} onChange={this.onChange}></input>
-                    <label htmlFor='address'>Address</label>
+                    {errors.address ? <label htmlFor='address' className='red-text'>{errors.address}</label> : <label htmlFor='address'>Center address</label>}
                   </div>
                 </div>
                 <div className='row'>
                   <div className={['input-field', 'col', 's6'].join(' ')}>
                     <input id='hall' name='hallCapacity' value={center.hallCapacity} type='number' onChange={this.onChange} className='validate'></input>
-                    <label htmlFor='hall'>Hall Capacity</label>
+                    {errors.hallCapacity ? <label htmlFor='hall' className='red-text'>{errors.hallCapacity}</label> : <label htmlFor='hall'>Hall capacity</label>}
                   </div>
                   <div className={['input-field', 'col', 's6'].join(' ')}>
                       <input id='carPark' name='carParkCapacity' value={center.carParkCapacity} type='number' onChange={this.onChange} className='validate'></input>
-                      <label htmlFor='carPark'>Parking Capactiy</label>
+                      {errors.carParkCapacity ? <label htmlFor='carPark' className='red-text'>{errors.carParkCapacity}</label> : <label htmlFor='carPark'>Carpark Capacity</label>}
                   </div>
                 </div>
                 <div className='row'>
@@ -182,6 +211,7 @@ class CreateCenterModal extends Component {
                       <SelectField
                         multiple={true}
                         hintText="Select Facilities"
+                        errorText={ errors.facilities && <span className='red-text accent-1'>{errors.facilities}</span> }
                         value={center.facilities}
                         onChange={this.onMultiSelect}
                       >
@@ -192,8 +222,8 @@ class CreateCenterModal extends Component {
                 </div>
                 <div className={['row'].join(' ')}>
                   <div className={['input-field', 'col', 's12'].join(' ')}>
-                    <input id='image_url' name='price' value={center.price} type='number' onChange={this.onChange} className='validate'></input>
-                    <label htmlFor='image_url'>Price</label>
+                    <input id='price' name='price' value={center.price} type='number' onChange={this.onChange} className='validate'></input>
+                    {errors.name ? <label htmlFor='price' className='red-text'>{errors.price}</label> : <label htmlFor='image_url'>Center Price</label>}
                   </div>
                 </div>
                 <div className={['file-field', 'input-field', 's12'].join(' ')}>
@@ -202,12 +232,12 @@ class CreateCenterModal extends Component {
                     <input type='file' name='image' onChange={this.onFileChange} accept='image/*'></input>
                   </div>
                   <div className='file-path-wrapper'>
-                    <input className={['file-path', 'validate'].join(' ')} type='text'></input>
+                    <input className={['file-path', 'validate'].join(' ')} type='text' placeholder={errors.image || 'upload image'}></input>
                   </div>
                 </div>
                 <div className=''>
                 <button className={['col', 's12', 'l12', 'btn', 'btn-large', 'waves-effect'].join(' ')}
-                  disabled='' onClick={this.onSubmit}>Create</button>
+                  disabled='' type='submit'>Create</button>
                 </div>
               </form>
               <div className='row'>
@@ -216,10 +246,6 @@ class CreateCenterModal extends Component {
               </div>
             </div>
           </div>
-          {/* <div className='modal-footer'>
-
-                Cancel</button>
-          </div> */}
         </div>
       </div>
     );
@@ -227,4 +253,9 @@ class CreateCenterModal extends Component {
 }
 
 CreateCenterModal.propTypes = propTypes;
-export default CreateCenterModal;
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    createCenter: centerAction.createCenter
+  }, dispatch);
+};
+export default connect(null, mapDispatchToProps)(CreateCenterModal);
