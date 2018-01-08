@@ -1,0 +1,278 @@
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Input, Modal, Icon } from 'react-materialize';
+import PropTypes from 'prop-types';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+import CenterActions from '../../../actions/center.action';
+import Loader from './../Loader/Loader';
+import FormValidator from '../forms/formInputValidator';
+
+
+const centerAction = new CenterActions();
+
+
+const facilities = [
+  'CCTV',
+  'VIP LOUNGE',
+  'PROJECTOR',
+  'MEDIA SUPPORT',
+  'SECURITY',
+  'WIFI'
+];
+
+const propTypes = {
+  states: PropTypes.arrayOf(() => {
+    return null;
+  }),
+
+  createCenter: PropTypes.func.isRequired
+};
+
+const defaultProps = {
+  states: []
+};
+/**
+ *component for create center modal
+ */
+class CreateCenterModal extends Component {
+  /**
+   *
+   * @param {*} props
+   */
+  constructor(props) {
+    super(props);
+    this.state = {
+      center: {
+        name: '',
+        price: '',
+        address: '',
+        image: undefined,
+        hallCapacity: '',
+        carParkCapacity: '',
+        stateId: '',
+        facilities: []
+      },
+      errors: {},
+      loading: false
+    };
+
+    this.onChange = this.onChange.bind(this);
+    this.onFileChange = this.onFileChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onMultiSelect = this.onMultiSelect.bind(this);
+  }
+
+  /**
+  *@param {*} event
+  *@returns {*}
+  *this handles the event when any property in the state changes
+  */
+  onChange(event) {
+    const { name, value } = event.target;
+    const { center } = this.state;
+    this.setState({
+      center: {
+        ...center,
+        [name]: value
+      }
+    });
+  }
+
+  /**
+  *@param {*} event
+  *@returns {*}
+  *this handles the event when any property in the state changes
+  */
+  onFileChange(event) {
+    const { name, files } = event.target;
+    const { center } = this.state;
+    this.setState({
+      center: {
+        ...center,
+        [name]: files[0]
+      }
+    });
+  }
+
+  /**
+   *
+   * @param {*} event
+   * @param {*} index
+   * @param {*} values
+   * @returns {*} handles selecttion of facilities
+   */
+  onMultiSelect(event, index, values) {
+    const { center } = this.state;
+    this.setState({
+      center: {
+        ...center,
+        facilities: values
+      }
+    });
+  }
+
+  /**
+   *
+   * @param {*} event
+   * @returns {*}
+   * this handles the event when form is submitted
+   */
+  onSubmit(event) {
+    event.preventDefault();
+    if (this.isValid() === true) {
+      this.setState({
+        loading: true
+      });
+      const { createCenter } = this.props;
+      createCenter(this.state.center);
+    }
+  }
+
+  /**
+   *@returns {*} check if form imputs are valid
+   */
+  isValid() {
+    console.log(this.state.center);
+    let validity = true;
+    const formValidator = new FormValidator();
+    const { errors, isValid } = formValidator.validateCenterInput(this.state.center);
+    console.log(errors, this.state.center);
+    if (isValid === false) {
+      this.setState({ errors });
+      validity = false;
+      return validity;
+    }
+    return validity;
+  }
+
+  /**
+   *
+   * @param {*} values
+   * @returns {*}
+   * this handles population facilities in a select box
+   */
+  menuItems(values) {
+    return facilities.map(facility => (
+      <MenuItem
+        key={facility}
+        insetChildren
+        checked={values && values.indexOf(facility) > -1}
+        value={facility}
+        primaryText={facility}
+      />
+    ));
+  }
+
+  /**
+   *@returns {*} renders the modal
+   */
+  render() {
+    const { center, errors, loading } = this.state;
+    const { states } = this.props;
+    return (
+      <div className="center-modal">
+        <div id="createCenter" className="modal" ref={(md) => { this.modal = md; }}>
+
+          <div className="modal-content">
+            <h4>Create Center</h4>
+            {loading === true && <Loader />}
+            <div className="row">
+              <form className={['col', 'row', 's12'].join(' ')} onSubmit={this.onSubmit}>
+                <div className={['row'].join(' ')}>
+                  <div className={['input-field', 'col', 's6'].join(' ')}>
+                    <input id="image_url" type="text" name="name" value={center.name} onChange={this.onChange} className="validate" />
+                    {errors.name ? <label htmlFor='image_url' className='red-text'>{errors.name}</label> : <label htmlFor='image_url'>Center Name</label>}
+                  </div>
+                  <Input s={6} name="stateId" value={center.stateId} onChange={this.onChange} type="select" label="States">
+                    <option defaultValue="State" disabled>Select States</option>
+                    {
+                      states.map(state => (
+                        <option
+                          key={state.id}
+                          value={state.id}
+                        >{state.statName}
+                        </option>
+                      ))
+                    }
+                  </Input>
+                </div>
+                <div className="row">
+                  <div className={['input-field', 'col', 's12'].join(' ')}>
+                    <input id="address" type="text" className="validate" name="address" value={center.address} onChange={this.onChange} />
+                    {errors.address ? <label htmlFor="address" className='red-text'>{errors.address}</label> : <label htmlFor="address">Center Address</label>}
+                  </div>
+                </div>
+                <div className="row">
+                  <div className={['input-field', 'col', 's6'].join(' ')}> 
+                    <input id="hall" name="hallCapacity" value={center.hallCapacity} type="number" onChange={this.onChange} className="validate" />
+                    {errors.hallCapacity ? <label htmlFor="hall" className="red-text">{errors.hallCapacity}</label> : <label htmlFor="hall">Hall capacity</label>}
+                  </div>
+                  <div className={['input-field', 'col', 's6'].join(' ')}> 
+                    <input id="carPark" name="carParkCapacity" value={center.carParkCapacity} type="number" onChange={this.onChange} className="validate" />
+                    {errors.carParkCapacity ? <label htmlFor='carPark' className='red-text'>{errors.carParkCapacity}</label> : <label htmlFor="carPark">Carpark Capacity</label>}
+                  </div>
+                </div>
+                <div className="row">
+                  <div className={['input-field', 'col', 's12'].join(' ')}>
+                    <MuiThemeProvider>
+                      <SelectField
+                        multiple
+                        hintText="Select Facilities"
+                        errorText={errors.facilities && <span className="red-text accent-1">{errors.facilities}</span>}
+                        value={center.facilities}
+                        onChange={this.onMultiSelect}
+                      >
+                        {this.menuItems(center.facilities)}
+                      </SelectField>
+                    </MuiThemeProvider>
+                  </div>
+                </div>
+                <div className={['row'].join(' ')}>
+                  <div className={['input-field', 'col', 's12'].join(' ')}>
+                    <input id="price" name="price" value={center.price} type="number" onChange={this.onChange} className="validate" />
+                    {errors.price ? <label htmlFor="price" className="red-text">{errors.price}</label> : <label htmlFor="price">Center Price</label>}
+                  </div>
+                </div>
+                <div className={['file-field', 'input-field', 's12'].join(' ')}>
+                  <div className="btn">
+                    <span>Center image</span>
+                    <input type="file" name="image" onChange={this.onFileChange} accept="image/*" />
+                  </div>
+                  <div className="file-path-wrapper">
+                    <input className={['file-path', 'validate'].join(' ')} type="text" placeholder={errors.image || 'upload image'} />
+                  </div>
+                </div>
+                <div className="">
+                  <button
+                    className={['col', 's12', 'l12', 'btn', 'btn-large', 'waves-effect'].join(' ')}
+                    disabled=""
+                    type="submit"
+                  >
+                  Create
+                  </button>
+                </div>
+              </form>
+              <div className="row">
+                <button className={['col', 's12', 'l12', 'modal-action', 'modal-close', 'waves-effect', 'btn', 'btn-large', 'red'].join(' ')}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+CreateCenterModal.propTypes = propTypes;
+CreateCenterModal.defaultProps = defaultProps;
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  createCenter: centerAction.createCenter
+}, dispatch);
+
+export default connect(null, mapDispatchToProps)(CreateCenterModal);
