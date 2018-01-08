@@ -45,7 +45,7 @@ export default class CenterController {
   static create(req, res) {
     console.log(req.files);
     console.log(req.body);
-    if (req.files.image.size > 10485760) {
+    if (req.files.image.size > 5000000) {
       return res.status(400).json({
         message: 'Image size to large. maximum size is 5MB',
         statusCode: 400

@@ -1,10 +1,11 @@
 {
     "root": true,
-    "extends": ["airbnb-base", "react-app"],
+    "extends": ["airbnb", "react-app"],
     "env": {
       "node": true,
       "es6": true,
-      "mocha": true
+      "mocha": true,
+      "browser": true
     },
     "rules": {
       "one-var": 0,
@@ -17,6 +18,10 @@
       "curly": ["error", "multi-line"],
       "import/no-unresolved": [2, { "commonjs": true }],
       "no-shadow": ["error", { "allow": ["req", "res", "err"] }],
+      "jsx-a11y/anchor-is-valid": [ "error", {
+        "components": [ "Link" ],
+        "specialLink": [ "to" ]
+      }],
       "valid-jsdoc": ["error", {
         "requireReturn": true,
         "requireReturnType": true,
