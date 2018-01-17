@@ -13,7 +13,7 @@ const centerRoutes = (app) => {
   app.get('/api/v1/centers', CenterController.getAll);
   app.get('/api/v1/centers/:centerId', Security.check, CenterController.get);
   app.get('/api/v1/states', CenterController.getAllStates);
-  app.put('/api/v1/centers/:centerId', Security.check, CenterController.update);
+  app.put('/api/v1/centers/:centerId', Security.check, mutipartMiddleware, CenterController.update);
   app.delete('/api/v1/centers/:centerId', Security.check, CenterController.delete);
 };
 export default centerRoutes;

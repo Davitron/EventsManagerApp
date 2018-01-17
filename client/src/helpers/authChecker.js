@@ -42,4 +42,3 @@ class AuthChecker {
 }
 
 export default AuthChecker;
-

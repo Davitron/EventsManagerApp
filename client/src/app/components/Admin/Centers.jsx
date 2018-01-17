@@ -8,6 +8,8 @@ import { Input, Icon } from 'react-materialize';
 import Pagination from '../Reusables/Pagination';
 import CenterActions from '../../../actions/center.action';
 import CreateCenterModal from '../modals/CreateCenter';
+import UpdateCenterModal from '../modals/UpdateCenter';
+import DeleteCenterModal from '../modals/DeleteCenter';
 
 const centerAction = new CenterActions();
 
@@ -24,12 +26,19 @@ class Center extends Component {
       data: [],
       states: [],
       searchNotfound: '',
-      pageOfItems: []
+      pageOfItems: [],
+      open: false,
+      selectedCenter: {},
+      center_Id: undefined
+      // openUpdateModal: false
     };
 
     this.handleSearch = this.handleSearch.bind(this);
     this.onChangePage = this.onChangePage.bind(this);
     this.triggerSearch = debounce(100, this.triggerSearch);
+    this.handleOpen = this.handleOpen.bind(this);
+    this.handleOpen = this.handleOpen.bind(this);
+    // this.handleClose = this.handleClose.bind(this);
   }
 
   /**
@@ -91,6 +100,30 @@ class Center extends Component {
   }
 
   /**
+   * @param {*} centerId
+   * @returns {*} update center modal
+   */
+  handleOpen = (centerId) => {
+    const { pageOfItems } = this.state;
+    const center = pageOfItems.find(x => x.id === centerId)
+    console.log(center);
+    this.setState({
+      selectedCenter: center
+    });
+  };
+
+  /**
+   * @param {*} centerId
+   * @returns {*} update center modal
+   */
+  handleDelete = (centerId) => {
+    const { center_Id } = this.state;
+    this.setState({
+      center_Id: centerId
+    });
+  };
+
+  /**
    *
    * @param {*} value
    * @param {*} data
@@ -126,6 +159,14 @@ class Center extends Component {
 
 
   /**
+   * @returns {*} for modal control
+  */
+  handleClose() {
+    this.setState({ open: false });
+  }
+
+
+  /**
  *@returns {*} event for sortin
  */
   render() {
@@ -134,7 +175,9 @@ class Center extends Component {
       states,
       searchNotfound,
       pageOfItems,
-      center,
+      open,
+      selectedCenter,
+      // openUpdateModal
     } = this.state;
     return (
       <div>
@@ -185,9 +228,9 @@ class Center extends Component {
                           <td>{item.name}</td>
                           <td>{item.State.statName}</td>
                           <td>
-                            <button className={['waves-effect', 'waves-light', 'btn'].join(' ')} style={{ marginLeft: '5px' }} ><i className=" material-icons">create</i></button>
+                            <a href="#updateCenter" className={['waves-effect', 'modal-trigger', 'waves-light', 'btn'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleOpen((item.id))} ><i className=" material-icons">create</i></a>
                             <button className={['waves-effect', 'waves-light', 'btn'].join(' ')} style={{ marginLeft: '5px' }} ><i className=" material-icons">date_range</i></button>
-                            <button className={['waves-effect', 'waves-light', 'btn', 'red'].join(' ')} style={{ marginLeft: '5px' }}><i className=" material-icons">delete</i></button>
+                            <a href="#deleteCenter" className={['waves-effect', 'waves-light', 'btn', 'red'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleDelete((item.id))}><i className=" material-icons">delete</i></a>
                           </td>
                         </tr>))
                     }
@@ -209,6 +252,8 @@ class Center extends Component {
           </div>
         </div>
         <CreateCenterModal states={states} />
+        <UpdateCenterModal states={states} selectedCenter={selectedCenter} />
+        <DeleteCenterModal centerId={this.state.center_Id} />
       </div>
     );
   }

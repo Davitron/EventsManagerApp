@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Input, Modal, Icon } from 'react-materialize';
+import { Input } from 'react-materialize';
 import PropTypes from 'prop-types';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import SelectField from 'material-ui/SelectField';
@@ -24,9 +24,7 @@ const facilities = [
 ];
 
 const propTypes = {
-  states: PropTypes.arrayOf(() => {
-    return null;
-  }),
+  states: PropTypes.arrayOf(() => null),
 
   createCenter: PropTypes.func.isRequired
 };
@@ -202,17 +200,17 @@ class CreateCenterModal extends Component {
                 <div className="row">
                   <div className={['input-field', 'col', 's12'].join(' ')}>
                     <input id="address" type="text" className="validate" name="address" value={center.address} onChange={this.onChange} />
-                    {errors.address ? <label htmlFor="address" className='red-text'>{errors.address}</label> : <label htmlFor="address">Center Address</label>}
+                    {errors.address ? <label htmlFor="address" className="red-text">{errors.address}</label> : <label htmlFor="address">Center Address</label>}
                   </div>
                 </div>
                 <div className="row">
-                  <div className={['input-field', 'col', 's6'].join(' ')}> 
+                  <div className={['input-field', 'col', 's6'].join(' ')}>
                     <input id="hall" name="hallCapacity" value={center.hallCapacity} type="number" onChange={this.onChange} className="validate" />
                     {errors.hallCapacity ? <label htmlFor="hall" className="red-text">{errors.hallCapacity}</label> : <label htmlFor="hall">Hall capacity</label>}
                   </div>
-                  <div className={['input-field', 'col', 's6'].join(' ')}> 
+                  <div className={['input-field', 'col', 's6'].join(' ')}>
                     <input id="carPark" name="carParkCapacity" value={center.carParkCapacity} type="number" onChange={this.onChange} className="validate" />
-                    {errors.carParkCapacity ? <label htmlFor='carPark' className='red-text'>{errors.carParkCapacity}</label> : <label htmlFor="carPark">Carpark Capacity</label>}
+                    {errors.carParkCapacity ? <label htmlFor="carPark" className="red-text">{errors.carParkCapacity}</label> : <label htmlFor="carPark">Carpark Capacity</label>}
                   </div>
                 </div>
                 <div className="row">

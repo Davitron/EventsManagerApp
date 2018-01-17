@@ -96,27 +96,107 @@ export default class CenterReducer {
   static create(state = initialState.center, action) {
     const newState = {};
     switch (action.type) {
-      case centerActionType.GETSTATES_REQUEST:
+      case centerActionType.CREATE_REQUEST:
         newState.requesting = true;
         newState.success = false;
         newState.failed = false;
-        newState.requestType = 'GET';
+        newState.requestType = 'POST';
         newState.data = null;
         newState.error = null;
         return newState;
-      case centerActionType.GETSTATES_SUCCESS:
+      case centerActionType.CREATE_SUCCESS:
         newState.requesting = false;
         newState.success = true;
         newState.failed = false;
-        newState.requestType = 'GET';
+        newState.requestType = 'POST';
         newState.data = action.data;
         newState.error = null;
         return newState;
-      case centerActionType.GETSTATES_FAILED:
+      case centerActionType.CREATE_FAILED:
         newState.requesting = false;
         newState.success = false;
         newState.failed = true;
-        newState.requestType = 'GET';
+        newState.requestType = 'POST';
+        newState.data = null;
+        newState.error = action.error.message;
+        return newState;
+      default:
+        return state;
+    }
+  }
+
+  /**
+   *
+   * @param {*} state
+   * @param {*} action
+   * @returns {object}
+   * This reducer handles updating a center
+   * it returns a new state if an action is dispatched
+   */
+  static update(state = initialState.center, action) {
+    const newState = {};
+    switch (action.type) {
+      case centerActionType.UPDATE_REQUEST:
+        newState.requesting = true;
+        newState.success = false;
+        newState.failed = false;
+        newState.requestType = 'PUT';
+        newState.data = null;
+        newState.error = null;
+        return newState;
+      case centerActionType.UPDATE_SUCCESS:
+        newState.requesting = false;
+        newState.success = true;
+        newState.failed = false;
+        newState.requestType = 'PUT';
+        newState.data = action.data;
+        newState.error = null;
+        return newState;
+      case centerActionType.UPDATE_FAILED:
+        newState.requesting = false;
+        newState.success = false;
+        newState.failed = true;
+        newState.requestType = 'PUT';
+        newState.data = null;
+        newState.error = action.error.message;
+        return newState;
+      default:
+        return state;
+    }
+  }
+
+  /**
+   *
+   * @param {*} state
+   * @param {*} action
+  * @returns {object}
+   * This reducer handles creating a center
+   * it returns a new state if an action is dispatched
+   */
+  static delete(state = initialState.center, action) {
+    const newState = {};
+    switch (action.type) {
+      case centerActionType.DELETE_REQUEST:
+        newState.requesting = true;
+        newState.success = false;
+        newState.failed = false;
+        newState.requestType = 'DELETE';
+        newState.data = null;
+        newState.error = null;
+        return newState;
+      case centerActionType.DELETE_SUCCESS:
+        newState.requesting = false;
+        newState.success = true;
+        newState.failed = false;
+        newState.requestType = 'DELETE';
+        newState.data = action.data;
+        newState.error = null;
+        return newState;
+      case centerActionType.DELETE_FAILED:
+        newState.requesting = false;
+        newState.success = false;
+        newState.failed = true;
+        newState.requestType = 'DELETE';
         newState.data = null;
         newState.error = action.error.message;
         return newState;
