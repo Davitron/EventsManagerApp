@@ -72,41 +72,31 @@ export default class CenterController {
 
         // check if useris an admin
         if (req.decoded.isAdmin === true) {
-          cloudinary.config({
-            cloud_name: 'eventsmanager',
-            api_key: '829791658334495',
-            api_secret: 'yf6RHQWR4EFFUm3eLcCnz2e7GRI'
-          });
-
-          cloudinary.uploader.upload(req.files.image.path, (response) => {
-            console.log(response);
-            CenterService.create(req, response)
-              .then((center) => {
-                // return this if center creation is successful is successful
-                const result = {
-                  message: `${center.name} Is Created Successfully`,
-                  centerId: center.id,
-                  statusCode: 201
-                };
-                fs.unlink(req.files.image.path, (err) => {
-                  if (err) {
-                    console.log('ERROR DELETING FILE');
-                  } else {
-                    console.log('DELETED FILE SUCCESSFULLY');
-                  }
+          CenterService.handleImageUpload(req.files.image.path)
+            .then((url) => {
+              CenterService.create(req, url)
+                .then((center) => {
+                  // return this if center creation is successful is successful
+                  const result = {
+                    message: `${center.name} Is Created Successfully`,
+                    centerId: center.id,
+                    statusCode: 201
+                  };
+                  return res.status(result.statusCode).json(result);
+                })
+                .catch((err) => {
+                  // return this if center creation is not successful
+                  console.log(err);
+                  const result = {
+                    message: 'Oops!, Server Error',
+                    statusCode: 500
+                  };
+                  return res.status(result.statusCode).json(result);
                 });
-                return res.status(result.statusCode).json(result);
-              })
-              .catch((err) => {
-                // return this if center creation is not successful
-                console.log(err);
-                const result = {
-                  message: 'Oops!, Server Error',
-                  statusCode: 500
-                };
-                return res.status(result.statusCode).json(result);
-              });
-          });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         } else {
           // return this if user is not an admin
           return res.status(401).json({ message: 'You do not have admin priviledge' });
@@ -178,29 +168,35 @@ export default class CenterController {
             }
             if (req.body.name) {
               return CenterService.checkNameAvalability(req)
-                .then((doesNotExist) => {
-                  console.log(!doesNotExist);
-                  if (doesNotExist) {
+                .then((doesExist) => {
+                // console.log(!doesNotExist);
+                  if (doesExist) {
                     res.status(400).json({
                       message: 'Center with name and location already exist',
                       statusCode: 400
                     });
                   } else {
-                    CenterService.update(req, center)
-                      .then((modifiedCenter) => {
-                      // console.log(modifiedCenter);
-                        return res.status(200).json({
-                          message: 'Center Is Modified',
-                          center: modifiedCenter,
-                          statusCode: 200
-                        });
-                      })
-                      .catch((error) => {
-                        console.log(error);
-                        return res.status(500).json({
-                          message: 'Server Error',
-                          statusCode: 500
-                        });
+                    CenterService.handleImageUpdate(req.files.image.path, center.image)
+                      .then((url) => {
+                        req.body.image = url;
+                        req.body.admin = req.decoded.id;
+                        console.log(req.body);
+                        CenterService.update(req.body, center)
+                          .then((modifiedCenter) => {
+                          // console.log(modifiedCenter);
+                            return res.status(200).json({
+                              message: 'Center Is Modified',
+                              center: modifiedCenter,
+                              statusCode: 200
+                            });
+                          })
+                          .catch((error) => {
+                            console.log(error);
+                            return res.status(500).json({
+                              message: 'Server Error',
+                              statusCode: 500
+                            });
+                          });
                       });
                   }
                 })
@@ -212,9 +208,9 @@ export default class CenterController {
                   });
                 });
             }
-            return CenterService.update(req, center)
+            req.body.image = CenterService.handleImageUpdate(req.files.image.path, center.image);
+            return CenterService.update(req.body, center)
               .then((modifiedCenter) => {
-                // console.log(modifiedCenter);
                 return res.status(200).json({
                   message: 'Center Is Modified',
                   center: modifiedCenter,
@@ -259,12 +255,17 @@ export default class CenterController {
               message: 'Center does not exist',
             });
           }
-          center.destroy()
-          // to return this center is deleted successfully
-            .then(() => res.status(200).json({ message: 'Center is successfully  deleted' }))
-            .catch(error => res.status(400).json(error));
+          CenterService.handleImageDelete(center.image)
+            .then((result) => {
+              console.log(result);
+              center.destroy()
+              // to return this center is deleted successfully
+                .then(() => res.status(200).json({ message: 'Center is successfully  deleted' }))
+                .catch(error => res.status(400).json(error));
+            })
+            .catch(error => res.status(500).json(error));
         })
-        .catch(error => res.status(400).json(error));
+        .catch(error => res.status(500).json(error));
     }
   }
 

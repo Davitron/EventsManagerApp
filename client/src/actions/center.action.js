@@ -90,15 +90,15 @@ export default class CenterActions {
    */
   createCenter(newCenter) {
     const request = (center) => {
-      const requestAction = { type: centerActionType.GETSTATES_REQUEST, center };
+      const requestAction = { type: centerActionType.CREATE_REQUEST, center };
       return requestAction;
     };
     const success = (center) => {
-      const successAction = { type: centerActionType.GETSTATES_SUCCESS, center };
+      const successAction = { type: centerActionType.CREATE_SUCCESS, center };
       return successAction;
     };
     const failure = (error) => {
-      const failureAction = { type: centerActionType.GETSTATES_FAILED, error };
+      const failureAction = { type: centerActionType.CREATE_FAILED, error };
       return failureAction;
     };
 
@@ -130,6 +130,97 @@ export default class CenterActions {
         .catch((error) => {
           console.log(error.response);
           dispatch(failure(error.response.data));
+        });
+    };
+  }
+
+  /**
+   *
+   * @param {*} centerObj
+   * @returns {*}
+   * this action is handles updating a center
+   */
+  updateCenter(centerObj) {
+    const request = (center) => {
+      const requestAction = { type: centerActionType.UPDATE_REQUEST, center };
+      return requestAction;
+    };
+    const success = (center) => {
+      const successAction = { type: centerActionType.UPDATE_SUCCESS, center };
+      return successAction;
+    };
+    const failure = (error) => {
+      const failureAction = { type: centerActionType.UPDATE_FAILED, error };
+      return failureAction;
+    };
+
+    const facilitiesStr = centerObj.facilities.join();
+    const formData = new FormData();
+    formData.append('name', centerObj.name);
+    formData.append('stateId', centerObj.stateId);
+    formData.append('address', centerObj.address);
+    formData.append('hallCapacity', centerObj.hallCapacity);
+    formData.append('carParkCapacity', centerObj.carParkCapacity);
+    formData.append('image', centerObj.image);
+    formData.append('facilities', facilitiesStr);
+    formData.append('price', centerObj.price);
+
+    return (dispatch) => {
+      dispatch(request(centerObj));
+      axios({
+        method: 'PUT',
+        url: `/api/v1/centers/${centerObj.id}`,
+        headers: {
+          'x-access-token': token
+        },
+        data: formData
+      })
+        .then((result) => {
+          dispatch(success(result.data));
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.log(error.response);
+          dispatch(failure(error.response.data));
+        });
+    };
+  }
+
+  /**
+   *
+   * @param {*} id
+   * @returns {*}
+   * this action is handles deleting a center
+  */
+  deleteCenter(id) {
+    const request = (centerId) => {
+      const requestAction = { type: centerActionType.DELETE_REQUEST, centerId };
+      return requestAction;
+    };
+    const success = (centerId) => {
+      const successAction = { type: centerActionType.DELETE_SUCCESS, centerId };
+      return successAction;
+    };
+    const failure = (error) => {
+      const failureAction = { type: centerActionType.DELETE_FAILED, error };
+      return failureAction;
+    };
+
+    return (dispatch) => {
+      dispatch(request(id));
+      axios({
+        method: 'DELETE',
+        url: `/api/v1/centers/${id}`,
+        headers: {
+          'x-access-token': token
+        }
+      })
+        .then((result) => {
+          dispatch(success(result.data));
+          window.location.reload();
+        })
+        .catch((error) => {
+          dispatch(failure(error.response));
         });
     };
   }

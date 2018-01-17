@@ -167,20 +167,20 @@ class Pagination extends React.Component {
     return (
       <ul className="pagination">
         <li className={pager.currentPage === 1 ? 'disabled' : ''}>
-          <a href="" className="chip" onClick={() => this.setPage(1)} >First</a>
+          <a className="chip" onClick={() => this.setPage(1)} >First</a>
         </li>
         <li className={pager.currentPage === 1 ? 'disabled' : ''}>
-          <a href="" onClick={() => this.setPage(pager.currentPage - 1)}><i className="material-icons">chevron_left</i></a>
+          <a onClick={() => this.setPage(pager.currentPage - 1)}><i className="material-icons">chevron_left</i></a>
         </li>
         {pager.pages.map((page, index) => (
           <li key={page} className={pager.currentPage === page ? 'active' : ''}>
-            <a href="" onClick={() => this.setPage(page)}>{page}</a>
+            <a onClick={() => this.setPage(page)}>{page}</a>
           </li>))}
         <li className={pager.currentPage === pager.totalPages ? 'disabled' : ''}>
-          <a href="" onClick={() => this.setPage(pager.currentPage + 1)}><i className="material-icons">chevron_right</i></a>
+          <a onClick={() => this.setPage(pager.currentPage + 1)}><i className="material-icons">chevron_right</i></a>
         </li>
         <li className={pager.currentPage === pager.totalPages ? 'disabled' : ''}>
-          <a href="" className="chip" onClick={() => this.setPage(pager.totalPages)}>Last</a>
+          <a className="chip" onClick={() => this.setPage(pager.totalPages)}>Last</a>
         </li>
       </ul>
     );
