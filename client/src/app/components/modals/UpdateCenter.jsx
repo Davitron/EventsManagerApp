@@ -26,12 +26,17 @@ const facilities = [
 const propTypes = {
   states: PropTypes.arrayOf(() => null),
   selectedCenter: PropTypes.objectOf(() => null),
-  updateCenter: PropTypes.func.isRequired
+  updateCenter: PropTypes.func.isRequired,
+  getCenters: PropTypes.func.isRequired,
+  stateProps: PropTypes.objectOf(() => {
+    return null;
+  }),
 };
 
 const defaultProps = {
   states: [],
-  selectedCenter: {}
+  selectedCenter: {},
+  stateProps: {}
 };
 /**
  *component for create center modal
@@ -46,7 +51,8 @@ class UpdateCenterModal extends Component {
     this.state = {
       center: {},
       errors: {},
-      loading: false
+      loading: false,
+      message: ''
     };
 
     this.onChange = this.onChange.bind(this);
@@ -70,6 +76,8 @@ class UpdateCenterModal extends Component {
    * @returns {*} to set state when props changes
    */
   componentWillReceiveProps(nextProps) {
+    const { message } = this.state;
+    const { getCenters } = this.props;
     if (nextProps.selectedCenter !== this.props.selectedCenter) {
       const facilitiesArr = nextProps.selectedCenter.facilities.map(f => f.toUpperCase());
       this.setState({
@@ -83,6 +91,20 @@ class UpdateCenterModal extends Component {
           price: nextProps.selectedCenter.price.toString(),
           image: {},
           facilities: facilitiesArr
+        }
+      });
+    }
+    if (nextProps.stateProps.response.data !== message) {
+      this.setState({
+        message: nextProps.stateProps.response.data
+      }, () => {
+        if (nextProps.stateProps.response.data) {
+          this.setState({
+            loading: false
+          });
+          Materialize.toast(nextProps.stateProps.response.data, 6000, 'cyan');
+          setTimeout(() =>  $('#updateCenter').modal('close'), 6000);
+          getCenters();
         }
       });
     }
@@ -198,7 +220,7 @@ class UpdateCenterModal extends Component {
     const { states, selectedCenter } = this.props;
     return (
       <div className="center-modal">
-        <div id="updateCenter" className="modal" ref={(md) => { this.modal = md; }}>
+        <div id="updateCenter" className="modal modal-fixed-footer" ref={(md) => { this.modal = md; }}>
 
           <div className="modal-content">
             <h4>Update Center</h4>
@@ -240,7 +262,7 @@ class UpdateCenterModal extends Component {
                   </div>
                 </div>
                 <div className="row">
-                  <div className={['input-field', 'col', 's12'].join(' ')}>
+                  <div className={['input-field', 'col', 's6'].join(' ')}>
                     <MuiThemeProvider>
                       <SelectField
                         multiple
@@ -253,11 +275,11 @@ class UpdateCenterModal extends Component {
                       </SelectField>
                     </MuiThemeProvider>
                   </div>
-                </div>
-                <div className={['row'].join(' ')}>
-                  <div className={['input-field', 'col', 's12'].join(' ')}>
-                    <input id="price" name="price" value={!center.price ? '' : center.price} type="number" onChange={this.onChange} className="validate" />
-                    {errors.price ? <label htmlFor="price" className="red-text active">{errors.price}</label> : <label htmlFor="price" className={selectedCenter.price && 'active'}>Center Price</label>}
+                  <div className={['row'].join(' ')}>
+                    <div className={['input-field', 'col', 's6'].join(' ')}>
+                      <input id="price" name="price" value={!center.price ? '' : center.price} type="number" onChange={this.onChange} className="validate" />
+                      {errors.price ? <label htmlFor="price" className="red-text active">{errors.price}</label> : <label htmlFor="price" className={selectedCenter.price && 'active'}>Center Price</label>}
+                    </div>
                   </div>
                 </div>
                 <div className={['file-field', 'input-field', 's12'].join(' ')}>
@@ -269,22 +291,12 @@ class UpdateCenterModal extends Component {
                     <input className={['file-path', 'validate'].join(' ')} type="text" placeholder={errors.image || 'upload image'} />
                   </div>
                 </div>
-                <div className="">
-                  <button
-                    className={['col', 's12', 'l12', 'btn', 'btn-large', 'waves-effect'].join(' ')}
-                    disabled=""
-                    type="submit"
-                  >
-                  Create
-                  </button>
-                </div>
               </form>
-              <div className="row">
-                <button className={['col', 's12', 'l12', 'modal-action', 'modal-close', 'waves-effect', 'btn', 'btn-large', 'red'].join(' ')}>
-                  Cancel
-                </button>
-              </div>
             </div>
+          </div>
+          <div className="modal-footer" >
+            <button className="modal-action modal-close waves-effect waves-green btn-flat">Cancel</button>
+            <button className="waves-effect waves-green btn-flat" onClick={this.onSubmit}>Create</button>
           </div>
         </div>
       </div>
@@ -295,8 +307,15 @@ class UpdateCenterModal extends Component {
 UpdateCenterModal.propTypes = propTypes;
 UpdateCenterModal.defaultProps = defaultProps;
 
+const matchStateToProps = state => ({
+  stateProps: {
+    response: state.updateCenter
+  }
+});
+
 const mapDispatchToProps = dispatch => bindActionCreators({
-  updateCenter: centerAction.updateCenter
+  updateCenter: centerAction.updateCenter,
+  getCenters: centerAction.getAll
 }, dispatch);
 
-export default connect(null, mapDispatchToProps)(UpdateCenterModal);
+export default connect(matchStateToProps, mapDispatchToProps)(UpdateCenterModal);

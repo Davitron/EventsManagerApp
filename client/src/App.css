@@ -18,6 +18,8 @@
   background-position: center center;
   background-size: cover;
   background-image: url("./assests/image/banner4.jpg");
+  /* opacity: 0.5;
+  filter: alpha(opacity=50); */
   height: 100%;
   margin: 0 auto;
   /*left: 0;*/
@@ -69,6 +71,10 @@
 .App-signup main {
   flex: 1 0 auto;
   margin-top: auto; }
+
+.modal-content {
+  overflow-y: hidden !important
+}
 /* 
 .center-modal {
   display: flex; }
