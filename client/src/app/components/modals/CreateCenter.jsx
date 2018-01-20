@@ -12,6 +12,7 @@ import FormValidator from '../forms/formInputValidator';
 
 
 const centerAction = new CenterActions();
+window.jQuery = window.$ = jQuery;
 
 
 const facilities = [
@@ -25,12 +26,16 @@ const facilities = [
 
 const propTypes = {
   states: PropTypes.arrayOf(() => null),
-
-  createCenter: PropTypes.func.isRequired
+  stateProps: PropTypes.objectOf(() => {
+    return null;
+  }),
+  createCenter: PropTypes.func.isRequired,
+  getCenters: PropTypes.func.isRequired
 };
 
 const defaultProps = {
-  states: []
+  states: [],
+  stateProps: {}
 };
 /**
  *component for create center modal
@@ -54,7 +59,8 @@ class CreateCenterModal extends Component {
         facilities: []
       },
       errors: {},
-      loading: false
+      loading: false,
+      message: ''
     };
 
     this.onChange = this.onChange.bind(this);
@@ -62,6 +68,40 @@ class CreateCenterModal extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onMultiSelect = this.onMultiSelect.bind(this);
   }
+
+  /**
+   * @param {object} nextProps
+   * @returns {*} new props
+   */
+  componentWillReceiveProps(nextProps) {
+    const { message } = this.state;
+    const { getCenters } = this.props;
+    if (nextProps.stateProps.response.data !== message) {
+      this.setState({
+        message: nextProps.stateProps.response.data
+      }, () => {
+        if (nextProps.stateProps.response.data) {
+          this.setState({
+            loading: false,
+            center: {
+              name: '',
+              price: '',
+              address: '',
+              image: undefined,
+              hallCapacity: '',
+              carParkCapacity: '',
+              stateId: '',
+              facilities: []
+            }
+          });
+          Materialize.toast(nextProps.stateProps.response.data, 6000, 'cyan');
+          setTimeout(() =>  $('#newCenter').modal('close'), 6000);
+          getCenters();
+        }
+      });
+    }
+  }
+
 
   /**
   *@param {*} event
@@ -133,11 +173,9 @@ class CreateCenterModal extends Component {
    *@returns {*} check if form imputs are valid
    */
   isValid() {
-    console.log(this.state.center);
     let validity = true;
     const formValidator = new FormValidator();
     const { errors, isValid } = formValidator.validateCenterInput(this.state.center);
-    console.log(errors, this.state.center);
     if (isValid === false) {
       this.setState({ errors });
       validity = false;
@@ -172,13 +210,13 @@ class CreateCenterModal extends Component {
     const { states } = this.props;
     return (
       <div className="center-modal">
-        <div id="createCenter" className="modal" ref={(md) => { this.modal = md; }}>
+        <div id="newCenter" className="modal modal-fixed-footer">
 
           <div className="modal-content">
             <h4>Create Center</h4>
             {loading === true && <Loader />}
             <div className="row">
-              <form className={['col', 'row', 's12'].join(' ')} onSubmit={this.onSubmit}>
+              <form className={['col', 'row', 's12'].join(' ')} >
                 <div className={['row'].join(' ')}>
                   <div className={['input-field', 'col', 's6'].join(' ')}>
                     <input id="image_url" type="text" name="name" value={center.name} onChange={this.onChange} className="validate" />
@@ -214,7 +252,7 @@ class CreateCenterModal extends Component {
                   </div>
                 </div>
                 <div className="row">
-                  <div className={['input-field', 'col', 's12'].join(' ')}>
+                  <div className={['input-field', 'col', 's6'].join(' ')}>
                     <MuiThemeProvider>
                       <SelectField
                         multiple
@@ -227,11 +265,11 @@ class CreateCenterModal extends Component {
                       </SelectField>
                     </MuiThemeProvider>
                   </div>
-                </div>
-                <div className={['row'].join(' ')}>
-                  <div className={['input-field', 'col', 's12'].join(' ')}>
-                    <input id="price" name="price" value={center.price} type="number" onChange={this.onChange} className="validate" />
-                    {errors.price ? <label htmlFor="price" className="red-text">{errors.price}</label> : <label htmlFor="price">Center Price</label>}
+                  <div className={['row'].join(' ')}>
+                    <div className={['input-field', 'col', 's6'].join(' ')}>
+                      <input id="price" name="price" value={center.price} type="number" onChange={this.onChange} className="validate" />
+                      {errors.price ? <label htmlFor="price" className="red-text">{errors.price}</label> : <label htmlFor="price">Center Price</label>}
+                    </div>
                   </div>
                 </div>
                 <div className={['file-field', 'input-field', 's12'].join(' ')}>
@@ -243,22 +281,12 @@ class CreateCenterModal extends Component {
                     <input className={['file-path', 'validate'].join(' ')} type="text" placeholder={errors.image || 'upload image'} />
                   </div>
                 </div>
-                <div className="">
-                  <button
-                    className={['col', 's12', 'l12', 'btn', 'btn-large', 'waves-effect'].join(' ')}
-                    disabled=""
-                    type="submit"
-                  >
-                  Create
-                  </button>
-                </div>
               </form>
-              <div className="row">
-                <button className={['col', 's12', 'l12', 'modal-action', 'modal-close', 'waves-effect', 'btn', 'btn-large', 'red'].join(' ')}>
-                  Cancel
-                </button>
-              </div>
             </div>
+          </div>
+          <div className="modal-footer" >
+            <button className="modal-action modal-close waves-effect waves-green btn-flat ">Cancel</button>
+            <button className="waves-effect waves-green btn-flat" onClick={this.onSubmit}>Create</button>
           </div>
         </div>
       </div>
@@ -269,8 +297,15 @@ class CreateCenterModal extends Component {
 CreateCenterModal.propTypes = propTypes;
 CreateCenterModal.defaultProps = defaultProps;
 
+const matchStateToProps = state => ({
+  stateProps: {
+    response: state.createCenter
+  }
+});
+
 const mapDispatchToProps = dispatch => bindActionCreators({
-  createCenter: centerAction.createCenter
+  createCenter: centerAction.createCenter,
+  getCenters: centerAction.getAll
 }, dispatch);
 
-export default connect(null, mapDispatchToProps)(CreateCenterModal);
+export default connect(matchStateToProps, mapDispatchToProps)(CreateCenterModal);

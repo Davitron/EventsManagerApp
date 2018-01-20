@@ -109,7 +109,7 @@ export default class CenterReducer {
         newState.success = true;
         newState.failed = false;
         newState.requestType = 'POST';
-        newState.data = action.data;
+        newState.data = action.center.message;
         newState.error = null;
         return newState;
       case centerActionType.CREATE_FAILED:
@@ -149,7 +149,7 @@ export default class CenterReducer {
         newState.success = true;
         newState.failed = false;
         newState.requestType = 'PUT';
-        newState.data = action.data;
+        newState.data = action.center.message;
         newState.error = null;
         return newState;
       case centerActionType.UPDATE_FAILED:
@@ -189,7 +189,7 @@ export default class CenterReducer {
         newState.success = true;
         newState.failed = false;
         newState.requestType = 'DELETE';
-        newState.data = action.data;
+        newState.data = action.centerId.message;
         newState.error = null;
         return newState;
       case centerActionType.DELETE_FAILED:

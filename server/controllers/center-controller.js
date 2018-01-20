@@ -176,7 +176,8 @@ export default class CenterController {
                       statusCode: 400
                     });
                   } else {
-                    CenterService.handleImageUpdate(req.files.image.path, center.image)
+                    const file = req.files;
+                    CenterService.handleImageUpdate(file, center.image)
                       .then((url) => {
                         req.body.image = url;
                         req.body.admin = req.decoded.id;

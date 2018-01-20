@@ -184,11 +184,11 @@ export default class CenterService {
 
   /**
    *
-   * @param {*} path
+   * @param {*} file
    * @param {*} currentImg
    * @returns {*} handles image upload
    */
-  static handleImageUpdate(path, currentImg) {
+  static handleImageUpdate(file, currentImg) {
     let imageLink = '';
     cloudinary.config({
       cloud_name: 'eventsmanager',
@@ -197,24 +197,27 @@ export default class CenterService {
     });
     return new Promise((resolve, reject) => {
       if (currentImg === null || currentImg === undefined) {
-        cloudinary.v2.uploader.upload(path, (error, response) => {
+        cloudinary.v2.uploader.upload(file.image.path, (error, response) => {
           if (error) {
             console.log(error);
           }
-          this.cleanUpFiles(path);
+          this.cleanUpFiles(file.image.path);
           imageLink = response.url;
           resolve(imageLink);
         });
       } else {
+        if (file.image === undefined) {
+          resolve(undefined);
+        }
         console.log('here');
         const publicId = this.getPid(currentImg);
         console.log(publicId);
-        cloudinary.v2.uploader.upload(path, { public_id: publicId, invalidate: true }, (error, response) => {
+        cloudinary.v2.uploader.upload(file.image.path, { public_id: publicId, invalidate: true }, (error, response) => {
           if (error) {
             reject(error);
           }
           console.log(response);
-          this.cleanUpFiles(path);
+          this.cleanUpFiles(file.image.path);
           imageLink = response.url;
           resolve(imageLink);
         });

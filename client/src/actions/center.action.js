@@ -124,8 +124,10 @@ export default class CenterActions {
         data: formData
       })
         .then((result) => {
+          // const { data } = result;
+          console.log(result.data);
           dispatch(success(result.data));
-          window.location.reload();
+          // window.location.reload();
         })
         .catch((error) => {
           console.log(error.response);
@@ -177,7 +179,6 @@ export default class CenterActions {
       })
         .then((result) => {
           dispatch(success(result.data));
-          window.location.reload();
         })
         .catch((error) => {
           console.log(error.response);
@@ -217,7 +218,6 @@ export default class CenterActions {
       })
         .then((result) => {
           dispatch(success(result.data));
-          window.location.reload();
         })
         .catch((error) => {
           dispatch(failure(error.response));

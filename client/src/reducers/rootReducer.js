@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import UserReducer from './userReducer';
 import CenterReducer from './centerReducer';
 
-
 const userSignUp = UserReducer.signup;
 const userSignIn = UserReducer.signin;
 const userVerification = UserReducer.completeRegistration;

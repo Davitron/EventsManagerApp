@@ -7,13 +7,19 @@ import Loader from './../Loader/Loader';
 
 const centerAction = new CenterActions();
 
+
 const propTypes = {
   centerId: PropTypes.number,
-  deleteCenter: PropTypes.func.isRequired
+  deleteCenter: PropTypes.func.isRequired,
+  getCenters: PropTypes.func.isRequired,
+  stateProps: PropTypes.objectOf(() => {
+    return null;
+  }),
 };
 
 const defaultProps = {
-  centerId: undefined
+  centerId: undefined,
+  stateProps: {}
 };
 /**
   *
@@ -27,7 +33,8 @@ class DeleteCenterModal extends Component {
     super(props);
     this.state = {
       centerId: undefined,
-      loading: false
+      loading: false,
+      message: ''
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -47,10 +54,27 @@ class DeleteCenterModal extends Component {
    * @returns {*} to set state when props changes
    */
   componentWillReceiveProps(nextProps) {
+    const { message } = this.state;
+    const { getCenters } = this.props;
     if (nextProps.centerId !== this.props.centerId) {
       console.log(nextProps.centerId);
       this.setState({
         centerId: nextProps.centerId
+      });
+    }
+
+    if (nextProps.stateProps.response.data !== message) {
+      this.setState({
+        message: nextProps.stateProps.response.data
+      }, () => {
+        if (nextProps.stateProps.response.data) {
+          this.setState({
+            loading: false
+          });
+          Materialize.toast(nextProps.stateProps.response.data, 6000, 'cyan');
+          setTimeout(() =>  $('#deleteCenter').modal('close'), 6000);
+          getCenters();
+        }
       });
     }
   }
@@ -78,11 +102,12 @@ class DeleteCenterModal extends Component {
     return (
       <div id="deleteCenter" className="modal">
         <div className="modal-content">
+          {loading === true && <Loader />}
           <h4>Delete Center</h4>
           <h5>Are you sure you want to delete this center?</h5>
         </div>
         <div className="modal-footer">
-          <button className=" modal-action modal-close waves-effect waves-green btn" onClick={this.onSubmit}>Confirm</button>
+          <button className="waves-effect waves-green btn" onClick={this.onSubmit}>Confirm</button>
         </div>
       </div>
     );
@@ -92,8 +117,15 @@ class DeleteCenterModal extends Component {
 DeleteCenterModal.propTypes = propTypes;
 DeleteCenterModal.defaultProps = defaultProps;
 
+const matchStateToProps = state => ({
+  stateProps: {
+    response: state.deleteCenter
+  }
+});
+
 const mapDispatchToProps = dispatch => bindActionCreators({
-  deleteCenter: centerAction.deleteCenter
+  deleteCenter: centerAction.deleteCenter,
+  getCenters: centerAction.getAll
 }, dispatch);
 
-export default connect(null, mapDispatchToProps)(DeleteCenterModal);
+export default connect(matchStateToProps, mapDispatchToProps)(DeleteCenterModal);
