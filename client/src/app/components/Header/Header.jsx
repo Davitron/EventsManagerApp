@@ -3,12 +3,34 @@ import { Navbar, NavItem } from 'react-materialize';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import shortid from 'shortid';
+import AuthChecker from '../../../helpers/authChecker';
 import '../../../App.css';
 
 /**
  *
  */
 class Header extends Component {
+
+  /**
+   *
+   * @param {*} props
+   */
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: undefined
+    };
+  }
+
+  /**
+   *@returns{*} authentication status
+   */
+  componentWillMount() {
+    const authUser = AuthChecker.getUserDetails();
+    this.setState({
+      user: authUser
+    });
+  }
   /**
   *@param {*} nextState
   *@param {*} nextProps
@@ -41,8 +63,7 @@ class Header extends Component {
    *this will produce appropriate navabar menu for role
    */
   renderByRole() {
-    const { userStateProps } = this.props;
-    console.log(userStateProps);
+    const { user } = this.state;
     let items;
     const linkByRoles = {
       unAuthUser: [
@@ -57,17 +78,17 @@ class Header extends Component {
       ],
       user: [
         {
-          linkName: 'user',
+          linkName: user.user,
           linkRef: ''
         },
         {
-          linkName: 'SignOut',
+          linkName: 'Logout',
           linkRef: '/SignOut'
         }
       ],
       admin: [
         {
-          linkName: 'admin',
+          linkName: 'Admin',
           linkRef: ''
         },
         {
@@ -84,12 +105,18 @@ class Header extends Component {
         }
       ]
     };
-    if (userStateProps.user && !userStateProps.user.isVerified && !userStateProps.user.isAdmin) {
+    if (user && user.isVerified === false && user.isAdmin === false) {
       items = linkByRoles.user
-        .map((item, index) => <NavItem href={item.linkRef}>{item.linkName}</NavItem>);
-    } else if (userStateProps.user && userStateProps.user.isVerified && userStateProps.isAdmin) {
+        .map((item, index) => (
+          <NavItem key={shortid.generate()} href={item.linkRef}>
+            {item.linkName}
+          </NavItem>));
+    } else if (user && user.isVerified === true && user.isAdmin === true) {
       items = linkByRoles.admin
-        .map((item, index) => <NavItem href={item.linkRef}>{item.linkName}</NavItem>);
+        .map((item, index) => (
+          <NavItem key={shortid.generate()} href={item.linkRef}>
+            {item.linkName}
+          </NavItem>));
     } else {
       items = linkByRoles.unAuthUser
         .map((item, index) => (
@@ -104,16 +131,16 @@ class Header extends Component {
    *@returns {*} view for langing page
    */
   render() {
-    const { userStateProps } = this.props;
     return (
       <header>
         <Navbar brand="EventsManager" fixed className="App-header" right>
-          {userStateProps.user && <NavItem href="#">{userStateProps.user.username}</NavItem>}
+          {this.renderByRole()}
+          {/* {userStateProps.user && <NavItem href="#">{userStateProps.user.username}</NavItem>}
           {!userStateProps.user && <NavItem href="/SignIn">SignIn</NavItem>}
           {!userStateProps.user && <NavItem href="/SignUp">SignUp</NavItem>}
           {userStateProps.user && userStateProps.user.isAdmin === true && <NavItem href="/admin/centers">Centers</NavItem>}
           {userStateProps.user && userStateProps.user.isAdmin === true && <NavItem href="/admin/pending_events">Pending Events</NavItem>}
-          {userStateProps.user && <NavItem href="/SignOut">SignOut</NavItem>}
+          {userStateProps.user && <NavItem href="/SignOut">SignOut</NavItem>} */}
         </Navbar>
       </header>
     );
