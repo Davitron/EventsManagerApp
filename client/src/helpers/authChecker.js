@@ -39,6 +39,20 @@ class AuthChecker {
     }
     return result;
   }
+
+  /**
+   *@returns {object}
+   * provides userObject if user is authenticated
+   */
+  static getUserDetails() {
+    const cookies = new Cookies();
+    const token = cookies.get('jwt-events-manager');
+    const user = jwtDecode(token);
+    if (!token || token.exp > Date.now()) {
+      return null;
+    }
+    return user;
+  }
 }
 
 export default AuthChecker;

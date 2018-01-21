@@ -112,7 +112,13 @@ export default class UserController {
           return res.status(400).json({ message: 'Invalid Password' });
         }
         // encode user info to geerated token
-        const token = jwt.sign({ id: user.id, isAdmin: user.isAdmin }, process.env.SECRET_KEY, { expiresIn: '1d' });
+        const token =
+        jwt.sign({
+          id: user.id,
+          isAdmin: user.isAdmin,
+          user: user.username,
+          isVerified: user.isVerified
+        }, process.env.SECRET_KEY, { expiresIn: '1d' });
         res.status(200).json({ message: 'Authentication Is Successful!', userDetails: user, Token: token });
       }).catch(err => res.status(500).json({
         message: 'Oops!, an error has occured',
