@@ -64,6 +64,12 @@ class Header extends Component {
    */
   renderByRole() {
     const { user } = this.state;
+    let userName;
+    if (user === null) {
+      userName = '';
+    } else {
+      userName = user.user;
+    }
     let items;
     const linkByRoles = {
       unAuthUser: [
@@ -78,7 +84,7 @@ class Header extends Component {
       ],
       user: [
         {
-          linkName: user.user,
+          linkName: userName,
           linkRef: ''
         },
         {

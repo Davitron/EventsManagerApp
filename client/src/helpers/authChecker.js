@@ -15,7 +15,9 @@ class AuthChecker {
     const token = cookies.get('jwt-events-manager');
     if (token) {
       const decoded = jwtDecode(token);
-      if (decoded.exp > Date.now() && decoded.isVerified === true) {
+      const expiryDate = new Date(0);
+      expiryDate.setUTCSeconds(decoded.exp);
+      if (expiryDate > Date.now() && decoded.isVerified === true) {
         result = true;
       }
     }
@@ -33,7 +35,9 @@ class AuthChecker {
     const token = cookies.get('jwt-events-manager');
     if (token) {
       const decoded = jwtDecode(token);
-      if (decoded.exp > Date.now() && decoded.isVerified === true && decoded.isAdmin === true) {
+      const expiryDate = new Date(0);
+      expiryDate.setUTCSeconds(decoded.exp);
+      if (expiryDate > Date.now() && decoded.isVerified === true && decoded.isAdmin === true) {
         result = true;
       }
     }
@@ -47,11 +51,14 @@ class AuthChecker {
   static getUserDetails() {
     const cookies = new Cookies();
     const token = cookies.get('jwt-events-manager');
-    const user = jwtDecode(token);
-    if (!token || token.exp > Date.now()) {
-      return null;
+    if (token) {
+      const user = jwtDecode(token);
+      if (token.exp > Date.now()) {
+        return null;
+      }
+      return user;
     }
-    return user;
+    return null;
   }
 }
 

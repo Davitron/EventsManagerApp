@@ -33,7 +33,7 @@ ReactDOM.render(
     <Router history={history}>
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route exact path="/admin/centers" component={Center} />
+        <PrivateRoute exact authenticated={AuthChecker.checkAdminAuth()} path="/admin/centers" component={Center} />
         <Route exact path="/SignIn" component={SignIn} />
         <Route exact path="/SignUp" component={SignUp} />
         <Route exact path="/ForgotPassword" component={ForgotPassword} />
