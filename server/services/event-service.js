@@ -49,7 +49,6 @@ export default class EventService {
       endDate,
       userId: req.decoded.id,
       image: 'xfgxgdhxgdh',
-      status: req.body.status
     });
   }
 

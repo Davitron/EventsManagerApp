@@ -274,6 +274,29 @@ export default class CenterController {
    *
    * @param {*} req
    * @param {*} res
+   * @returns {*} returns centers result
+   */
+  static searchCenters(req, res) {
+    CenterService.searchCenter(req.body)
+      .then((response) => {
+        for (const i in response) {
+          if (response[i].facilities.length > 0) {
+            response[i].facilities = response[i].facilities.join(', ');
+          }
+        }
+        res.status(200).json(response);
+      })
+      .catch((error) => {
+        res.status(500).json({
+          message: 'Interna Server Error'
+        });
+      });
+  }
+
+  /**
+   *
+   * @param {*} req
+   * @param {*} res
    * @returns {*} returns all states
    */
   static getAllStates(req, res) {

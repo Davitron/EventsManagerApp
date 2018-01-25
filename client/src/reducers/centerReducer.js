@@ -204,4 +204,44 @@ export default class CenterReducer {
         return state;
     }
   }
+
+  /**
+   *
+   * @param {*} state
+   * @param {*} action
+  * @returns {object}
+   * This reducer handles creating a center
+   * it returns a new state if an action is dispatched
+   */
+  static search(state = initialState.center, action) {
+    const newState = {};
+    switch (action.type) {
+      case centerActionType.SEARCH_REQUEST:
+        newState.requesting = true;
+        newState.success = false;
+        newState.failed = false;
+        newState.requestType = 'POST';
+        newState.data = null;
+        newState.error = null;
+        return newState;
+      case centerActionType.SEARCH_SUCCESS:
+        newState.requesting = false;
+        newState.success = true;
+        newState.failed = false;
+        newState.requestType = 'POST';
+        newState.data = action.centers;
+        newState.error = null;
+        return newState;
+      case centerActionType.SEARCH_FAILED:
+        newState.requesting = false;
+        newState.success = false;
+        newState.failed = true;
+        newState.requestType = 'POST';
+        newState.data = null;
+        newState.error = action.error.message;
+        return newState;
+      default:
+        return state;
+    }
+  }
 }

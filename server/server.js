@@ -28,6 +28,7 @@ centerRoutes(app);
 userRoutes(app);
 
 app.use(express.static(path.join(__dirname, '../client/public')));
+app.use('/centers/', express.static(path.join(__dirname, '../client/public')));
 app.use('/admin/centers/', express.static(path.join(__dirname, '../client/public')));
 app.use('/users/verify/', express.static(path.join(__dirname, '../client/public')));
 app.set('views', path.join(__dirname, '..', 'client', 'public'));

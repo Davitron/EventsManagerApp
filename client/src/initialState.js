@@ -28,6 +28,15 @@ const initialState = {
     requestType: '',
     data: null,
     error: null
+  },
+
+  event: {
+    requesting: false,
+    success: false,
+    failed: false,
+    requestType: '',
+    data: null,
+    error: null
   }
 };
 

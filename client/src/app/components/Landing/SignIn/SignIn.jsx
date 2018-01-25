@@ -90,11 +90,11 @@ class SignIn extends Component {
     const { stateProps } = this.props;
     return (
       <div className="App-main">
-        <main className="signup">
+        <main className="signin">
           {!stateProps.error ? '' : this.showAlert()}
           <center>
             <div className="section" />
-            <h3 className="white-text"><b>Login</b></h3>
+            <h4 className="white-text"><b>Login</b></h4>
             <div className="container">
               {stateProps.error !== null &&
                 <AlertContainer ref={(a) => { this.msg = a; }} {...this.alertOptions} />

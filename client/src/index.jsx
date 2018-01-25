@@ -13,7 +13,10 @@ import SignUp from './app/components/Landing/SignUp/SignUp';
 import ForgotPassword from './app/components//Landing/ForgotPassword/ForgotPassword';
 import VerifyEmail from './app/components/Landing/VerifyEmail/VerifyEmail';
 import VerifiedEmail from './app/components/Landing/VerifyEmail/Verified';
-import Center from './app/components/Admin/Centers';
+import Center from './app/components/Centers/Centers';
+import CenterSearch from './app/components/Centers/CenterSearch';
+import CenterResults from './app/components/Centers/SearchResults';
+import Event from './app/components/Events/Events';
 import history from './helpers/history';
 import PrivateRoute from './helpers/PrivateRoute';
 import AuthChecker from './helpers/authChecker';
@@ -33,12 +36,15 @@ ReactDOM.render(
     <Router history={history}>
       <Switch>
         <Route exact path="/" component={Home} />
-        <PrivateRoute exact authenticated={AuthChecker.checkAdminAuth()} path="/admin/centers" component={Center} />
         <Route exact path="/SignIn" component={SignIn} />
         <Route exact path="/SignUp" component={SignUp} />
         <Route exact path="/ForgotPassword" component={ForgotPassword} />
         <Route exact path="/users/verify" component={VerifyEmail} />
+        <Route exact path="/centersearch" component={CenterSearch} />
+        <Route exact path="/centers" component={CenterResults} />
+        <Route exact path="/events" component={Event} />
         <PrivateRoute exact authenticated={AuthChecker.checkUserAuth()} path="/Users/Verified" component={VerifiedEmail} />
+        <PrivateRoute exact authenticated={AuthChecker.checkAdminAuth()} path="/admin/centers" component={Center} />
       </Switch>
     </Router>
   </Provider>,

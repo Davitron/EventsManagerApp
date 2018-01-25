@@ -96,7 +96,7 @@ class SignUp extends Component {
           {!stateProps.error ? '' : this.showAlert()}
           <center>
             <div className="section" />
-            <h3 className="white-text"><b>REGISTER</b></h3>
+            <h4 className="white-text"><b>REGISTER</b></h4>
             <div className="container">
               {stateProps.error !== null &&
                 <AlertContainer ref={(a) => { this.msg = a; }} {...this.alertOptions} />
