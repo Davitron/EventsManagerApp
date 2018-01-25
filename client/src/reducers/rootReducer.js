@@ -17,6 +17,7 @@ const searchCenter = CenterReducer.search;
 const createEvent = EventReducer.create;
 const updateEvent = EventReducer.update;
 const deleteEvent = EventReducer.delete;
+
 const rootReducer = combineReducers({
   userSignUp,
   userSignIn,
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
   createEvent,
   updateEvent,
   deleteEvent,
+  getAllEvents
 });
 
 export default rootReducer;

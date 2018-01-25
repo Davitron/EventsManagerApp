@@ -15,12 +15,9 @@ const eventAction = new EventActions();
 
 const propTypes = {
   selectedEvent: PropTypes.objectOf(() => null),
-  updateEvent: PropTypes.func.isRequired,
   getEvents: PropTypes.func.isRequired,
-  centerId: PropTypes.number.isRequired,
-  stateProps: PropTypes.objectOf(() => {
-    return null;
-  }),
+  updateEvent: PropTypes.func.isRequired,
+  stateProps: PropTypes.objectOf(() => null),
 };
 
 const defaultProps = {
@@ -38,18 +35,14 @@ class UpdateEventModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      event: {
-        eventName: '',
-        startDate: '',
-        days: '',
-        centerId: ''
-      },
+      event: {},
       errors: {},
       loading: false,
       message: ''
     };
 
     this.onChange = this.onChange.bind(this);
+    this.onDateChange = this.onDateChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
@@ -70,18 +63,20 @@ class UpdateEventModal extends Component {
   componentWillReceiveProps(nextProps) {
     const { message } = this.state;
     const { getEvents } = this.props;
+    console.log(nextProps.selectedEvent);
     if (nextProps.selectedEvent !== this.props.selectedEvent) {
       this.setState({
         event: {
           id: nextProps.selectedEvent.id,
           eventName: nextProps.selectedEvent.eventName,
-          startDate: nextProps.selectedEvent.startDate,
-          days: nextProps.selectedEvent.days,
-          centerId: nextProps.selectedEvent.centerId
+          startDate: this.formatDate(nextProps.selectedEvent.startDate),
+          days: nextProps.selectedEvent.days.toString(),
+          centerId: nextProps.selectedEvent.centerId.toString()
         }
       });
     }
     if (nextProps.stateProps.response.data !== message) {
+      console.log(message);
       this.setState({
         message: nextProps.stateProps.response.data
       }, () => {
@@ -90,7 +85,7 @@ class UpdateEventModal extends Component {
             loading: false
           });
           Materialize.toast(nextProps.stateProps.response.data, 6000, 'cyan');
-          setTimeout(() =>  $('#updateEvent').modal('close'), 6000);
+          setTimeout(() => $('#updateEvent').modal('close'), 6000);
           getEvents();
         }
       });
@@ -113,6 +108,24 @@ class UpdateEventModal extends Component {
     });
   }
 
+  /**
+  *@param {*} e
+  *@returns {*}
+  *this handles the event when any property in the state changes
+  */
+  onDateChange(e) {
+    const { name, value } = e.target;
+    const date = this.formatDateBack(value);
+    console.log(date);
+    const { event } = this.state;
+    this.setState({
+      event: {
+        ...event,
+        [name]: date
+      }
+    });
+  }
+
 
   /**
    *
@@ -122,14 +135,14 @@ class UpdateEventModal extends Component {
    */
   onSubmit(e) {
     e.preventDefault();
-    console.log(this.state.event);
-    if (this.isValid() === true) {
-      this.setState({
-        loading: true
-      });
-      const { updateEvent } = this.props;
-      updateEvent(this.state.event);
-    }
+    // console.log(this.state.event);
+    // if (this.isValid() === true) {
+    this.setState({
+      loading: true
+    });
+    const { updateEvent } = this.props;
+    updateEvent(this.state.event);
+    // }
   }
 
   /**
@@ -146,6 +159,34 @@ class UpdateEventModal extends Component {
     }
     return validity;
   }
+
+  /**
+  *@param {*} date
+  *@returns {*}
+  *this handles the event when any property in the state changes
+  */
+  formatDate = (date) => {
+    const startDate = date.split('T');
+    return startDate[0];
+  }
+
+  /**
+  *@param {*} date
+  *@returns {*}
+  *this handles the event when any property in the state changes
+  */
+  formatDateBack = (date) => {
+    const d = new Date(date);
+    let month = `${d.getMonth() + 1}`;
+    let day = `${d.getDate()}`;
+    const year = d.getFullYear();
+
+    if (month.length < 2) month = `0${month}`;
+    if (day.length < 2) day = `0${day}`;
+
+    return [year, month, day].join('-');
+  }
+
   /**
    *@returns {*} renders the modal
    */
@@ -153,7 +194,7 @@ class UpdateEventModal extends Component {
     const { event, errors, loading } = this.state;
     return (
       <div className="event-modal">
-        <div id="newEvent" className="modal modal-fixed-footer">
+        <div id="updateEvent" className="modal modal-fixed-footer">
 
           <div className="modal-content">
             <h4>Create Event</h4>
@@ -161,13 +202,36 @@ class UpdateEventModal extends Component {
             <div className="row">
               <form className={['col', 'row', 's12'].join(' ')} >
                 <div className={['row'].join(' ')}>
-                  <Input s={12} name="eventName" value={event.eventName} onChange={this.onChange} label="Event Name" />
+                  <Input
+                    s={12}
+                    name="eventName"
+                    value={!event.eventName ? '' : event.eventName}
+                    onChange={this.onChange}
+                    label="Event Name"
+                    labelClassName={event.eventName && 'active'}
+                  />
                 </div>
                 <Row>
-                  <Input name="startDate" value={event.startDate} type="date" onChange={this.onChange} label="Start Date" />
+                  <Input
+                    s={12}
+                    name="startDate"
+                    value={!event.startDate ? '' : event.startDate}
+                    type="date"
+                    onChange={this.onDateChange}
+                    label="Start Date"
+                    labelClassName={event.startDate && 'active'}
+                  />
                 </Row>
                 <Row>
-                  <Input s={6} name="days" type="number" value={event.eventName} onChange={this.onChange} label="Days" />
+                  <Input
+                    s={12}
+                    name="days"
+                    type="number"
+                    value={!event.days ? '' : event.days}
+                    onChange={this.onChange}
+                    label="Days"
+                    labelClassName={event.days && 'active'}
+                  />
                 </Row>
               </form>
             </div>

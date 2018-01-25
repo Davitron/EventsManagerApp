@@ -95,7 +95,7 @@ export default class EventActions {
    * @returns {*}
    * this action is handles updating a event
    */
-  updateevent(eventObj) {
+  updateEvent(eventObj) {
     const request = (event) => {
       const requestAction = { type: eventActionType.UPDATE_REQUEST, event };
       return requestAction;

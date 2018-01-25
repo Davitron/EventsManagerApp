@@ -88,6 +88,10 @@ class Header extends Component {
           linkRef: ''
         },
         {
+          linkName: 'My Events',
+          linkName: '/events'
+        },
+        {
           linkName: 'Logout',
           linkRef: '/SignOut'
         }
@@ -141,12 +145,6 @@ class Header extends Component {
       <header>
         <Navbar brand="EventsManager" fixed className="App-header" right>
           {this.renderByRole()}
-          {/* {userStateProps.user && <NavItem href="#">{userStateProps.user.username}</NavItem>}
-          {!userStateProps.user && <NavItem href="/SignIn">SignIn</NavItem>}
-          {!userStateProps.user && <NavItem href="/SignUp">SignUp</NavItem>}
-          {userStateProps.user && userStateProps.user.isAdmin === true && <NavItem href="/admin/centers">Centers</NavItem>}
-          {userStateProps.user && userStateProps.user.isAdmin === true && <NavItem href="/admin/pending_events">Pending Events</NavItem>}
-          {userStateProps.user && <NavItem href="/SignOut">SignOut</NavItem>} */}
         </Navbar>
       </header>
     );

@@ -64,10 +64,10 @@ class Event extends Component {
    */
   componentWillReceiveProps(nextProps) {
     const { getAll } = this.props;
-    if (nextProps.stateProps.events.data !== this.state.data
-      && nextProps.stateProps.events.data) {
+    if (nextProps.stateProps.events.data !== null &&
+      nextProps.stateProps.events.data.allEvents !== this.state.data) {
       this.setState({
-        data: nextProps.stateProps.events.data
+        data: nextProps.stateProps.events.data.allEvents
       }, () => {
         console.log(this.state.data);
         this.setState({
@@ -104,7 +104,7 @@ class Event extends Component {
     clearTimeout(this.state.loadTimeOut);
     const { value } = event.target;
     const { stateProps } = this.props;
-    this.triggerSearch(value, stateProps.events.data);
+    this.triggerSearch(value, stateProps.events.data.allEvents);
   }
 
   /**
@@ -114,7 +114,7 @@ class Event extends Component {
   handleOpen = (eventId) => {
     const { pageOfItems } = this.state;
     const event = pageOfItems.find(x => x.id === eventId);
-    console.log(event);
+    // console.log(event);
     this.setState({
       selectedEvent: event
     }, () => {
@@ -153,7 +153,7 @@ class Event extends Component {
     const { stateProps } = this.props;
     if (value.length > 0) {
       const newItems = data.filter(item =>
-        item.name.toLowerCase().includes(value.toLowerCase()));
+        item.eventName.toLowerCase().includes(value.toLowerCase()));
       if (newItems.length > 0) {
         this.setState({
           data: newItems,
@@ -163,7 +163,7 @@ class Event extends Component {
         this.setState({ searchNotfound: 'no event matches this query' });
       }
     } else {
-      this.setState({ data: stateProps.events.data });
+      this.setState({ data: stateProps.events.data.allEvents });
     }
   }
 
@@ -234,7 +234,7 @@ class Event extends Component {
                     <Icon>search</Icon>
                   </Input>
                 </div>
-                <table className={['bordered', 'evented'].join(' ')}>
+                <table className={['bordered', 'evented', 'centered'].join(' ')}>
                   <thead>
                     <tr>
                       <th>Event Name</th>
@@ -247,8 +247,9 @@ class Event extends Component {
                     {
                       pageOfItems.map((item, index) => (
                         <tr key={item.id}>
-                          <td>{item.name}</td>
-                          <td>{item.State.statName}</td>
+                          <td>{item.eventName}</td>
+                          <td>{item.Center.name}</td>
+                          <td>{item.status}</td>
                           <td>
                             <a href="#updateEvent" className={['waves-effect', 'waves-light', 'btn'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleOpen((item.id))} ><i className=" material-icons">create</i></a>
                             <a href="#deleteEvent" className={['waves-effect', 'waves-light', 'btn', 'red'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleDelete((item.id))}><i className=" material-icons">delete</i></a>
@@ -258,7 +259,7 @@ class Event extends Component {
                   </tbody>
                 </table>
                 <div className={['fixed-action-btn', 'click-to-toggle', 'spin-close'].join(' ')}>
-                  <a className={['btn-floating', 'btn-large', 'waves-effect', 'waves-light'].join(' ')} onClick={() => { $('#createEvent').modal(); }} href="#newEvent">
+                  <a className={['btn-floating', 'btn-large', 'waves-effect', 'waves-light'].join(' ')} href="/centersearch">
                     <i className="material-icons">add</i>
                   </a>
                 </div>
