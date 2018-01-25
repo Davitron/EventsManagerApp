@@ -9,7 +9,7 @@ import Loader from './../Loader/Loader';
 import EventActions from '../../../actions/event.action';
 
 import UpdateEventModal from '../modals/UpdateEvent';
-// import DeleteEventModal from '../modals/DeleteEvent';
+import DeleteEventModal from '../modals/DeleteEvent';
 
 const eventAction = new EventActions();
 window.jQuery = window.$ = jQuery;
@@ -105,6 +105,17 @@ class Event extends Component {
     const { value } = event.target;
     const { stateProps } = this.props;
     this.triggerSearch(value, stateProps.events.data.allEvents);
+  }
+
+  /**
+   *
+   * @param {*} status
+   * @returns {*} style class for status
+   */
+  handleStatusClass = (status) => {
+    if (status === 'pending') return 'chip orange';
+    if (status === 'approved') return 'chip cyan';
+    if (status === 'rejected') return 'chip red';
   }
 
   /**
@@ -249,7 +260,11 @@ class Event extends Component {
                         <tr key={item.id}>
                           <td>{item.eventName}</td>
                           <td>{item.Center.name}</td>
-                          <td>{item.status}</td>
+                          <td>
+                            <span className={this.handleStatusClass(item.status)}>
+                              {item.status}
+                            </span>
+                          </td>
                           <td>
                             <a href="#updateEvent" className={['waves-effect', 'waves-light', 'btn'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleOpen((item.id))} ><i className=" material-icons">create</i></a>
                             <a href="#deleteEvent" className={['waves-effect', 'waves-light', 'btn', 'red'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleDelete((item.id))}><i className=" material-icons">delete</i></a>
@@ -274,7 +289,7 @@ class Event extends Component {
           </div>
         </div>
         <UpdateEventModal selectedEvent={selectedEvent} />
-        {/* <DeleteEventModal eventId={this.state.event_Id} /> */}
+        <DeleteEventModal eventId={this.state.event_Id} />
       </div>
     );
   }
