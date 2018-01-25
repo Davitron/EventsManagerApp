@@ -143,6 +143,7 @@ class CreateCenterModal extends Component {
    * @returns {*} handles selecttion of facilities
    */
   onMultiSelect(event, index, values) {
+    console.log(values);
     const { center } = this.state;
     this.setState({
       center: {

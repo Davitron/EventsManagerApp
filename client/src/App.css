@@ -34,11 +34,14 @@
 .landing {
   margin-top: 200px !important; }
 
+.signin {
+  margin-top: 50px !important; }
+
 .signup {
-  margin-top: 100px !important; }
+  margin-top: 30px !important; }
 
 .App-main h3 {
-  font-weight: 900px; }
+  font-weight: 600px; }
 
 .App-main .App-overlay {
   position: absolute;
@@ -74,6 +77,10 @@
 
 .modal-content {
   overflow-y: hidden !important
+}
+
+.cardText {
+  text-overflow: ellipsis !important
 }
 /* 
 .center-modal {

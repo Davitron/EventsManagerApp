@@ -186,6 +186,41 @@ export default class CenterActions {
         });
     };
   }
+  /**
+   *
+   * @param {*} param
+   * @returns {*}
+   * this action handles user verification
+   */
+  search(param) {
+    const request = (centers) => {
+      const requestAction = { type: centerActionType.SEARCH_REQUEST, centers };
+      return requestAction;
+    };
+    const success = (centers) => {
+      const successAction = { type: centerActionType.SEARCH_SUCCESS, centers };
+      return successAction;
+    };
+    const failure = (error) => {
+      const failureAction = { type: centerActionType.SEARCH_FAILURE, error };
+      return failureAction;
+    };
+    return (dispatch) => {
+      dispatch(request(param));
+      axios({
+        method: 'POST',
+        url: '/api/v1/searchcenter',
+        data: param
+      })
+        .then((response) => {
+          console.log(response.data);
+          dispatch(success(response.data));
+        })
+        .catch((error) => {
+          dispatch(failure(error.response.data));
+        });
+    };
+  }
 
   /**
    *

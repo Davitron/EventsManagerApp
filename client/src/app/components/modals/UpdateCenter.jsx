@@ -118,7 +118,6 @@ class UpdateCenterModal extends Component {
   onChange(event) {
     const { name, value } = event.target;
     const { center } = this.state;
-    const { selectedCenter } = this.props;
     this.setState({
       center: {
         ...center,

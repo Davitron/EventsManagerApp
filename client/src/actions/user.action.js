@@ -82,7 +82,7 @@ export default class UserActions {
 
   /**
    *
-   * @param {8} token
+   * @param {*} token
    * @returns {*}
    * this action handles user verification
    */
@@ -112,6 +112,8 @@ export default class UserActions {
         });
     };
   }
+
+
   /**
    *@returns {*}
    *this action handles user logout
