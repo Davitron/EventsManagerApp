@@ -36,7 +36,7 @@ const propTypes = {
 const defaultProps = {
   states: [],
   selectedCenter: {},
-  stateProps: {}
+  stateProps: {},
 };
 /**
  *component for create center modal

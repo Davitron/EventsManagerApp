@@ -62,7 +62,12 @@ export default class EventService {
     return Events.findAll({
       where: {
         userId: req.decoded.id
-      }
+      },
+      include: [
+        {
+          model: Centers
+        }
+      ]
     });
   }
 
