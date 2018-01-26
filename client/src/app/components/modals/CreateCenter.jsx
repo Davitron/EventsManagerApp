@@ -94,11 +94,16 @@ class CreateCenterModal extends Component {
               facilities: []
             }
           });
-          Materialize.toast(nextProps.stateProps.response.data, 6000, 'cyan');
-          setTimeout(() =>  $('#newCenter').modal('close'), 6000);
+          Materialize.toast(nextProps.stateProps.response.data, 4000, 'cyan');
+          $('#newCenter').modal('close');
           getCenters();
         }
       });
+    } else if (nextProps.stateProps.response.error) {
+      this.setState({
+        loading: false
+      });
+      Materialize.toast(nextProps.stateProps.response.error, 4000, 'red');
     }
   }
 
