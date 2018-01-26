@@ -7,7 +7,6 @@ import { Input, Icon } from 'react-materialize';
 import Pagination from '../Reusables/Pagination';
 import Loader from './../Loader/Loader';
 import EventActions from '../../../actions/event.action';
-
 import UpdateEventModal from '../modals/UpdateEvent';
 import DeleteEventModal from '../modals/DeleteEvent';
 
@@ -27,10 +26,6 @@ class Event extends Component {
       data: [],
       searchNotfound: '',
       pageOfItems: [],
-      // eventName: '',
-      // startDate: '',
-      // days: '',
-      // centerId: '',
       selectedEvent: {},
       event_Id: undefined,
       loading: true
@@ -64,7 +59,7 @@ class Event extends Component {
    */
   componentWillReceiveProps(nextProps) {
     const { getAll } = this.props;
-    if (nextProps.stateProps.events.data !== null &&
+    if (nextProps.stateProps.events.data &&
       nextProps.stateProps.events.data.allEvents !== this.state.data) {
       this.setState({
         data: nextProps.stateProps.events.data.allEvents
@@ -73,11 +68,13 @@ class Event extends Component {
         this.setState({
           loading: false
         }, () => {
-          Materialize.toast('Syncronizing.....', 10000, 'blue');
+          Materialize.toast('Syncronizing.....', 2000, 'blue');
+          if (this.state.data === undefined || !this.state.data.length === 0) {
+            setTimeout(() =>  Materialize.toast('No events available', 2000, 'blue'), 2000);
+          }
         });
       });
     }
-
   }
 
   /**

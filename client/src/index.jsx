@@ -42,7 +42,7 @@ ReactDOM.render(
         <Route exact path="/users/verify" component={VerifyEmail} />
         <Route exact path="/centersearch" component={CenterSearch} />
         <Route exact path="/centers" component={CenterResults} />
-        <Route exact path="/events" component={Event} />
+        <PrivateRoute exact authenticated={AuthChecker.checkUserAuth()} path="/events" component={Event} />
         <PrivateRoute exact authenticated={AuthChecker.checkUserAuth()} path="/Users/Verified" component={VerifiedEmail} />
         <PrivateRoute exact authenticated={AuthChecker.checkAdminAuth()} path="/admin/centers" component={Center} />
       </Switch>

@@ -83,7 +83,7 @@ export default class EventActions {
           // window.location.reload();
         })
         .catch((error) => {
-          console.log(error.response);
+          console.log(error.response.data);
           dispatch(failure(error.response.data));
         });
     };
@@ -162,7 +162,7 @@ export default class EventActions {
           dispatch(success(result.data));
         })
         .catch((error) => {
-          dispatch(failure(error.response));
+          dispatch(failure(error.response.data));
         });
     };
   }

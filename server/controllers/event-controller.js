@@ -7,7 +7,7 @@ const Events = model.Event;
 
 
 const eventRules = {
-  eventName: 'required|string|min:3|max:20',
+  eventName: 'required|string|min:3|max:30',
   startDate: 'required|string',
   days: 'required|string',
   centerId: 'required|string'
@@ -49,7 +49,6 @@ export default class EventController {
       // check validation compliance of user input
       return EventService.checkDateAvailabity(req.body.centerId, eventStartDate, eventEndDate)
         .then((event) => {
-          console.log(event);
           if (event === null) {
             EventService.create(req, eventStartDate, eventEndDate)
               .then((createdEvent) => {

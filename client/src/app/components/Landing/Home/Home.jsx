@@ -28,7 +28,7 @@ const Home = props =>
           <Link to="/signup" className={['btn', 'btn-large', 'waves-effect', 'red'].join(' ')}>SignUp</Link>
         </Row>
         <Row className="center">
-          <Button waves="light" large className={['orange', 'animated', 'bounceInUp'].join(' ')}>View Upcoming Events</Button>
+          <Link to="/centersearch" className={['waves-effect', 'orange', 'animated', 'bounceInUp', 'btn', 'btn-large'].join(' ')}>Continue as guest</Link>
         </Row>
       </div>
     </div>

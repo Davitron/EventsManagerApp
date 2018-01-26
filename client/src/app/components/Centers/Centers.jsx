@@ -21,7 +21,7 @@ class Center extends Component {
   /**
    *@param {*} props
    */
-  constructor(props) { 
+  constructor(props) {
     super(props);
     this.state = {
       data: [],
@@ -44,7 +44,6 @@ class Center extends Component {
     this.triggerSearch = debounce(100, this.triggerSearch);
     this.handleOpen = this.handleOpen.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
-    // this.handleClose = this.handleClose.bind(this);
   }
 
   /**

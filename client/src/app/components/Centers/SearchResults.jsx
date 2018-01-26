@@ -69,11 +69,10 @@ class CenterResults extends Component {
         centers: nextProps.stateProps.centers.data
       }, () => {
         console.log(this.state.centers);
-        // this.genterateCards();
         this.setState({
           loading: false
         }, () => {
-          Materialize.toast('Syncronizing.....', 10000, 'blue');
+          Materialize.toast('Syncronizing.....', 6000, 'blue');
         });
       });
     }

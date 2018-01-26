@@ -53,9 +53,9 @@ class SignIn extends Component {
   onSubmit(event) {
     const userActions = new UserActions();
     event.preventDefault();
-    // const { user } = this.state;
-    // const { dispatch } = this.props;
-    this.props.dispatch(userActions.signin(this.state.user));
+    const { user } = this.state;
+    const { dispatch } = this.props;
+    dispatch(userActions.signin(user));
   }
 
   alertOptions = {

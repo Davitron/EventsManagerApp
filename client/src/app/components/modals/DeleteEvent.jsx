@@ -56,6 +56,7 @@ class DeleteEventModal extends Component {
   componentWillReceiveProps(nextProps) {
     const { message } = this.state;
     const { getEvents } = this.props;
+    const { response } = nextProps.stateProps;
     if (nextProps.eventId !== this.props.eventId) {
       console.log(nextProps.eventId);
       this.setState({
@@ -63,18 +64,25 @@ class DeleteEventModal extends Component {
       });
     }
 
-    if (nextProps.stateProps.response.data !== message) {
+    if (response.data !== message) {
       this.setState({
-        message: nextProps.stateProps.response.data
+        message: response.data
       }, () => {
-        if (nextProps.stateProps.response.data) {
+        if (response.data) {
           this.setState({
             loading: false
           });
-          Materialize.toast(nextProps.stateProps.response.data, 6000, 'cyan');
-          setTimeout(() =>  $('#deleteEvent').modal('close'), 6000);
+          Materialize.toast(response.data, 6000, 'cyan');
+          $('#deleteEvent').modal('close')
           getEvents();
         }
+      });
+    } else if (response.error) {
+      this.setState({
+        loading: false,
+        message: response.error
+      }, () => {
+        Materialize.toast(this.state.message, 4000, 'red');
       });
     }
   }
