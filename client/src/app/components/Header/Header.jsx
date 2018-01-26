@@ -89,7 +89,7 @@ class Header extends Component {
         },
         {
           linkName: 'My Events',
-          linkName: '/events'
+          linkRef: '/events'
         },
         {
           linkName: 'Logout',
@@ -104,6 +104,10 @@ class Header extends Component {
         {
           linkName: 'Centers',
           linkRef: '/Centers'
+        },
+        {
+          linkName: 'My Events',
+          linkRef: '/events'
         },
         {
           linkName: 'Pending Events',

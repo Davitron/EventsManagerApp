@@ -70,7 +70,7 @@ export default class EventReducer {
         newState.success = true;
         newState.failed = false;
         newState.requestType = 'POST';
-        newState.data = action.event.message;
+        newState.data = action.event.message; 
         newState.error = null;
         return newState;
       case eventActionType.CREATE_FAILED:

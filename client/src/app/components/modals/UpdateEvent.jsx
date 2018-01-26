@@ -63,7 +63,6 @@ class UpdateEventModal extends Component {
   componentWillReceiveProps(nextProps) {
     const { message } = this.state;
     const { getEvents } = this.props;
-    console.log(nextProps.selectedEvent);
     if (nextProps.selectedEvent !== this.props.selectedEvent) {
       this.setState({
         event: {
@@ -71,23 +70,32 @@ class UpdateEventModal extends Component {
           eventName: nextProps.selectedEvent.eventName,
           startDate: this.formatDate(nextProps.selectedEvent.startDate),
           days: nextProps.selectedEvent.days.toString(),
-          centerId: nextProps.selectedEvent.centerId.toString()
-        }
+          centerId: nextProps.selectedEvent.centerId.toString(),
+        },
+        message: ''
       });
     }
-    if (nextProps.stateProps.response.data !== message) {
+    if (nextProps.stateProps.updateResponse.data &&
+      nextProps.stateProps.updateResponse.data !== message) {
       console.log(message);
       this.setState({
-        message: nextProps.stateProps.response.data
+        message: nextProps.stateProps.updateResponse.data
       }, () => {
-        if (nextProps.stateProps.response.data) {
+        if (nextProps.stateProps.updateResponse.data) {
           this.setState({
             loading: false
           });
-          Materialize.toast(nextProps.stateProps.response.data, 6000, 'cyan');
-          setTimeout(() => $('#updateEvent').modal('close'), 6000);
+          Materialize.toast(nextProps.stateProps.updateResponse.data, 6000, 'cyan');
+          $('#updateEvent').modal('close');
           getEvents();
         }
+      });
+    } else if (nextProps.stateProps.updateResponse.error) {
+      this.setState({
+        loading: false,
+        message: nextProps.stateProps.updateResponse.error
+      }, () => {
+        Materialize.toast(this.state.message, 4000, 'red');
       });
     }
   }
@@ -197,7 +205,7 @@ class UpdateEventModal extends Component {
         <div id="updateEvent" className="modal modal-fixed-footer">
 
           <div className="modal-content">
-            <h4>Create Event</h4>
+            <h4>Update Event</h4>
             {loading === true && <Loader />}
             <div className="row">
               <form className={['col', 'row', 's12'].join(' ')} >
@@ -238,7 +246,7 @@ class UpdateEventModal extends Component {
           </div>
           <div className="modal-footer" >
             <button className="modal-action modal-close waves-effect waves-green btn-flat ">Cancel</button>
-            <button className="waves-effect waves-green btn-flat" onClick={this.onSubmit}>Create</button>
+            <button className="waves-effect waves-green btn-flat" onClick={this.onSubmit}>Update</button>
           </div>
         </div>
       </div>
@@ -251,7 +259,7 @@ UpdateEventModal.defaultProps = defaultProps;
 
 const matchStateToProps = state => ({
   stateProps: {
-    response: state.updateEvent
+    updateResponse: state.updateEvent
   }
 });
 

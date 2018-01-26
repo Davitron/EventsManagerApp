@@ -73,9 +73,14 @@ class CreateEventModal extends Component {
             }
           });
           Materialize.toast(nextProps.stateProps.response.data, 6000, 'cyan');
-          setTimeout(() => $('#newEvent').modal('close'), 6000);
+          $('#newEvent').modal('close');
         }
       });
+    } else if (nextProps.stateProps.response.error) {
+      this.setState({
+        loading: false
+      });
+      Materialize.toast(nextProps.stateProps.response.error, 10000, 'red');
     }
   }
 
