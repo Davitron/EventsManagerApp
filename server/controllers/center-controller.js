@@ -45,9 +45,10 @@ export default class CenterController {
   static create(req, res) {
     console.log(req.files);
     console.log(req.body);
-    if (req.files.image.size > 5000000) {
+    if (req.files.image.size > 1000000) {
+      CenterService.cleanUpFiles(req.files.image.path);
       return res.status(400).json({
-        message: 'Image size to large. maximum size is 5MB',
+        message: 'Image size to large. maximum size is 1MB',
         statusCode: 400
       });
     }
@@ -64,6 +65,7 @@ export default class CenterController {
       }).then((centers) => {
         // return this if  center name is taken
         if (centers.length > 0) {
+          CenterService.cleanUpFiles(req.files.image.path);
           return res.status(400).json({
             message: 'Center already exist',
             statusCode: 400
@@ -87,6 +89,7 @@ export default class CenterController {
                 .catch((err) => {
                   // return this if center creation is not successful
                   console.log(err);
+                  CenterService.cleanUpFiles(req.files.image.path);
                   const result = {
                     message: 'Oops!, Server Error',
                     statusCode: 500
@@ -98,6 +101,7 @@ export default class CenterController {
               console.log(error);
             });
         } else {
+          CenterService.cleanUpFiles(req.files.image.path);
           // return this if user is not an admin
           return res.status(401).json({ message: 'You do not have admin priviledge' });
         }
@@ -156,6 +160,13 @@ export default class CenterController {
    */
   static update(req, res) {
     const validate = new validator(req.body, centerUpdateRules);
+    if (req.files.image && req.files.image.size > 1000000) {
+      CenterService.cleanUpFiles(req.files.image.path);
+      return res.status(400).json({
+        message: 'Image size to large. maximum size is 1MB',
+        statusCode: 400
+      });
+    }
     if (req.decoded.isAdmin === true) {
       if (validate.passes()) {
         return Centers.findById(req.params.centerId)
@@ -198,6 +209,13 @@ export default class CenterController {
                               statusCode: 500
                             });
                           });
+                      })
+                      .catch((error) => {
+                        console.log(error);
+                        return res.status(500).json({
+                          message: 'Server Error',
+                          statusCode: 500
+                        });
                       });
                   }
                 })
@@ -209,14 +227,28 @@ export default class CenterController {
                   });
                 });
             }
-            req.body.image = CenterService.handleImageUpdate(req.files.image.path, center.image);
-            return CenterService.update(req.body, center)
-              .then((modifiedCenter) => {
-                return res.status(200).json({
-                  message: 'Center Is Modified',
-                  center: modifiedCenter,
-                  statusCode: 200
-                });
+            const file = req.files;
+            CenterService.handleImageUpdate(file, center.image)
+              .then((url) => {
+                req.body.image = url;
+                req.body.admin = req.decoded.id;
+                console.log(req.body);
+                CenterService.update(req.body, center)
+                  .then((modifiedCenter) => {
+                  // console.log(modifiedCenter);
+                    return res.status(200).json({
+                      message: 'Center Is Modified',
+                      center: modifiedCenter,
+                      statusCode: 200
+                    });
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                    return res.status(500).json({
+                      message: 'Server Error',
+                      statusCode: 500
+                    });
+                  });
               })
               .catch((error) => {
                 console.log(error);

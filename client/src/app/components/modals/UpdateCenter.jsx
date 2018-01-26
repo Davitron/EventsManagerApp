@@ -28,9 +28,7 @@ const propTypes = {
   selectedCenter: PropTypes.objectOf(() => null),
   updateCenter: PropTypes.func.isRequired,
   getCenters: PropTypes.func.isRequired,
-  stateProps: PropTypes.objectOf(() => {
-    return null;
-  }),
+  stateProps: PropTypes.objectOf(() => null),
 };
 
 const defaultProps = {
@@ -91,7 +89,8 @@ class UpdateCenterModal extends Component {
           price: nextProps.selectedCenter.price.toString(),
           image: {},
           facilities: facilitiesArr
-        }
+        },
+        errors: {}
       });
     }
     if (nextProps.stateProps.response.data !== message) {
@@ -102,10 +101,13 @@ class UpdateCenterModal extends Component {
           this.setState({
             loading: false
           });
-          Materialize.toast(nextProps.stateProps.response.data, 6000, 'cyan');
-          setTimeout(() =>  $('#updateCenter').modal('close'), 6000);
           getCenters();
         }
+      });
+    }
+    if (nextProps.stateProps.response.error) {
+      this.setState({
+        loading: false
       });
     }
   }

@@ -178,10 +178,12 @@ export default class CenterActions {
         data: formData
       })
         .then((result) => {
+          Materialize.toast(result.data.message, 6000, 'cyan');
+          $('#updateCenter').modal('close');
           dispatch(success(result.data));
         })
         .catch((error) => {
-          console.log(error.response);
+          Materialize.toast(error.response.data.message, 4000, 'red');
           dispatch(failure(error.response.data));
         });
     };
@@ -253,9 +255,13 @@ export default class CenterActions {
       })
         .then((result) => {
           dispatch(success(result.data));
+          Materialize.toast(result.data.message, 6000, 'cyan');
+          $('#deleteCenter').modal('close');
         })
         .catch((error) => {
-          dispatch(failure(error.response));
+          console.log(error.response.data.message);
+          dispatch(failure(error.response.data));
+          Materialize.toast(error.response.data.message, 6000, 'red');
         });
     };
   }

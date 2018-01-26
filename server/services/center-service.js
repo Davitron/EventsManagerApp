@@ -223,15 +223,23 @@ export default class CenterService {
         console.log('here');
         const publicId = this.getPid(currentImg);
         console.log(publicId);
-        cloudinary.v2.uploader.upload(file.image.path, imageSize, { public_id: publicId, invalidate: true }, (error, response) => {
-          if (error) {
-            reject(error);
+        cloudinary.v2.uploader.upload(
+          file.image.path,
+          {
+            public_id: publicId,
+            invalidate: true,
+            width: 300,
+            height: 210
+          }, (error, response) => {
+            if (error) {
+              reject(error);
+            }
+            console.log(response);
+            this.cleanUpFiles(file.image.path);
+            imageLink = response.url;
+            resolve(imageLink);
           }
-          console.log(response);
-          this.cleanUpFiles(file.image.path);
-          imageLink = response.url;
-          resolve(imageLink);
-        });
+        );
       }
     });
   }

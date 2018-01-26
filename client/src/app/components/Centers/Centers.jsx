@@ -74,6 +74,7 @@ class Center extends Component {
         });
       });
     }
+
     if (nextProps.stateProps.states.data !== this.state.states
        && nextProps.stateProps.states.data) {
       this.setState({
