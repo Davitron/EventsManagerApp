@@ -9,6 +9,7 @@ const userSignIn = UserReducer.signin;
 const userVerification = UserReducer.completeRegistration;
 const getAllCenters = CenterReducer.getAll;
 const getAllEvents = EventReducer.getAll;
+const getAllPending = EventReducer.getAll;
 const getStates = CenterReducer.getAllStates;
 const createCenter = CenterReducer.create;
 const updateCenter = CenterReducer.update;
@@ -16,6 +17,8 @@ const deleteCenter = CenterReducer.delete;
 const searchCenter = CenterReducer.search;
 const createEvent = EventReducer.create;
 const updateEvent = EventReducer.update;
+const approveEvent = EventReducer.update;
+const rejectEvent = EventReducer.update;
 const deleteEvent = EventReducer.delete;
 
 const rootReducer = combineReducers({
@@ -30,8 +33,11 @@ const rootReducer = combineReducers({
   searchCenter,
   createEvent,
   updateEvent,
+  approveEvent,
+  rejectEvent,
   deleteEvent,
-  getAllEvents
+  getAllEvents,
+  getAllPending
 });
 
 export default rootReducer;

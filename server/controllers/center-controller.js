@@ -311,16 +311,17 @@ export default class CenterController {
   static searchCenters(req, res) {
     CenterService.searchCenter(req.body)
       .then((response) => {
-        for (const i in response) {
-          if (response[i].facilities.length > 0) {
-            response[i].facilities = response[i].facilities.join(', ');
-          }
-        }
-        res.status(200).json(response);
+        // for (const i in response.centers) {
+        //   if (response[i].centers.facilities.length > 0) {
+        //     response[i].centers.facilities = response[i].centers.facilities.join(', ');
+        //   }
+        // }
+        return res.status(200).json(response);
       })
       .catch((error) => {
-        res.status(500).json({
-          message: 'Interna Server Error'
+        console.log(error);
+        return res.status(500).json({
+          message: 'Internal Server Error'
         });
       });
   }
@@ -346,4 +347,6 @@ export default class CenterController {
         return res.status(400).json(error);
       });
   }
+
+
 }
