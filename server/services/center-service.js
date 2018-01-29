@@ -377,7 +377,13 @@ export default class CenterService {
                 attributes: ['username']
               }]
             })
-              .then(response => resolve(response))
+              .then((centersList) => {
+                const response = {
+                  centers: centersList,
+                  pages
+                };
+                resolve(response);
+              })
               .catch(error => reject(error));
           } else {
             resolve(null);

@@ -47,6 +47,44 @@ export default class EventActions {
   }
 
   /**
+   *@param {*} centerId
+   *@returns {*}
+   * this action is handles fetching all events
+   */
+  getPendingEvent(centerId) {
+    const request = () => {
+      const requestAction = { type: eventActionType.GETALL_REQUEST };
+      return requestAction;
+    };
+    const success = (events) => {
+      const successAction = { type: eventActionType.GETALL_SUCCESS, events };
+      return successAction;
+    };
+    const failure = (error) => {
+      const failureAction = { type: eventActionType.GETALL_FAILED, error };
+      return failureAction;
+    };
+    return (dispatch) => {
+      dispatch(request());
+      axios({
+        method: 'GET',
+        url: `/api/v1/events/pending/${centerId}`,
+        headers: {
+          'x-access-token': token
+        }
+      })
+        .then((result) => {
+          dispatch(success(result.data));
+        })
+        .catch((error) => {
+          console.log(error.response);
+          dispatch(failure(error.response.data));
+        });
+    };
+  }
+
+
+  /**
    *
    * @param {*} newEvent
    *@returns {*}
@@ -125,6 +163,89 @@ export default class EventActions {
         .catch((error) => {
           console.log(error.response);
           dispatch(failure(error.response.data));
+        });
+    };
+  }
+
+  /**
+   *
+   * @param {*} eventId
+   * @returns {*}
+   * this action is handles updating a event
+   */
+  approveEvent(eventId) {
+    const request = (event) => {
+      const requestAction = { type: eventActionType.UPDATE_REQUEST, event };
+      return requestAction;
+    };
+    const success = (event) => {
+      const successAction = { type: eventActionType.UPDATE_SUCCESS, event };
+      return successAction;
+    };
+    const failure = (error) => {
+      const failureAction = { type: eventActionType.UPDATE_FAILED, error };
+      return failureAction;
+    };
+
+    return (dispatch) => {
+      dispatch(request(eventId));
+      axios({
+        method: 'PUT',
+        url: `/api/v1/events/approve/${eventId}`,
+        headers: {
+          'x-access-token': token
+        },
+      })
+        .then((result) => {
+          dispatch(success(result.data));
+          Materialize.toast(result.data.message, 4000, 'cyan');
+        })
+        .catch((error) => {
+          console.log(error.response);
+          dispatch(failure(error.response.data));
+          Materialize.toast(error.response.data.message, 4000, 'red');
+        });
+    };
+  }
+
+  /**
+   *
+   * @param {*} eventObj
+   * @returns {*}
+   * this action is handles updating a event
+   */
+  rejectEvent(eventObj) {
+    const request = (event) => {
+      const requestAction = { type: eventActionType.UPDATE_REQUEST, event };
+      return requestAction;
+    };
+    const success = (event) => {
+      const successAction = { type: eventActionType.UPDATE_SUCCESS, event };
+      return successAction;
+    };
+    const failure = (error) => {
+      const failureAction = { type: eventActionType.UPDATE_FAILED, error };
+      return failureAction;
+    };
+
+    return (dispatch) => {  
+      dispatch(request(eventObj));
+      axios({
+        method: 'PUT',
+        url: `/api/v1/events/reject/${eventObj.id}`,
+        headers: {
+          'x-access-token': token
+        },
+        data: eventObj
+      })
+        .then((result) => {
+          dispatch(success(result.data));
+          Materialize.toast(result.data.message, 4000, 'cyan');
+        })
+        .catch((error) => {
+          console.log(error.response);
+          dispatch(failure(error.response.data));
+          Materialize.toast(error.response.data.message, 4000, 'red');
         });
     };
   }

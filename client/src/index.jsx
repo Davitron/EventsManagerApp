@@ -16,6 +16,7 @@ import VerifiedEmail from './app/components/Landing/VerifyEmail/Verified';
 import Center from './app/components/Centers/Centers';
 import CenterSearch from './app/components/Centers/CenterSearch';
 import CenterResults from './app/components/Centers/SearchResults';
+import PendingEvent from './app/components/Events/PendingEvents';
 import Event from './app/components/Events/Events';
 import history from './helpers/history';
 import PrivateRoute from './helpers/PrivateRoute';
@@ -42,6 +43,7 @@ ReactDOM.render(
         <Route exact path="/users/verify" component={VerifyEmail} />
         <Route exact path="/centersearch" component={CenterSearch} />
         <Route exact path="/centers" component={CenterResults} />
+        <Route exact path="/admin/pending/:centerId" component={PendingEvent} />
         <PrivateRoute exact authenticated={AuthChecker.checkUserAuth()} path="/events" component={Event} />
         <PrivateRoute exact authenticated={AuthChecker.checkUserAuth()} path="/Users/Verified" component={VerifiedEmail} />
         <PrivateRoute exact authenticated={AuthChecker.checkAdminAuth()} path="/admin/centers" component={Center} />

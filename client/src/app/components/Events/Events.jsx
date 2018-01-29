@@ -111,7 +111,7 @@ class Event extends Component {
    */
   handleStatusClass = (status) => {
     if (status === 'pending') return 'chip orange';
-    if (status === 'approved') return 'chip cyan';
+    if (status === 'accepted') return 'chip cyan';
     if (status === 'rejected') return 'chip red';
   }
 

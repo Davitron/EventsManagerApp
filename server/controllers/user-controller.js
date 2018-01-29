@@ -64,7 +64,7 @@ export default class UserController {
                             <a href="http://localhost:8000/users/verified?token=${token}">Complete Registration</a><br/>
                             This link expires in 15 mins`;
             const mailBody = {
-              from: 'matthews.segun@gmail.com',
+              from: 'matthews.segunapp@gmail.com',
               to: user.email,
               subject: 'Welcome to EventsManager',
               html: message
@@ -117,6 +117,7 @@ export default class UserController {
           id: user.id,
           isAdmin: user.isAdmin,
           user: user.username,
+          email: user.email,
           isVerified: user.isVerified
         }, process.env.SECRET_KEY, { expiresIn: '1d' });
         res.status(200).json({ message: 'Authentication Is Successful!', userDetails: user, Token: token });

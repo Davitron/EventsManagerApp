@@ -111,7 +111,7 @@ class Header extends Component {
         },
         {
           linkName: 'Pending Events',
-          linkRef: '/Pending Events'
+          linkRef: '/pendingEvents'
         },
         {
           linkName: 'SignOut',

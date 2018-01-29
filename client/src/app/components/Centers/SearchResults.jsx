@@ -63,10 +63,9 @@ class CenterResults extends Component {
    */
   componentWillReceiveProps(nextProps) {
     console.log(nextProps);
-    if (nextProps.stateProps.centers.data !== this.state.centers
-      && nextProps.stateProps.centers.data) {
+    if (nextProps.stateProps.centers.data && nextProps.stateProps.centers.data.centers !== this.state.centers) {
       this.setState({
-        centers: nextProps.stateProps.centers.data
+        centers: nextProps.stateProps.centers.data.centers
       }, () => {
         console.log(this.state.centers);
         this.setState({
@@ -189,7 +188,7 @@ class CenterResults extends Component {
                                 facilities:
                               </Col>
                               <Col s={9}>
-                                {center.facilities}
+                                {center.facilities.join(', ')}
                               </Col>
                             </Row>
                             <Row className="center">

@@ -72,6 +72,43 @@ export default class EventService {
   }
 
   /**
+ * fetches all  pending events in a center
+ * @param {*} req
+ * @returns {json} an array of events
+ *
+ */
+  static getPendingEvents(req) {
+    return Events.findAll({
+      where: {
+        centerId: req.params.centerId,
+        status: 'pending'
+      },
+      include: [
+        {
+          model: Centers
+        }
+      ]
+    });
+  }
+
+  /**
+ * fetches all upcoming events in a center
+ * @param {*} req
+ * @returns {json} an array of events
+ *
+ */
+  static getUpcomingEvents(req) {
+    return Events.findAll({
+      where: {
+        centerId: req.params.centerId,
+        startDate: {
+          [Sequelize.Op.gt]: new Date()
+        }
+      }
+    });
+  }
+
+  /**
    *
    * @param {*} req
    * @returns {json} returns an event
@@ -82,7 +119,15 @@ export default class EventService {
         id: req.params.eventId,
         userId: req.decoded.id
       },
-      attributes: ['id', 'eventName', 'startDate', 'endDate', 'status']
+      attributes: ['id', 'eventName', 'startDate', 'endDate', 'status'],
+      include: [
+        {
+          model: model.Center
+        },
+        {
+          model: model.User
+        }
+      ]
     });
   }
 

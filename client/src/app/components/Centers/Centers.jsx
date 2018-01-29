@@ -256,7 +256,7 @@ class Center extends Component {
                           <td>{item.State.statName}</td>
                           <td>
                             <a href="#updateCenter" className={['waves-effect', 'waves-light', 'btn'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleOpen((item.id))} ><i className=" material-icons">create</i></a>
-                            <button className={['waves-effect', 'waves-light', 'btn'].join(' ')} style={{ marginLeft: '5px' }} ><i className=" material-icons">date_range</i></button>
+                            <a className="waves-effect waves-light  btn" style={{ marginLeft: '5px' }} onClick={() => {document.location.href = `/admin/pending/${item.id}`}}><i className=" material-icons">schedule</i></a>
                             <a href="#deleteCenter" className={['waves-effect', 'waves-light', 'btn', 'red'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleDelete((item.id))}><i className=" material-icons">delete</i></a>
                           </td>
                         </tr>))
