@@ -18,7 +18,8 @@ class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: undefined
+      user: undefined,
+      navs: []
     };
   }
 
@@ -29,7 +30,27 @@ class Header extends Component {
     const authUser = AuthChecker.getUserDetails();
     this.setState({
       user: authUser
+    }, () => {
+      this.renderByRole();
     });
+  }
+
+  /**
+   * @param {*} nextProps
+   * @returns {*} check props change
+   */
+  componentWillReceiveProps(nextProps) {
+    const { userStateProps } = this.props;
+    const { user } = nextProps.userStateProps;
+    if (nextProps !== userStateProps) {
+      if (user) {
+        this.setState({
+          user,
+        }, () => {
+          this.renderByRole();
+        });
+      }
+    }
   }
   /**
   *@param {*} nextState
@@ -38,7 +59,7 @@ class Header extends Component {
   *to ensure component is re-rendered when changes are made
   */
   shouldComponentUpdate(nextState, nextProps) {
-    console.debug('shouldComponentUpdate', nextState, nextProps);
+    //console.debug('shouldComponentUpdate', nextState, nextProps);
     return true;
   }
 
@@ -68,7 +89,7 @@ class Header extends Component {
     if (user === null) {
       userName = '';
     } else {
-      userName = user.user;
+      userName = user.username;
     }
     let items;
     const linkByRoles = {
@@ -138,17 +159,20 @@ class Header extends Component {
             {item.linkName}
           </NavItem>));
     }
-    return items;
+    this.setState({
+      navs: items
+    });
   }
 
   /**
    *@returns {*} view for langing page
    */
   render() {
+    const { navs } = this.state;
     return (
       <header>
         <Navbar brand="EventsManager" fixed className="App-header" right>
-          {this.renderByRole()}
+          { navs }
         </Navbar>
       </header>
     );
