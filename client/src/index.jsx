@@ -44,9 +44,9 @@ ReactDOM.render(
         <Route exact path="/centersearch" component={CenterSearch} />
         <Route exact path="/centers" component={CenterResults} />
         <Route exact path="/admin/pending/:centerId" component={PendingEvent} />
-        <PrivateRoute exact authenticated={AuthChecker.checkUserAuth()} path="/events" component={Event} />
-        <PrivateRoute exact authenticated={AuthChecker.checkUserAuth()} path="/Users/Verified" component={VerifiedEmail} />
-        <PrivateRoute exact authenticated={AuthChecker.checkAdminAuth()} path="/admin/centers" component={Center} />
+        <PrivateRoute exact authenticated={AuthChecker.checkUserAuth()} path="/events" component={Event} redirectPath="/signin" />
+        <PrivateRoute exact authenticated={AuthChecker.checkUserAuth()} path="/Users/Verified" component={VerifiedEmail} redirectPath="/signin" />
+        <PrivateRoute exact authenticated={AuthChecker.checkAdminAuth()} path="/admin/centers" component={Center} redirectPath="/signin" />
       </Switch>
     </Router>
   </Provider>,

@@ -70,6 +70,7 @@ export default class UserActions {
       UserService.authenticateUser(thisUser)
         .then((result) => {
           dispatch(success(result.data.userDetails));
+          console.log('..');
           cookies.set('jwt-events-manager', result.data.Token, { path: '/' });
           history.push('/centersearch');
           // console.log(result);

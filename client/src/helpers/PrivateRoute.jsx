@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 const PrivateRoute = ({
   component: Component,
   authenticated,
+  redirectPath,
   ...rest
 }) => {
   return (
@@ -13,7 +14,7 @@ const PrivateRoute = ({
       {...rest}
       render={(props) => {
         const component = <Component {...props} />;
-        const redirect = <Redirect to="/SignIn" />;
+        const redirect = <Redirect to={redirectPath} />;
         if (authenticated === true) {
           return component;
         }
@@ -25,6 +26,7 @@ const PrivateRoute = ({
 
 PrivateRoute.propTypes = {
   component: PropTypes.func.isRequired,
-  authenticated: PropTypes.bool.isRequired
+  authenticated: PropTypes.bool.isRequired,
+  redirectPath: PropTypes.string.isRequired
 };
 export default PrivateRoute;

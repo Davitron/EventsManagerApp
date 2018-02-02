@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import queryString from 'query-string';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import shortid from 'shortid';
@@ -36,12 +37,12 @@ class CenterResults extends Component {
   /**
    *@returns {*} fetches all centers
    */
-  componentDidMount() {
+  componentWillMount() {
     const url = new URL(window.location.href);
-    const param = new URLSearchParams(url.search);
-    const facilities = param.get('facilities').split(',').map(x => x.toLowerCase());
-    const capacity = param.get('capacity').split(',').map(x => parseInt(x, 10));
-    const locationStr = param.get('location');
+    const param = queryString.parse(window.location.search);
+    const facilities = param.facilities.split(',').map(x => x.toLowerCase());
+    const capacity = param.capacity.split(',').map(x => parseInt(x, 10));
+    const locationStr = param.location;
     const location = parseInt(locationStr, 10);
  
     const searchQuery = {

@@ -116,7 +116,7 @@ export default class UserController {
         jwt.sign({
           id: user.id,
           isAdmin: user.isAdmin,
-          user: user.username,
+          username: user.username,
           email: user.email,
           isVerified: user.isVerified
         }, process.env.SECRET_KEY, { expiresIn: '1d' });
@@ -204,5 +204,82 @@ export default class UserController {
         })
         .catch(error => res.status(400).json(error));
     }
+  }
+
+  /**
+   *
+   * @param {*} req
+   * @param {*} res
+   * @returns {json} returns message object id deletion is successful
+   */
+  static resetPasswordRequest(req, res) {
+    return Users.findOne({
+      where: {
+        email: req.body.email
+      }
+    })
+      .then((user) => {
+        if (user) {
+          const token = jwt.sign({ id: user.id, email: user.email }, process.env.SECRET_KEY, { expiresIn: '15m' });
+          const message = `<p>Welcome ${user.username}.</p><br/>
+          <p>Click the link below to reset your password</p><br />
+          <a href="http://localhost:8000/users/verified?token=${token}">Reset Password</a><br/>
+          This link expires in 15 mins`;
+          const mailBody = {
+            from: 'matthews.segunapp@gmail.com',
+            to: user.email,
+            subject: 'Password Reset Link',
+            html: message
+          };
+          const mailer = new Mailer();
+          if (mailer.isMailSent(mailBody)) {
+            res.status(500).json({
+              message: 'Oops!, an error has occured',
+              statusCode: 500
+            });
+          } else {
+            res.status(201).json({
+              message: 'Password reset link is sent',
+              statusCode: 201
+            });
+          }
+        }
+      })
+      .catch(err => res.status(500).json({
+        message: 'Oops!, an error has occured',
+        error: err.name
+      }));
+  }
+
+  /**
+   *
+   * @param {*} req
+   * @param {*} res
+   * @returns {json} returns message object id deletion is successful
+   */
+  static resetPassword(req, res) {
+    return Users.findOne({
+      where: {
+        email: req.body.email
+      }
+    })
+      .then((user) => {
+        user.update({
+          password: bcrypt.hashSync(req.body.password, 10)
+        })
+          .then(() => {
+            res.status(200).json({
+              message: 'Password reset successful'
+            });
+          })
+          .catch(err => res.status(500).json({
+            message: 'Oops!, an error has occured',
+            error: err.name
+          }));
+      })
+      .catch(err => res.status(500).json({
+        message: 'Oops!, an error has occured',
+        error: err.name
+      }));
   }
 }

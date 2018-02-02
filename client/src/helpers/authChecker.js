@@ -1,10 +1,34 @@
 import jwtDecode from 'jwt-decode';
+import jwt from 'jsonwebtoken';
 import Cookies from 'universal-cookie';
+import configureStore from '../store/configureStore';
+import UserAction from '../actions/user.action';
 
 /**
  *
  */
 class AuthChecker {
+  /**
+   * @returns {*} .
+   */
+  checkJwt() {
+    const cookies = new Cookies();
+    const token = cookies.get('jwt-events-manager');
+    return token;
+  }
+
+  /**
+   * @returns {*} .
+   */
+  isSignedIn() {
+    const userAction  = new UserAction();
+    if (!this.checkJwt()) {
+      jwt.verify(this.checkJwt(), 'topsecretkscbJpfiajfaeijhfaeijhiafoiaehfiojhteiohfhfaohefaihfauvf', (err, decoded) => {
+        configureStore.dispatch(userAction.signin);
+      });
+    }
+  }
+
   /**
    *@returns {boolean}
    * checks if user is authenticated and email is verified

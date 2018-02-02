@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import debounce from 'throttle-debounce/debounce';
@@ -271,9 +272,9 @@ class Event extends Component {
                   </tbody>
                 </table>
                 <div className={['fixed-action-btn', 'click-to-toggle', 'spin-close'].join(' ')}>
-                  <a className={['btn-floating', 'btn-large', 'waves-effect', 'waves-light'].join(' ')} href="/centersearch">
+                  <Link className={['btn-floating', 'btn-large', 'waves-effect', 'waves-light'].join(' ')} to="/centersearch">
                     <i className="material-icons">add</i>
-                  </a>
+                  </Link>
                 </div>
                 <Pagination
                   items={
