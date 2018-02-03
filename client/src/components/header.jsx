@@ -1,0 +1,151 @@
+import React, { Component } from 'react';
+import { Navbar, NavItem } from 'react-materialize';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import shortid from 'shortid';
+
+
+/**
+ *
+ */
+class Header extends Component {
+  /**
+   *
+   * @param {*} props
+   */
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: undefined,
+      navs: []
+    };
+  }
+
+  /**
+   *@returns{*} authentication status
+   */
+  componentWillMount() {
+
+  }
+
+  /**
+   * @param {*} nextProps
+   * @returns {*} check props change
+   */
+  componentWillReceiveProps(nextProps) {
+
+  }
+
+
+  /**
+   *@returns {*}
+   *this will produce appropriate navabar menu for role
+   */
+  renderByRole() {
+    const { user } = this.state;
+    let userName;
+    if (user) {
+      userName = '';
+    } else {
+      userName = user.username;
+    }
+    let items;
+    const linkByRoles = {
+      unAuthUser: [
+        {
+          linkName: 'SignIn',
+          linkRef: '/SignIn'
+        },
+        {
+          linkName: 'SignUp',
+          linkRef: '/SignUp'
+        }
+      ],
+      user: [
+        {
+          linkName: userName,
+          linkRef: ''
+        },
+        {
+          linkName: 'My Events',
+          linkRef: '/events'
+        },
+        {
+          linkName: 'Logout',
+          linkRef: '/SignOut'
+        }
+      ],
+      admin: [
+        {
+          linkName: 'Admin',
+          linkRef: ''
+        },
+        {
+          linkName: 'Centers',
+          linkRef: '/Centers'
+        },
+        {
+          linkName: 'My Events',
+          linkRef: '/events'
+        },
+        {
+          linkName: 'Pending Events',
+          linkRef: '/pendingEvents'
+        },
+        {
+          linkName: 'SignOut',
+          linkRef: '/SignOut'
+        }
+      ]
+    };
+    if (user && user.isVerified === false && user.isAdmin === false) {
+      items = linkByRoles.user
+        .map((item, index) => (
+          <NavItem key={shortid.generate()} href={item.linkRef}>
+            {item.linkName}
+          </NavItem>));
+    } else if (user && user.isVerified === true && user.isAdmin === true) {
+      items = linkByRoles.admin
+        .map((item, index) => (
+          <NavItem key={shortid.generate()} href={item.linkRef}>
+            {item.linkName}
+          </NavItem>));
+    } else {
+      items = linkByRoles.unAuthUser
+        .map((item, index) => (
+          <NavItem key={shortid.generate()} href={item.linkRef}>
+            {item.linkName}
+          </NavItem>));
+    }
+    this.setState({
+      navs: items
+    });
+  }
+
+  /**
+   *@returns {*} view for langing page
+   */
+  render() {
+    const { navs } = this.state;
+    return (
+      <header>
+        <Navbar brand="EventsManager" fixed className="App-header" right>
+          { navs }
+        </Navbar>
+      </header>
+    );
+  }
+}
+
+// const mapStateToProps = state => ({ userStateProps: state.userSignIn });
+
+Header.propTypes = {
+  userStateProps: PropTypes.objectOf(() => null)
+};
+
+Header.defaultProps = {
+  userStateProps: {}
+};
+
+
+export default Header;
