@@ -3,6 +3,7 @@ import { Navbar, NavItem } from 'react-materialize';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import shortid from 'shortid';
+import { Link } from 'react-router-dom';
 
 
 /**
@@ -129,9 +130,26 @@ class Header extends Component {
     const { navs } = this.state;
     return (
       <header>
-        <Navbar brand="EventsManager" fixed className="App-header" right>
-          { navs }
-        </Navbar>
+        <div className="navbar-fixed">
+          <nav className=" z-depth-0 navigation">
+            <div className="nav-wrapper">
+              <div className="row">
+                <div className="col s12">
+                  <Link to="#side-nav" data-activates="mobile-demo" className="button-collapse hide-on-med-and-up"><i className="material-icons">menu</i></Link>
+                  <Link to="/" className="brand-logo" target="">EventsManager</Link>
+                  <ul className="right hide-on-med-and-down">
+                    <li><Link to="/login" target="">Login</Link></li>
+                    <li><Link to="/register" target="">Register</Link></li>
+                  </ul>
+                </div>
+              </div>
+              <ul className="side-nav" id="mobile-demo">
+                <li><Link to="/login" target="">Login</Link></li>
+                <li><Link to="/register" target="">Register</Link></li>
+              </ul>
+            </div>
+          </nav>
+        </div>
       </header>
     );
   }
