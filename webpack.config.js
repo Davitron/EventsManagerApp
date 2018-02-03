@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
 const hotPath = path.join(__dirname, 'client', 'public', 'hot');
 
@@ -26,7 +27,14 @@ module.exports = {
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new BrowserSyncPlugin({
+      // browse to http://localhost:3000/ during development,
+      // ./public directory is being served
+      host: 'localhost',
+      port: 8000,
+      server: { baseDir: [path.join(__dirname, 'client', 'public')] }
+    })
   ],
   module: {
     loaders: [

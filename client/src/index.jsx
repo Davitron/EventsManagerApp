@@ -6,12 +6,12 @@ import Header from './components/header';
 import App from './components/app';
 import store from './store';
 
-ReactDOM.render(
-  <Provider store={store}>
-    <Header />
-  </Provider>,
-  document.getElementById('header')
-);
+// ReactDOM.render(
+//   <Provider store={store}>
+//     <Header />
+//   </Provider>,
+//   document.getElementById('header')
+// );
 
 ReactDOM.render(
   <Provider store={store}>
