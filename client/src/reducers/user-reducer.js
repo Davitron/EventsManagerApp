@@ -1,5 +1,6 @@
 import userActionType from '../actions/actionTypes/user-action-types';
 import initialState from '../initial-state';
+import Logger from '../helpers/logger';
 
 /**
  * This reducer class handles all user actions
@@ -13,21 +14,22 @@ export default class UserReducer {
    * This is the user signup reducer
    * it returns a new state if an action is dispatched
    */
-  static signup(state = initialState.user, action) {
+  static register(state = initialState.user, action) {
     const newState = {};
     switch (action.type) {
       case userActionType.SIGNUP_REQUEST:
         newState.status = 'creating';
         newState.data = null;
+        Logger.log(newState);
         return newState;
       case userActionType.SIGNUP_SUCCESS:
         newState.status = 'created';
-        newState.data = action.message;
+        newState.data = action.data;
         return newState;
       case userActionType.SIGNUP_FAILURE:
         newState.status = 'failed';
         newState.data = null;
-        newState.error = action.error.message;
+        newState.error = action.message;
         return newState;
       default:
         return state;
@@ -73,7 +75,7 @@ export default class UserReducer {
    * This is the user verification reducer
    * it returns a new state if an action is dispatched
    */
-  static completeRegistration(state = initialState.userVerification, action) {
+  static completeRegistration(state = initialState.user, action) {
     const newState = {};
     switch (action.type) {
       case userActionType.VERIFY_REQUEST:
@@ -86,8 +88,7 @@ export default class UserReducer {
         return newState;
       case userActionType.VERIFY_FAILURE:
         newState.status = 'failed';
-        newState.data = null;
-        newState.error = action.error.message;
+        newState.data = action.data;
         return newState;
       default:
         return state;

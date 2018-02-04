@@ -8,7 +8,7 @@ export default class Dispatcher {
    * @param {*} data
    * @return {action} dispatches an action
    */
-  action(actionType, data) {
+  static action(actionType, data) {
     const action = {
       type: actionType,
       data

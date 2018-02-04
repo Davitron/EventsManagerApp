@@ -1,6 +1,13 @@
 import isEmpty from 'lodash/isEmpty';
+import validator from 'validatorjs';
+import Logger from './logger';
 
-
+const signUpRules = {
+  email: 'required|email',
+  username: 'required|string|min:3|max:16',
+  password: 'required|min:6',
+  confirmPassword: 'required|min:6',
+};
 
 /**
  * A class to handle form validation across app
@@ -50,6 +57,22 @@ export default class FormValidator {
       }
     }
     return status;
+  }
+
+  /**
+   *
+   * @param {*} data
+   * @returns {null | object}
+   * To check if given email is a valid format
+   */
+  validateSignUp(data) {
+    const validate = new validator(data, signUpRules);
+    if (!validate.passes()) {
+      const { errors } = validate;
+      const err = errors.errors;
+      return err;
+    }
+    return null;
   }
 
   /**

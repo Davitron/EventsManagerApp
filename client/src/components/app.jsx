@@ -9,6 +9,8 @@ import Register from './authentication/register';
 import Login from './authentication/login';
 import ForgotPassword from './authentication/forgot-password';
 import ResetPassword from './authentication/reset-password';
+import Verify from './authentication/verify';
+import Verified from './authentication/verified';
 import NotFound from './notFound';
 
 const App = () => (
@@ -20,6 +22,8 @@ const App = () => (
         <Route exact path="/login" component={Login} />
         <Route exact path="/forgot-password" component={ForgotPassword} />
         <Route exact path="/reset-password" component={ResetPassword} />
+        <Route exact path="/verify" component={Verify} />
+        <Route exact path="/verified" component={Verified} />
         <Route component={NotFound} />
       </Switch>
     </div>
