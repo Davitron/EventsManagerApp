@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Input, Row, Container } from 'react-materialize';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Loader from '../reusables/loader';
 import Header from '../header';
+import FormValidator from '../../helpers/form-validator';
+import Toast from '../../helpers/toast';
+import UserActions from '../../actions/user-actions';
+import Logger from '../../helpers/logger';
 
 
 /**
@@ -23,7 +28,8 @@ class Register extends Component {
         username: '',
         password: '',
         confirmPassword: ''
-      }
+      },
+      errors: null
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -52,7 +58,21 @@ class Register extends Component {
    * this handles the event when form is submitted
    */
   onSubmit(event) {
-
+    event.preventDefault();
+    const fv = new FormValidator();
+    const { createUser } = this.props;
+    const errors = fv.validateSignUp(this.state.user);
+    if (errors) {
+      this.setState({
+        errors
+      }, () => {
+        const message = Object.values(this.state.errors).join('\n');
+        Toast.error(message);
+      });
+    } else {
+      // Logger.log(createUser);
+      createUser(this.state.user);
+    }
   }
 
 
@@ -60,6 +80,7 @@ class Register extends Component {
    *@returns {*} view htmlFor langing page
    */
   render() {
+    const { user, errors } = this.state;
     return (
       <div>
         <Header />
@@ -73,14 +94,14 @@ class Register extends Component {
                   <Row className="z-depth-1 grey lighten-4 App-signup animated bounceInRight">
                   {/* {stateProps.creating === true && <Loader />} */}
                     <Row>
-                      <Input s={12} name="email" type="email" value="" label="Email" />
+                      <Input s={12} name="email" type="email" value={user.email} onChange={this.onChange} label="Email" />
                     </Row>
                     <Row>
-                      <Input s={12} name="username" value="" label="Username" />
+                      <Input s={12} name="username" value={user.username} label="Username" onChange={this.onChange} />
                     </Row>
                     <Row>
-                      <Input s={6} name="password" type="password" value="" label="Password" />
-                      <Input s={6} name="confirmPassword" type="password" value="" label="Confirm Password" />
+                      <Input s={6} name="password" type="password" value={user.paswword} label="Password" onChange={this.onChange} />
+                      <Input s={6} name="confirmPassword" type="password" value={user.confirmPassword} label="Confirm Password" onChange={this.onChange} />
                     </Row>
                     <br />
                     <center>
@@ -88,6 +109,13 @@ class Register extends Component {
                         <button
                           type="submit"
                           className={['col', 's12', 'btn', 'btn-large', 'waves-effect'].join(' ')}
+                          onClick={this.onSubmit}
+                          disabled={
+                            !user.email ||
+                            !user.username ||
+                            !user.password ||
+                            !user.confirmPassword
+                          }
                         >
                           Create Account
                         </button>
@@ -112,13 +140,18 @@ class Register extends Component {
 
 const mapStateToProps = state => ({ stateProps: state.register });
 
+const mapDispatchToProps = dispatch => bindActionCreators({
+  createUser: UserActions.register
+}, dispatch);
+
 Register.propTypes = {
   stateProps: PropTypes.objectOf(() => null),
-  dispatch: PropTypes.func.isRequired
+  createUser: PropTypes.func
 };
 
 Register.defaultProps = {
-  stateProps: {}
+  stateProps: {},
+  createUser: UserActions.register
 };
 
-export default connect(mapStateToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

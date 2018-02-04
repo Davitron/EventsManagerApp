@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import registerServiceWorker from './registerServiceWorker';
 import Header from './components/header';
 import App from './components/app';
-import store from './store';
+import configureStore from './store';
 
 // ReactDOM.render(
 //   <Provider store={store}>
@@ -12,6 +12,8 @@ import store from './store';
 //   </Provider>,
 //   document.getElementById('header')
 // );
+
+const store = configureStore;
 
 ReactDOM.render(
   <Provider store={store}>

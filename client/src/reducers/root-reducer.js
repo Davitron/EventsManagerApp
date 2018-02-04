@@ -1,9 +1,14 @@
 import { combineReducers } from 'redux';
 import UserReducer from './user-reducer';
 
+const {
+  register,
+  completeRegistration
+} = UserReducer;
+
 const rootReducer = combineReducers({
-  register: UserReducer.signup,
-  login: UserReducer.signin
+  register,
+  completeRegistration
 });
 
 export default rootReducer;

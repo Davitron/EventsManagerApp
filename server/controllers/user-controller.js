@@ -58,11 +58,11 @@ export default class UserController {
             password: newPassword,
             isAdmin: Boolean(req.body.isAdmin) || false
           }).then((user) => {
-            const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, { expiresIn: '15m' });
+            const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, { expiresIn: '7d' });
             const message = `<p>Welcome ${user.username}.</p><br/>
                             <p>Click the link below to complete your registration</p><br />
-                            <a href="http://localhost:8000/users/verified?token=${token}">Complete Registration</a><br/>
-                            This link expires in 15 mins`;
+                            <a href="http://localhost:8000/verified?token=${token}">Complete Registration</a><br/>
+                            `;
             const mailBody = {
               from: 'matthews.segunapp@gmail.com',
               to: user.email,

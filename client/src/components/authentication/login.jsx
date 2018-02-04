@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Loader from '../reusables/loader';
 import Header from '../header';
+import Logger from '../../helpers/logger';
 
 
 /**
