@@ -81,6 +81,7 @@ class Register extends Component {
    */
   render() {
     const { user, errors } = this.state;
+    const { stateProps } = this.props;
     return (
       <div>
         <Header />
@@ -92,7 +93,7 @@ class Register extends Component {
               <Container>
                 <form>
                   <Row className="z-depth-1 grey lighten-4 App-signup animated bounceInRight">
-                  {/* {stateProps.creating === true && <Loader />} */}
+                    {stateProps.status === 'creating' && <Loader />}
                     <Row>
                       <Input s={12} name="email" type="email" value={user.email} onChange={this.onChange} label="Email" />
                     </Row>

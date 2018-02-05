@@ -44,7 +44,7 @@ export default class UserReducer {
    * This is the user signup reducer
    * it returns a new state if an action is dispatched
    */
-  static signin(state = initialState.user, action) {
+  static login(state = initialState.user, action) {
     const newState = {};
     switch (action.type) {
       case userActionType.SIGNIN_REQUEST:
@@ -59,7 +59,7 @@ export default class UserReducer {
         return newState;
       case userActionType.SIGNIN_FAILURE:
         newState.isAuthenticated = false;
-        newState.data = null;
+        newState.data = action.err;
         newState.status = 'failed';
         return newState;
       default:
@@ -87,6 +87,34 @@ export default class UserReducer {
         newState.data = action.data;
         return newState;
       case userActionType.VERIFY_FAILURE:
+        newState.status = 'failed';
+        newState.data = action.data;
+        return newState;
+      default:
+        return state;
+    }
+  }
+
+  /**
+   *
+   * @param {*} state
+   * @param {*} action
+   * @returns {*}
+   * This is a reducer for password reset
+   * it returns a new state if an action is dispatched
+   */
+  static resetPassword(state = initialState.user, action) {
+    const newState = {};
+    switch (action.type) {
+      case userActionType.RESET_REQUEST:
+        newState.status = 'ongoing';
+        newState.data = null;
+        return newState;
+      case userActionType.RESET_SUCCESS:
+        newState.status = 'success';
+        newState.data = action.data;
+        return newState;
+      case userActionType.RESET_FAILURE:
         newState.status = 'failed';
         newState.data = action.data;
         return newState;

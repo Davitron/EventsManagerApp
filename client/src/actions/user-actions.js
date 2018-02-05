@@ -5,6 +5,7 @@ import history from '../helpers/history';
 import Dispatcher from '../helpers/dispatch';
 import Logger from '../helpers/logger';
 import Toast from '../helpers/toast';
+import { setTimeout } from 'timers';
 
 const cookies = new Cookies();
 
@@ -59,6 +60,78 @@ export default class UserActions {
           } else {
             dispatch(Dispatcher.action(userActionsType.VERIFY_FAILURE, error.response.data.message));
           }
+        });
+    };
+  }
+
+  /**
+   *
+   * @param {*} user
+   * @returns {*}
+   * this action handles user authentication
+   */
+  static login(user) {
+    return (dispatch) => {
+      dispatch(Dispatcher.action(userActionsType.SIGNIN_REQUEST, user));
+      axios.post('/api/v1/users/login', user)
+        .then((response) => {
+          dispatch(Dispatcher.action(userActionsType.SIGNIN_SUCCESS, response.data.userDetails));
+          cookies.set('jwt-events-manager', response.data.Token, { path: '/' });
+          history.push('/');
+        })
+        .catch((error) => {
+          const err = error.response.data.message;
+          dispatch(Dispatcher.action(userActionsType.SIGNIN_FAILURE, err));
+          Toast.error(err);
+        });
+    };
+  }
+
+  /**
+   *
+   * @param {*} email
+   * @returns {*}
+   * this action handles reset password reset
+   */
+  static resetRequest(email) {
+    return (dispatch) => {
+      dispatch(Dispatcher.action(userActionsType.RESET_REQUEST, email));
+      axios.post('/api/v1/users/reset', email)
+        .then((response) => {
+          Logger.log(response);
+          const { message } = response.data;
+          dispatch(Dispatcher.action(userActionsType.RESET_SUCCESS, message));
+          Toast.success(message);
+        })
+        .catch((error) => {
+          Logger.log(error.response);
+          const err = error.response.data.message;
+          dispatch(Dispatcher.action(userActionsType.SIGNIN_FAILURE, err));
+        });
+    };
+  }
+
+  /**
+   *
+   * @param {*} password
+   * @returns {*}
+   * this action handles password reset
+   */
+  static resetPassword(password) {
+    return (dispatch) => {
+      dispatch(Dispatcher.action(userActionsType.RESET_REQUEST, password));
+      axios.post(`/api/v1/users/password?token=${password.token}`, password)
+        .then((response) => {
+          Logger.log(response);
+          const { message } = response.data;
+          dispatch(Dispatcher.action(userActionsType.RESET_SUCCESS, message));
+          Toast.success(message);
+          setTimeout(() => { history.push('/login'); }, 5000);
+        })
+        .catch((error) => {
+          const err = error.response.data.message;
+          dispatch(Dispatcher.action(userActionsType.RESET_FAILURE, err));
+          Toast.error(err);
         });
     };
   }

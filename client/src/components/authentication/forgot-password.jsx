@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Input, Row, Container, Icon } from 'react-materialize';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Loader from '../reusables/loader';
 import Header from '../header';
+import UserActions from '../../actions/user-actions';
 
 
 /**
@@ -19,8 +21,7 @@ class ForgotPassword extends Component {
     super(props);
     this.state = {
       user: {
-        email: '',
-        password: ''
+        email: ''
       }
     }
     this.onChange = this.onChange.bind(this);
@@ -37,8 +38,7 @@ class ForgotPassword extends Component {
     const { user } = this.state;
     this.setState({
       user: {
-        ...user,
-        [name]: value
+        email: value
       }
     });
   }
@@ -50,7 +50,14 @@ class ForgotPassword extends Component {
    * this handles the event when form is submitted
    */
   onSubmit(event) {
-
+    event.preventDefault();
+    const { requestReset } = this.props;
+    requestReset(this.state.user);
+    this.setState({
+      user: {
+        email: ''
+      }
+    });
   }
 
 
@@ -59,7 +66,7 @@ class ForgotPassword extends Component {
    */
   render() {
     const { user } = this.state;
-    // const { stateProps } = this.props;
+    const { stateProps } = this.props;
     return (
       <div>
         <Header />
@@ -69,12 +76,12 @@ class ForgotPassword extends Component {
               <div className="section" />
               <h4 className="white-text"><b>Forgot Password</b></h4>
               <Container>
-                <form name="singInForm" onSubmit={this.onSubmit}>
+                <form>
                   <div className={['z-depth-1', 'grey', 'lighten-4', 'row', 'App-signup', 'animated', 'bounceInRight'].join(' ')} >
-                    { <Loader />}
+                    {stateProps.status === 'ongoing' && <Loader />}
                     <div className={['col', 's12'].join('')}>
                       <Row>
-                        <Input s={12} name="emial" type="email" value="" label="Enter your email?" />
+                        <Input s={12} name="email" type="email" value={user.email} onChange={this.onChange} label="Enter your email" />
                         <label htmlFor="forgot" style={{ float: 'right' }}>
                           <Link id="forgot" to="#!" className="white-text" href="#!">blank</Link>
                         </label>
@@ -82,9 +89,9 @@ class ForgotPassword extends Component {
                       <br />
                       <center>
                         <Row>
-                          <Link to="/" className={['col', 's12', 'btn', 'btn-large', 'waves-effect'].join(' ')}>
+                          <button onClick={this.onSubmit} className={['col', 's12', 'btn', 'btn-large', 'waves-effect'].join(' ')}>
                               Send Reset Link
-                          </Link>
+                          </button>
                         </Row>
                         <Row>
                           <Link className={['col', 's12', 'btn', 'btn-large', 'waves-effect', 'red'].join(' ')} to="/login">Back</Link>
@@ -104,14 +111,20 @@ class ForgotPassword extends Component {
   }
 }
 
-// const mapStateToProps = state => ({ stateProps: state.login });
+const mapStateToProps = state => ({ stateProps: state.resetPassword });
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  requestReset: UserActions.resetRequest
+}, dispatch);
 
 ForgotPassword.propTypes = {
-  stateProps: PropTypes.objectOf(() => null)
+  stateProps: PropTypes.objectOf(() => null),
+  requestReset: PropTypes.func
 };
 
 ForgotPassword.defaultProps = {
-  stateProps: {}
+  stateProps: {},
+  requestReset: UserActions.resetRequest
 };
 
-export default ForgotPassword;
+export default connect(mapStateToProps, mapDispatchToProps)(ForgotPassword);
