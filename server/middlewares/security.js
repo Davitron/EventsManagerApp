@@ -18,7 +18,7 @@ export default class Security {
     if (token) {
       jwt.verify(token, process.env.SECRET_KEY, (err, resolved) => {
         if (err) {
-          return res.status(403).json({ message: err });
+          return res.status(403).json({ message: 'Token is invalid or expired' });
         }
         req.decoded = resolved;
         return next();

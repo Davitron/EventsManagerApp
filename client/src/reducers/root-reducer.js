@@ -3,12 +3,16 @@ import UserReducer from './user-reducer';
 
 const {
   register,
-  completeRegistration
+  completeRegistration,
+  login,
+  resetPassword
 } = UserReducer;
 
 const rootReducer = combineReducers({
   register,
-  completeRegistration
+  completeRegistration,
+  login,
+  resetPassword
 });
 
 export default rootReducer;

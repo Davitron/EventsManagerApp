@@ -20,7 +20,7 @@ const newUserRules = {
 
 const existingUserRules = {
   email: 'required|email',
-  password: 'required|min:6'
+  password: 'required'
 };
 
 /**
@@ -127,7 +127,7 @@ export default class UserController {
       }));
     }
 
-    res.status(400).json({ message: validate.errors });
+    res.status(400).json({ message: validate.errors.first('email') });
   }
 
   /**
@@ -223,7 +223,7 @@ export default class UserController {
           const token = jwt.sign({ id: user.id, email: user.email }, process.env.SECRET_KEY, { expiresIn: '15m' });
           const message = `<p>Welcome ${user.username}.</p><br/>
           <p>Click the link below to reset your password</p><br />
-          <a href="http://localhost:8000/users/verified?token=${token}">Reset Password</a><br/>
+          <a href="http://localhost:8000/reset-password?token=${token}">Reset Password</a><br/>
           This link expires in 15 mins`;
           const mailBody = {
             from: 'matthews.segunapp@gmail.com',
@@ -238,9 +238,9 @@ export default class UserController {
               statusCode: 500
             });
           } else {
-            res.status(201).json({
+            res.status(200).json({
               message: 'Password reset link is sent',
-              statusCode: 201
+              statusCode: 200
             });
           }
         }
@@ -260,7 +260,7 @@ export default class UserController {
   static resetPassword(req, res) {
     return Users.findOne({
       where: {
-        email: req.body.email
+        email: req.decoded.email
       }
     })
       .then((user) => {
@@ -269,7 +269,7 @@ export default class UserController {
         })
           .then(() => {
             res.status(200).json({
-              message: 'Password reset successful'
+              message: 'Password reset successful. Now redirecting....'
             });
           })
           .catch(err => res.status(500).json({

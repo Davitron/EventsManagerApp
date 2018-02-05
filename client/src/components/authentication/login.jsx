@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Input, Row, Container } from 'react-materialize';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Loader from '../reusables/loader';
 import Header from '../header';
 import Logger from '../../helpers/logger';
+import UserActions from '../../actions/user-actions';
 
 
 /**
@@ -51,7 +53,9 @@ class Login extends Component {
    * this handles the event when form is submitted
    */
   onSubmit(event) {
-
+    event.preventDefault();
+    const { authUser } = this.props;
+    authUser(this.state.user);
   }
 
 
@@ -72,13 +76,13 @@ class Login extends Component {
               <Container>
                 <form name="singInForm" onSubmit={this.onSubmit}>
                   <div className={['z-depth-1', 'grey', 'lighten-4', 'row', 'App-signup', 'animated', 'bounceInRight'].join(' ')} >
-                    {stateProps.authenticating === true && <Loader />}
+                    {stateProps.status === 'authenticating' && <Loader />}
                     <div className={['col', 's12'].join('')}>
                       <Row>
-                        <Input s={12} name="email" type="text" value="" label="Email" />
+                        <Input s={12} name="email" type="email" value={user.email} onChange={this.onChange} label="Email" />
                       </Row>
                       <Row>
-                        <Input s={12} name="password" type="password" value="" label="Password" />
+                        <Input s={12} name="password" type="password" value={user.paswword} label="Password" onChange={this.onChange} />
                         <label htmlFor="forgot" style={{ float: 'right' }}>
                           <Link id="forgot" to="/forgot-password" className="red-text" href="#!"><b>Forgot Password?</b></Link>
                         </label>
@@ -89,6 +93,8 @@ class Login extends Component {
                           <button
                             type="submit"
                             className={['col', 's12', 'btn', 'btn-large', 'waves-effect'].join(' ')}
+                            disabled={!user.email || !user.password}
+                            onClick={this.onSubmit}
                           >
                             Login
                           </button>
@@ -113,13 +119,18 @@ class Login extends Component {
 
 const mapStateToProps = state => ({ stateProps: state.login });
 
+const mapDispatchToProps = dispatch => bindActionCreators({
+  authUser: UserActions.login
+}, dispatch);
+
 Login.propTypes = {
   stateProps: PropTypes.objectOf(() => null),
-  dispatch: PropTypes.func.isRequired
+  authUser: PropTypes.func
 };
 
 Login.defaultProps = {
-  stateProps: {}
+  stateProps: {},
+  authUser: UserActions.login
 };
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
