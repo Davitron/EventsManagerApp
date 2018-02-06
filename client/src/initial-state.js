@@ -3,6 +3,10 @@ const initialState = {
     isAuthenticated: false,
     data: null,
     status: null
+  },
+  center: {
+    data: null,
+    status: null
   }
 };
 

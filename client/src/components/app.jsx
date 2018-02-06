@@ -11,6 +11,7 @@ import ForgotPassword from './authentication/forgot-password';
 import ResetPassword from './authentication/reset-password';
 import Verify from './authentication/verify';
 import Verified from './authentication/verified';
+import Centers from './center/centers'
 import NotFound from './notFound';
 
 const App = () => (
@@ -24,6 +25,7 @@ const App = () => (
         <Route exact path="/reset-password" component={ResetPassword} />
         <Route exact path="/verify" component={Verify} />
         <Route exact path="/verified" component={Verified} />
+        <Route exact path="/centers" component={Centers} />
         <Route component={NotFound} />
       </Switch>
     </div>
