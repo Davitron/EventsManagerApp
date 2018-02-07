@@ -5,7 +5,7 @@ import history from '../helpers/history';
 import Dispatcher from '../helpers/dispatch';
 import Logger from '../helpers/logger';
 import Toast from '../helpers/toast';
-import { setTimeout } from 'timers';
+
 
 const cookies = new Cookies();
 

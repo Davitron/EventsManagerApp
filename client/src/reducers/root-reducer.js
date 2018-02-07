@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import UserReducer from './user-reducer';
-import CenterReducer from './center-reducer';
+import AppReducer from './app-reducer';
 
 
 const {
@@ -13,8 +13,11 @@ const {
 const {
   getAll,
   getAllStates,
-  createCenter
-} = CenterReducer;
+  create,
+  update,
+  deleteItem,
+  search
+} = AppReducer;
 
 const rootReducer = combineReducers({
   register,
@@ -23,7 +26,10 @@ const rootReducer = combineReducers({
   resetPassword,
   getAll,
   getAllStates,
-  createCenter
+  create,
+  update,
+  deleteItem,
+  search
 });
 
 export default rootReducer;

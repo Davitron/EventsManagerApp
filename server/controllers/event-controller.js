@@ -34,7 +34,7 @@ export default class EventController {
    * @returns {json} adds an event
    */
   static create(req, res) {
-    console.log(req.body);
+    console.log(req.decoded);
     const validate = new validator(req.body, eventRules);
     // format user date input to sequelize date input
     const eventStartDate = new Date(req.body.startDate);
@@ -54,7 +54,7 @@ export default class EventController {
             EventService.create(req, eventStartDate, eventEndDate)
               .then((createdEvent) => {
                 // to return this if event is created successfully
-                const message = `<p>Well done ${req.decoded.user}.</p><br/>
+                const message = `<p>Well done ${req.decoded.username}.</p><br/>
                 <p>
                   You have successfully created an event.<br />
                   You would get a response shortly from the event center

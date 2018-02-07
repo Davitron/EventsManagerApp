@@ -306,7 +306,7 @@ CreateCenterModal.defaultProps = defaultProps;
 
 const matchStateToProps = state => ({
   stateProps: {
-    response: state.createCenter
+    response: state.create
   }
 });
 

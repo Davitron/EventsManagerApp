@@ -1,6 +1,39 @@
 .App {
   text-align: center; }
 
+@import url('https://fonts.googleapis.com/css?family=Bad+Script');
+
+.contain {
+  margin:auto;
+  position:fixed;
+  width: 500px;
+  height: 500px;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+}
+
+@media only screen and (max-width: 500px) {
+  .contain {
+    margin:auto;
+    position:fixed;
+    width: 400px;
+    height: 400px;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    padding-bottom: 50px;
+  }
+}
+
+.title {
+  font-size: 30px;
+  font-family: 'Bad Script', cursive;
+
+}
+
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px; }

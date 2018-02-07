@@ -1,9 +1,10 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import centerActionType from './actionTypes/center-action-types';
+import mainActionType from './actionTypes/main-action-types';
 import Dispatcher from '../helpers/dispatch';
 import Logger from '../helpers/logger';
 import Toast from '../helpers/toast';
+import Modal from '../helpers/modal-control';
 
 
 const cookies = new Cookies();
@@ -19,7 +20,7 @@ export default class CenterActions {
    */
   static getAll() {
     return (dispatch) => {
-      dispatch(Dispatcher.action(centerActionType.GETALL_REQUEST, null));
+      dispatch(Dispatcher.action(mainActionType.GETALL_REQUEST, null));
       axios({
         method: 'GET',
         url: '/api/v1/centers',
@@ -28,11 +29,11 @@ export default class CenterActions {
         }
       })
         .then((response) => {
-          dispatch(Dispatcher.action(centerActionType.GETALL_SUCCESS, response.data));
+          dispatch(Dispatcher.action(mainActionType.GETALL_SUCCESS, response.data));
         })
         .catch((error) => {
           const err = error.response.data;
-          dispatch(Dispatcher.action(centerActionType.GETALL_FAILED, err));
+          dispatch(Dispatcher.action(mainActionType.GETALL_FAILED, err));
         });
     };
   }
@@ -43,7 +44,7 @@ export default class CenterActions {
    */
   static getAllStates() {
     return (dispatch) => {
-      dispatch(Dispatcher.action(centerActionType.GETSTATES_REQUEST, []));
+      dispatch(Dispatcher.action(mainActionType.GETSTATES_REQUEST, []));
       axios({
         method: 'GET',
         url: '/api/v1/states',
@@ -52,10 +53,10 @@ export default class CenterActions {
         }
       })
         .then((response) => {
-          dispatch(Dispatcher.action(centerActionType.GETSTATES_SUCCESS, response.data));
+          dispatch(Dispatcher.action(mainActionType.GETSTATES_SUCCESS, response.data));
         })
         .catch((error) => {
-          dispatch(Dispatcher.action(centerActionType.GETSTATES_FAILED, error.response.data));
+          dispatch(Dispatcher.action(mainActionType.GETSTATES_FAILED, error.response.data));
         });
     };
   }
@@ -79,7 +80,7 @@ export default class CenterActions {
     formData.append('price', newCenter.price);
 
     return (dispatch) => {
-      dispatch(Dispatcher.action(centerActionType.CREATE_REQUEST, newCenter));
+      dispatch(Dispatcher.action(mainActionType.CREATE_REQUEST, newCenter));
       axios({
         method: 'POST',
         url: '/api/v1/centers',
@@ -91,12 +92,12 @@ export default class CenterActions {
         .then((response) => {
           Toast.remove();
           Toast.success(response.data.message);
-          dispatch(Dispatcher.action(centerActionType.CREATE_SUCCESS, response.data.message));
+          dispatch(Dispatcher.action(mainActionType.CREATE_SUCCESS, response.data.message));
         })
         .catch((error) => {
           Toast.remove();
           Toast.error(error.response.data.message);
-          dispatch(Dispatcher.action(centerActionType.CREATE_FAILED, error.response.data.message));
+          dispatch(Dispatcher.action(mainActionType.CREATE_FAILED, error.response.data.message));
         });
     };
   }
@@ -108,19 +109,6 @@ export default class CenterActions {
    * this action is handles updating a center
    */
   static updateCenter(centerObj) {
-    const request = (center) => {
-      const requestAction = { type: centerActionType.UPDATE_REQUEST, center };
-      return requestAction;
-    };
-    const success = (center) => {
-      const successAction = { type: centerActionType.UPDATE_SUCCESS, center };
-      return successAction;
-    };
-    const failure = (error) => {
-      const failureAction = { type: centerActionType.UPDATE_FAILED, error };
-      return failureAction;
-    };
-
     const facilitiesStr = centerObj.facilities.join();
     const formData = new FormData();
     formData.append('name', centerObj.name);
@@ -133,7 +121,7 @@ export default class CenterActions {
     formData.append('price', centerObj.price);
 
     return (dispatch) => {
-      dispatch(request(centerObj));
+      dispatch(Dispatcher.action(mainActionType.UPDATE_REQUEST, centerObj));
       axios({
         method: 'PUT',
         url: `/api/v1/centers/${centerObj.id}`,
@@ -142,14 +130,15 @@ export default class CenterActions {
         },
         data: formData
       })
-        .then((result) => {
-          Materialize.toast(result.data.message, 6000, 'cyan');
-          $('#updateCenter').modal('close');
-          dispatch(success(result.data));
+        .then((response) => {
+          Toast.success(response.data.message);
+          Modal.action('#updateCenter', 'close');
+          dispatch(Dispatcher.action(mainActionType.UPDATE_SUCCESS, response.data.message));
         })
         .catch((error) => {
-          Materialize.toast(error.response.data.message, 4000, 'red');
-          dispatch(failure(error.response.data));
+          const { message } = error.response.data.message;
+          Toast.error(message);
+          dispatch(Dispatcher.action(mainActionType.UPDATE_FAILED, message));
         });
     };
   }
@@ -157,34 +146,21 @@ export default class CenterActions {
    *
    * @param {*} param
    * @returns {*}
-   * this action handles user verification
+   * this action handles searching for centers
    */
   static search(param) {
-    const request = (centers) => {
-      const requestAction = { type: centerActionType.SEARCH_REQUEST, centers };
-      return requestAction;
-    };
-    const success = (centers) => {
-      const successAction = { type: centerActionType.SEARCH_SUCCESS, centers };
-      return successAction;
-    };
-    const failure = (error) => {
-      const failureAction = { type: centerActionType.SEARCH_FAILURE, error };
-      return failureAction;
-    };
     return (dispatch) => {
-      dispatch(request(param));
+      dispatch(Dispatcher.action(mainActionType.SEARCH_REQUEST, param));
       axios({
         method: 'POST',
         url: '/api/v1/searchcenter',
         data: param
       })
         .then((response) => {
-          console.log(response.data);
-          dispatch(success(response.data));
+          dispatch(Dispatcher.action(mainActionType.SEARCH_SUCCESS, response.data));
         })
         .catch((error) => {
-          dispatch(failure(error.response.data));
+          dispatch(Dispatcher.action(mainActionType.SEARCH_FAILURE, error.response.data));
         });
     };
   }
@@ -196,21 +172,8 @@ export default class CenterActions {
    * this action is handles deleting a center
   */
   static deleteCenter(id) {
-    const request = (centerId) => {
-      const requestAction = { type: centerActionType.DELETE_REQUEST, centerId };
-      return requestAction;
-    };
-    const success = (centerId) => {
-      const successAction = { type: centerActionType.DELETE_SUCCESS, centerId };
-      return successAction;
-    };
-    const failure = (error) => {
-      const failureAction = { type: centerActionType.DELETE_FAILED, error };
-      return failureAction;
-    };
-
     return (dispatch) => {
-      dispatch(request(id));
+      dispatch(Dispatcher.action(mainActionType.DELETE_REQUEST, id));
       axios({
         method: 'DELETE',
         url: `/api/v1/centers/${id}`,
@@ -218,15 +181,16 @@ export default class CenterActions {
           'x-access-token': token
         }
       })
-        .then((result) => {
-          dispatch(success(result.data));
-          Materialize.toast(result.data.message, 6000, 'cyan');
-          $('#deleteCenter').modal('close');
+        .then((response) => {
+          dispatch(Dispatcher.action(mainActionType.DELETE_SUCCESS, response.data.message));
+          Toast.success(response.data.message);
+          Modal.action('#deleteCenter', 'close');
         })
         .catch((error) => {
-          console.log(error.response.data.message);
-          dispatch(failure(error.response.data));
-          Materialize.toast(error.response.data.message, 6000, 'red');
+          const { message } = error.response.data;
+          dispatch(Dispatcher.action(mainActionType.DELETE_FAILED, message));
+          Toast.error(message);
+          Modal.action('#deleteCenter', 'close');
         });
     };
   }
