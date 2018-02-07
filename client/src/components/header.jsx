@@ -136,7 +136,7 @@ class Header extends Component {
               <div className="row">
                 <div className="col s12">
                   <Link to="#side-nav" data-activates="mobile-demo" className="button-collapse hide-on-med-and-up"><i className="material-icons">menu</i></Link>
-                  <Link to="/" className="brand-logo" target="">EventsManager</Link>
+                  <Link to="/" className="brand-logo title" target="">EventsManager</Link>
                   <ul className="right hide-on-med-and-down">
                     <li><Link to="/login" target="">Login</Link></li>
                     <li><Link to="/register" target="">Register</Link></li>

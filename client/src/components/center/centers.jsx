@@ -12,9 +12,9 @@ import Header from '../header';
 import Toast from '../../helpers/toast';
 import Logger from '../../helpers/logger';
 import CreateCenterModal from '../modals/create-center-modal';
+import UpdateCenterModal from '../modals/update-center-modal';
+import DeleteCenterModal from '../modals/delete-center-modal';
 import Modal from '../../helpers/modal-control';
-// import UpdateCenterModal from '../modals/UpdateCenter';
-// import DeleteCenterModal from '../modals/DeleteCenter';
 
 
 // window.jQuery = window.$ = jQuery;
@@ -245,8 +245,8 @@ class Center extends Component {
                           <td>{item.State.statName}</td>
                           <td>
                             <a href="#updateCenter" className={['waves-effect', 'waves-light', 'btn'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleOpen((item.id))} ><i className=" material-icons">create</i></a>
-                            {/* <a className="waves-effect waves-light  btn" style={{ marginLeft: '5px' }} onClick={() => {document.location.href = `/admin/pending/${item.id}`}}><i className=" material-icons">schedule</i></a>
-                            <a href="#deleteCenter" className={['waves-effect', 'waves-light', 'btn', 'red'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleDelete((item.id))}><i className=" material-icons">delete</i></a> */}
+                            {/* <a className="waves-effect waves-light  btn" style={{ marginLeft: '5px' }} onClick={() => {document.location.href = `/admin/pending/${item.id}`}}><i className=" material-icons">schedule</i></a> */}
+                            <a href="#deleteCenter" className={['waves-effect', 'waves-light', 'btn', 'red'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleDelete((item.id))}><i className=" material-icons">delete</i></a> 
                           </td>
                         </tr>))
                     }
@@ -268,8 +268,8 @@ class Center extends Component {
           </div>
         </div>
         <CreateCenterModal states={states} />
-        {/* <UpdateCenterModal states={states} selectedCenter={selectedCenter} />
-        <DeleteCenterModal centerId={this.state.center_Id} /> */}
+        <UpdateCenterModal states={states} selectedCenter={selectedCenter} />
+        <DeleteCenterModal centerId={this.state.center_Id} />
       </div>
     );
   }

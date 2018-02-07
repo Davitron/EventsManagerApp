@@ -4,10 +4,10 @@ const initialState = {
     data: null,
     status: null
   },
-  center: {
+  app: {
     data: null,
     status: null
-  }
+  },
 };
 
 export default initialState;
