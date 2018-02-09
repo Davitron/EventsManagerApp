@@ -1,3 +1,4 @@
+
 .App {
   text-align: center; }
 
@@ -25,6 +26,31 @@
     left:0;
     right:0;
     padding-bottom: 50px;
+  }
+}
+
+.contain2 {
+  margin:auto;
+  position:fixed;
+  width: 600px;
+  height: 600px;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+}
+
+@media only screen and (max-width: 500px) {
+  .contain2 {
+    margin:auto;
+    position:fixed;
+    width: 400px;
+    height: 600px;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    padding-bottom: 20px;
   }
 }
 

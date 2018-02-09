@@ -5,6 +5,7 @@ import Dispatcher from '../helpers/dispatch';
 import Logger from '../helpers/logger';
 import Toast from '../helpers/toast';
 import Modal from '../helpers/modal-control';
+import history from '../helpers/history';
 
 
 const cookies = new Cookies();
@@ -184,13 +185,12 @@ export default class CenterActions {
         .then((response) => {
           dispatch(Dispatcher.action(mainActionType.DELETE_SUCCESS, response.data.message));
           Toast.success(response.data.message);
-          Modal.action('#deleteCenter', 'close');
+          history.push('/centers');
         })
         .catch((error) => {
           const { message } = error.response.data;
           dispatch(Dispatcher.action(mainActionType.DELETE_FAILED, message));
           Toast.error(message);
-          Modal.action('#deleteCenter', 'close');
         });
     };
   }

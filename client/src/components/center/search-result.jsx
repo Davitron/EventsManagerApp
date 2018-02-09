@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import queryString from 'query-string';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -262,7 +263,12 @@ class CenterResults extends Component {
                               </Col>
                             </Row>
                             <Row className="center">
-                              <Button waves="light" large className={['animated', 'bounceInUp'].join(' ')}>View Upcoming Events</Button>
+                              <button
+                                className={['waves-effect', 'orange', 'animated', 'bounceInUp', 'btn', 'btn-large'].join(' ')}
+                                onClick={() => history.push(`/upcoming-events/${center.id}`)}
+                              >
+                                View Upcoming Events
+                              </button>
                             </Row>
                           </div>
                         }

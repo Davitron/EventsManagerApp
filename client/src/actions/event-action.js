@@ -4,7 +4,7 @@ import mainActionType from './actionTypes/main-action-types';
 import Dispatcher from '../helpers/dispatch';
 import Logger from '../helpers/logger';
 import Toast from '../helpers/toast';
-import Modal from '../helpers/modal-control';
+import history from '../helpers/history';
 
 
 const cookies = new Cookies();
@@ -44,21 +44,9 @@ export default class EventActions {
    *@returns {*}
    * this action is handles fetching all events
    */
-  getPendingEvent(centerId) {
-    const request = () => {
-      const requestAction = { type: mainActionType.GETALL_REQUEST };
-      return requestAction;
-    };
-    const success = (events) => {
-      const successAction = { type: mainActionType.GETALL_SUCCESS, events };
-      return successAction;
-    };
-    const failure = (error) => {
-      const failureAction = { type: mainActionType.GETALL_FAILED, error };
-      return failureAction;
-    };
+  static getPendingEvent(centerId) {
     return (dispatch) => {
-      dispatch(request());
+      dispatch(Dispatcher.action(mainActionType.GETALL_REQUEST, null));
       axios({
         method: 'GET',
         url: `/api/v1/events/pending/${centerId}`,
@@ -66,12 +54,43 @@ export default class EventActions {
           'x-access-token': token
         }
       })
-        .then((result) => {
-          dispatch(success(result.data));
+        .then((response) => {
+          Logger.log(response.data);
+          dispatch(Dispatcher.action(mainActionType.GETALL_SUCCESS, response.data));
+          if (response.data.pendingEvents.length === 0) {
+            Toast.info('There are no pending events for this center.');
+          }
         })
         .catch((error) => {
-          console.log(error.response);
-          dispatch(failure(error.response.data));
+          dispatch(Dispatcher.action(mainActionType.GETALL_FAILED, error.response.data));
+        });
+    };
+  }
+
+  /**
+   *@param {*} centerId
+   *@returns {*}
+   * this action is handles fetching all events
+   */
+  static getUpcomingEvent(centerId) {
+    return (dispatch) => {
+      dispatch(Dispatcher.action(mainActionType.GETALL_REQUEST, null));
+      axios({
+        method: 'GET',
+        url: `/api/v1/events/upcoming/${centerId}`,
+        headers: {
+          'x-access-token': token
+        }
+      })
+        .then((response) => {
+          Logger.log(response.data);
+          dispatch(Dispatcher.action(mainActionType.GETALL_SUCCESS, response.data));
+          // if (response.data.pendingEvents.length === 0) {
+          //   Toast.info('There are no pending events for this center.');
+          // }
+        })
+        .catch((error) => {
+          dispatch(Dispatcher.action(mainActionType.GETALL_FAILED, error.response.data));
         });
     };
   }
@@ -225,22 +244,10 @@ export default class EventActions {
    * @returns {*}
    * this action is handles deleting a event
   */
-  deleteEvent(id) {
-    const request = (eventId) => {
-      const requestAction = { type: mainActionType.DELETE_REQUEST, eventId };
-      return requestAction;
-    };
-    const success = (eventId) => {
-      const successAction = { type: mainActionType.DELETE_SUCCESS, eventId };
-      return successAction;
-    };
-    const failure = (error) => {
-      const failureAction = { type: mainActionType.DELETE_FAILED, error };
-      return failureAction;
-    };
-
+  static deleteEvent(id) {
+    console.log(id);
     return (dispatch) => {
-      dispatch(request(id));
+      dispatch(Dispatcher.action(mainActionType.DELETE_REQUEST, id));
       axios({
         method: 'DELETE',
         url: `/api/v1/events/${id}`,
@@ -248,11 +255,14 @@ export default class EventActions {
           'x-access-token': token
         }
       })
-        .then((result) => {
-          dispatch(success(result.data));
+        .then((response) => {
+          dispatch(Dispatcher.action(mainActionType.DELETE_SUCCESS, response.data));
+          Toast.success(response.data.message);
         })
         .catch((error) => {
-          dispatch(failure(error.response.data));
+          const { message } = error.response.data;
+          dispatch(Dispatcher.action(mainActionType.DELETE_FAILED, message));
+          Toast.error(message);
         });
     };
   }

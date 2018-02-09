@@ -409,6 +409,7 @@ export default class EventController {
             statusCode: 404
           });
         }
+        console.log(events);
         return res.status(200).json({
           upcomingEvents: events,
           statusCode: 200

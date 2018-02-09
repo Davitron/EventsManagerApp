@@ -4,12 +4,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import debounce from 'throttle-debounce/debounce';
 import PropTypes from 'prop-types';
+import swal from 'sweetalert2';
 import { Input, Icon } from 'react-materialize';
 import Pagination from '../reusables/pagination';
 import Loader from '../reusables/loader';
 import EventActions from '../../actions/event-action';
 import history from '../../helpers/history';
-// import UpdateEventModal from '../modals/UpdateEvent';
+import Header from '../header';
 // import DeleteEventModal from '../modals/DeleteEvent';
 
 
@@ -31,7 +32,8 @@ class Event extends Component {
       pageOfItems: [],
       selectedEvent: {},
       event_Id: undefined,
-      loading: true
+      loading: true,
+      message: ''
     };
 
     this.handleSearch = this.handleSearch.bind(this);
@@ -55,13 +57,22 @@ class Event extends Component {
    * @returns {*} change state if new prop is recieved
    */
   componentWillReceiveProps(nextProps) {
+    const { events, eventDeleted } = nextProps.stateProps;
+    const { data, message } = this.state;
     const { getAll } = this.props;
-    if (nextProps.stateProps.events.data &&
-      nextProps.stateProps.events.data.allEvents !== this.state.data) {
+    if (events.data && events.data.allEvents !== data) {
       this.setState({
-        data: nextProps.stateProps.events.data.allEvents,
-        loading: false
+        data: events.data.allEvents,
+        loading: false,
+        message: ''
       });
+    }
+
+    if (eventDeleted.data !== message && eventDeleted.data) {
+      this.setState({
+        message: eventDeleted.data
+      });
+      getAll();
     }
   }
 
@@ -109,7 +120,7 @@ class Event extends Component {
   handleOpen = (eventId) => {
     const { pageOfItems } = this.state;
     const event = pageOfItems.find(x => x.id === eventId);
-    history.push('/update-center', {
+    history.push('/update-event', {
       event,
     });
     // this.setState({
@@ -132,11 +143,23 @@ class Event extends Component {
    * @returns {*} update event modal
    */
   handleDelete = (eventId) => {
-    const { event_Id } = this.state;
+    const { deleteEvent } = this.props;
     this.setState({
       event_Id: eventId
-    }, () => {
-      $('#deleteEvent').modal('open');
+    });
+    swal({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        deleteEvent(this.state.event_Id);
+        console.log('fjru3ho');
+      }
     });
   };
 
@@ -197,7 +220,7 @@ class Event extends Component {
     } = this.state;
     return (
       <div>
-
+        <Header />
         <div style={{
           backgroundColor: 'rgb(5, 22, 22)',
           position: 'absolute',
@@ -253,7 +276,7 @@ class Event extends Component {
                           </td>
                           <td>
                             <button className={['waves-effect', 'waves-light', 'btn'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleOpen((item.id))} ><i className=" material-icons">create</i></button>
-                            <a href="#deleteEvent" className={['waves-effect', 'waves-light', 'btn', 'red'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleDelete((item.id))}><i className=" material-icons">delete</i></a>
+                            <button className={['waves-effect', 'waves-light', 'btn', 'red'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleDelete((item.id))}><i className=" material-icons">delete</i></button>
                           </td>
                         </tr>))
                     }
@@ -283,22 +306,25 @@ class Event extends Component {
 
 const mapStateToProps = state => ({
   stateProps: {
-    events: state.getAll
+    events: state.getAll,
+    eventDeleted: state.deleteItem
   }
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  getAll: EventActions.getAll
-  // createEvent: eventAction.createEvent
+  getAll: EventActions.getAll,
+  deleteEvent: EventActions.deleteEvent
 }, dispatch);
 
 Event.propTypes = {
   stateProps: PropTypes.objectOf(() => null),
-  getAll: PropTypes.func.isRequired
+  getAll: PropTypes.func.isRequired,
+  deleteEvent: PropTypes.func
 };
 
 Event.defaultProps = {
-  stateProps: {}
+  stateProps: {},
+  deleteEvent: EventActions.deleteEvent
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Event);
