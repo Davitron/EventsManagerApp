@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import debounce from 'throttle-debounce/debounce';
 import PropTypes from 'prop-types';
 import { Input, Icon } from 'react-materialize';
+import swal from 'sweetalert2';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Pagination from '../reusables/pagination';
 import Loader from '../reusables/loader';
 import CenterActions from '../../actions/center-action';
 import Header from '../header';
+import history from '../../helpers/history';
 import Toast from '../../helpers/toast';
 import Logger from '../../helpers/logger';
-import CreateCenterModal from '../modals/create-center-modal';
-import UpdateCenterModal from '../modals/update-center-modal';
-import DeleteCenterModal from '../modals/delete-center-modal';
-import Modal from '../../helpers/modal-control';
+// import DeleteCenter from '../modals/delete-center-modal';
 
 
 // window.jQuery = window.$ = jQuery;
@@ -30,25 +30,19 @@ class Center extends Component {
     super(props);
     this.state = {
       data: [],
-      states: [],
       searchNotfound: '',
       pageOfItems: [],
       selectedCenter: {},
       center_Id: undefined,
-      loading: true
+      loading: true,
+      message: ''
     };
-
-    // $(document).ready(() => {
-    //   $('#newCenter').modal();
-    //   $('#updateCenter').modal();
-    //   $('#deleteCenter').modal();
-    // });
 
     this.handleSearch = this.handleSearch.bind(this);
     this.onChangePage = this.onChangePage.bind(this);
     this.triggerSearch = debounce(100, this.triggerSearch);
     this.handleOpen = this.handleOpen.bind(this);
-    this.handleOpen = this.handleOpen.bind(this);
+    this.handleCreate = this.handleCreate.bind(this);
   }
 
   /**
@@ -56,9 +50,8 @@ class Center extends Component {
    */
   componentWillMount() {
     // CenterActions.getAll()
-    const { getAll, getStates } = this.props;
+    const { getAll } = this.props;
     getAll();
-    getStates();
   }
 
   /**
@@ -66,17 +59,22 @@ class Center extends Component {
    * @returns {*} change state if new prop is recieved
    */
   componentWillReceiveProps(nextProps) {
-    if (nextProps.stateProps.centers.data !== this.state.data
-      && nextProps.stateProps.centers.data) {
+    const { centers, deleteCenter } = nextProps.stateProps;
+    const { data, message } = this.state;
+    const { getAll } = this.props;
+    if (centers.data !== data && centers.data) {
       this.setState({
-        data: nextProps.stateProps.centers.data,
-        loading: false
+        data: centers.data,
+        loading: false,
+        message: ''
       });
     }
-    if (nextProps.stateProps.states.data) {
+
+    if (deleteCenter.data !== message && deleteCenter.data) {
       this.setState({
-        states: nextProps.stateProps.states.data
+        message: deleteCenter.data
       });
+      getAll();
     }
   }
 
@@ -92,7 +90,6 @@ class Center extends Component {
       this.setState({ pageOfItems });
     } else {
       this.setState({ pageOfItems: stateProps });
-      console.log('holla');
     }
   }
 
@@ -114,11 +111,10 @@ class Center extends Component {
   handleOpen = (centerId) => {
     const { pageOfItems } = this.state;
     const center = pageOfItems.find(x => x.id === centerId);
-    console.log(center);
-    this.setState({
-      selectedCenter: center
-    }, () => {
-      Modal.action('#updateCenter', 'open');
+    history.push('/update-center', {
+      state: {
+        center
+      }
     });
   };
 
@@ -136,10 +132,22 @@ class Center extends Component {
    */
   handleDelete = (centerId) => {
     const { center_Id } = this.state;
+    const { getAll, deleteCenter } = this.props;
     this.setState({
       center_Id: centerId
-    }, () => {
-      Modal.action('#deleteCenter', 'open');
+    });
+    swal({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        deleteCenter(centerId);
+      }
     });
   };
 
@@ -167,6 +175,7 @@ class Center extends Component {
     }
   }
 
+
   /**
    * @param {*} event
    * @returns {*} triggers when key is pressed
@@ -177,6 +186,13 @@ class Center extends Component {
     }
   }
 
+  /**
+   * @param {*} event
+   * @returns {*} triggers when key is pressed
+   */
+  handleCreate(event) {
+    history.push('/create-center');
+  }
 
   /**
  *@returns {*} event for sortin
@@ -244,18 +260,18 @@ class Center extends Component {
                           <td>{item.name}</td>
                           <td>{item.State.statName}</td>
                           <td>
-                            <a href="#updateCenter" className={['waves-effect', 'waves-light', 'btn'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleOpen((item.id))} ><i className=" material-icons">create</i></a>
-                            {/* <a className="waves-effect waves-light  btn" style={{ marginLeft: '5px' }} onClick={() => {document.location.href = `/admin/pending/${item.id}`}}><i className=" material-icons">schedule</i></a> */}
-                            <a href="#deleteCenter" className={['waves-effect', 'waves-light', 'btn', 'red'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleDelete((item.id))}><i className=" material-icons">delete</i></a> 
+                            <button className={['waves-effect', 'waves-light', 'btn'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleOpen((item.id))} ><i className=" material-icons">create</i></button>
+                            <Link className="waves-effect waves-light  btn" style={{ marginLeft: '5px' }} to={`/pending-events/${item.id}`}><i className=" material-icons">schedule</i></Link>
+                            <button className={['waves-effect', 'waves-light', 'btn', 'red'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleDelete((item.id))}><i className=" material-icons">delete</i></button>
                           </td>
                         </tr>))
                     }
                   </tbody>
                 </table>
                 <div className={['fixed-action-btn', 'click-to-toggle', 'spin-close'].join(' ')}>
-                  <a className={['btn-floating', 'btn-large', 'waves-effect', 'waves-light'].join(' ')} onClick={() => { $('#createCenter').modal(); }} href="#newCenter">
+                  <Link className={['btn-floating', 'btn-large', 'waves-effect', 'waves-light'].join(' ')} to="/create-center">
                     <i className="material-icons">add</i>
-                  </a>
+                  </Link>
                 </div>
                 <Pagination
                   items={
@@ -267,9 +283,9 @@ class Center extends Component {
             </div>
           </div>
         </div>
-        <CreateCenterModal states={states} />
+        {/* <CreateCenterModal states={states} />
         <UpdateCenterModal states={states} selectedCenter={selectedCenter} />
-        <DeleteCenterModal centerId={this.state.center_Id} />
+        <DeleteCenterModal centerId={this.state.center_Id} /> */}
       </div>
     );
   }
@@ -278,27 +294,26 @@ class Center extends Component {
 const mapStateToProps = state => ({
   stateProps: {
     centers: state.getAll,
-    states: state.getAllStates,
+    deleteCenter: state.deleteItem
     // newCenter: state.createCenter
   }
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   getAll: CenterActions.getAll,
-  getStates: CenterActions.getAllStates
-  // createCenter: centerAction.createCenter
+  deleteCenter: CenterActions.deleteCenter
 }, dispatch);
 
 Center.propTypes = {
   stateProps: PropTypes.objectOf(() => null),
   getAll: PropTypes.func,
-  getStates: PropTypes.func
+  deleteCenter: PropTypes.func,
 };
 
 Center.defaultProps = {
   stateProps: {},
   getAll: CenterActions.getAll,
-  getStates: CenterActions.getAllStates,
+  deleteCenter: CenterActions.deleteCenter
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Center);

@@ -261,54 +261,6 @@ class UpdateEventForm extends Component {
           </div>
         </div>
       </div>
-      // <div className="event-modal">
-      //   <div id="updateEvent" className="modal modal-fixed-footer">
-
-      //     <div className="modal-content">
-      //       <h4>Update Event</h4>
-      //       <div className="row">
-      //         <form className={['col', 'row', 's12'].join(' ')} >
-      //           <div className={['row'].join(' ')}>
-      //             <Input
-      //               s={12}
-      //               name="eventName"
-      //               value={!event.eventName ? '' : event.eventName}
-      //               onChange={this.onChange}
-      //               label="Event Name"
-      //               labelClassName={event.eventName && 'active'}
-      //             />
-      //           </div>
-      //           <Row>
-      //             <Input
-      //               s={12}
-      //               name="startDate"
-      //               value={!event.startDate ? '' : event.startDate}
-      //               type="date"
-      //               onChange={this.onDateChange}
-      //               label="Start Date"
-      //               labelClassName={event.startDate && 'active'}
-      //             />
-      //           </Row>
-      //           <Row>
-      //             <Input
-      //               s={12}
-      //               name="days"
-      //               type="number"
-      //               value={!event.days ? '' : event.days}
-      //               onChange={this.onChange}
-      //               label="Days"
-      //               labelClassName={event.days && 'active'}
-      //             />
-      //           </Row>
-      //         </form>
-      //       </div>
-      //     </div>
-      //     <div className="modal-footer" >
-      //       <button className="modal-action modal-close waves-effect waves-green btn-flat ">Cancel</button>
-      //       <button className="waves-effect waves-green btn-flat" onClick={this.onSubmit}>Update</button>
-      //     </div>
-      //   </div>
-      // </div>
     );
   }
 }

@@ -1,136 +1,58 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Input } from 'react-materialize';
-import PropTypes from 'prop-types';
-import CenterActions from '../../actions/center-action';
-import Loader from '../reusables/loader';
-import Modal from '../../helpers/modal-control';
-import Logger from '../../helpers/logger';
+import React from 'react';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-const centerAction = new CenterActions();
-
-
-const propTypes = {
-  centerId: PropTypes.number,
-  deleteCenter: PropTypes.func.isRequired,
-  getCenters: PropTypes.func.isRequired,
-  stateProps: PropTypes.objectOf(() => {
-    return null;
-  }),
-};
-
-const defaultProps = {
-  centerId: undefined,
-  stateProps: {}
-};
 /**
-  *
-  */
-class DeleteCenterModal extends Component {
-  /**
-   *
-   * @param {*} props
-   */
-  constructor(props) {
-    super(props);
-    this.state = {
-      centerId: undefined,
-      loading: false,
-      message: ''
-    };
-    this.onSubmit = this.onSubmit.bind(this);
-  }
+ * 
+ */
+export default class DeleteCenter extends React.Component {
+  state = {
+    open: false,
+  };
 
-  /**
-   * @returns {*} set value of props to center on initial render
-   */
-  componentWillMount() {
-    this.setState({
-      centerId: this.props.centerId
-    });
-  }
+  handleOpen = () => {
+    this.setState({ open: true });
+  };
 
-  /**
-   *
-   * @param {*} nextProps
-   * @returns {*} to set state when props changes
-   */
-  componentWillReceiveProps(nextProps) {
-    const { message } = this.state;
-    const { getCenters } = this.props;
-    if (nextProps.centerId !== this.props.centerId) {
-      this.setState({
-        centerId: nextProps.centerId
-      });
-    }
+  handleClose = () => {
+    this.setState({ open: false });
+  };
 
-    if (nextProps.stateProps.response.data !== message) {
-      this.setState({
-        message: nextProps.stateProps.response.data
-      }, () => {
-        if (nextProps.stateProps.response.data) {
-          this.setState({
-            loading: false
-          });
-          getCenters();
-        }
-      });
-    }
-    if (nextProps.stateProps.response.data === 'failed') {
-      this.setState({
-        loading: false
-      });
-    }
-  }
-
-  /**
-   *
-   * @param {*} event
-   * @returns {*}
-   * this handles the event when form is submitted
-   */
-  onSubmit(event) {
-    event.preventDefault();
-    this.setState({
-      loading: true
-    });
-    const { deleteCenter } = this.props;
-    deleteCenter(this.state.centerId);
-  }
-
-  /**
-   * @returns {*} view fir delete prompt
-   */
+/**
+ * 
+ */
   render() {
-    const { loading } = this.state;
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary
+        onClick={this.handleClose}
+      />,
+      <FlatButton
+        label="Submit"
+        primary
+        keyboardFocused
+        onClick={this.handleClose}
+      />,
+    ];
+
     return (
-      <div id="deleteCenter" className="modal">
-        <div className="modal-content">
-          {loading === true && <Loader />}
-          <h4>Delete Center</h4>
-          <h5>Are you sure you want to delete this center?</h5>
-        </div>
-        <div className="modal-footer">
-          <button className="waves-effect waves-green btn" onClick={this.onSubmit}>Confirm</button>
-        </div>
+      <div>
+        <button className={['waves-effect', 'waves-light', 'btn', 'red'].join(' ')} onClick={this.handleOpen}><i className=" material-icons">delete</i></button>
+        <MuiThemeProvider>
+          <Dialog
+            title="Dialog With Actions"
+            actions={actions}
+            modal={false}
+            open={this.state.open}
+            onRequestClose={this.handleClose}
+          >
+            The actions in this window were passed in as an array of React objects.
+          </Dialog>
+        </MuiThemeProvider>
       </div>
     );
   }
 }
-
-DeleteCenterModal.propTypes = propTypes;
-DeleteCenterModal.defaultProps = defaultProps;
-
-const matchStateToProps = state => ({
-  stateProps: {
-    response: state.deleteItem
-  }
-});
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-  deleteCenter: CenterActions.deleteCenter,
-  getCenters: CenterActions.getAll
-}, dispatch);
-
-export default connect(matchStateToProps, mapDispatchToProps)(DeleteCenterModal);

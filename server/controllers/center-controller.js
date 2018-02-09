@@ -267,7 +267,7 @@ export default class CenterController {
           });
       }
     } else {
-      return res.status(401).json({ message: 'You do not have admin priviledge' });
+      return res.status(401).json({ message: 'You do not have admin priviledge' }); 
     }
   }
 
@@ -290,10 +290,9 @@ export default class CenterController {
           }
           CenterService.handleImageDelete(center.image)
             .then((result) => {
-              console.log(result);
               center.destroy()
               // to return this center is deleted successfully
-                .then(() => res.status(200).json({ message: 'Center is successfully  deleted' }))
+                .then(() => res.status(200).json({ message: 'Center is successfully deleted' }))
                 .catch(error => res.status(400).json(error));
             })
             .catch(error => res.status(500).json(error));
