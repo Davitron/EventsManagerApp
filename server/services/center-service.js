@@ -380,7 +380,8 @@ export default class CenterService {
               .then((centersList) => {
                 const response = {
                   centers: centersList,
-                  pages
+                  pages,
+                  page
                 };
                 resolve(response);
               })

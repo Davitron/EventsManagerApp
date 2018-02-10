@@ -5,13 +5,10 @@ import queryString from 'query-string';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import shortid from 'shortid';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import { Input, Icon, Row, Button, Col, Card, CardTitle } from 'react-materialize';
+import { Row, Button, Col, Card, CardTitle } from 'react-materialize';
 import history from '../../helpers/history';
-// import CenterCard from './CenterCard';
+import Header from '../header';
 import Loader from '../reusables/loader';
 import CenterActions from '../../actions/center-action';
 
@@ -35,10 +32,14 @@ class CenterResults extends Component {
         facilities: '',
         capacity: '',
         page: 1
-      }
+      },
+      currentPage: undefined,
+      totalPages: undefined
     };
     this.onChange = this.onChange.bind(this);
     this.onMultiSelect = this.onMultiSelect.bind(this);
+    this.toNextPage = this.toNextPage.bind(this);
+    this.toPrevPage = this.toPrevPage.bind(this);
   }
 
   /**
@@ -53,19 +54,23 @@ class CenterResults extends Component {
     const capacity = param.capacity.split(',').map(x => parseInt(x, 10));
     const locationStr = param.location;
     const location = parseInt(locationStr, 10);
-    const searchQuery = {
-      location: isNaN(location) ? null : location,
-      capacity: isNaN(capacity[0]) ? null : capacity,
-      facilities: facilities[0] === 'null' ? null : facilities,
-      page: 1
-    };
-
-    const { searchCenter, getStates } = this.props;
-    searchCenter(searchQuery);
-    // this.setState({
-    //   states: state.states,
-    //   facilities: state.facilities
-    // });
+    // const searchQuery = {
+    //   location: isNaN(location) ? null : location,
+    //   capacity: isNaN(capacity[0]) ? null : capacity,
+    //   facilities: facilities[0] === 'null' ? null : facilities,
+    //   page: 1
+    // };
+    this.setState({
+      searchQuery: {
+        location: isNaN(location) ? null : location,
+        capacity: isNaN(capacity[0]) ? null : capacity,
+        facilities: facilities[0] === 'null' ? null : facilities,
+        page: 1
+      }
+    }, () => {
+      const { searchCenter } = this.props;
+      searchCenter(this.state.searchQuery);
+    });
   }
 
   /**
@@ -73,10 +78,14 @@ class CenterResults extends Component {
    * @returns {*} change state if new prop is recieved
    */
   componentWillReceiveProps(nextProps) {
-    if (nextProps.stateProps.centers.data && nextProps.stateProps.centers.data.centers !== this.state.centers) {
+    const { centers } = nextProps.stateProps;
+    if (centers.data && centers.data.centers !== this.state.centers) {
+      console.log(centers.data);
       this.setState({
-        centers: nextProps.stateProps.centers.data.centers,
-        loading: false
+        centers: centers.data.centers,
+        loading: false,
+        currentPage: centers.data.page,
+        totalPages: centers.data.pages
       });
     }
   }
@@ -134,13 +143,45 @@ class CenterResults extends Component {
   }
 
   /**
+ * @returns {*} for next page
+ */
+  toNextPage() {
+    const { currentPage, searchQuery } = this.state;
+    this.setState({
+      searchQuery: {
+        ...searchQuery,
+        page: currentPage + 1
+      }
+    }, () => {
+      const { searchCenter } = this.props;
+      searchCenter(this.state.searchQuery);
+    });
+  }
+
+  /**
+   * @returns {*} for previous page
+   */
+  toPrevPage() {
+    const { currentPage, searchQuery } = this.state;
+    this.setState({
+      searchQuery: {
+        ...searchQuery,
+        page: currentPage - 1
+      }
+    }, () => {
+      const { searchCenter } = this.props;
+      searchCenter(this.state.searchQuery);
+    });
+  }
+
+  /**
    * @param {*} centerId
    * @returns {*} update center modal
    */
   handleOpen = (centerId) => {
     const { centers } = this.state;
     const center = centers.find(x => x.id === centerId);
-    history.push('/create-center', {
+    history.push('/create-event', {
       centerId: center.id
     });
   };
@@ -153,11 +194,13 @@ class CenterResults extends Component {
       centers,
       states,
       loading,
-      searchQuery
+      searchQuery,
+      currentPage,
+      totalPages
     } = this.state;
     return (
       <div>
-
+        <Header />
         <div style={{
           backgroundColor: 'rgb(5, 22, 22)',
           position: 'absolute',
@@ -172,56 +215,14 @@ class CenterResults extends Component {
           <div className={['container', 'animated', 'bounceInRight'].join(' ')} style={{ paddingTop: '50px' }}>
             <div className={['row', 'center'].join(' ')} />
             <div className={['col', 's12', 'm8', 'l12'].join(' ')}>
-              <div className={['card-panel', 'white'].join(' ')}>
-                <Row>
-                  <Input s={12} m={4} l={4} name="location" value={searchQuery.location} onChange={this.onChange} type="select">
-                    <option value="Location" disabled>Location</option>
-                    {
-                      states.map(state => (
-                        <option
-                          key={state.id}
-                          value={state.id}
-                        >{state.statName}
-                        </option>
-                      ))
-
-                    }
-                  </Input>
-                  <Input
-                    s={12}
-                    m={4}
-                    l={4}
-                    name="capacity"
-                    value={searchQuery.capacity}
-                    type="select"
-                    onChange={this.onChange}
-                  >
-                    <option value="Number of Guests?" disabled>Number of Guests?</option>
-                    <option value={[0, 500]}>Less than 500</option>
-                    <option value={[500, 1000]}>500 - 1000</option>
-                    <option value={[1000, 5000]}>1000 - 5000</option>
-                    <option value={[5000, 10000]}>5,000 - 10,000</option>
-                    <option value={[50000, 100000]}>50,000 - 100,000</option>
-                  </Input>
-
-                  <div className={['input-field', 'col', 's12', 'm4', 'l4'].join(' ')}>
-                    <MuiThemeProvider>
-                      <SelectField
-                        multiple
-                        hintText="What Facilities Are Important?"
-                        value={searchQuery.facilities}
-                        onChange={this.onMultiSelect}
-                        fullWidth
-                      >
-                        {this.menuItems(searchQuery.facilities)}
-                      </SelectField>
-                    </MuiThemeProvider>
-                  </div>
-                  <Button waves="light" large className={['cyan', 'animated', 'bounceInUp'].join(' ')}>Search<Icon right>search</Icon></Button>
-                </Row>
+              <div className="row">
+                <h3 className={['white-text', 'title', 'col', 's6'].join(' ')}>
+                  Centers
+                  {loading === true && <Loader />}
+                </h3>
               </div>
               <Row>
-                { centers !== null &&
+                {centers !== null &&
                   centers.map(center => (
                     <Col s={12} m={6} l={4} key={shortid.generate()}>
                       <Card
@@ -278,6 +279,10 @@ class CenterResults extends Component {
                     </Col>
                   ))
                 }
+              </Row>
+              <Row className="center">
+                <button onClick={this.toPrevPage} disabled={currentPage === 1} className={['waves-effect', 'animated', 'bounceInUp', 'btn', 'btn-large'].join(' ')}>Prev</button>
+                <button onClick={this.toNextPage} disabled={currentPage === totalPages} className={['waves-effect', 'animated', 'bounceInUp', 'btn', 'btn-large'].join(' ')}>Next</button>
               </Row>
             </div>
           </div>
