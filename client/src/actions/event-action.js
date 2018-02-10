@@ -161,22 +161,9 @@ export default class EventActions {
    * @returns {*}
    * this action is handles updating a event
    */
-  approveEvent(eventId) {
-    const request = (event) => {
-      const requestAction = { type: mainActionType.UPDATE_REQUEST, event };
-      return requestAction;
-    };
-    const success = (event) => {
-      const successAction = { type: mainActionType.UPDATE_SUCCESS, event };
-      return successAction;
-    };
-    const failure = (error) => {
-      const failureAction = { type: mainActionType.UPDATE_FAILED, error };
-      return failureAction;
-    };
-
+  static approveEvent(eventId) {
     return (dispatch) => {
-      dispatch(request(eventId));
+      dispatch(Dispatcher.action(mainActionType.UPDATE_REQUEST, eventId));
       axios({
         method: 'PUT',
         url: `/api/v1/events/approve/${eventId}`,
@@ -184,56 +171,44 @@ export default class EventActions {
           'x-access-token': token
         },
       })
-        .then((result) => {
-          dispatch(success(result.data));
-          Materialize.toast(result.data.message, 4000, 'cyan');
+        .then((response) => {
+          const { message } = response.data;
+          dispatch(Dispatcher.action(mainActionType.UPDATE_SUCCESS, message));
+          Toast.success(message);
         })
         .catch((error) => {
-          console.log(error.response);
-          dispatch(failure(error.response.data));
-          Materialize.toast(error.response.data.message, 4000, 'red');
+          const { message } = error.response.data;
+          dispatch(Dispatcher.action(mainActionType.UPDATE_FAILED, message));
+          Toast.error(message);
         });
     };
   }
 
   /**
    *
-   * @param {*} eventObj
+   * @param {*} eventId
    * @returns {*}
    * this action is handles updating a event
    */
-  rejectEvent(eventObj) {
-    const request = (event) => {
-      const requestAction = { type: mainActionType.UPDATE_REQUEST, event };
-      return requestAction;
-    };
-    const success = (event) => {
-      const successAction = { type: mainActionType.UPDATE_SUCCESS, event };
-      return successAction;
-    };
-    const failure = (error) => {
-      const failureAction = { type: mainActionType.UPDATE_FAILED, error };
-      return failureAction;
-    };
-
+  static rejectEvent(eventId) {
     return (dispatch) => {
-      dispatch(request(eventObj));
+      dispatch(Dispatcher.action(mainActionType.UPDATE_REQUEST, eventId));
       axios({
         method: 'PUT',
-        url: `/api/v1/events/reject/${eventObj.id}`,
+        url: `/api/v1/events/reject/${eventId}`,
         headers: {
           'x-access-token': token
-        },
-        data: eventObj
+        }
       })
-        .then((result) => {
-          dispatch(success(result.data));
-          Materialize.toast(result.data.message, 4000, 'cyan');
+        .then((response) => {
+          const { message } = response.data;
+          dispatch(Dispatcher.action(mainActionType.UPDATE_SUCCESS, message));
+          Toast.success(message);
         })
         .catch((error) => {
-          console.log(error.response);
-          dispatch(failure(error.response.data));
-          Materialize.toast(error.response.data.message, 4000, 'red');
+          const { message } = error.response.data;
+          dispatch(Dispatcher.action(mainActionType.UPDATE_FAILED, message));
+          Toast.error(message);
         });
     };
   }

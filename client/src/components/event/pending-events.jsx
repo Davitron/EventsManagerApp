@@ -4,15 +4,12 @@ import { bindActionCreators } from 'redux';
 import debounce from 'throttle-debounce/debounce';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import swal from 'sweetalert2';
 import { Input, Icon } from 'react-materialize';
 import Pagination from '../reusables/pagination';
 import Loader from '../reusables/loader';
 import EventActions from '../../actions/event-action';
 import Header from '../header';
-// import RejectEventModal from '../modals/RejectEvent';
-// import ApproveEventModal from '../modals/ApproveEvent';
-
-const eventAction = new EventActions();
 
 /**
  *
@@ -28,14 +25,14 @@ class PendingEvent extends Component {
       searchNotfound: '',
       pageOfItems: [],
       event_Id: undefined,
-      loading: true
+      loading: true,
+      message: ''
     };
 
     this.handleSearch = this.handleSearch.bind(this);
     this.onChangePage = this.onChangePage.bind(this);
     this.triggerSearch = debounce(100, this.triggerSearch);
 
-    // this.handleClose = this.handleClose.bind(this);
   }
 
   /**
@@ -52,15 +49,21 @@ class PendingEvent extends Component {
    */
   componentWillReceiveProps(nextProps) {
     const { getAll } = this.props;
-    if (nextProps.stateProps.events.data &&
-      nextProps.stateProps.events.data.pendingEvents !== this.state.data) {
+    const { data, message } = this.state;
+    const { events, approveReject } = nextProps.stateProps;
+    if (events.data && events.data.pendingEvents !== data) {
       this.setState({
-        data: nextProps.stateProps.events.data.pendingEvents
-      }, () => {
-        this.setState({
-          loading: false
-        });
+        data: events.data.pendingEvents,
+        loading: false,
+        message: ''
       });
+    }
+
+    if (approveReject.data !== message && approveReject.data) {
+      this.setState({
+        message: approveReject.data
+      });
+      getAll(this.props.match.params.centerId, 10);
     }
   }
 
@@ -106,11 +109,22 @@ class PendingEvent extends Component {
    * @returns {*} update event modal
    */
   handleApprove = (eventId) => {
-    const { event_Id } = this.state;
+    const { approveEvent } = this.props;
     this.setState({
       event_Id: eventId
-    }, () => {
-      $('#approveEvent').modal('open');
+    });
+    swal({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        approveEvent(this.state.event_Id);
+      }
     });
   };
 
@@ -119,11 +133,23 @@ class PendingEvent extends Component {
    * @returns {*} update event modal
    */
   handleReject = (eventId) => {
+    const { rejectEvent } = this.props;
     const { event_Id } = this.state;
     this.setState({
       event_Id: eventId
-    }, () => {
-      $('#rejectEvent').modal('open');
+    });
+    swal({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        rejectEvent(this.state.event_Id);
+      }
     });
   };
 
@@ -159,14 +185,6 @@ class PendingEvent extends Component {
     if (event.keyCode === 13) {
       this.triggerSearch();
     }
-  }
-
-
-  /**
-   * @returns {*} for modal control
-  */
-  handleClose() {
-    // this.setState({ open: false });
   }
 
 
@@ -235,8 +253,8 @@ class PendingEvent extends Component {
                           <td>{moment(item.startDate).format('YYYY-MM-DD')}</td>
                           <td>{moment(item.endDate).format('YYYY-MM-DD')}</td>
                           <td>
-                            <a href="#approveEvent" className={['waves-effect', 'waves-light', 'btn'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleApprove((item.id))} ><i className=" material-icons">done</i></a>
-                            <a href="#rejectEvent" className={['waves-effect', 'waves-light', 'btn', 'red'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleReject((item.id))} ><i className=" material-icons">cancel</i></a>
+                            <button className={['waves-effect', 'waves-light', 'btn'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleApprove((item.id))} ><i className=" material-icons">done</i></button>
+                            <button className={['waves-effect', 'waves-light', 'btn', 'red'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleReject((item.id))} ><i className=" material-icons">cancel</i></button>
                           </td>
                         </tr>))
                     }
@@ -259,13 +277,15 @@ class PendingEvent extends Component {
 
 const mapStateToProps = state => ({
   stateProps: {
-    events: state.getAll
+    events: state.getAll,
+    approveReject: state.update,
   }
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   getAll: EventActions.getPendingEvent,
-  // createEvent: eventAction.createEvent
+  approveEvent: EventActions.approveEvent,
+  rejectEvent: EventActions.rejectEvent
 }, dispatch);
 
 PendingEvent.propTypes = {
@@ -273,12 +293,16 @@ PendingEvent.propTypes = {
   getAll: PropTypes.func,
   match: PropTypes.objectOf(() => null).isRequired,
   params: PropTypes.objectOf(() => null),
+  approveEvent: PropTypes.func,
+  rejectEvent: PropTypes.func
 };
 
 PendingEvent.defaultProps = {
   stateProps: {},
   params: undefined,
   getAll: EventActions.getPendingEvent,
+  approveEvent: EventActions.approveEvent,
+  rejectEvent: EventActions.rejectEvent
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PendingEvent);
