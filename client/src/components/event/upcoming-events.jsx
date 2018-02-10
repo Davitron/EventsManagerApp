@@ -191,7 +191,7 @@ class UpcomingEvent extends Component {
             <div className={['col', 's12', 'm8', 'l12'].join(' ')}>
               <div className={['card-panel', 'white'].join(' ')}>
                 <div className="row">
-                  <h4 className={['black-text', 'col', 's6'].join(' ')}>
+                  <h4 className={['black-text', 'title', 'col', 's6'].join(' ')}>
                     Upcoming Events
                     {loading === true && <Loader />}
                   </h4>

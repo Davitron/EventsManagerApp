@@ -203,7 +203,7 @@ class CreateEventForm extends Component {
           <div className="container">
             <center>
               <Row>
-                <div className="card-panel white contain center">
+                <div className="card-panel white contain center animated bounceInRight">
                   <div className="title">Create New Event</div>
                   <Row>
                     <Input s={12} name="eventName" value={event.eventName} onChange={this.onChange} label="Event Name" />

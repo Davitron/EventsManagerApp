@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link, Redirect } from 'react-router-dom';
-import shortid from 'shortid';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { Input, Icon, Row, Button } from 'react-materialize';
@@ -83,7 +82,7 @@ class CenterSearch extends Component {
    * @param {*} event
    * @param {*} index
    * @param {*} values
-   * @returns {*} handles selecttion of facilities
+   * @returns {*} handles selection of facilities
    */
   onMultiSelect(event, index, values) {
     const { searchQuery } = this.state;
@@ -166,8 +165,8 @@ class CenterSearch extends Component {
             <div className={['col', 's12', 'm8', 'l12'].join(' ')}>
               <div className={['card-panel', 'white'].join(' ')}>
                 <div className="row">
-                  <h4 className={['black-text', 'col', 's12'].join(' ')}>
-                    Find and Book a Perfect Center
+                  <h4 className={['black-text', 'title', 'col', 's12'].join(' ')}>
+                    Find and book the perfect center for your event. 
                     {loading === true && <Loader />}
                   </h4>
                 </div>
