@@ -215,7 +215,12 @@ class CreateEventForm extends Component {
                     <Input s={12} name="days" type="number" value={event.days} onChange={this.onChange} label="Days" />
                   </Row>
                   <Row className="center">
-                    <button className="btn waves-effect waves-light btn-large" onClick={this.onSubmit}>Create
+                    <button
+                      className="btn waves-effect waves-light btn-large"
+                      onClick={this.onSubmit}
+                      disabled={!event.days || !event.eventName || !event.startDate}
+                    >
+                      Create
                     </button>
                     <button className="btn waves-effect waves-light red btn-large" onClick={this.goBack} style={{ marginLeft: '5px' }} >Back
                     </button>

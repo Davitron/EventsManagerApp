@@ -235,7 +235,7 @@ class UpdateCenterModal extends Component {
           <Header />
           <div className="container">
             <Row>
-              <div className="card-panel white contain2">
+              <div className="card-panel white contain2 animated bounceInRight">
                 <div className="title">Create New Center</div>
                 <div className={['row'].join(' ')}>
                   <Input

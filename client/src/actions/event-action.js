@@ -8,7 +8,7 @@ import history from '../helpers/history';
 
 
 const cookies = new Cookies();
-const token = cookies.get('jwt-events-manager');
+
 
 /**
  *
@@ -19,6 +19,7 @@ export default class EventActions {
    * this action is handles fetching all events
    */
   static getAll() {
+    const token = cookies.get('jwt-events-manager');
     return (dispatch) => {
       dispatch(Dispatcher.action(mainActionType.GETALL_REQUEST, null));
       axios({
