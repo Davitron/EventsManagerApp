@@ -77,7 +77,7 @@ export default class UserActions {
         .then((response) => {
           dispatch(Dispatcher.action(userActionsType.SIGNIN_SUCCESS, response.data.userDetails));
           cookies.set('jwt-events-manager', response.data.Token, { path: '/' });
-          history.push('/');
+          history.push('/center-search');
         })
         .catch((error) => {
           const err = error.response.data.message;

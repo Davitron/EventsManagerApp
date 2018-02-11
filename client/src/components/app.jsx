@@ -22,6 +22,8 @@ import PendingEvent from './event/pending-events';
 import UpcomingEvent from './event/upcoming-events';
 import Events from './event/events';
 import NotFound from './notFound';
+import AuthChecker from '../helpers/auth-checker';
+import PrivateRoute from '../helpers/private-route';
 
 const App = () => (
   <Router history={history}>

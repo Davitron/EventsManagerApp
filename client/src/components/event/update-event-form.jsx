@@ -213,7 +213,7 @@ class UpdateEventForm extends Component {
           <div className="container">
             <center>
               <Row>
-                <div className="card-panel white contain center animate bounceInRight">
+                <div className="card-panel white contain center animated bounceInRight">
                   <div className="title">Update Event</div>
                   <form className="animate bounceInRight">
                     <Row>
@@ -249,7 +249,12 @@ class UpdateEventForm extends Component {
                       />
                     </Row>
                     <Row className="center">
-                      <button className="btn waves-effect waves-light btn-large" onClick={this.onSubmit}>Update
+                      <button
+                        className="btn waves-effect waves-light btn-large"
+                        onClick={this.onSubmit}
+                        disabled={!event.days || !event.eventName || !event.startDate}
+                      >
+                        Update
                       </button>
                       <button className="btn waves-effect waves-light red btn-large" onClick={this.goBack} style={{ marginLeft: '5px' }} >Back
                       </button>

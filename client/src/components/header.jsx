@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import shortid from 'shortid';
 import { Link } from 'react-router-dom';
+import AuthChecker from '../helpers/auth-checker';
 
 
 /**
@@ -26,7 +27,12 @@ class Header extends Component {
    *@returns{*} authentication status
    */
   componentWillMount() {
-
+    const authUser = AuthChecker.getUserDetails();
+    this.setState({
+      user: authUser
+    }, () => {
+      this.renderByRole();
+    });
   }
 
   /**
@@ -45,21 +51,21 @@ class Header extends Component {
   renderByRole() {
     const { user } = this.state;
     let userName;
-    if (user) {
+    if (user === null) {
       userName = '';
     } else {
       userName = user.username;
     }
     let items;
-    const linkByRoles = {
+    const navByRoles = {
       unAuthUser: [
         {
-          linkName: 'SignIn',
-          linkRef: '/SignIn'
+          linkName: 'login',
+          linkRef: '/login'
         },
         {
-          linkName: 'SignUp',
-          linkRef: '/SignUp'
+          linkName: 'register',
+          linkRef: '/register'
         }
       ],
       user: [
@@ -72,8 +78,8 @@ class Header extends Component {
           linkRef: '/events'
         },
         {
-          linkName: 'Logout',
-          linkRef: '/SignOut'
+          linkName: 'logout',
+          linkRef: '/logout'
         }
       ],
       admin: [
@@ -83,40 +89,39 @@ class Header extends Component {
         },
         {
           linkName: 'Centers',
-          linkRef: '/Centers'
+          linkRef: '/centers'
         },
         {
           linkName: 'My Events',
           linkRef: '/events'
         },
         {
-          linkName: 'Pending Events',
-          linkRef: '/pendingEvents'
-        },
-        {
-          linkName: 'SignOut',
-          linkRef: '/SignOut'
+          linkName: 'logout',
+          linkRef: '/logout'
         }
       ]
     };
     if (user && user.isVerified === false && user.isAdmin === false) {
-      items = linkByRoles.user
+      items = navByRoles.user
         .map((item, index) => (
-          <NavItem key={shortid.generate()} href={item.linkRef}>
-            {item.linkName}
-          </NavItem>));
+          <li key={shortid.generate()}>
+            <Link to={item.linkRef} target="">{item.linkName}</Link>
+          </li>
+        ));
     } else if (user && user.isVerified === true && user.isAdmin === true) {
-      items = linkByRoles.admin
+      items = navByRoles.admin
         .map((item, index) => (
-          <NavItem key={shortid.generate()} href={item.linkRef}>
-            {item.linkName}
-          </NavItem>));
+          <li key={shortid.generate()}>
+            <Link to={item.linkRef} target="">{item.linkName}</Link>
+          </li>
+        ));
     } else {
-      items = linkByRoles.unAuthUser
+      items = navByRoles.unAuthUser
         .map((item, index) => (
-          <NavItem key={shortid.generate()} href={item.linkRef}>
-            {item.linkName}
-          </NavItem>));
+          <li key={shortid.generate()}>
+            <Link to={item.linkRef} target="">{item.linkName}</Link>
+          </li>
+        ));
     }
     this.setState({
       navs: items
@@ -138,14 +143,12 @@ class Header extends Component {
                   <Link to="#side-nav" data-activates="mobile-demo" className="button-collapse hide-on-med-and-up"><i className="material-icons">menu</i></Link>
                   <Link to="/" className="brand-logo title" target="">EventsManager</Link>
                   <ul className="right hide-on-med-and-down">
-                    <li><Link to="/login" target="">Login</Link></li>
-                    <li><Link to="/register" target="">Register</Link></li>
+                    {navs}
                   </ul>
                 </div>
               </div>
               <ul className="side-nav" id="mobile-demo">
-                <li><Link to="/login" target="">Login</Link></li>
-                <li><Link to="/register" target="">Register</Link></li>
+                {navs}
               </ul>
             </div>
           </nav>
