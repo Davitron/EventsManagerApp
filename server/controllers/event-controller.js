@@ -162,6 +162,9 @@ export default class EventController {
     const eventStartDate = new Date(req.body.startDate);
     const eventEndDate = moment(eventStartDate).add(req.body.days - 1, 'days').toDate();
     const now = new Date();
+    if (eventStartDate > now) {
+      req.body.status = 'pending';
+    }
     if (eventStartDate < now) {
       return res.status(400).json({
         message: 'Date must be in the future',
@@ -187,13 +190,11 @@ export default class EventController {
               }
               EventService.update(event, req, eventStartDate, eventEndDate)
                 .then((modifiedEvent) => {
-                  console.log(modifiedEvent);
                   return res.status(200).json({
                     message: 'Event Updated Successfully', // to return this if user event is updated successfully
                     statusCode: 200
                   });
                 }).catch((error) => {
-                  console.log(error);
                   return res.status(500).json({
                     message: 'Server Error',
                     statusCode: 500

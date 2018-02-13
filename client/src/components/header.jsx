@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import shortid from 'shortid';
 import { Link } from 'react-router-dom';
 import AuthChecker from '../helpers/auth-checker';
+import UserActions from '../actions/user-actions';
 
 
 /**
@@ -21,6 +22,8 @@ class Header extends Component {
       user: undefined,
       navs: []
     };
+
+    this.logOut = this.logOut.bind('this');
   }
 
   /**
@@ -36,11 +39,10 @@ class Header extends Component {
   }
 
   /**
-   * @param {*} nextProps
-   * @returns {*} check props change
+   *@returns{*} authentication status
    */
-  componentWillReceiveProps(nextProps) {
-
+  logOut() {
+    UserActions.logout();
   }
 
 
@@ -76,10 +78,6 @@ class Header extends Component {
         {
           linkName: 'My Events',
           linkRef: '/events'
-        },
-        {
-          linkName: 'logout',
-          linkRef: '/logout'
         }
       ],
       admin: [
@@ -94,10 +92,6 @@ class Header extends Component {
         {
           linkName: 'My Events',
           linkRef: '/events'
-        },
-        {
-          linkName: 'logout',
-          linkRef: '/logout'
         }
       ]
     };
@@ -132,7 +126,7 @@ class Header extends Component {
    *@returns {*} view for langing page
    */
   render() {
-    const { navs } = this.state;
+    const { navs, user } = this.state;
     return (
       <header>
         <div className="navbar-fixed">
@@ -144,6 +138,7 @@ class Header extends Component {
                   <Link to="/" className="brand-logo title" target="">EventsManager</Link>
                   <ul className="right hide-on-med-and-down">
                     {navs}
+                    {user && <li><a onClick={this.logOut} target="">logout</a></li>}
                   </ul>
                 </div>
               </div>
@@ -157,16 +152,6 @@ class Header extends Component {
     );
   }
 }
-
-// const mapStateToProps = state => ({ userStateProps: state.userSignIn });
-
-Header.propTypes = {
-  userStateProps: PropTypes.objectOf(() => null)
-};
-
-Header.defaultProps = {
-  userStateProps: {}
-};
 
 
 export default Header;

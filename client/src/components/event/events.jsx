@@ -41,7 +41,7 @@ class Event extends Component {
     this.triggerSearch = debounce(100, this.triggerSearch);
     this.handleOpen = this.handleOpen.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
-    // this.handleClose = this.handleClose.bind(this);
+
   }
 
   /**
@@ -68,7 +68,7 @@ class Event extends Component {
       });
     }
 
-    if (eventDeleted.data !== message && eventDeleted.data) {
+    if (eventDeleted.data !== message && eventDeleted.status === 'success' && eventDeleted.data) {
       this.setState({
         message: eventDeleted.data
       });
@@ -123,13 +123,6 @@ class Event extends Component {
     history.push('/update-event', {
       event,
     });
-    // this.setState({
-    //   selectedEvent: event
-    // }, () => {
-    //   history.push('/update-center', {
-
-    //   });
-    // });
   };
 
   handleModalClose = () => {
@@ -158,7 +151,6 @@ class Event extends Component {
     }).then((result) => {
       if (result.value) {
         deleteEvent(this.state.event_Id);
-        console.log('fjru3ho');
       }
     });
   };
@@ -196,15 +188,6 @@ class Event extends Component {
       this.triggerSearch();
     }
   }
-
-
-  /**
-   * @returns {*} for modal control
-  */
-  handleClose() {
-    // this.setState({ open: false });
-  }
-
 
   /**
  *@returns {*} event for sortin

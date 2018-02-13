@@ -54,10 +54,13 @@ class CenterSearch extends Component {
    *@returns {*} fetches all centers
    */
   componentWillMount() {
-    axios.get('/api/v1/states')
-      .then((response) => {
-        this.setState({ states: response.data });
-      });
+    const { states } = this.state;
+    if (states.length <= 0) {
+      axios.get('/api/v1/states')
+        .then((response) => {
+          this.setState({ states: response.data });
+        });
+    }
   }
 
   /**
@@ -166,7 +169,7 @@ class CenterSearch extends Component {
               <div className={['card-panel', 'white'].join(' ')}>
                 <div className="row">
                   <h4 className={['black-text', 'title', 'col', 's12'].join(' ')}>
-                    Find and book the perfect center for your event. 
+                    Find and book the perfect center for your event.
                     {loading === true && <Loader />}
                   </h4>
                 </div>

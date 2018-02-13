@@ -1,11 +1,11 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router';
 import PropTypes from 'prop-types';
+import AuthChecker from './auth-checker';
 
 
 const PrivateRoute = ({
   component: Component,
-  authenticated,
   redirectPath,
   ...rest
 }) => (
@@ -14,7 +14,7 @@ const PrivateRoute = ({
     render={(props) => {
       const component = <Component {...props} />;
       const redirect = <Redirect to={redirectPath} />;
-      if (authenticated === true) {
+      if (AuthChecker.checkUserAuth() === true) {
         return component;
       }
       return redirect;
@@ -25,7 +25,6 @@ const PrivateRoute = ({
 
 PrivateRoute.propTypes = {
   component: PropTypes.func.isRequired,
-  authenticated: PropTypes.bool.isRequired,
   redirectPath: PropTypes.string.isRequired
 };
 export default PrivateRoute;
