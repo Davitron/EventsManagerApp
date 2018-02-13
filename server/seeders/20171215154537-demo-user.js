@@ -11,9 +11,9 @@ module.exports = {
     updatedAt: new Date()
   },
   {
-    email: 'segunmatthews@plush.com',
-    username: 'davitron',
-    password: bcrypt.hashSync('minerva1', 10),
+    email: 'matthews.segun@gmail.com',
+    username: 'david',
+    password: bcrypt.hashSync('minerva', 10),
     isAdmin: false,
     isVerified: true,
     createdAt: new Date(),
