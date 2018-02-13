@@ -8,6 +8,7 @@ import history from '../helpers/history';
 
 
 const cookies = new Cookies();
+// const token = cookies.get('jwt-events-manager');
 
 
 /**
@@ -19,8 +20,8 @@ export default class EventActions {
    * this action is handles fetching all events
    */
   static getAll() {
-    const token = cookies.get('jwt-events-manager');
     return (dispatch) => {
+      const token = cookies.get('jwt-events-manager');
       dispatch(Dispatcher.action(mainActionType.GETALL_REQUEST, null));
       axios({
         method: 'GET',
@@ -47,6 +48,7 @@ export default class EventActions {
    */
   static getPendingEvent(centerId) {
     return (dispatch) => {
+      const token = cookies.get('jwt-events-manager');
       dispatch(Dispatcher.action(mainActionType.GETALL_REQUEST, null));
       axios({
         method: 'GET',
@@ -74,6 +76,7 @@ export default class EventActions {
    * this action is handles fetching all events
    */
   static getUpcomingEvent(centerId) {
+    const token = cookies.get('jwt-events-manager');
     return (dispatch) => {
       dispatch(Dispatcher.action(mainActionType.GETALL_REQUEST, null));
       axios({
@@ -104,6 +107,7 @@ export default class EventActions {
    * this action is handles creating a event
    */
   static createEvent(newEvent) {
+    const token = cookies.get('jwt-events-manager');
     return (dispatch) => {
       dispatch(Dispatcher.action(mainActionType.CREATE_REQUEST, newEvent));
       axios({
@@ -135,6 +139,7 @@ export default class EventActions {
    */
   static updateEvent(eventObj) {
     return (dispatch) => {
+      const token = cookies.get('jwt-events-manager');
       dispatch(Dispatcher.action(mainActionType.UPDATE_REQUEST, eventObj));
       axios({
         method: 'PUT',
@@ -164,6 +169,7 @@ export default class EventActions {
    */
   static approveEvent(eventId) {
     return (dispatch) => {
+      const token = cookies.get('jwt-events-manager');
       dispatch(Dispatcher.action(mainActionType.UPDATE_REQUEST, eventId));
       axios({
         method: 'PUT',
@@ -193,6 +199,7 @@ export default class EventActions {
    */
   static rejectEvent(eventId) {
     return (dispatch) => {
+      const token = cookies.get('jwt-events-manager');
       dispatch(Dispatcher.action(mainActionType.UPDATE_REQUEST, eventId));
       axios({
         method: 'PUT',
@@ -221,8 +228,8 @@ export default class EventActions {
    * this action is handles deleting a event
   */
   static deleteEvent(id) {
-    console.log(id);
     return (dispatch) => {
+      const token = cookies.get('jwt-events-manager');
       dispatch(Dispatcher.action(mainActionType.DELETE_REQUEST, id));
       axios({
         method: 'DELETE',

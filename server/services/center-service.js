@@ -356,7 +356,7 @@ export default class CenterService {
     let offset = 0;
 
     return new Promise((resolve, reject) => {
-      Centers.findAndCountAll()
+      Centers.findAndCountAll({ where: query })
         .then((centers) => {
           if (centers) {
             const { page } = params;

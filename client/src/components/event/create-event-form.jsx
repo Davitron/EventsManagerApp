@@ -61,7 +61,7 @@ class CreateEventForm extends Component {
       this.setState({
         message: nextProps.stateProps.response.data
       }, () => {
-        if (nextProps.stateProps.response.data) {
+        if (nextProps.stateProps.response.status === 'success') {
           this.setState({
             loading: false,
             event: {

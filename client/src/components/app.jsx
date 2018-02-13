@@ -36,15 +36,15 @@ const App = () => (
         <Route exact path="/reset-password" component={ResetPassword} />
         <Route exact path="/verify" component={Verify} />
         <Route exact path="/verified" component={Verified} />
-        <Route exact path="/centers" component={Centers} />
-        <Route exact path="/events" component={Events} />
         <Route exact path="/center-search" component={CenterSearch} />
         <Route exact path="/center-result" component={CenterResult} />
-        <Route exact path="/create-center" component={CreateCenterForm} />
-        <Route exact path="/update-center" component={UpdateCenterForm} />
-        <Route exact path="/create-event" component={CreateEventForm} />
-        <Route exact path="/update-event" component={UpdateEventForm} />
-        <Route exact path="/pending-events/:centerId" component={PendingEvent} />
+        <PrivateRoute exact path="/centers" component={Centers} redirectPath="/login" />
+        <PrivateRoute exact path="/events" component={Events} redirectPath="/login" />
+        <PrivateRoute exact path="/create-center" component={CreateCenterForm} redirectPath="/login" />
+        <PrivateRoute exact path="/update-center" component={UpdateCenterForm} redirectPath="/login" />
+        <PrivateRoute exact path="/create-event" component={CreateEventForm} redirectPath="/login" />
+        <PrivateRoute exact path="/update-event" component={UpdateEventForm} redirectPath="/login" />
+        <PrivateRoute exact path="/pending-events/:centerId" component={PendingEvent} redirectPath="/login" />
         <Route exact path="/upcoming-events/:centerId" component={UpcomingEvent} />
         <Route component={NotFound} />
       </Switch>

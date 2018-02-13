@@ -135,4 +135,14 @@ export default class UserActions {
         });
     };
   }
+
+  /**
+   *
+   * @returns {*}
+   * this action handles password reset
+   */
+  static logout() {
+    cookies.remove('jwt-events-manager');
+    document.location.href = '/login';
+  }
 }

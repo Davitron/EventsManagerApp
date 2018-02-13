@@ -140,13 +140,12 @@ export default class EventService {
  * @returns {json} returns updatedEvent
  */
   static update(event, req, eventStartDate, eventEndDate) {
-    let newStatus;
-    if (req.body.status === undefined) {
-      newStatus = event.status;
-    } else {
-      newStatus = req.body.status;
-    }
-    console.log(req.body.status);
+    // let newStatus;
+    // if (req.body.status === undefined) {
+    //   newStatus = event.status;
+    // } else {
+    //   newStatus = req.body.status;
+    // }
     return event.update({
       eventName: req.body.eventName || event.eventName,
       centerId: req.body.centerId || event.centerId,
@@ -154,7 +153,7 @@ export default class EventService {
       days: req.body.days || event.days,
       endDate: eventEndDate || event.endDate,
       image: 'xfgxgdhxgdh' || event.image,
-      status: newStatus
+      status: req.body.status || event.status
     });
   }
 }
