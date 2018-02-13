@@ -4,10 +4,10 @@
   "description": "An Event Management Application for event centers and  event booking.",
   "main": "./server/server.js",
   "scripts": {
-    "build": "npm run build:client && npm run start:server",
+    "build": "npm run build:client",
     "test": " nyc --reporter=html --reporter=text mocha ./server/tests/* --exit --require babel-register --reporter spec",
     "babel-node": "babel-node --preset=es2015",
-    "start:server": "babel-node -- ./server/server.js",
+    "start": "babel-node -- ./server/server.js",
     "build:client": "webpack --config webpack.config.js",
     "start:dev": "npm run webpack & nodemon --exec npm run babel-node -- ./server/server.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
