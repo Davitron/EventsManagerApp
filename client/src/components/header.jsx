@@ -144,6 +144,7 @@ class Header extends Component {
               </div>
               <ul className="side-nav" id="mobile-demo">
                 {navs}
+                {user && <li><a onClick={this.logOut} target="">logout</a></li>}
               </ul>
             </div>
           </nav>

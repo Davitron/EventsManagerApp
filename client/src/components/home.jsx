@@ -13,7 +13,7 @@ const Home = props =>
    */
   (
     <div className="App-main">
-      <div className={['landing', 'container', 'animated', 'bounceInUp'].join(' ')}>
+      <div className={['landing', 'col s12', 'container', 'animated', 'bounceInUp'].join(' ')}>
         <Row className="center">
           <h3>
             <Col s={12} className={['light', 'white-text', 'center', 'animated', 'bounceInDown'].join(' ')}>
