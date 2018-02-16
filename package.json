@@ -14,7 +14,7 @@
     "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test",
     "test:dev": "npm run test && npm run coverage",
     "postinstall": "npm run build",
-    "webpack": "webpack"
+    "webpack": "webpack --watch"
   },
   "repository": {
     "type": "git",
