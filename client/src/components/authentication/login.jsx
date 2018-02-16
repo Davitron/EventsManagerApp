@@ -72,7 +72,7 @@ class Login extends Component {
           <main className="signin">
             <center>
               <div className="section" />
-              <h4 className="white-text"><b>Login</b></h4>
+              <h4 className="white-text title"><b>Login</b></h4>
               <Container>
                 <form name="singInForm" onSubmit={this.onSubmit}>
                   <div className={['z-depth-1', 'grey', 'lighten-4', 'row', 'App-signup', 'animated', 'bounceInRight'].join(' ')} >

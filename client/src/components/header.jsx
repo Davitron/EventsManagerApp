@@ -3,7 +3,7 @@ import { Navbar, NavItem } from 'react-materialize';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import shortid from 'shortid';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import AuthChecker from '../helpers/auth-checker';
 import UserActions from '../actions/user-actions';
 
@@ -22,7 +22,6 @@ class Header extends Component {
       user: undefined,
       navs: []
     };
-
     this.logOut = this.logOut.bind('this');
   }
 
@@ -99,21 +98,21 @@ class Header extends Component {
       items = navByRoles.user
         .map((item, index) => (
           <li key={shortid.generate()}>
-            <Link to={item.linkRef} target="">{item.linkName}</Link>
+            <NavLink to={item.linkRef} target="">{item.linkName}</NavLink>
           </li>
         ));
     } else if (user && user.isVerified === true && user.isAdmin === true) {
       items = navByRoles.admin
         .map((item, index) => (
           <li key={shortid.generate()}>
-            <Link to={item.linkRef} target="">{item.linkName}</Link>
+            <NavLink to={item.linkRef} target="">{item.linkName}</NavLink>
           </li>
         ));
     } else {
       items = navByRoles.unAuthUser
         .map((item, index) => (
           <li key={shortid.generate()}>
-            <Link to={item.linkRef} target="">{item.linkName}</Link>
+            <NavLink to={item.linkRef} target="">{item.linkName}</NavLink>
           </li>
         ));
     }
@@ -129,7 +128,11 @@ class Header extends Component {
     const { navs, user } = this.state;
     return (
       <header>
-        <div className="navbar-fixed">
+        <Navbar fixed className="title white-text" brand="EventManager" right>
+          {navs}
+          {user && <li><a onClick={this.logOut} target="">logout</a></li>}
+        </Navbar>
+        {/* <div className="navbar-fixed">
           <nav className=" z-depth-0 navigation">
             <div className="nav-wrapper">
               <div className="row">
@@ -148,7 +151,7 @@ class Header extends Component {
               </ul>
             </div>
           </nav>
-        </div>
+        </div> */}
       </header>
     );
   }

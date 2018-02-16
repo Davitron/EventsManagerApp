@@ -89,7 +89,7 @@ class Register extends Component {
           <main className="signup">
             <center>
               <div className="section" />
-              <h4 className="white-text"><b>REGISTER</b></h4>
+              <h4 className="white-text title"><b>REGISTER</b></h4>
               <Container>
                 <form>
                   <Row className="z-depth-1 grey lighten-4 App-signup animated bounceInRight">

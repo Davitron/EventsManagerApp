@@ -41,7 +41,6 @@ class Event extends Component {
     this.triggerSearch = debounce(100, this.triggerSearch);
     this.handleOpen = this.handleOpen.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
-
   }
 
   /**
