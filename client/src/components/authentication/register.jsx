@@ -85,7 +85,7 @@ class Register extends Component {
     return (
       <div>
         <Header />
-        <div className="App-main">
+        <div className="home">
           <main className="signup">
             <center>
               <div className="section" />

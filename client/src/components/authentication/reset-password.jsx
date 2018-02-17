@@ -76,7 +76,7 @@ class ResetPassword extends Component {
     return (
       <div>
         <Header />
-        <div className="App-main">
+        <div className="home">
           <main className="signin">
             <center>
               <div className="section" />

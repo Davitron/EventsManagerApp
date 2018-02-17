@@ -52,7 +52,7 @@ class VerifiedEmail extends Component {
    */
   render() {
     return (
-      <div className="App-main">
+      <div className="home">
         <div className={['landing', 'container', 'animated', 'bounceInUp'].join(' ')}>
           <Row className="center">
             <Col s={12} className={['light', 'white-text', 'center', 'animated', 'bounceInDown'].join(' ')}>
