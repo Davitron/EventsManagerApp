@@ -5,7 +5,8 @@
   "main": "./server/server.js",
   "scripts": {
     "clean": "rm -rf build && mkdir build",
-    "build": "babel ./server --out-dir build",
+    "build:server": "babel ./server --out-dir build",
+    "build": "npm run clean && npm run build:server",
     "test": " nyc --reporter=html --reporter=text mocha ./server/tests/* --exit --require babel-register --reporter spec",
     "babel-node": "babel-node --preset=es2015",
     "start": "node ./server/server.js",
