@@ -6,7 +6,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Loader from '../reusables/loader';
 import Header from '../header';
-import Logger from '../../helpers/logger';
+import Toast from '../../helpers/toast';
+import FormValidator from '../../helpers/form-validator';
 import UserActions from '../../actions/user-actions';
 
 
@@ -54,8 +55,22 @@ class Login extends Component {
    */
   onSubmit(event) {
     event.preventDefault();
+    const fv = new FormValidator();
     const { authUser } = this.props;
-    authUser(this.state.user);
+    const errors = fv.validateSignIn(this.state.user);
+    if (errors) {
+      this.setState({
+        errors
+      }, () => {
+        const message = Object.values(this.state.errors).join('\n');
+        Toast.error(message);
+      });
+    } else {
+      // Logger.log(createUser);
+      authUser(this.state.user);
+    }
+    // const { authUser } = this.props;
+    // authUser(this.state.user);
   }
 
 
