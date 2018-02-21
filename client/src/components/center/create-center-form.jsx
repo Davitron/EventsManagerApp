@@ -13,6 +13,7 @@ import FormValidator from '../../helpers/form-validator';
 import history from '../../helpers/history';
 import Header from '../header';
 import Logger from '../../helpers/logger';
+import Toast from '../../helpers/toast';
 
 
 const centerAction = new CenterActions();
@@ -173,13 +174,29 @@ class CreateCenterForm extends Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    if (this.isValid() === true) {
+    this.setState({ loading: true });
+    const fv = new FormValidator();
+    const { createCenter } = this.props;
+    const errors = fv.validateCenterForm(this.state.center);
+    if (errors) {
       this.setState({
-        loading: true
+        errors
+      }, () => {
+        this.setState({ loading: false });
+        const message = Object.values(this.state.errors).join('\n');
+        Toast.error(message);
       });
-      const { createCenter } = this.props;
+    } else {
+      // Logger.log(createUser);
       createCenter(this.state.center);
     }
+    // if (this.isValid() === true) {
+    //   this.setState({
+    //     loading: true
+    //   });
+    //   const { createCenter } = this.props;
+    //   createCenter(this.state.center);
+    // }
   }
 
   /**
@@ -243,6 +260,7 @@ class CreateCenterForm extends Component {
             <Row>
               <div className="card-panel white contain2 animated bounceInRight">
                 <div className="title">Create New Center</div>
+                {loading && <Loader />}
                 <div className={['row'].join(' ')}>
                   <Input s={6} id="image_url" type="text" name="name" value={center.name} onChange={this.onChange} className="validate" label="Center Name" />
                   <Input s={6} name="stateId" value={center.stateId} onChange={this.onChange} type="select" label="States">

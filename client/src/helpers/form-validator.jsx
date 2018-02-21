@@ -9,6 +9,21 @@ const signUpRules = {
   confirmPassword: 'required|min:6',
 };
 
+const signInRules = {
+  email: 'required|email',
+  password: 'required|min:6',
+};
+
+const centerRules = {
+  name: 'required|string|min:3|max:30',
+  stateId: 'required|integer',
+  address: 'required|string|min:10',
+  hallCapacity: 'required|string',
+  carParkCapacity: 'required|string',
+  facilities: 'required',
+  price: 'required|string',
+};
+
 /**
  * A class to handle form validation across app
  */
@@ -70,6 +85,41 @@ export default class FormValidator {
     if (!validate.passes()) {
       const { errors } = validate;
       const err = errors.errors;
+      Logger.log(JSON.stringify(err));
+      return err;
+    }
+    return null;
+  }
+
+  /**
+   *
+   * @param {*} data
+   * @returns {null | object}
+   * To check if given email is a valid format
+   */
+  validateSignIn(data) {
+    const validate = new validator(data, signInRules);
+    if (!validate.passes()) {
+      const { errors } = validate;
+      const err = errors.errors;
+      Logger.log(JSON.stringify(err));
+      return err;
+    }
+    return null;
+  }
+
+  /**
+   *
+   * @param {*} data
+   * @returns {null | object}
+   * To check if given email is a valid format
+   */
+  validateCenterForm(data) {
+    const validate = new validator(data, centerRules);
+    if (!validate.passes()) {
+      const { errors } = validate;
+      const err = errors.errors;
+      Logger.log(JSON.stringify(err));
       return err;
     }
     return null;

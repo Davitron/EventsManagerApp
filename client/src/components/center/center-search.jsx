@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link, Redirect } from 'react-router-dom';
+import shortid from 'shortid';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { Input, Icon, Row, Button } from 'react-materialize';
+import { Input, Icon, Row, Button, Col } from 'react-materialize';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
@@ -45,6 +46,7 @@ class CenterSearch extends Component {
     };
 
     this.onChange = this.onChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onMultiSelect = this.onMultiSelect.bind(this);
   }
@@ -79,6 +81,7 @@ class CenterSearch extends Component {
       }
     });
   }
+
 
   /**
    *
@@ -128,6 +131,23 @@ class CenterSearch extends Component {
 
   /**
    *
+   * @param {*} event
+   * @param {*} index
+   * @param {*} value
+   * @returns {*}
+  *this handles the event when any property in the state changes
+   */
+  handleChange(event, index, value) {
+    console.log(value);
+    this.setState({
+      searchQuery: {
+        location: value
+      }
+    });
+  }
+
+  /**
+   *
    * @param {*} values
    * @returns {*}
    * this handles population facilities in a select box
@@ -140,6 +160,23 @@ class CenterSearch extends Component {
         checked={values && values.indexOf(facility) > -1}
         value={facility}
         primaryText={facility}
+      />
+    ));
+  }
+
+  /**
+   *
+   * @param {*} values
+   * @returns {*}
+   * this handles population facilities in a select box
+   */
+  stateItems(values) {
+    return values.map(value => (
+      <MenuItem
+        insetChildren
+        key={shortid.generate()}
+        value={value.id}
+        primaryText={value.statName}
       />
     ));
   }
