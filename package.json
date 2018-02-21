@@ -9,7 +9,7 @@
     "build": "npm run clean && npm run build:server",
     "test": " nyc --reporter=html --reporter=text mocha ./server/tests/* --exit --require babel-register --reporter spec",
     "babel-node": "babel-node --preset=es2015",
-    "start": "node ./server/server.js",
+    "start": "node ./build/server.js",
     "build:client": "webpack --config webpack.config.js",
     "start:dev": "npm run webpack & nodemon --exec npm run babel-node -- ./server/server.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
