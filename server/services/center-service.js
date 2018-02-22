@@ -148,7 +148,7 @@ export default class CenterService {
    * @param {*} path
    * @returns {*} handles delete of media files
    */
-  static async cleanUpFiles(path) {
+  static cleanUpFiles(path) {
     fs.unlink(path, (err) => {
       if (err) {
         console.log('ERROR DELETING FILE');
