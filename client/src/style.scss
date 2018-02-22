@@ -1,6 +1,6 @@
 
 html {
-  zoom: 80%;
+  zoom: 100%;
 }
 .App {
   text-align: center; }
@@ -102,6 +102,7 @@ nav {
   position: absolute;
   top: 0;
   width: 100%;
+  overflow-x: hidden;
 }
 
 .App-main {
