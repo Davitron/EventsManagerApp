@@ -9,7 +9,7 @@ import history from '../helpers/history';
 
 
 const cookies = new Cookies();
-const token = cookies.get('jwt-events-manager');
+
 
 /**
  *
@@ -20,6 +20,7 @@ export default class CenterActions {
    * this action is handles fetching all centers
    */
   static getAll() {
+    const token = cookies.get('jwt-events-manager');
     return (dispatch) => {
       dispatch(Dispatcher.action(mainActionType.GETALL_REQUEST, null));
       axios({
@@ -44,6 +45,7 @@ export default class CenterActions {
    * this action is handles fetching all states
    */
   static getAllStates() {
+    const token = cookies.get('jwt-events-manager');
     return (dispatch) => {
       dispatch(Dispatcher.action(mainActionType.GETSTATES_REQUEST, []));
       axios({
@@ -69,6 +71,7 @@ export default class CenterActions {
    * this action is handles creating a center
    */
   static createCenter(newCenter) {
+    const token = cookies.get('jwt-events-manager');
     const facilitiesStr = newCenter.facilities.join();
     const formData = new FormData();
     formData.append('name', newCenter.name);
@@ -110,6 +113,7 @@ export default class CenterActions {
    * this action is handles updating a center
    */
   static updateCenter(centerObj) {
+    const token = cookies.get('jwt-events-manager');
     const facilitiesStr = centerObj.facilities.join();
     const formData = new FormData();
     formData.append('name', centerObj.name);
@@ -173,6 +177,7 @@ export default class CenterActions {
    * this action is handles deleting a center
   */
   static deleteCenter(id) {
+    const token = cookies.get('jwt-events-manager');
     return (dispatch) => {
       dispatch(Dispatcher.action(mainActionType.DELETE_REQUEST, id));
       axios({

@@ -1,4 +1,5 @@
 import validator from 'validatorjs';
+import Sequelize from 'sequelize';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
@@ -34,19 +35,26 @@ export default class UserController {
    * @return {json} returns ststus and message
    */
   static create(req, res) {
-    console.log(req.body);
+    const { Op } = Sequelize;
     const validate = new validator(req.body, newUserRules);
     // check for user input compliance
     if (validate.passes()) {
-      // check if user with email already exists
+      // check if user with email or username already exists
       return Users.findAll({
         where: {
-          email: req.body.email
+          [Op.or]: [
+            {
+              email: req.body.email
+            },
+            {
+              username: req.body.username
+            }
+          ]
         }
       }).then((users) => {
         if (users.length > 0) {
           res.status(400).json({
-            message: 'User with mail already exists' // to return this if user exists
+            message: 'email or username already taken' // to return this if user exists
           });
         } else if (req.body.password !== req.body.confirmPassword) {
           return res.status(400).json({ message: 'Passwords do not match' });

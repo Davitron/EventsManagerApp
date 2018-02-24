@@ -13,10 +13,7 @@ import history from '../../helpers/history';
 import FormValidator from '../../helpers/form-validator';
 import Header from '../header';
 import Logger from '../../helpers/logger';
-
-
-const centerAction = new CenterActions();
-
+import Toast from '../../helpers/toast';
 
 const facilities = [
   'CCTV',
@@ -58,6 +55,7 @@ class UpdateCenterModal extends Component {
     this.onFileChange = this.onFileChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onMultiSelect = this.onMultiSelect.bind(this);
+    this.goBack = this.goBack.bind(this);
   }
 
   /**
@@ -169,29 +167,31 @@ class UpdateCenterModal extends Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    console.log(this.state.center);
-    if (this.isValid() === true) {
+    this.setState({ loading: true });
+    const fv = new FormValidator();
+    const { updateCenter } = this.props;
+    const errors = fv.validateCenterForm(this.state.center);
+    if (errors) {
       this.setState({
-        loading: true
+        errors
+      }, () => {
+        this.setState({ loading: false });
+        const message = Object.values(this.state.errors).join('\n');
+        Toast.error(message);
       });
-      const { updateCenter } = this.props;
+    } else {
+      // Logger.log(createUser);
       updateCenter(this.state.center);
     }
-  }
-
-  /**
-   *@returns {*} check if form imputs are valid
-   */
-  isValid() {
-    let validity = true;
-    const formValidator = new FormValidator();
-    const { errors, isValid } = formValidator.validateCenterInput(this.state.center);
-    if (isValid === false) {
-      this.setState({ errors });
-      validity = false;
-      return validity;
-    }
-    return validity;
+    // event.preventDefault();
+    // console.log(this.state.center);
+    // if (this.isValid() === true) {
+    //   this.setState({
+    //     loading: true
+    //   });
+    //   const { updateCenter } = this.props;
+    //   updateCenter(this.state.center);
+    // }
   }
 
   /**
@@ -210,6 +210,16 @@ class UpdateCenterModal extends Component {
         primaryText={facility}
       />
     ));
+  }
+
+  /**
+  *@param {*} e
+  *@returns {*}
+  *return to previous page
+  */
+  goBack(e) {
+    e.preventDefault();
+    history.goBack();
   }
 
   /**
@@ -236,7 +246,8 @@ class UpdateCenterModal extends Component {
           <div className="container">
             <Row>
               <div className="card-panel white contain2 animated bounceInRight">
-                <div className="title">Create New Center</div>
+                <div className="title">Update Center</div>
+                {loading && <Loader />}
                 <div className={['row'].join(' ')}>
                   <Input
                     s={6}
@@ -350,7 +361,7 @@ class UpdateCenterModal extends Component {
                       !center.image
                     }
                   >
-                    Create
+                    Update
                   </button>
                   <button className="btn waves-effect waves-light red btn-large" onClick={this.goBack} style={{ marginLeft: '5px' }} >Back
                   </button>

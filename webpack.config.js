@@ -26,7 +26,16 @@ module.exports = {
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      mangle: true,
+      compress: {
+        warnings: false, // Suppress uglification warnings
+        pure_getters: true,
+        unsafe: true,
+        unsafe_comps: true,
+        screw_ie8: true
+      }
+    }),
     new webpack.HotModuleReplacementPlugin()
   ],
   module: {
@@ -50,6 +59,9 @@ module.exports = {
       {
         test: /\.html$/,
         loader: 'file-loader?name=[name].[ext]'
+      },
+      {
+        test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'
       },
       {
         test: /\.(png|jp(e*)g|svg)$/,

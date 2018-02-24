@@ -68,6 +68,7 @@ class CreateCenterForm extends Component {
     this.onFileChange = this.onFileChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onMultiSelect = this.onMultiSelect.bind(this);
+    this.goBack = this.goBack.bind(this);
   }
 
   /**
@@ -230,6 +231,16 @@ class CreateCenterForm extends Component {
         primaryText={facility}
       />
     ));
+  }
+
+  /**
+  *@param {*} e
+  *@returns {*}
+  *return to previous page
+  */
+  goBack(e) {
+    e.preventDefault();
+    history.goBack();
   }
 
   /**

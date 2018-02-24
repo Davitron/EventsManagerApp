@@ -220,9 +220,7 @@ export default class CenterService {
         if (file.image === undefined) {
           resolve(undefined);
         }
-        console.log('here');
         const publicId = this.getPid(currentImg);
-        console.log(publicId);
         cloudinary.v2.uploader.upload(
           file.image.path,
           {
@@ -278,7 +276,6 @@ export default class CenterService {
     let query = {};
     const { Op } = Sequelize;
     if (params.location === null && params.capacity && params.facilities) {
-      console.log('here 1');
       query = {
         hallCapacity: {
           [Op.between]: [params.capacity[0], params.capacity[1]]
