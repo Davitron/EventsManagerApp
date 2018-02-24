@@ -9,19 +9,18 @@ import MenuItem from 'material-ui/MenuItem';
 import EventActions from '../../actions/event-action';
 import Header from '../header';
 import history from '../../helpers/history';
-// import FormValidator from '../forms/formInputValidator';
+import FormValidator from '../../helpers/form-validator';
+import Toast from '../../helpers/toast';
+import Loader from '../reusables/loader';
 
 
 const propTypes = {
-  selectedEvent: PropTypes.objectOf(() => null),
-  getEvents: PropTypes.func.isRequired,
   updateEvent: PropTypes.func.isRequired,
   stateProps: PropTypes.objectOf(() => null),
   location: PropTypes.objectOf(() => null).isRequired
 };
 
 const defaultProps = {
-  selectedEvent: {},
   stateProps: {}
 };
 /**
@@ -129,14 +128,30 @@ class UpdateEventForm extends Component {
    */
   onSubmit(e) {
     e.preventDefault();
-    // console.log(this.state.event);
-    // if (this.isValid() === true) {
-    this.setState({
-      loading: true
-    });
+    this.setState({ loading: true });
+    const fv = new FormValidator();
     const { updateEvent } = this.props;
-    updateEvent(this.state.event);
-    // }
+    const errors = fv.validateCenterForm(this.state.center);
+    if (errors) {
+      this.setState({
+        errors
+      }, () => {
+        this.setState({ loading: false });
+        const message = Object.values(this.state.errors).join('\n');
+        Toast.error(message);
+      });
+    } else {
+      updateEvent(this.state.event);
+    }
+    // e.preventDefault();
+    // // console.log(this.state.event);
+    // // if (this.isValid() === true) {
+    // this.setState({
+    //   loading: true
+    // });
+    // const { updateEvent } = this.props;
+    // updateEvent(this.state.event);
+    // // }
   }
 
   /**
@@ -191,6 +206,7 @@ class UpdateEventForm extends Component {
     return [year, month, day].join('-');
   }
 
+
   /**
    *@returns {*} renders the modal
    */
@@ -215,6 +231,7 @@ class UpdateEventForm extends Component {
               <Row>
                 <div className="card-panel white contain center animated bounceInRight">
                   <div className="title">Update Event</div>
+                  {loading && <Loader />}
                   <form className="animate bounceInRight">
                     <Row>
                       <Input

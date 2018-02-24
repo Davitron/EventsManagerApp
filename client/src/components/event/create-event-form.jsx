@@ -5,10 +5,10 @@ import { Input, Row } from 'react-materialize';
 import PropTypes from 'prop-types';
 import EventActions from '../../actions/event-action';
 import Header from '../header';
-import Loader from '../reusables/loader';
-import Modal from '../../helpers/modal-control';
 import history from '../../helpers/history';
-// import FormValidator from '../forms/formInputValidator';
+import FormValidator from '../../helpers/form-validator';
+import Toast from '../../helpers/toast';
+import Loader from '../reusables/loader';
 
 
 const eventAction = new EventActions();
@@ -57,11 +57,12 @@ class CreateEventForm extends Component {
    */
   componentWillReceiveProps(nextProps) {
     const { message } = this.state;
-    if (nextProps.stateProps.response.data !== this.props.stateProps.response.data && nextProps.stateProps.response) {
+    const { response } = nextProps.stateProps;
+    if (response.data !== this.props.stateProps.response.data && response) {
       this.setState({
-        message: nextProps.stateProps.response.data
+        message: response.data
       }, () => {
-        if (nextProps.stateProps.response.status === 'success') {
+        if (response.status === 'success') {
           this.setState({
             loading: false,
             event: {
@@ -74,7 +75,7 @@ class CreateEventForm extends Component {
           history.push('/events');
         }
       });
-    } else if (nextProps.stateProps.response.error) {
+    } else if (response.error) {
       this.setState({
         loading: false
       });
@@ -123,18 +124,31 @@ class CreateEventForm extends Component {
    * this handles the event when form is submitted
    */
   onSubmit(e) {
-    const { event } = this.state;
-    const { createEvent } = this.props;
     e.preventDefault();
-    this.setState({
-      loading: true,
-      event: {
-        ...event,
-        centerId: this.props.location.state.centerId.toString()
-      }
-    }, () => {
-      createEvent(this.state.event);
-    });
+    this.setState({ loading: true });
+    const { event } = this.state;
+    const fv = new FormValidator();
+    const { createEvent } = this.props;
+    const errors = fv.validateCenterForm(this.state.center);
+    if (errors) {
+      this.setState({
+        errors
+      }, () => {
+        this.setState({ loading: false });
+        const message = Object.values(this.state.errors).join('\n');
+        Toast.error(message);
+      });
+    } else {
+      this.setState({
+        loading: true,
+        event: {
+          ...event,
+          centerId: this.props.location.state.centerId.toString()
+        }
+      }, () => {
+        createEvent(this.state.event);
+      });
+    }
   }
 
   /**
@@ -163,22 +177,6 @@ class CreateEventForm extends Component {
     e.preventDefault();
     history.goBack();
   }
-
-
-  // /**
-  //  *@returns {*} check if form imputs are valid
-  //  */
-  // isValid() {
-  //   let validity = true;
-  //   const formValidator = new FormValidator();
-  //   const { errors, isValid } = formValidator.validateEventInput(this.state.event);
-  //   if (isValid === false) {
-  //     this.setState({ errors });
-  //     validity = false;
-  //     return validity;
-  //   }
-  //   return validity;
-  // }
 
 
   /**

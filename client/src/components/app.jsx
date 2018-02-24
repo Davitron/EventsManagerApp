@@ -23,7 +23,8 @@ import UpcomingEvent from './event/upcoming-events';
 import Events from './event/events';
 import NotFound from './notFound';
 import AuthChecker from '../helpers/auth-checker';
-import PrivateRoute from '../helpers/private-route';
+import UserRoute from '../helpers/user-route';
+import AdminRoute from '../helpers/admin-route';
 
 const App = () => (
   <Router history={history}>
@@ -38,13 +39,13 @@ const App = () => (
         <Route exact path="/verified" component={Verified} />
         <Route exact path="/center-search" component={CenterSearch} />
         <Route exact path="/center-result" component={CenterResult} />
-        <PrivateRoute exact path="/centers" component={Centers} redirectPath="/login" />
-        <PrivateRoute exact path="/events" component={Events} redirectPath="/login" />
-        <PrivateRoute exact path="/create-center" component={CreateCenterForm} redirectPath="/login" />
-        <PrivateRoute exact path="/update-center" component={UpdateCenterForm} redirectPath="/login" />
-        <PrivateRoute exact path="/create-event" component={CreateEventForm} redirectPath="/login" />
-        <PrivateRoute exact path="/update-event" component={UpdateEventForm} redirectPath="/login" />
-        <PrivateRoute exact path="/pending-events/:centerId" component={PendingEvent} redirectPath="/login" />
+        <AdminRoute exact path="/centers" component={Centers} redirectPath="/login" />
+        <UserRoute exact path="/events" component={Events} redirectPath="/login" />
+        <AdminRoute exact path="/create-center" component={CreateCenterForm} redirectPath="/login" />
+        <AdminRoute exact path="/update-center" component={UpdateCenterForm} redirectPath="/login" />
+        <UserRoute exact path="/create-event" component={CreateEventForm} redirectPath="/login" />
+        <UserRoute exact path="/update-event" component={UpdateEventForm} redirectPath="/login" />
+        <AdminRoute exact path="/pending-events/:centerId" component={PendingEvent} redirectPath="/login" />
         <Route exact path="/upcoming-events/:centerId" component={UpcomingEvent} />
         <Route component={NotFound} />
       </Switch>
