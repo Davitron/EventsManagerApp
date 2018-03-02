@@ -9,6 +9,7 @@ import Header from '../header';
 import Toast from '../../helpers/toast';
 import FormValidator from '../../helpers/form-validator';
 import UserActions from '../../actions/user-actions';
+import AuthChecker from '../../helpers'
 
 
 /**
@@ -29,6 +30,15 @@ class Login extends Component {
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+    /**
+   *
+   */
+  componentWillMount() {
+    if (AuthChecker.checkUserAuth()) {
+      history.push('/center-search');
+    }
   }
 
   /**
