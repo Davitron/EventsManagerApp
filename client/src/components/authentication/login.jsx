@@ -9,7 +9,7 @@ import Header from '../header';
 import Toast from '../../helpers/toast';
 import FormValidator from '../../helpers/form-validator';
 import UserActions from '../../actions/user-actions';
-import AuthChecker from '../../helpers'
+import AuthChecker from '../../helpers/auth-checker';
 
 
 /**
