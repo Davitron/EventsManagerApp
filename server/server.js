@@ -19,7 +19,7 @@ const port = process.env.PORT || 8000;
 
 app.set('secret_key', process.env.SECRET_KEY);
 
-app.use(logger('dev'));
+app.use(logger('dev'));``
 app.use(cors());
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
