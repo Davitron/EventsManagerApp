@@ -94,7 +94,7 @@ class Header extends Component {
         }
       ]
     };
-    if (user && user.isVerified === false && user.isAdmin === false) {
+    if (user && user.isVerified === true && user.isAdmin === false) {
       items = navByRoles.user
         .map((item, index) => (
           <li key={shortid.generate()}>

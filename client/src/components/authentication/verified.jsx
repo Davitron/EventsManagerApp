@@ -11,7 +11,6 @@ import Logger from '../../helpers/logger';
  *
  */
 class VerifiedEmail extends Component {
-
   /**
    *
    * @param {*} props
@@ -53,10 +52,10 @@ class VerifiedEmail extends Component {
   render() {
     return (
       <div className="home">
-        <div className={['landing', 'container', 'animated', 'bounceInUp'].join(' ')}>
+        <div className={['banner', 'container', 'animated', 'bounceInUp'].join(' ')}>
           <Row className="center">
             <Col s={12} className={['light', 'white-text', 'center', 'animated', 'bounceInDown'].join(' ')}>
-              <h3> <b>{this.state.message}</b><br /></h3>
+              <h3 className="title"> <b>{this.state.message}</b><br /></h3>
             </Col>
           </Row>
           <Row className="center"> <Link className={['btn', 'btn-large', 'waves-effect', 'blue'].join(' ')} to="/">Continue as user</Link></Row>
