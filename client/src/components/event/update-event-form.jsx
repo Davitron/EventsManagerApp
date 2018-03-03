@@ -131,7 +131,7 @@ class UpdateEventForm extends Component {
     this.setState({ loading: true });
     const fv = new FormValidator();
     const { updateEvent } = this.props;
-    const errors = fv.validateCenterForm(event);
+    const errors = fv.validateEventForm(this.state.event);
     if (errors) {
       this.setState({
         errors
