@@ -127,9 +127,10 @@ class CreateEventForm extends Component {
     e.preventDefault();
     this.setState({ loading: true });
     const { event } = this.state;
+    console.log(event);
     const fv = new FormValidator();
     const { createEvent } = this.props;
-    const errors = fv.validateCenterForm(event);
+    const errors = fv.validateEventForm(event);
     if (errors) {
       this.setState({
         errors
