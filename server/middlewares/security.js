@@ -27,5 +27,4 @@ export default class Security {
       return res.status(403).json({ message: 'No Token Was Provided' });
     }
   }
-
 }
