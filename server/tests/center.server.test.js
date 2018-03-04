@@ -1,9 +1,12 @@
 import chai from 'chai';
+import fs from 'fs';
 import chaiHttp from 'chai-http';
 import faker from 'faker';
+import path from 'path';
 import app from '../server';
 import model from '../models';
 
+console.log(__dirname);
 const should = chai.should();
 const Centers = model.Center;
 
@@ -13,8 +16,6 @@ let token;
 let notAdminToken;
 let centerID;
 describe('Testing Api endpoints for centers', () => {
-
-
   describe('POST /api/v1/centers', () => {
     it('should return HTTP 200 when email and password are correct', (done) => {
       chai.request(app)
@@ -52,14 +53,15 @@ describe('Testing Api endpoints for centers', () => {
       chai.request(app)
         .post('/api/v1/centers/')
         .set('x-access-token', token)
-        .send({
-          stateId: 1,
-          address: '7, xyz avenue, ikaja',
-          hallCapacity: 600,
-          carParkCapacity: 200,
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
-          price: 1200000
-        })
+        .set('Content-Type', 'multipart/form-data')
+        .field('stateId', 1)
+        .field('address', '7, xyz avenue, ikaja')
+        .field('hallCapacity', 600)
+        .field('carParkCapacity', 200)
+        .field('facilities', 'swimming pool, projectors, cctv, vip lounges')
+        .field('price', 120000)
+        .attach('image', path.resolve(__dirname, 'tools/8.jpg'), '8.jpg')
+        .type('form')
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.be.an('object');
@@ -75,14 +77,15 @@ describe('Testing Api endpoints for centers', () => {
       chai.request(app)
         .post('/api/v1/centers/')
         .set('x-access-token', token)
-        .send({
-          name: 'The centers Place',
-          address: '7, xyz avenue, ikaja',
-          hallCapacity: 600,
-          carParkCapacity: 200,
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
-          price: 1200000
-        })
+        .set('Content-Type', 'multipart/form-data')
+        .field('name', 'The centers Place')
+        .field('address', '7, xyz avenue, ikaja')
+        .field('hallCapacity', 600)
+        .field('carParkCapacity', 200)
+        .field('facilities', 'swimming pool, projectors, cctv, vip lounges')
+        .field('price', 120000)
+        .attach('image', path.resolve(__dirname, 'tools/8.jpg'), '8.jpg')
+        .type('form')
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.be.an('object');
@@ -97,6 +100,16 @@ describe('Testing Api endpoints for centers', () => {
       chai.request(app)
         .post('/api/v1/centers/')
         .set('x-access-token', token)
+        .set('Content-Type', 'multipart/form-data')
+        .field('name', 'The centers Place')
+        .field('stateId', 1)
+        // .field('address', '7, xyz avenue, ikaja')
+        .field('hallCapacity', 600)
+        .field('carParkCapacity', 200)
+        .field('facilities', 'swimming pool, projectors, cctv, vip lounges')
+        .field('price', 120000)
+        .attach('image', path.resolve(__dirname, 'tools/8.jpg'), '8.jpg')
+        .type('form')
         .send({
           name: 'The centers Place',
           stateId: 1,
@@ -120,14 +133,16 @@ describe('Testing Api endpoints for centers', () => {
       chai.request(app)
         .post('/api/v1/centers/')
         .set('x-access-token', token)
-        .send({
-          name: 'The centers Place',
-          stateId: 1,
-          address: '7, xyz avenue, ikaja',
-          carParkCapacity: 200,
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
-          price: 1200000
-        })
+        .set('Content-Type', 'multipart/form-data')
+        .field('name', 'The centers Place')
+        .field('stateId', 1)
+        .field('address', '7, xyz avenue, ikaja')
+        // .field('hallCapacity', 600)
+        .field('carParkCapacity', 200)
+        .field('facilities', 'swimming pool, projectors, cctv, vip lounges')
+        .field('price', 120000)
+        .attach('image', path.resolve(__dirname, 'tools/8.jpg'), '8.jpg')
+        .type('form')
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.be.an('object');
@@ -143,14 +158,16 @@ describe('Testing Api endpoints for centers', () => {
       chai.request(app)
         .post('/api/v1/centers/')
         .set('x-access-token', token)
-        .send({
-          name: 'The centers Place',
-          stateId: 1,
-          address: '7, xyz avenue, ikaja',
-          hallCapacity: 600,
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
-          price: 1200000
-        })
+        .set('Content-Type', 'multipart/form-data')
+        .field('name', 'The centers Place')
+        .field('stateId', 1)
+        .field('address', '7, xyz avenue, ikaja')
+        .field('hallCapacity', 600)
+        // .field('carParkCapacity', 200)
+        .field('facilities', 'swimming pool, projectors, cctv, vip lounges')
+        .field('price', 120000)
+        .attach('image', path.resolve(__dirname, 'tools/8.jpg'), '8.jpg')
+        .type('form')
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.be.an('object');
@@ -165,14 +182,16 @@ describe('Testing Api endpoints for centers', () => {
       chai.request(app)
         .post('/api/v1/centers/')
         .set('x-access-token', token)
-        .send({
-          name: 'The centers Place',
-          stateId: 1,
-          address: '7, xyz avenue, ikaja',
-          hallCapacity: 600,
-          carParkCapacity: 200,
-          price: 1200000
-        })
+        .set('Content-Type', 'multipart/form-data')
+        .field('name', 'The centers Place')
+        .field('stateId', 1)
+        .field('address', '7, xyz avenue, ikaja')
+        .field('hallCapacity', 600)
+        .field('carParkCapacity', 200)
+        // .field('facilities', 'swimming pool, projectors, cctv, vip lounges')
+        .field('price', 120000)
+        .attach('image', path.resolve(__dirname, 'tools/8.jpg'), '8.jpg')
+        .type('form')
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.be.an('object');
@@ -187,14 +206,16 @@ describe('Testing Api endpoints for centers', () => {
       chai.request(app)
         .post('/api/v1/centers/')
         .set('x-access-token', token)
-        .send({
-          name: 'The centers Place',
-          stateId: 1,
-          address: '7, xyz avenue, ikaja',
-          hallCapacity: 600,
-          carParkCapacity: 200,
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
-        })
+        .set('Content-Type', 'multipart/form-data')
+        .field('name', 'The centers Place')
+        .field('stateId', 1)
+        .field('address', '7, xyz avenue, ikaja')
+        .field('hallCapacity', 600)
+        .field('carParkCapacity', 200)
+        .field('facilities', 'swimming pool, projectors, cctv, vip lounges')
+        // .field('price', 120000)
+        .attach('image', path.resolve(__dirname, 'tools/8.jpg'), '8.jpg')
+        .type('form')
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.be.an('object');
@@ -206,19 +227,20 @@ describe('Testing Api endpoints for centers', () => {
         });
     });
 
-    it('Should return HTTP status 400 and message for post if center name exceeds 30 chatacters' , (done) => {
+    it('Should return HTTP status 400 and message for post if center name exceeds 30 chatacters', (done) => {
       chai.request(app)
         .post('/api/v1/centers/')
         .set('x-access-token', token)
-        .send({
-          name: 'The centers Place where magic happens and you never forget',
-          stateId: 1,
-          address: '7, xyz avenue, ikaja',
-          hallCapacity: 600,
-          carParkCapacity: 200,
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
-          price: 1200000
-        })
+        .set('Content-Type', 'multipart/form-data')
+        .field('name', 'The centers Place where magic happens and you never forget')
+        .field('stateId', 1)
+        .field('address', '7, xyz avenue, ikaja')
+        .field('hallCapacity', 600)
+        .field('carParkCapacity', 200)
+        .field('facilities', 'swimming pool, projectors, cctv, vip lounges')
+        .field('price', 120000)
+        .attach('image', path.resolve(__dirname, 'tools/8.jpg'), '8.jpg')
+        .type('form')
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.be.an('object');
@@ -233,43 +255,44 @@ describe('Testing Api endpoints for centers', () => {
       chai.request(app)
         .post('/api/v1/centers/')
         .set('x-access-token', token)
-        .send({
-          name: 'The power house',
-          stateId: 1,
-          address: '7, xyz',
-          hallCapacity: '600',
-          carParkCapacity: '200',
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
-          price: '1200000'
-        })
+        .set('Content-Type', 'multipart/form-data')
+        .field('name', 'The centers Place where magic happens and you never forget')
+        .field('stateId', 1)
+        .field('address', '7, xyz')
+        .field('hallCapacity', 600)
+        .field('carParkCapacity', 200)
+        .field('facilities', 'swimming pool, projectors, cctv, vip lounges')
+        .field('price', 120000)
+        .attach('image', path.resolve(__dirname, 'tools/8.jpg'), '8.jpg')
+        .type('form')
         .end((err, res) => {
           centerID = res.body.centerId;
           res.should.have.status(400);
           res.body.should.be.an('object');
-          res.body.should.have.property('message')
+          res.body.should.have.property('message');
           res.body.message.errors.should.have.property('address');
           res.body.message.errors.address.should.be.an('array');
           done();
         });
     });
 
-    // =====VALID INPUT====== //
+    //   // =====VALID INPUT====== //
 
     it('Should return HTTP 401 with response object when user is not an admin', (done) => {
       chai.request(app)
         .post('/api/v1/centers/')
         .set('x-access-token', notAdminToken)
-        .send({
-          name: 'The power spot',
-          stateId: 1,
-          address: '7, xyz avenue, ikaja',
-          hallCapacity: '600',
-          carParkCapacity: '200',
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
-          price: '1200000'
-        })
+        .set('Content-Type', 'multipart/form-data')
+        .field('name', 'The centers Place')
+        .field('stateId', 1)
+        .field('address', '7, xyz avenue, ikaja')
+        .field('hallCapacity', 600)
+        .field('carParkCapacity', 200)
+        .field('facilities', 'swimming pool, projectors, cctv, vip lounges')
+        .field('price', 120000)
+        .attach('image', path.resolve(__dirname, 'tools/8.jpg'), '8.jpg')
+        .type('form')
         .end((err, res) => {
-          console.log(res.body);
           res.should.have.status(401);
           res.body.should.be.an('object');
           res.body.should.have.property('message').eql('You do not have admin priviledge');
@@ -281,15 +304,16 @@ describe('Testing Api endpoints for centers', () => {
       chai.request(app)
         .post('/api/v1/centers/')
         .set('x-access-token', token)
-        .send({
-          name: 'The power spot',
-          stateId: 1,
-          address: '7, xyz avenue, ikaja',
-          hallCapacity: '600',
-          carParkCapacity: '200',
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
-          price: '1200000'
-        })
+        .set('Content-Type', 'multipart/form-data')
+        .field('name', 'The power spot')
+        .field('stateId', 1)
+        .field('address', '7, xyz avenue, ikaja')
+        .field('hallCapacity', 600)
+        .field('carParkCapacity', 200)
+        .field('facilities', 'swimming pool, projectors, cctv, vip lounges')
+        .field('price', 120000)
+        .attach('image', path.resolve(__dirname, 'tools/8.jpg'), '8.jpg')
+        .type('form')
         .end((err, res) => {
           centerID = res.body.centerId;
           res.should.have.status(201);
@@ -335,15 +359,16 @@ describe('Testing Api endpoints for centers', () => {
       chai.request(app)
         .put(`/api/v1/centers/${centerID}/`)
         .set('x-access-token', token)
-        .send({
-          name: 'The power space',
-          stateId: 1,
-          address: '7, abc avenue, ikeja',
-          hallCapacity: '600',
-          carParkCapacity: '200',
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
-          price: '1200000'
-        })
+        .set('Content-Type', 'multipart/form-data')
+        .field('name', 'The glamour Place')
+        .field('stateId', 1)
+        .field('address', '7, xyz avenue, ikaja')
+        .field('hallCapacity', 600)
+        .field('carParkCapacity', 200)
+        .field('facilities', 'swimming pool, projectors, cctv, vip lounges')
+        .field('price', 120000)
+        .attach('image', path.resolve(__dirname, 'tools/8.jpg'), '8.jpg')
+        .type('form')
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.an('object');
@@ -377,6 +402,15 @@ describe('Testing Api endpoints for centers', () => {
           res.body.should.have.property('message');
           done();
         });
+    });
+
+    fs.readdir(path.resolve(__dirname, '../public/uploads'), (err, files) => {
+      if (err) throw err;
+      for (const file of files) {
+        fs.unlink(path.join(path.resolve(__dirname, '../public/uploads'), file), (err) => {
+          if (err) throw err;
+        });
+      }
     });
   });
 });

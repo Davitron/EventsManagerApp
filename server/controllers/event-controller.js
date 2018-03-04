@@ -34,7 +34,6 @@ export default class EventController {
    * @returns {json} adds an event
    */
   static create(req, res) {
-    console.log(req.decoded);
     const validate = new validator(req.body, eventRules);
     // format user date input to sequelize date input
     const eventStartDate = new Date(req.body.startDate);

@@ -1,5 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
+import path from 'path';
 import app from '../server';
 import model from '../models';
 
@@ -29,20 +30,7 @@ describe('Test API', () => {
     });
   });
 
-  describe('GET /', () => {
-    // Testing for incorrect routes
-    it('Incorrect Routes should return HTTP 200', (done) => {
-      chai.request(app)
-        .post('/api')
-        .end((err, res) => {
-          res.should.have.status(200);
-          done();
-        });
-    });
-  });
-
   describe('Testing Api endpoints for event', () => {
-
     it('should return HTTP 200 when email and password are correct', (done) => {
       chai.request(app)
         .post('/api/v1/users/login')
@@ -64,15 +52,15 @@ describe('Test API', () => {
       chai.request(app)
         .post('/api/v1/centers/')
         .set('x-access-token', token)
-        .send({
-          name: 'Mock Center',
-          stateId: 1,
-          address: '7, xyz avenue, ikaja',
-          hallCapacity: '600',
-          carParkCapacity: '200',
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
-          price: '1200000'
-        })
+        .set('Content-Type', 'multipart/form-data')
+        .field('name', 'Mock Center')
+        .field('stateId', 1)
+        .field('address', '7, xyz avenue, ikaja')
+        .field('hallCapacity', 600)
+        .field('carParkCapacity', 200)
+        .field('facilities', 'swimming pool, projectors, cctv, vip lounges')
+        .field('price', 120000)
+        .attach('image', path.resolve(__dirname, 'tools/8.jpg'), '8.jpg')
         .end((err, res) => {
           centerID = res.body.centerId;
           res.should.have.status(201);
@@ -231,7 +219,7 @@ describe('Test API', () => {
             done();
           });
       });
-         
+
       // ======VALID REQUEST ===== //
       it('Should return 201 and event created for post if all request object properties exist', (done) => {
         chai.request(app)

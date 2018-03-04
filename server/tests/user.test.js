@@ -200,7 +200,7 @@ describe('Testing Authentication Routes', () => {
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.be.an('object');
-          res.body.should.have.property('message').eql('User with mail already exists');
+          res.body.should.have.property('message').eql('email or username already taken');
           done();
         });
     });

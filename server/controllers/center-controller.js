@@ -43,8 +43,6 @@ export default class CenterController {
    * @returns {json} returns created center
    */
   static create(req, res) {
-    console.log(req.files);
-    console.log(req.body);
     if (req.files.image.size > 1000000) {
       CenterService.cleanUpFiles(req.files.image.path);
       return res.status(400).json({
@@ -66,6 +64,7 @@ export default class CenterController {
         // return this if  center name is taken
         if (centers.length > 0) {
           CenterService.cleanUpFiles(req.files.image.path);
+          console.log('here');
           return res.status(400).json({
             message: 'Center already exist',
             statusCode: 400
