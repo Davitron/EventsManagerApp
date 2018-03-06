@@ -1,0 +1,235 @@
+
+html {
+  zoom: 100%;
+}
+.App {
+  text-align: center; }
+
+
+@import url('https://fonts.googleapis.com/css?family=Bad+Script');
+
+nav {
+  background-color: rgba(5, 5, 5, 0.64) !important;
+}
+
+.contain {
+  margin:auto;
+  position:fixed;
+  width: 500px;
+  height: 500px;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+}
+
+
+
+@media only screen and (max-width: 500px) {
+  .contain {
+    margin:auto;
+    position:fixed;
+    width: 400px;
+    height: 430px;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    padding-bottom: 10px;
+  }
+}
+
+.contain2 {
+  margin:auto;
+  position:fixed;
+  width: 600px;
+  height: 630px;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  padding-bottom: 10px;
+}
+
+@media only screen and (max-width: 500px) {
+  .contain2 {
+    margin:auto;
+    position:fixed;
+    width: 400px;
+    height: 630px;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    padding-bottom: 10px;
+  }
+}
+
+.banner {
+  margin-top: 200px;
+}
+
+.title {
+  font-size: 30px;
+  font-family: 'Bad Script', cursive;
+
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px; }
+
+#sidenav-overlay {
+  z-index: 100 !important; }
+
+.App-header {
+  background-color: #26a69a !important;
+  color: white;
+  position: relative;
+  z-index: 2; }
+
+.home {
+  background-position: center center;
+  background-size: cover;
+  background-image: url("./assets/image/banner6.jpg");
+  /* opacity: 0.5;
+  filter: alpha(opacity=50); */
+  height: 100%;
+  margin: 0 auto;
+  /*left: 0;*/
+  min-height: 100%;
+  min-width: 100%;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.App-main {
+  background-position: center center;
+  background-size: cover;
+  background-image: url("./assets/image/banner6.jpg");
+  /* opacity: 0.5;
+  filter: alpha(opacity=50); */
+  height: 100%;
+  margin: 0 auto;
+  /*left: 0;*/
+  min-height: 100%;
+  min-width: 100%;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden; }
+
+.landing {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: black
+}
+
+  .section p:not(.flow-text) {
+    font-size: 1.2rem; }
+  .section h2 {
+    color: #DD5A2B;
+    font-weight: bold;
+    margin: 3rem 0 4rem; }
+  .section .btn {
+    background-color: rgba(38, 166, 154, 0.34) !important;
+    border: 2px solid white; }
+
+
+.section__hero {
+  height: 100vh;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  position: relative;
+  background-color: rgba(5, 5, 5, 0.64); }
+  .section__hero h3 {
+    color: white; }
+  .section__hero h5 {
+    line-height: 2.3rem; }
+  .section__hero h5 span {
+    border-bottom: 2px solid white; }
+  .section__hero h1 {
+    font-weight: bold;
+    font-size: 4.2rem;
+    line-height: 1.10;
+    color: white }
+  .section__hero .btn {
+    width: 20rem;
+    margin-top: 1.5rem; }
+  .section__hero .btn__main-cta {
+    height: 3rem; }
+
+
+.signin {
+  margin-top: 50px !important; }
+
+.signup {
+  margin-top: 30px !important; }
+
+.App-main h3 {
+  font-weight: 600px; }
+
+.App-main .App-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  opacity: 0.3;
+  filter: alpha(opacity=30);
+  z-index: 1; }
+
+.navigation {
+  background-color: #26a69a !important;}
+
+.App-title {
+  font-size: 1.5em; }
+
+.App-intro {
+  font-size: large; }
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(360deg); } }
+
+.App-signup {
+  display: inline-block;
+  padding: 32px 48px 0px 48px;
+  border: 1px solid #EEE;}
+
+@media only screen and (min-width: 700px) {
+  .App-signup {
+    display: inline-block;
+    padding: 32px 48px 0px 48px;
+    border: 1px solid #EEE;
+    width: 450px; }
+}
+
+.App-signup main {
+  flex: 1 0 auto;
+  margin-top: auto;
+}
+
+.modal-content-event {
+  overflow-y: hidden !important
+}
+
+.cardText {
+  text-overflow: ellipsis !important
+}
+/* 
+.center-modal {
+  display: flex; }
+
+.center-modal .modal {
+  position: relative;
+  width: auto; } */
