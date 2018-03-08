@@ -122,10 +122,13 @@ export default class CenterController {
     return CenterService.getAll().then((centers) => {
       if (centers.length < 1) {
         res.status(200).json({
-          message: 'No Centers Available' // return this if centers table is empty
+          message: 'No Centers Available',
+          statusCode: 200
         });
       }
-      res.status(200).json(centers); // return all centers retrieved from the database
+      res.status(200).json({
+        allCenters: centers
+      }); // return all centers retrieved from the database
     }).catch(err => res.status(500).json({
       message: 'Oops!, an error has occured', // return this if an error occurs
       error: err.name
@@ -309,15 +312,9 @@ export default class CenterController {
   static searchCenters(req, res) {
     CenterService.searchCenter(req.body)
       .then((response) => {
-        // for (const i in response.centers) {
-        //   if (response[i].centers.facilities.length > 0) {
-        //     response[i].centers.facilities = response[i].centers.facilities.join(', ');
-        //   }
-        // }
         return res.status(200).json(response);
       })
       .catch((error) => {
-        console.log(error);
         return res.status(500).json({
           message: 'Internal Server Error'
         });
@@ -345,6 +342,4 @@ export default class CenterController {
         return res.status(400).json(error);
       });
   }
-
-
 }

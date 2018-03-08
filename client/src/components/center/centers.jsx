@@ -62,9 +62,9 @@ class Center extends Component {
     const { centers, deleteCenter } = nextProps.stateProps;
     const { data, message } = this.state;
     const { getAll } = this.props;
-    if (centers.data !== data && centers.data) {
+    if (centers.data && centers.data.allCenters !== data) {
       this.setState({
-        data: centers.data,
+        data: centers.data.allCenters,
         loading: false,
         message: ''
       });
