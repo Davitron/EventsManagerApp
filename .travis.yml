@@ -11,7 +11,7 @@ addons:
 services:
 - postgresql
 before_script:
-- psql -c 'create database test;' -U postgres
+- psql -c 'create database test;' -U andela
 - npm install
 - sequelize db:migrate && sequelize db:seed:all
 script:
