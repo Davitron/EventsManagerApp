@@ -37,8 +37,8 @@ describe('Testing Api endpoints for centers', () => {
       chai.request(app)
         .post('/api/v1/users/login')
         .send({
-          email: 'segunmatthews@plush.com',
-          password: 'minerva1'
+          email: 'voltron@mailinator.com',
+          password: 'minerva'
         })
         .end((err, res) => {
           notAdminToken = res.body.Token;
@@ -334,7 +334,8 @@ describe('Testing Api endpoints for centers', () => {
         .set('x-access-token', token)
         .end((err, res) => {
           res.should.have.status(200);
-          res.body.should.be.an('array');
+          res.body.should.have.property('allCenters');
+          res.body.allCenters.should.an('array');
           done();
         });
     });

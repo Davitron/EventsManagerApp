@@ -138,7 +138,6 @@ export default class CenterActions {
       })
         .then((response) => {
           Toast.success(response.data.message);
-          Modal.action('#updateCenter', 'close');
           dispatch(Dispatcher.action(mainActionType.UPDATE_SUCCESS, response.data.message));
         })
         .catch((error) => {

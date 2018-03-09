@@ -6,18 +6,11 @@ import debounce from 'throttle-debounce/debounce';
 import PropTypes from 'prop-types';
 import { Input, Icon } from 'react-materialize';
 import swal from 'sweetalert2';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Pagination from '../reusables/pagination';
 import Loader from '../reusables/loader';
 import CenterActions from '../../actions/center-action';
 import Header from '../header';
 import history from '../../helpers/history';
-import Toast from '../../helpers/toast';
-import Logger from '../../helpers/logger';
-// import DeleteCenter from '../modals/delete-center-modal';
-
-
-// window.jQuery = window.$ = jQuery;
 
 /**
  * @returns {*} Centers Component
@@ -131,11 +124,7 @@ class Center extends Component {
    * @returns {*} update center modal
    */
   handleDelete = (centerId) => {
-    const { center_Id } = this.state;
-    const { getAll, deleteCenter } = this.props;
-    this.setState({
-      center_Id: centerId
-    });
+    const { deleteCenter } = this.props;
     swal({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -208,7 +197,6 @@ class Center extends Component {
       // openUpdateModal
     } = this.state;
 
-    const { stateProps } = this.props;
     return (
       <div>
         <Header />

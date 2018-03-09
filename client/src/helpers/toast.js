@@ -17,7 +17,7 @@ export default class Toast {
    * @returns {*} toast
    */
   static error(data) {
-    return Materialize.toast(data, 5000, 'red app-toas');
+    return Materialize.toast(data, 5000, 'red app-toast');
   }
 
   /**
