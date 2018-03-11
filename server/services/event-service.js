@@ -43,7 +43,7 @@ export default class EventService {
   static create(req, startDate, endDate) {
     return Events.create({
       eventName: req.body.eventName,
-      centerId: req.body.centerId,
+      centerId: parseInt(req.body.centerId, 10),
       startDate,
       days: req.body.days,
       endDate,

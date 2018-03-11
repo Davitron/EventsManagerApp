@@ -13,30 +13,6 @@ const States = model.State;
  */
 export default class CenterService {
   /**
-   *
-   * @param {*} req
-   * @param {*} imageUrl
-   * @returns {json} returns center object if successful and error object if otherwise
-   */
-  static create(req, imageUrl) {
-    const facilityArr = req.body.facilities.split(',')
-      .map(facility => facility.trim().toLowerCase())
-      .filter(word => word !== ' ');
-    return Centers.create({
-      name: req.body.name,
-      stateId: parseInt(req.body.stateId, 10),
-      address: req.body.address,
-      hallCapacity: parseInt(req.body.hallCapacity, 10),
-      carParkCapacity: parseInt(req.body.carParkCapacity, 10),
-      facilities: facilityArr,
-      image: imageUrl,
-      createdBy: parseInt(req.decoded.id, 10),
-      updatedBy: parseInt(req.decoded.id, 10),
-      price: parseInt(req.body.price, 10)
-    });
-  }
-
-  /**
    * @returns {json} returns an array of center objects
    */
   static getAll() {
@@ -272,7 +248,6 @@ export default class CenterService {
    * @returns {*} query
    */
   static generateQuery(params) {
-    console.log(params);
     let query = {};
     const { Op } = Sequelize;
     if (params.location === null && params.capacity && params.facilities) {
@@ -287,7 +262,6 @@ export default class CenterService {
       return query;
     }
     if (params.location && params.capacity === null && params.facilities) {
-      console.log('here 2');
       query = {
         stateId: params.location,
         facilities: {
@@ -297,7 +271,6 @@ export default class CenterService {
       return query;
     }
     if (params.location && params.capacity && params.facilities === null) {
-      console.log('here 3');
       query = {
         hallCapacity: {
           [Op.between]: [params.capacity[0], params.capacity[1]]
@@ -307,7 +280,6 @@ export default class CenterService {
       return query;
     }
     if (params.location === null && params.capacity === null && params.facilities) {
-      console.log('here 4');
       query = {
         facilities: {
           [Op.contains]: params.facilities
@@ -316,7 +288,6 @@ export default class CenterService {
       return query;
     }
     if (params.location === null && params.capacity && params.facilities === null) {
-      console.log('here 5');
       query = {
         hallCapacity: {
           [Op.between]: [params.capacity[0], params.capacity[1]]
@@ -325,7 +296,6 @@ export default class CenterService {
       return query;
     }
     if (params.location && params.capacity === null && params.facilities === null) {
-      console.log('here 6');
       query = {
         stateId: params.location
       };

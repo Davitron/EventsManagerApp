@@ -11,7 +11,7 @@ const eventRules = {
   eventName: 'required|string|min:3|max:30',
   startDate: 'required|string',
   days: 'required|string',
-  centerId: 'required|string'
+  centerId: 'required|numeric'
 };
 
 const eventUpdateRules = {

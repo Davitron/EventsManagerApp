@@ -1,8 +1,11 @@
 import validator from 'validatorjs';
+import Sequelize from 'sequelize';
 import model from '../models';
 import CenterService from '../services/center-service';
 
 const Centers = model.Center;
+const Events = model.Event;
+const States = model.ststes;
 
 
 // compliance rules for user input
@@ -14,6 +17,7 @@ const centerRules = {
   carParkCapacity: 'required|string',
   facilities: 'required|string',
   price: 'required|string',
+  image: 'required|string'
 };
 
 const centerUpdateRules = {
@@ -27,103 +31,137 @@ const centerUpdateRules = {
 };
 
 /**
+ * @export
+ * @class
  *
  */
 export default class CenterController {
   /**
    *
+   * @param {string|array} facilitiesInput - A string or array of facilities
+   * @returns {array} An array of facilities
+   *
+   */
+  static handleFacilities(facilitiesInput) {
+    let facilities;
+    // If parameter is an array
+    if (Array.isArray(facilitiesInput)) {
+      facilities = facilitiesInput.map(f => f.toLowerCase());
+    } else {
+      facilities = facilitiesInput.split(',')
+        .map(facility => facility.trim().toLowerCase())
+        .filter(word => word !== ' ');
+    }
+    return facilities;
+  }
+  /**
+   *
    * @param {object} req - HTTP request object
    * @param {object} res - HTTP response object
-   * @returns {json} Object with properties message, statusCode, centerId( if request succeeds )
+   * @returns {object} Object with properties message, statusCode, centerId( if request succeeds )
    */
   static create(req, res) {
-    console.log(req.decoded);
-    if (req.files.image.size > 1000000) {
-      CenterService.cleanUpFiles(req.files.image.path);
-      return res.status(400).json({
-        message: 'Image size to large. maximum size is 1MB',
-        statusCode: 400
-      });
-    }
-    const validate = new validator(req.body, centerRules);
-    // check for validation compliance
-    if (validate.passes()) {
-      // chaeck if center name already exist
-      return Centers.findAll({
-        where: {
-          name: req.body.name,
-          stateId: req.body.stateId,
-          address: req.body.address
-        }
-      }).then((centers) => {
-        // return this if  center name is taken
-        if (centers.length > 0) {
-          CenterService.cleanUpFiles(req.files.image.path);
-          return res.status(400).json({
-            message: 'Center already exist',
-            statusCode: 400
-          });
-        }
+    // Ensure user is an admin
+    if (req.decoded.isAdmin === true) {
+      const centerValidation = new validator(req.body, centerRules);
+      // Validate request body fields meet validation rules
+      if (centerValidation.passes()) {
+        // Check if center already exists
+        Centers.findAll({
+          where: {
+            name: req.body.name,
+            stateId: req.body.stateId,
+            address: req.body.address
+          }
+        })
+          .then((centers) => {
+            // Check atleast a match is found
+            if (centers.length > 0) {
+              return res.status(400).json({
+                message: 'Center already exists',
+                statusCode: 400
+              });
+            }
 
-        // check if useris an admin
-        if (req.decoded.isAdmin === true) {
-          CenterService.handleImageUpload(req.files.image.path)
-            .then((url) => {
-              CenterService.create(req, url)
-                .then((center) => {
-                  // return this if center creation is successful is successful
-                  const result = {
-                    message: `${center.name} Is Created Successfully`,
-                    centerId: center.id,
-                    statusCode: 201
-                  };
-                  return res.status(result.statusCode).json(result);
-                })
-                .catch((err) => {
-                  // return this if center creation is not successful
-                  CenterService.cleanUpFiles(req.files.image.path);
-                  const result = {
-                    message: 'Oops!, Server Error',
-                    statusCode: 500
-                  };
-                  return res.status(result.statusCode).json(result);
-                });
+            const facilityArray = CenterController.handleFacilities(req.body.facilities);
+            Centers.create({
+              name: req.body.name,
+              stateId: parseInt(req.body.stateId, 10),
+              address: req.body.address,
+              hallCapacity: parseInt(req.body.hallCapacity, 10),
+              carParkCapacity: parseInt(req.body.carParkCapacity, 10),
+              facilities: facilityArray,
+              image: req.body.image,
+              createdBy: parseInt(req.decoded.id, 10),
+              updatedBy: parseInt(req.decoded.id, 10),
+              price: parseInt(req.body.price, 10)
             })
-            .catch(error => res.status(500).json({ message: 'Internal server error' }));
-        } else {
-          CenterService.cleanUpFiles(req.files.image.path);
-          // return this if user is not an admin
-          return res.status(401).json({ message: 'You do not have admin priviledge' });
-        }
+              .then(center => res.status(201).json({
+                message: 'New Center Created',
+                centerId: center.id,
+                statusCode: 201
+              }))
+              .catch(error => res.status(500).json({
+                message: 'Internal Server Error',
+                statusCode: 500,
+                error
+              }));
+          })
+          .catch(error => res.status(500).json({
+            message: 'Internal Server Error',
+            statusCode: 500,
+            error
+          }));
+      } else {
+        // if validation fails
+        return res.status(400).json({
+          message: centerValidation.errors,
+          statusCode: 400,
+        });
+      }
+    } else {
+      // If user isn't an administrator
+      return res.status(401).json({
+        message: 'This user is not an administrator',
+        statusCode: 401
       });
     }
-    // return this if validation compliancr fails
-
-    res.status(400).json({ message: validate.errors });
   }
 
   /**
    *
    * @param {object} req - HTTP request object
    * @param {object} res - HTTP response object
-   * @returns {json} The list of all centers
+   * @returns {object} The list of all centers
    */
   static getAll(req, res) {
     // to fetch all centers available in the database
-    return CenterService.getAll().then((centers) => {
-      if (centers.length < 1) {
+    return Centers.findAll({
+      attributes: ['id', 'stateId', 'name', 'image', 'address', 'facilities', 'hallCapacity', 'carParkCapacity', 'price', 'createdBy'],
+      include: [{
+        model: model.State,
+        required: true,
+        attributes: ['statName']
+      }, {
+        model: model.User,
+        required: true,
+        attributes: ['username']
+      }]
+    })
+      .then((centers) => {
+        if (centers.length < 1) {
+          res.status(200).json({
+            message: 'No Centers Available',
+            statusCode: 200
+          });
+        }
         res.status(200).json({
-          message: 'No Centers Available',
-          statusCode: 200
-        });
-      }
-      res.status(200).json({
-        allCenters: centers
-      }); // return all centers retrieved from the database
-    }).catch(err => res.status(500).json({
-      message: 'Oops!, an error has occured', // return this if an error occurs
-      error: err.name
-    }));
+          allCenters: centers
+        }); // return all centers retrieved from the database
+      }).catch(err => res.status(500).json({
+        message: 'Oops!, an error has occured', // return this if an error occurs
+        error: err.name
+      }));
   }
 
   /**
@@ -134,7 +172,25 @@ export default class CenterController {
    */
   static get(req, res) {
     // fecth single center with id provided in the request include dwith events in that center
-    return CenterService.getOne(req.params.centerId)
+    return Centers.findOne({
+      where: {
+        id: req.params.centerId
+      },
+      attributes: ['id', 'name', 'address', 'facilities', 'hallCapacity', 'carParkCapacity', 'price', 'createdBy', 'image'],
+      include: [{
+        model: model.State,
+        required: true,
+        attributes: ['statName']
+      }, {
+        model: model.User,
+        required: true,
+        attributes: ['username']
+      }, {
+        model: Events,
+        as: 'events',
+        attributes: ['id', 'eventName', 'startDate', 'endDate', 'status']
+      }]
+    })
       .then((center) => {
         if (!center) {
           return res.status(404).json({
@@ -152,99 +208,118 @@ export default class CenterController {
    * @returns {json} Object with properties message and statusCode
    */
   static update(req, res) {
-    const validate = new validator(req.body, centerUpdateRules);
-    // validate image size
-    if (req.files.image && req.files.image.size > 1000000) {
-      CenterService.cleanUpFiles(req.files.image.path);
-      return res.status(400).json({
-        message: 'Image size to large. maximum size is 1MB',
-        statusCode: 400
-      });
-    }
     if (req.decoded.isAdmin === true) {
-      if (validate.passes()) {
-        return Centers.findById(req.params.centerId)
+      let facilityArray;
+      const centerValidation = new validator(req.body, centerUpdateRules);
+      if (centerValidation.passes()) {
+        // user route parameter to find center
+        Centers.findOne({
+          where: {
+            id: req.params.centerId
+          }
+        })
           .then((center) => {
             if (!center) {
               return res.status(404).json({
-                message: 'Center does not exist',
+                message: 'center does not exist',
                 statusCode: 404
               });
             }
-            if (req.body.name) {
-              return CenterService.checkNameAvalability(req)
-                .then((doesExist) => {
-                // console.log(!doesNotExist);
-                  if (doesExist) {
-                    res.status(400).json({
-                      message: 'Center with name and location already exist',
+            if (req.body.facilities) {
+              facilityArray = CenterController.handleFacilities(req.body.facilities);
+            } else {
+              facilityArray = null;
+            }
+            if (req.body.name && req.body.name !== center.name) {
+              Centers.findOne({
+                where: {
+                  name: req.body.name,
+                  address: req.body.address,
+                  stateId: req.body.stateId,
+                  id: {
+                    [Sequelize.Op.ne]: req.params.centerId
+                  }
+                }
+              })
+                .then((exist) => {
+                  if (exist) {
+                    return res.status(400).json({
+                      message: 'A center already exist in this name and location',
                       statusCode: 400
                     });
-                  } else {
-                    const file = req.files;
-                    CenterService.handleImageUpdate(file, center.image)
-                      .then((url) => {
-                        req.body.image = url;
-                        req.body.admin = req.decoded.id;
-                        CenterService.update(req.body, center)
-                          .then(modifiedCenter => res.status(200).json({
-                            message: 'Center Is Modified',
-                            center: modifiedCenter,
-                            statusCode: 200
-                          }))
-                          .catch(error => res.status(500).json({
-                            message: 'Server Error',
-                            statusCode: 500
-                          }));
-                      })
-                      .catch(error => res.status(500).json({
-                        message: 'Server Error',
-                        statusCode: 500
-                      }));
                   }
+                  center.update({
+                    name: req.body.name || center.name,
+                    stateId: parseInt(req.body.stateId, 10) || center.stateId,
+                    address: req.body.address || center.address,
+                    hallCapacity: parseInt(req.body.hallCapacity, 10) || center.hallCapacity,
+                    carParkCapacity: parseInt(req.body.carParkCapacity, 10) ||
+                    center.carParkCapacity,
+                    facilities: facilityArray || center.facilities,
+                    image: req.body.image || center.image,
+                    updatedBy: parseInt(req.body.admin, 10) || center.updatedBy,
+                    price: parseInt(req.body.price, 10) || center.price
+                  })
+                    .then(updatedCenter => res.status(200).json({
+                      message: 'Center update successful',
+                      status: 200
+                    }))
+                    .catch(error => res.status(500).json({
+                      message: 'Internal Server Error',
+                      statusCode: 500
+                    }));
                 })
                 .catch(error => res.status(500).json({
-                  message: 'Server Error',
+                  message: 'Internal Server Error',
                   statusCode: 500
                 }));
             }
-            const file = req.files;
-            CenterService.handleImageUpdate(file, center.image)
-              .then((url) => {
-                req.body.image = url;
-                req.body.admin = req.decoded.id;
-                CenterService.update(req.body, center)
-                  .then(modifiedCenter => res.status(200).json({
-                    message: 'Center Is Modified',
-                    center: modifiedCenter,
-                    statusCode: 200
-                  }))
-                  .catch(error => res.status(500).json({
-                    message: 'Server Error',
-                    statusCode: 500
-                  }));
-              })
+            center.update({
+              name: req.body.name || center.name,
+              stateId: parseInt(req.body.stateId, 10) || center.stateId,
+              address: req.body.address || center.address,
+              hallCapacity: parseInt(req.body.hallCapacity, 10) || center.hallCapacity,
+              carParkCapacity: parseInt(req.body.carParkCapacity, 10) ||
+              center.carParkCapacity,
+              facilities: facilityArray || center.facilities,
+              image: req.body.image || center.image,
+              updatedBy: parseInt(req.body.admin, 10) || center.updatedBy,
+              price: parseInt(req.body.price, 10) || center.price
+            })
+              .then(updatedCenter => res.status(200).json({
+                message: 'Center update successful',
+                status: 200
+              }))
               .catch(error => res.status(500).json({
-                message: 'Server Error',
+                message: 'Internal Server Error',
                 statusCode: 500
               }));
           })
           .catch(error => res.status(500).json({
-            message: 'Server Error',
+            message: 'Internal Server Error',
             statusCode: 500
           }));
+      } else {
+        // if validation fails
+        return res.status(400).json({
+          message: centerValidation.errors,
+          statusCode: 400,
+        });
       }
     } else {
-      return res.status(401).json({ message: 'You do not have admin priviledge' });
+      // If user isn't an administrator
+      return res.status(401).json({
+        message: 'This user is not an administrator',
+        statusCode: 401
+      });
     }
   }
 
-
   /**
    *
-   * @param {*} req
-   * @param {*} res
-   * @returns {json} returns message object id deletion is successful
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} returns message object id deletion is successful
    */
   static delete(req, res) {
     // to check if user is an admin
@@ -256,17 +331,84 @@ export default class CenterController {
               message: 'Center does not exist',
             });
           }
-          CenterService.handleImageDelete(center.image)
-            .then((result) => {
-              center.destroy()
-              // to return this center is deleted successfully
-                .then(() => res.status(200).json({ message: 'Center is successfully deleted' }))
-                .catch(error => res.status(400).json(error));
-            })
-            .catch(error => res.status(500).json(error));
+          center.destroy()
+          // to return this center is deleted successfully
+            .then(() => res.status(200).json({ message: 'Center is successfully deleted' }))
+            .catch(error => res.status(400).json(error));
         })
         .catch(error => res.status(500).json(error));
     }
+  }
+
+  /**
+   *
+   * @param {object} params
+   * @returns {object} query
+   */
+  static generateQuery(params) {
+    let query = {};
+    const { Op } = Sequelize;
+    if (params.location === null && params.capacity && params.facilities) {
+      query = {
+        hallCapacity: {
+          [Op.between]: [params.capacity[0], params.capacity[1]]
+        },
+        facilities: {
+          [Op.contains]: params.facilities
+        }
+      };
+      return query;
+    }
+    if (params.location && params.capacity === null && params.facilities) {
+      query = {
+        stateId: params.location,
+        facilities: {
+          [Op.contains]: params.facilities
+        }
+      };
+      return query;
+    }
+    if (params.location && params.capacity && params.facilities === null) {
+      query = {
+        hallCapacity: {
+          [Op.between]: [params.capacity[0], params.capacity[1]]
+        },
+        stateId: params.location,
+      };
+      return query;
+    }
+    if (params.location === null && params.capacity === null && params.facilities) {
+      query = {
+        facilities: {
+          [Op.contains]: params.facilities
+        }
+      };
+      return query;
+    }
+    if (params.location === null && params.capacity && params.facilities === null) {
+      query = {
+        hallCapacity: {
+          [Op.between]: [params.capacity[0], params.capacity[1]]
+        }
+      };
+      return query;
+    }
+    if (params.location && params.capacity === null && params.facilities === null) {
+      query = {
+        stateId: params.location
+      };
+      return query;
+    }
+    query = {
+      hallCapacity: {
+        [Op.between]: [params.capacity[0], params.capacity[1]],
+      },
+      facilities: {
+        [Op.contains]: params.facilities
+      },
+      stateId: params.location
+    };
+    return query;
   }
 
   /**
@@ -276,10 +418,53 @@ export default class CenterController {
    * @returns {*} returns centers result
    */
   static searchCenters(req, res) {
-    CenterService.searchCenter(req.body)
-      .then(response => res.status(200).json(response))
+    const query = this.generateQuery(req.body);
+    const limit = 9;
+    let offset = 0;
+    // count all centers that match query and use tota; ammount to determine
+    // number of pages
+    Centers.findAndCountAll({ where: query })
+      .then((centers) => {
+        if (centers.length > 0) {
+          const { page } = req.body;
+          const pages = Math.ceil(centers.count / limit);
+          offset = limit * (page - 1);
+          Centers.findAll({
+            where: query,
+            attributes: ['id', 'name', 'address', 'image'],
+            limit,
+            offset,
+            include: [{
+              model: model.State,
+              required: true,
+              attributes: ['statName']
+            }, {
+              model: model.User,
+              required: true,
+              attributes: ['username']
+            }]
+          })
+            .then((centersList) => {
+              const response = {
+                centers: centersList,
+                pages,
+                page
+              };
+              return res.status(200).json(response);
+            })
+            .catch(error => res.status(500).json({
+              message: 'Internal Server Error',
+              statusCode: 500
+            }));
+        }
+        return res.status(200).json({
+          message: 'No centers found',
+          statusCode: 200
+        });
+      })
       .catch(error => res.status(500).json({
-        message: 'Internal Server Error'
+        message: 'Internal Server Error',
+        statusCode: 500
       }));
   }
 
@@ -290,7 +475,7 @@ export default class CenterController {
    * @returns {*} returns all states
    */
   static getAllStates(req, res) {
-    return CenterService.getAllStates()
+    return States.findAll({ limit: 37 })
       .then((states) => {
         if (!states) {
           return res.status(404).json({
