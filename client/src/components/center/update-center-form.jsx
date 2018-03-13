@@ -76,7 +76,7 @@ class UpdateCenterModal extends Component {
             hallCapacity: center.hallCapacity.toString(),
             carParkCapacity: center.carParkCapacity.toString(),
             price: center.price.toString(),
-            image: {},
+            image: center.image,
             facilities: facilitiesArr
           }
         }, () => Logger.log(center));
@@ -357,8 +357,7 @@ class UpdateCenterModal extends Component {
                       !center.hallCapacity ||
                       !center.stateId ||
                       !center.price ||
-                      !center.facilities ||
-                      !center.image
+                      !center.facilities
                     }
                   >
                     Update

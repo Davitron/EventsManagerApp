@@ -1,11 +1,10 @@
 import validator from 'validatorjs';
 import Sequelize from 'sequelize';
 import model from '../models';
-import CenterService from '../services/center-service';
 
 const Centers = model.Center;
 const Events = model.Event;
-const States = model.ststes;
+const States = model.State;
 
 
 // compliance rules for user input
@@ -413,8 +412,8 @@ export default class CenterController {
 
   /**
    *
-   * @param {*} req
-   * @param {*} res
+   * @param {object} req
+   * @param {object} res
    * @returns {*} returns centers result
    */
   static searchCenters(req, res) {

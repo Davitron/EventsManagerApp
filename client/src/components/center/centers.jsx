@@ -111,13 +111,6 @@ class Center extends Component {
     });
   };
 
-  handleModalClose = () => {
-    this.setState({
-      loading: true
-    }, () => {
-      console.log('loading');
-    });
-  };
 
   /**
    * @param {*} centerId

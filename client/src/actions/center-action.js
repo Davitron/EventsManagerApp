@@ -4,8 +4,10 @@ import mainActionType from './actionTypes/main-action-types';
 import Dispatcher from '../helpers/dispatch';
 import Logger from '../helpers/logger';
 import Toast from '../helpers/toast';
-import Modal from '../helpers/modal-control';
 import history from '../helpers/history';
+
+const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/eventsmanager/upload';
+const CLOUDINARY_UPLOAD_PRESET = 'uq5d6tkk';
 
 
 const cookies = new Cookies();
@@ -15,6 +17,28 @@ const cookies = new Cookies();
  *
  */
 export default class CenterActions {
+  /**
+   *
+   * @param {object} file - Image to be uploaded
+   * @returns {object} - cloudinary api response
+   */
+  static handleImageUpload(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+    return axios({
+      url: CLOUDINARY_URL,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      data: formData
+    }).then((response) => {
+      console.log(response.data);
+      return response.data.url;
+    })
+      .catch(error => error.response);
+  }
   /**
    *@returns {*}
    * this action is handles fetching all centers
@@ -73,36 +97,35 @@ export default class CenterActions {
    */
   static createCenter(newCenter) {
     const token = cookies.get('jwt-events-manager');
-    const facilitiesStr = newCenter.facilities.join();
-    const formData = new FormData();
-    formData.append('name', newCenter.name);
-    formData.append('stateId', newCenter.stateId);
-    formData.append('address', newCenter.address);
-    formData.append('hallCapacity', newCenter.hallCapacity);
-    formData.append('carParkCapacity', newCenter.carParkCapacity);
-    formData.append('image', newCenter.image);
-    formData.append('facilities', facilitiesStr);
-    formData.append('price', newCenter.price);
-
+    const facilitiesString = newCenter.facilities.join();
     return (dispatch) => {
       dispatch(Dispatcher.action(mainActionType.CREATE_REQUEST, newCenter));
-      axios({
-        method: 'POST',
-        url: '/api/v1/centers',
-        headers: {
-          'x-access-token': token
-        },
-        data: formData
-      })
-        .then((response) => {
-          Toast.remove();
-          Toast.success(response.data.message);
-          dispatch(Dispatcher.action(mainActionType.CREATE_SUCCESS, response.data.message));
+      CenterActions.handleImageUpload(newCenter.image)
+        .then((imageUrl) => {
+          newCenter.image = imageUrl;
+          newCenter.facilities = facilitiesString;
+          axios({
+            method: 'POST',
+            url: '/api/v1/centers',
+            headers: {
+              'x-access-token': token
+            },
+            data: newCenter
+          })
+            .then((response) => {
+              Toast.remove();
+              Toast.success(response.data.message);
+              dispatch(Dispatcher.action(mainActionType.CREATE_SUCCESS, response.data.message));
+            })
+            .catch((error) => {
+              const { message } = error.response.data;
+              Toast.remove();
+              Toast.error(message);
+              dispatch(Dispatcher.action(mainActionType.CREATE_FAILED, message));
+            });
         })
         .catch((error) => {
-          Toast.remove();
-          Toast.error(error.response.data.message);
-          dispatch(Dispatcher.action(mainActionType.CREATE_FAILED, error.response.data.message));
+          Toast.error('Image upload error');
         });
     };
   }
@@ -115,37 +138,85 @@ export default class CenterActions {
    */
   static updateCenter(centerObj) {
     const token = cookies.get('jwt-events-manager');
-    const facilitiesStr = centerObj.facilities.join();
-    const formData = new FormData();
-    formData.append('name', centerObj.name);
-    formData.append('stateId', centerObj.stateId);
-    formData.append('address', centerObj.address);
-    formData.append('hallCapacity', centerObj.hallCapacity);
-    formData.append('carParkCapacity', centerObj.carParkCapacity);
-    formData.append('image', centerObj.image);
-    formData.append('facilities', facilitiesStr);
-    formData.append('price', centerObj.price);
-
+    const facilitiesString = centerObj.facilities.join();
+    centerObj.facilities = facilitiesString;
     return (dispatch) => {
       dispatch(Dispatcher.action(mainActionType.UPDATE_REQUEST, centerObj));
-      axios({
-        method: 'PUT',
-        url: `/api/v1/centers/${centerObj.id}`,
-        headers: {
-          'x-access-token': token
-        },
-        data: formData
-      })
-        .then((response) => {
-          Toast.success(response.data.message);
-          dispatch(Dispatcher.action(mainActionType.UPDATE_SUCCESS, response.data.message));
+      if (typeof centerObj.image !== 'string') {
+        CenterActions.handleImageUpload(centerObj.image)
+          .then((imageUrl) => {
+            centerObj.image = imageUrl;
+            axios({
+              method: 'PUT',
+              url: `/api/v1/centers/${centerObj.id}`,
+              headers: {
+                'x-access-token': token
+              },
+              data: centerObj
+            })
+              .then((response) => {
+                Toast.success(response.data.message);
+                dispatch(Dispatcher.action(mainActionType.UPDATE_SUCCESS, response.data.message));
+              })
+              .catch((error) => {
+                const { message } = error.response.data.message;
+                Toast.error(message);
+                dispatch(Dispatcher.action(mainActionType.UPDATE_FAILED, message));
+              });
+          })
+          .catch((error) => {
+            Toast.error('Image upload error');
+          });
+      } else {
+        axios({
+          method: 'PUT',
+          url: `/api/v1/centers/${centerObj.id}`,
+          headers: {
+            'x-access-token': token
+          },
+          data: centerObj
         })
-        .catch((error) => {
-          const { message } = error.response.data.message;
-          Toast.error(message);
-          dispatch(Dispatcher.action(mainActionType.UPDATE_FAILED, message));
-        });
+          .then((response) => {
+            Toast.success(response.data.message);
+            dispatch(Dispatcher.action(mainActionType.UPDATE_SUCCESS, response.data.message));
+          })
+          .catch((error) => {
+            const { message } = error.response.data.message;
+            Toast.error(message);
+            dispatch(Dispatcher.action(mainActionType.UPDATE_FAILED, message));
+          });
+      }
     };
+    // const formData = new FormData();
+    // formData.append('name', centerObj.name);
+    // formData.append('stateId', centerObj.stateId);
+    // formData.append('address', centerObj.address);
+    // formData.append('hallCapacity', centerObj.hallCapacity);
+    // formData.append('carParkCapacity', centerObj.carParkCapacity);
+    // formData.append('image', centerObj.image);
+    // formData.append('facilities', facilitiesStr);
+    // formData.append('price', centerObj.price);
+
+    // return (dispatch) => {
+    //   dispatch(Dispatcher.action(mainActionType.UPDATE_REQUEST, centerObj));
+    //   axios({
+    //     method: 'PUT',
+    //     url: `/api/v1/centers/${centerObj.id}`,
+    //     headers: {
+    //       'x-access-token': token
+    //     },
+    //     data: formData
+    //   })
+    //     .then((response) => {
+    //       Toast.success(response.data.message);
+    //       dispatch(Dispatcher.action(mainActionType.UPDATE_SUCCESS, response.data.message));
+    //     })
+    //     .catch((error) => {
+    //       const { message } = error.response.data.message;
+    //       Toast.error(message);
+    //       dispatch(Dispatcher.action(mainActionType.UPDATE_FAILED, message));
+    //     });
+    // };
   }
   /**
    *

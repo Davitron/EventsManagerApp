@@ -296,8 +296,6 @@ describe('Test API', () => {
   });
 });
 
-
-
 describe('PUT /api/v1/events/:id', () => {
   // Testing to modify an event
   it('Should return 404 if event does not exist', (done) => {
