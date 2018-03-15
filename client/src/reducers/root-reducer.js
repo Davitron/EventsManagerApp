@@ -12,6 +12,7 @@ const {
 
 const {
   getAll,
+  get,
   getAllStates,
   create,
   update,
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   login,
   resetPassword,
   getAll,
+  get,
   getAllStates,
   create,
   update,

@@ -36,7 +36,7 @@ const defaultProps = {
 /**
  *component for create center modal
  */
-class UpdateCenterModal extends Component {
+class UpdateCenterForm extends Component {
   /**
    *
    * @param {*} props
@@ -62,6 +62,7 @@ class UpdateCenterModal extends Component {
    * @returns {*} set value of props to center on initial render
    */
   componentWillMount() {
+    console.log(this.props);
     const { center } = this.props.location.state.state;
     const facilitiesArr = center.facilities.map(f => f.toUpperCase());
     axios.get('/api/v1/states')
@@ -232,7 +233,7 @@ class UpdateCenterModal extends Component {
     return (
       <div>
         <div style={{
-          backgroundColor: 'rgb(5, 22, 22)',
+          backgroundColor: '#f5f5f5',
           position: 'absolute',
           top: 0,
           right: 0,
@@ -348,7 +349,7 @@ class UpdateCenterModal extends Component {
                 </div>
                 <Row className="center">
                   <button
-                    className="btn waves-effect waves-light btn-large"
+                    className="btn waves-effect waves-light btn-large action-button"
                     onClick={this.onSubmit}
                     disabled={
                       !center.name ||
@@ -374,8 +375,8 @@ class UpdateCenterModal extends Component {
   }
 }
 
-UpdateCenterModal.propTypes = propTypes;
-UpdateCenterModal.defaultProps = defaultProps;
+UpdateCenterForm.propTypes = propTypes;
+UpdateCenterForm.defaultProps = defaultProps;
 
 const matchStateToProps = state => ({
   stateProps: {
@@ -388,4 +389,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   getCenters: CenterActions.getAll
 }, dispatch);
 
-export default connect(matchStateToProps, mapDispatchToProps)(UpdateCenterModal);
+export default connect(matchStateToProps, mapDispatchToProps)(UpdateCenterForm);

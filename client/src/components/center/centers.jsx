@@ -104,7 +104,7 @@ class Center extends Component {
   handleOpen = (centerId) => {
     const { pageOfItems } = this.state;
     const center = pageOfItems.find(x => x.id === centerId);
-    history.push('/update-center', {
+    history.push(`/update-center/${centerId}`, {
       state: {
         center
       }
@@ -194,7 +194,7 @@ class Center extends Component {
       <div>
         <Header />
         <div style={{
-          backgroundColor: 'rgb(5, 22, 22)',
+          backgroundColor: '#f5f5f5',
           position: 'absolute',
           top: 0,
           right: 0,
@@ -241,8 +241,8 @@ class Center extends Component {
                           <td>{item.name}</td>
                           <td>{item.State.statName}</td>
                           <td>
-                            <button className={['waves-effect', 'waves-light', 'btn'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleOpen((item.id))} ><i className=" material-icons">create</i></button>
-                            <Link className="waves-effect waves-light  btn" style={{ marginLeft: '5px' }} to={`/pending-events/${item.id}`}><i className=" material-icons">schedule</i></Link>
+                            <button className={['waves-effect', 'waves-light', 'btn', 'action-button'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleOpen((item.id))} ><i className=" material-icons">create</i></button>
+                            <Link className="waves-effect waves-light  btn action-button" style={{ marginLeft: '5px' }} to={`/pending-events/${item.id}`}><i className=" material-icons">schedule</i></Link>
                             <button className={['waves-effect', 'waves-light', 'btn', 'red'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleDelete((item.id))}><i className=" material-icons">delete</i></button>
                           </td>
                         </tr>))
@@ -250,7 +250,7 @@ class Center extends Component {
                   </tbody>
                 </table>
                 <div className={['fixed-action-btn', 'click-to-toggle', 'spin-close'].join(' ')}>
-                  <Link className={['btn-floating', 'btn-large', 'waves-effect', 'waves-light'].join(' ')} to="/create-center">
+                  <Link className={['btn-floating', 'btn-large', 'waves-effect', 'waves-light', 'action-button'].join(' ')} to="/create-center">
                     <i className="material-icons">add</i>
                   </Link>
                 </div>

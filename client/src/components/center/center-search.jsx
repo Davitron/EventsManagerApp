@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link, Redirect } from 'react-router-dom';
 import shortid from 'shortid';
 import axios from 'axios';
-import PropTypes from 'prop-types';
-import { Input, Icon, Row, Button, Col } from 'react-materialize';
+import { Input, Icon, Row, Button } from 'react-materialize';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
@@ -14,7 +12,6 @@ import Loader from '../reusables/loader';
 import history from '../../helpers/history';
 import CenterActions from '../../actions/center-action';
 
-const centerAction = new CenterActions();
 
 const facilities = [
   'CCTV',
@@ -72,7 +69,6 @@ class CenterSearch extends Component {
   */
   onChange(event) {
     const { name, value } = event.target;
-    console.log(value);
     const { searchQuery } = this.state;
     this.setState({
       searchQuery: {
@@ -138,7 +134,6 @@ class CenterSearch extends Component {
   *this handles the event when any property in the state changes
    */
   handleChange(event, index, value) {
-    console.log(value);
     this.setState({
       searchQuery: {
         location: value
@@ -190,7 +185,7 @@ class CenterSearch extends Component {
       <div>
         <Header />
         <div style={{
-          backgroundColor: 'rgb(5, 22, 22)',
+          backgroundColor: '#f5f5f5',
           position: 'absolute',
           top: 0,
           right: 0,
@@ -286,9 +281,9 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   searchCenters: CenterActions.search
 }, dispatch);
 
-CenterSearch.propTypes = {
-  searchCenters: PropTypes.func.isRequired
-};
+// CenterSearch.propTypes = {
+//   searchCenters: PropTypes.func.isRequired
+// };
 
 
 export default connect(null, mapDispatchToProps)(CenterSearch);

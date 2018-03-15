@@ -118,7 +118,7 @@ class Login extends Component {
                         <Row>
                           <button
                             type="submit"
-                            className={['col', 's12', 'btn', 'btn-large', 'waves-effect'].join(' ')}
+                            className={['col', 's12', 'btn', 'btn-large', 'waves-effect', 'action-button'].join(' ')}
                             disabled={!user.email || !user.password}
                             onClick={this.onSubmit}
                           >

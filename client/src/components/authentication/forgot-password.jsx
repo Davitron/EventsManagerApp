@@ -89,7 +89,7 @@ class ForgotPassword extends Component {
                       <br />
                       <center>
                         <Row>
-                          <button onClick={this.onSubmit} className={['col', 's12', 'btn', 'btn-large', 'waves-effect'].join(' ')}>
+                          <button onClick={this.onSubmit} className={['col', 's12', 'btn', 'btn-large', 'waves-effect', 'action-button'].join(' ')}>
                               Send Reset Link
                           </button>
                         </Row>

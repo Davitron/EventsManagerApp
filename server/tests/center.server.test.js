@@ -214,7 +214,7 @@ describe('Testing Api endpoints for centers', () => {
         });
     });
 
-    it('Should return HTTP status 400 and message for post if center name exceeds 30 chatacters' , (done) => {
+    it('Should return HTTP status 400 and message for post if center name exceeds 30 chatacters', (done) => {
       chai.request(app)
         .post('/api/v1/centers/')
         .set('x-access-token', token)

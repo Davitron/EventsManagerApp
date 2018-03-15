@@ -256,7 +256,7 @@ class CreateCenterForm extends Component {
     return (
       <div>
         <div style={{
-          backgroundColor: 'rgb(5, 22, 22)',
+          backgroundColor: '#f5f5f5',
           position: 'absolute',
           top: 0,
           right: 0,
@@ -322,7 +322,7 @@ class CreateCenterForm extends Component {
                 </div>
                 <Row className="center">
                   <button
-                    className="btn waves-effect waves-light btn-large"
+                    className="btn waves-effect waves-light btn-large action-button"
                     onClick={this.onSubmit}
                     disabled={
                       !center.name ||

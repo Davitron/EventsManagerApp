@@ -9,6 +9,7 @@ import history from '../../helpers/history';
 import FormValidator from '../../helpers/form-validator';
 import Toast from '../../helpers/toast';
 import Loader from '../reusables/loader';
+import FormInput from '../reusables/input';
 
 
 const eventAction = new EventActions();
@@ -188,7 +189,7 @@ class CreateEventForm extends Component {
     return (
       <div>
         <div style={{
-          backgroundColor: 'rgb(5, 22, 22)',
+          backgroundColor: '#f5f5f5',
           position: 'absolute',
           top: 0,
           right: 0,
@@ -215,7 +216,7 @@ class CreateEventForm extends Component {
                   </Row>
                   <Row className="center">
                     <button
-                      className="btn waves-effect waves-light btn-large"
+                      className="btn waves-effect waves-light btn-large action-button"
                       onClick={this.onSubmit}
                       disabled={!event.days || !event.eventName || !event.startDate}
                     >

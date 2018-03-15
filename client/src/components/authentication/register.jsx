@@ -109,7 +109,7 @@ class Register extends Component {
                       <div className="row">
                         <button
                           type="submit"
-                          className={['col', 's12', 'btn', 'btn-large', 'waves-effect'].join(' ')}
+                          className={['col', 's12', 'btn', 'btn-large', 'waves-effect', 'action-button'].join(' ')}
                           onClick={this.onSubmit}
                           disabled={
                             !user.email ||

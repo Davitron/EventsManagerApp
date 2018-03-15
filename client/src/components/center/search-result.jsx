@@ -24,7 +24,6 @@ class CenterResults extends Component {
     super(props);
     this.state = {
       centers: [],
-      states: [],
       loading: false,
       facilities: [],
       searchQuery: {
@@ -47,19 +46,11 @@ class CenterResults extends Component {
    *@returns {*} fetches all centers
    */
   componentWillMount() {
-    // const { state } = this.props.location.state;
-    const url = new URL(window.location.href);
     const param = queryString.parse(window.location.search);
     const facilities = param.facilities.split(',').map(x => x.toLowerCase());
     const capacity = param.capacity.split(',').map(x => parseInt(x, 10));
     const locationStr = param.location;
     const location = parseInt(locationStr, 10);
-    // const searchQuery = {
-    //   location: isNaN(location) ? null : location,
-    //   capacity: isNaN(capacity[0]) ? null : capacity,
-    //   facilities: facilities[0] === 'null' ? null : facilities,
-    //   page: 1
-    // };
     this.setState({
       searchQuery: {
         location: isNaN(location) ? null : location,
@@ -186,15 +177,17 @@ class CenterResults extends Component {
     });
   };
 
+  resizeImage = (imageLink) => {
+
+  }
+
   /**
    *
    */
   render() {
     const {
       centers,
-      states,
       loading,
-      searchQuery,
       currentPage,
       totalPages
     } = this.state;
@@ -202,7 +195,7 @@ class CenterResults extends Component {
       <div>
         <Header />
         <div style={{
-          backgroundColor: 'rgb(5, 22, 22)',
+          backgroundColor: '#f5f5f5',
           position: 'absolute',
           top: 0,
           right: 0,
@@ -222,63 +215,20 @@ class CenterResults extends Component {
                 </h3>
               </div>
               <Row>
-                {centers !== null &&
-                  centers.map(center => (
-                    <Col s={12} m={6} l={4} key={shortid.generate()}>
+                <Col s={12} className="cards-container">
+                  {centers !== null &&
+                    centers.map(center => (
                       <Card
                         header={<CardTitle reveal image={center.image || '../../../../src/assests/image/banner4.jpg'} waves="light" />}
                         title={center.name}
-                        className="cardText"
-                        reveal={
-                          <div>
-                            <Row>
-                              <Col s={3}>
-                                State:
-                              </Col>
-                              <Col s={9}>
-                                {center.State.statName}
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col s={3}>
-                                Capacity:
-                              </Col>
-                              <Col s={9}>
-                                {center.hallCapacity}
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col s={3}>
-                                Carpark Space:
-                              </Col>
-                              <Col s={9}>
-                                {center.carParkCapacity}
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col s={3}>
-                                facilities:
-                              </Col>
-                              <Col s={9}>
-                                {center.facilities.join(', ')}
-                              </Col>
-                            </Row>
-                            <Row className="center">
-                              <button
-                                className={['waves-effect', 'orange', 'animated', 'bounceInUp', 'btn', 'btn-large'].join(' ')}
-                                onClick={() => history.push(`/upcoming-events/${center.id}`)}
-                              >
-                                View Upcoming Events
-                              </button>
-                            </Row>
-                          </div>
-                        }
+                        className="cardText card"
+                        key={shortid.generate()}
                       >
                         <p><a onClick={() => this.handleOpen((center.id))}>Book this center</a></p>
                       </Card>
-                    </Col>
-                  ))
-                }
+                    ))
+                  }
+                </Col>
               </Row>
               <Row className="center">
                 <button onClick={this.toPrevPage} disabled={currentPage === 1} className={['waves-effect', 'animated', 'bounceInUp', 'btn', 'btn-large'].join(' ')}>Prev</button>
@@ -286,6 +236,11 @@ class CenterResults extends Component {
               </Row>
             </div>
           </div>
+        </div>
+        <div className={['fixed-action-btn', 'click-to-toggle', 'spin-close'].join(' ')}>
+          <Link className={['btn-floating', 'btn-large', 'waves-effect', 'waves-light', 'action-button'].join(' ')} to="/center-search">
+            <i className="material-icons">search</i>
+          </Link>
         </div>
       </div>
     );
@@ -306,7 +261,6 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 CenterResults.propTypes = {
   stateProps: PropTypes.objectOf(() => null),
-  getStates: PropTypes.func.isRequired,
   searchCenter: PropTypes.func.isRequired,
 };
 

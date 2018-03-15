@@ -417,49 +417,44 @@ export default class CenterController {
    * @returns {*} returns centers result
    */
   static searchCenters(req, res) {
-    const query = this.generateQuery(req.body);
+    console.log(req.body);
+    const query = CenterController.generateQuery(req.body);
     const limit = 9;
     let offset = 0;
     // count all centers that match query and use tota; ammount to determine
     // number of pages
     Centers.findAndCountAll({ where: query })
       .then((centers) => {
-        if (centers.length > 0) {
-          const { page } = req.body;
-          const pages = Math.ceil(centers.count / limit);
-          offset = limit * (page - 1);
-          Centers.findAll({
-            where: query,
-            attributes: ['id', 'name', 'address', 'image'],
-            limit,
-            offset,
-            include: [{
-              model: model.State,
-              required: true,
-              attributes: ['statName']
-            }, {
-              model: model.User,
-              required: true,
-              attributes: ['username']
-            }]
+        const { page } = req.body;
+        const pages = Math.ceil(centers.count / limit);
+        offset = limit * (page - 1);
+        Centers.findAll({
+          where: query,
+          attributes: ['id', 'name', 'address', 'image'],
+          limit,
+          offset,
+          include: [{
+            model: model.State,
+            required: true,
+            attributes: ['statName']
+          }, {
+            model: model.User,
+            required: true,
+            attributes: ['username']
+          }]
+        })
+          .then((centersList) => {
+            const response = {
+              centers: centersList,
+              pages,
+              page
+            };
+            return res.status(200).json(response);
           })
-            .then((centersList) => {
-              const response = {
-                centers: centersList,
-                pages,
-                page
-              };
-              return res.status(200).json(response);
-            })
-            .catch(error => res.status(500).json({
-              message: 'Internal Server Error',
-              statusCode: 500
-            }));
-        }
-        return res.status(200).json({
-          message: 'No centers found',
-          statusCode: 200
-        });
+          .catch(error => res.status(500).json({
+            message: 'Internal Server Error',
+            statusCode: 500
+          }));
       })
       .catch(error => res.status(500).json({
         message: 'Internal Server Error',

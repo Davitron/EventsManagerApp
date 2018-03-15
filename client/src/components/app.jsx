@@ -42,11 +42,11 @@ const App = () => (
         <AdminRoute exact path="/centers" component={Centers} redirectPath="/login" />
         <UserRoute exact path="/events" component={Events} redirectPath="/login" />
         <AdminRoute exact path="/create-center" component={CreateCenterForm} redirectPath="/login" />
-        <AdminRoute exact path="/update-center" component={UpdateCenterForm} redirectPath="/login" />
+        <AdminRoute path="/update-center/:centerId" component={UpdateCenterForm} redirectPath="/login" />
         <UserRoute exact path="/create-event" component={CreateEventForm} redirectPath="/login" />
         <UserRoute exact path="/update-event" component={UpdateEventForm} redirectPath="/login" />
-        <AdminRoute exact path="/pending-events/:centerId" component={PendingEvent} redirectPath="/login" />
-        <Route exact path="/upcoming-events/:centerId" component={UpcomingEvent} />
+        <AdminRoute path="/pending-events/:centerId" component={PendingEvent} redirectPath="/login" />
+        <Route path="/upcoming-events/:centerId" component={UpcomingEvent} />
         <Route component={NotFound} />
       </Switch>
     </div>

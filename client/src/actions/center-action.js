@@ -66,6 +66,32 @@ export default class CenterActions {
   }
 
   /**
+ *
+ * @param {*} centerId - The Id of the center to fetch
+ * @returns {object} - The center with the request id
+ */
+  static getCenter(centerId) {
+    const token = cookies.get('jwt-events-manager');
+    return (dispatch) => {
+      dispatch(Dispatcher.action(mainActionType.GET_REQUEST, null));
+      axios({
+        method: 'GET',
+        url: `/api/v1/centers/${centerId}`,
+        headrers: {
+          'x-access-token': token
+        }
+      })
+        .then((response) => {
+          dispatch(Dispatcher.action(mainActionType.GET_SUCCESS, response.data));
+        })
+        .catch((error) => {
+          const err = error.response.data;
+          dispatch(Dispatcher.action(mainActionType.GETALL_FAILED, err));
+        });
+    };
+  }
+
+  /**
    *@returns {*}
    * this action is handles fetching all states
    */
@@ -233,9 +259,11 @@ export default class CenterActions {
         data: param
       })
         .then((response) => {
+          console.log(response)
           dispatch(Dispatcher.action(mainActionType.SEARCH_SUCCESS, response.data));
         })
         .catch((error) => {
+          console.log(error.response.data);
           dispatch(Dispatcher.action(mainActionType.SEARCH_FAILURE, error.response.data));
         });
     };

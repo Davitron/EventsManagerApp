@@ -98,7 +98,7 @@ class ResetPassword extends Component {
                       <br />
                       <center>
                         <Row>
-                          <button onClick={this.onSubmit} disabled={!user.password || !user.confirmPassword} className={['col', 's12', 'btn', 'btn-large', 'waves-effect'].join(' ')}>
+                          <button onClick={this.onSubmit} disabled={!user.password || !user.confirmPassword} className={['col', 's12', 'btn', 'btn-large', 'waves-effect', 'action-button'].join(' ')}>
                               Reset Password
                           </button>
                         </Row>
