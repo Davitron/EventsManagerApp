@@ -175,7 +175,7 @@ export default class CenterController {
       where: {
         id: req.params.centerId
       },
-      attributes: ['id', 'stateId',  'name', 'address', 'facilities', 'hallCapacity', 'carParkCapacity', 'price', 'createdBy', 'image'],
+      attributes: ['id', 'stateId', 'name', 'address', 'facilities', 'hallCapacity', 'carParkCapacity', 'price', 'createdBy', 'image'],
       include: [{
         model: model.State,
         required: true,
@@ -202,22 +202,53 @@ export default class CenterController {
   }
 
   /**
+   *
+   * @param {object} center - existing center in database
+   * @param {object} request - incoming update from client
+   * @param {object} response - HTTP response object
+   * @returns {object} - success or error messages
+   */
+  static handleCenterUpdate(center, request, response) {
+    return center.update({
+      name: request.name || center.name,
+      stateId: parseInt(request.stateId, 10) || center.stateId,
+      address: request.address || center.address,
+      hallCapacity: parseInt(request.hallCapacity, 10) || center.hallCapacity,
+      carParkCapacity: parseInt(request.carParkCapacity, 10) ||
+      center.carParkCapacity,
+      facilities: request.facilities || center.facilities,
+      image: request.image || center.image,
+      updatedBy: parseInt(request.admin, 10) || center.updatedBy,
+      price: parseInt(request.price, 10) || center.price
+    })
+      .then(updatedCenter => response.status(200).json({
+        message: 'Center update successful',
+        status: 200
+      }))
+      .catch(error => response.status(500).json({
+        message: 'Internal Server Error',
+        statusCode: 500
+      }));
+  }
+
+  /**
    * @param {object} req - HTTP request object
    * @param {object} res - HTTP request object
    * @returns {json} Object with properties message and statusCode
    */
   static update(req, res) {
     if (req.decoded.isAdmin === true) {
-      let facilityArray;
+      req.body.admin = req.decoded.id;
       const centerValidation = new validator(req.body, centerUpdateRules);
       if (centerValidation.passes()) {
-        // user route parameter to find center
+        // find the center
         Centers.findOne({
           where: {
             id: req.params.centerId
           }
         })
           .then((center) => {
+            // if center doesn't exist
             if (!center) {
               return res.status(404).json({
                 message: 'center does not exist',
@@ -225,12 +256,11 @@ export default class CenterController {
               });
             }
             if (req.body.facilities) {
-              facilityArray = CenterController.handleFacilities(req.body.facilities);
-            } else {
-              facilityArray = null;
+              req.body.facilities = CenterController.handleFacilities(req.body.facilities);
             }
+            // if center name is changed, check if new center name is available
             if (req.body.name && req.body.name !== center.name) {
-              Centers.findOne({
+              return Centers.findOne({
                 where: {
                   name: req.body.name,
                   address: req.body.address,
@@ -247,57 +277,15 @@ export default class CenterController {
                       statusCode: 400
                     });
                   }
-                  center.update({
-                    name: req.body.name || center.name,
-                    stateId: parseInt(req.body.stateId, 10) || center.stateId,
-                    address: req.body.address || center.address,
-                    hallCapacity: parseInt(req.body.hallCapacity, 10) || center.hallCapacity,
-                    carParkCapacity: parseInt(req.body.carParkCapacity, 10) ||
-                    center.carParkCapacity,
-                    facilities: facilityArray || center.facilities,
-                    image: req.body.image || center.image,
-                    updatedBy: parseInt(req.body.admin, 10) || center.updatedBy,
-                    price: parseInt(req.body.price, 10) || center.price
-                  })
-                    .then(updatedCenter => res.status(200).json({
-                      message: 'Center update successful',
-                      status: 200
-                    }))
-                    .catch(error => res.status(500).json({
-                      message: 'Internal Server Error',
-                      statusCode: 500
-                    }));
+                  return CenterController.handleCenterUpdate(center, req.body, res);
                 })
                 .catch(error => res.status(500).json({
                   message: 'Internal Server Error',
                   statusCode: 500
                 }));
             }
-            center.update({
-              name: req.body.name || center.name,
-              stateId: parseInt(req.body.stateId, 10) || center.stateId,
-              address: req.body.address || center.address,
-              hallCapacity: parseInt(req.body.hallCapacity, 10) || center.hallCapacity,
-              carParkCapacity: parseInt(req.body.carParkCapacity, 10) ||
-              center.carParkCapacity,
-              facilities: facilityArray || center.facilities,
-              image: req.body.image || center.image,
-              updatedBy: parseInt(req.body.admin, 10) || center.updatedBy,
-              price: parseInt(req.body.price, 10) || center.price
-            })
-              .then(updatedCenter => res.status(200).json({
-                message: 'Center update successful',
-                status: 200
-              }))
-              .catch(error => res.status(500).json({
-                message: 'Internal Server Error',
-                statusCode: 500
-              }));
-          })
-          .catch(error => res.status(500).json({
-            message: 'Internal Server Error',
-            statusCode: 500
-          }));
+            return CenterController.handleCenterUpdate(center, req.body, res);
+          });
       } else {
         // if validation fails
         return res.status(400).json({
@@ -417,7 +405,6 @@ export default class CenterController {
    * @returns {*} returns centers result
    */
   static searchCenters(req, res) {
-    console.log(req.body);
     const query = CenterController.generateQuery(req.body);
     const limit = 9;
     let offset = 0;
