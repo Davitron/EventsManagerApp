@@ -200,7 +200,7 @@ class CreateEventForm extends Component {
         }}
         >
           <Header />
-          <div className="container">
+          <div className="container" style={{ marginTop: '64px' }}>
             <center>
               <Row>
                 <div className="card-panel white contain center animated bounceInRight">

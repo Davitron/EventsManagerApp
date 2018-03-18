@@ -22,7 +22,7 @@ import PendingEvent from './event/pending-events';
 import UpcomingEvent from './event/upcoming-events';
 import Events from './event/events';
 import NotFound from './notFound';
-import AuthChecker from '../helpers/auth-checker';
+import CenterDetails from './center/center-details';
 import UserRoute from '../helpers/user-route';
 import AdminRoute from '../helpers/admin-route';
 
@@ -39,6 +39,7 @@ const App = () => (
         <Route exact path="/verified" component={Verified} />
         <Route exact path="/center-search" component={CenterSearch} />
         <Route exact path="/center-result" component={CenterResult} />
+        <Route exact path="/centers/:centerId" component={CenterDetails} />
         <AdminRoute exact path="/centers" component={Centers} redirectPath="/login" />
         <UserRoute exact path="/events" component={Events} redirectPath="/login" />
         <AdminRoute exact path="/create-center" component={CreateCenterForm} redirectPath="/login" />

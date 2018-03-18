@@ -205,7 +205,7 @@ class CenterResults extends Component {
           overflow: 'auto'
         }}
         >
-          <div className={['container', 'animated', 'bounceInRight'].join(' ')} style={{ paddingTop: '50px' }}>
+          <div className={['container', 'animated', 'bounceInRight'].join(' ')} style={{ marginTop: '64px' }}>
             <div className={['row', 'center'].join(' ')} />
             <div className={['col', 's12', 'm8', 'l12'].join(' ')}>
               <div className="row">
@@ -219,7 +219,7 @@ class CenterResults extends Component {
                   {centers !== null &&
                     centers.map(center => (
                       <Card
-                        header={<CardTitle reveal image={center.image || '../../../../src/assests/image/banner4.jpg'} waves="light" />}
+                        header={<CardTitle reveal image={center.image || '/image/banner4.jpg'} waves="light" />}
                         title={center.name}
                         className="cardText card"
                         key={shortid.generate()}

@@ -52,10 +52,7 @@ nav {
 }
 
 .contain2 {
-  margin:auto;
-  position:fixed;
-  width: 600px;
-  height: 630px;
+  height: auto;
   top:0;
   bottom:0;
   left:0;
@@ -65,10 +62,7 @@ nav {
 
 @media only screen and (max-width: 500px) {
   .contain2 {
-    margin:auto;
-    position:fixed;
-    width: 400px;
-    height: 630px;
+    height: auto;
     top:0;
     bottom:0;
     left:0;
@@ -154,7 +148,9 @@ nav {
     border: 2px solid white; }
 
 
-
+.carousel .carousel-item {
+  display: unset !important;
+}
 
 .section__hero {
   height: 100vh;
@@ -261,13 +257,13 @@ i.icon-grey {
   color: black;
 }
 
-// @media only screen and (max-width: 600px) {
-//   .cards-container {
-//     -webkit-column-count: 3;
-//     -moz-column-count: 3;
-//     column-count: 3;
-//   }
-// }
+@media only screen and (max-width: 550px) {
+  .carousel {
+    height: 200px !important;
+  }
+}
+
+
 
 @media only screen and (min-width: 601px) {
   .cards-container {

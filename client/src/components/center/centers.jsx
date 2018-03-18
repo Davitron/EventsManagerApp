@@ -63,12 +63,12 @@ class Center extends Component {
       });
     }
 
-    if (deleteCenter.data !== message && deleteCenter.data) {
-      this.setState({
-        message: deleteCenter.data
-      });
-      getAll();
-    }
+    // if (deleteCenter.data !== message && deleteCenter.data) {
+    //   this.setState({
+    //     message: deleteCenter.data
+    //   });
+    //   getAll();
+    // }
   }
 
   /**
@@ -104,34 +104,30 @@ class Center extends Component {
   handleOpen = (centerId) => {
     const { pageOfItems } = this.state;
     const center = pageOfItems.find(x => x.id === centerId);
-    history.push(`/update-center/${centerId}`, {
-      state: {
-        center
-      }
-    });
+    history.push(`/update-center/${centerId}`);
   };
 
 
-  /**
-   * @param {*} centerId
-   * @returns {*} update center modal
-   */
-  handleDelete = (centerId) => {
-    const { deleteCenter } = this.props;
-    swal({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-      if (result.value) {
-        deleteCenter(centerId);
-      }
-    });
-  };
+  // /**
+  //  * @param {*} centerId
+  //  * @returns {*} update center modal
+  //  */
+  // handleDelete = (centerId) => {
+  //   const { deleteCenter } = this.props;
+  //   swal({
+  //     title: 'Are you sure?',
+  //     text: "You won't be able to revert this!",
+  //     type: 'warning',
+  //     showCancelButton: true,
+  //     confirmButtonColor: '#032958',
+  //     cancelButtonColor: '#d33',
+  //     confirmButtonText: 'Yes, delete it!'
+  //   }).then((result) => {
+  //     if (result.value) {
+  //       deleteCenter(centerId);
+  //     }
+  //   });
+  // };
 
   /**
    *
@@ -158,15 +154,15 @@ class Center extends Component {
   }
 
 
-  /**
-   * @param {*} event
-   * @returns {*} triggers when key is pressed
-   */
-  handleKeyDown(event) {
-    if (event.keyCode === 13) {
-      this.triggerSearch();
-    }
-  }
+  // /**
+  //  * @param {*} event
+  //  * @returns {*} triggers when key is pressed
+  //  */
+  // handleKeyDown(event) {
+  //   if (event.keyCode === 13) {
+  //     this.triggerSearch();
+  //   }
+  // }
 
   /**
    * @param {*} event
@@ -182,7 +178,6 @@ class Center extends Component {
   render() {
     const {
       data,
-      states,
       searchNotfound,
       pageOfItems,
       loading,
@@ -204,7 +199,7 @@ class Center extends Component {
           overflow: 'auto'
         }}
         >
-          <div className={['container', 'animated', 'bounceInRight'].join(' ')} style={{ paddingTop: '100px' }}>
+          <div className={['container', 'animated', 'bounceInRight'].join(' ')} style={{ marginTop: '64px'}}>
             <div className={['row', 'center'].join(' ')} />
             <div className={['col', 's12', 'm8', 'l12'].join(' ')}>
               <div className={['card-panel', 'white'].join(' ')}>
@@ -241,9 +236,7 @@ class Center extends Component {
                           <td>{item.name}</td>
                           <td>{item.State.statName}</td>
                           <td>
-                            <button className={['waves-effect', 'waves-light', 'btn', 'action-button'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleOpen((item.id))} ><i className=" material-icons">create</i></button>
-                            <Link className="waves-effect waves-light  btn action-button" style={{ marginLeft: '5px' }} to={`/pending-events/${item.id}`}><i className=" material-icons">schedule</i></Link>
-                            <button className={['waves-effect', 'waves-light', 'btn', 'red'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleDelete((item.id))}><i className=" material-icons">delete</i></button>
+                            <Link className="waves-effect waves-light  btn action-button" to={`/centers/${item.id}`}><i className=" material-icons">menu</i></Link>
                           </td>
                         </tr>))
                     }
@@ -264,9 +257,6 @@ class Center extends Component {
             </div>
           </div>
         </div>
-        {/* <CreateCenterModal states={states} />
-        <UpdateCenterModal states={states} selectedCenter={selectedCenter} />
-        <DeleteCenterModal centerId={this.state.center_Id} /> */}
       </div>
     );
   }

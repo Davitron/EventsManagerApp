@@ -175,7 +175,7 @@ export default class CenterController {
       where: {
         id: req.params.centerId
       },
-      attributes: ['id', 'name', 'address', 'facilities', 'hallCapacity', 'carParkCapacity', 'price', 'createdBy', 'image'],
+      attributes: ['id', 'stateId',  'name', 'address', 'facilities', 'hallCapacity', 'carParkCapacity', 'price', 'createdBy', 'image'],
       include: [{
         model: model.State,
         required: true,

@@ -27,7 +27,9 @@ const facilities = [
 const propTypes = {
   updateCenter: PropTypes.func.isRequired,
   stateProps: PropTypes.objectOf(() => null),
-  location: PropTypes.objectOf(() => null).isRequired
+  match: PropTypes.objectOf(() => null).isRequired,
+  getCenter: PropTypes.func.isRequired,
+  getStates: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -47,7 +49,6 @@ class UpdateCenterForm extends Component {
       center: {},
       errors: {},
       loading: false,
-      message: '',
       states: []
     };
 
@@ -62,26 +63,10 @@ class UpdateCenterForm extends Component {
    * @returns {*} set value of props to center on initial render
    */
   componentWillMount() {
-    console.log(this.props);
-    const { center } = this.props.location.state.state;
-    const facilitiesArr = center.facilities.map(f => f.toUpperCase());
-    axios.get('/api/v1/states')
-      .then((response) => {
-        this.setState({
-          states: response.data,
-          center: {
-            id: center.id,
-            name: center.name,
-            address: center.address,
-            stateId: center.stateId.toString(),
-            hallCapacity: center.hallCapacity.toString(),
-            carParkCapacity: center.carParkCapacity.toString(),
-            price: center.price.toString(),
-            image: center.image,
-            facilities: facilitiesArr
-          }
-        }, () => Logger.log(center));
-      });
+    const { getCenter, getStates } = this.props;
+    const { centerId } = this.props.match.params;
+    getCenter(centerId);
+    getStates();
   }
 
   /**
@@ -90,20 +75,33 @@ class UpdateCenterForm extends Component {
    * @returns {*} to set state when props changes
    */
   componentWillReceiveProps(nextProps) {
-    const { message } = this.state;
-    if (nextProps.stateProps.response.data !== message) {
-      this.setState({
-        message: nextProps.stateProps.response.data
-      }, () => {
-        if (nextProps.stateProps.response.data) {
-          this.setState({
-            loading: false
-          });
-          history.push('/centers');
-        }
-      });
+    // const { message } = this.state;
+    const { updateCenter, getCenter, states } = nextProps.stateProps;
+    console.log(updateCenter);
+    if (updateCenter.status === 'success') {
+      this.setState({ loading: false });
+      history.push('/centers');
     }
-    if (nextProps.stateProps.response.data === 'failed') {
+    if (getCenter.data && states.data) {
+      const center = getCenter.data;
+      const facilitiesArr = center.facilities.map(f => f.toUpperCase());
+      this.setState({
+        states: states.data,
+        center: {
+          id: center.id,
+          name: center.name,
+          address: center.address,
+          stateId: center.stateId.toString(),
+          hallCapacity: center.hallCapacity.toString(),
+          carParkCapacity: center.carParkCapacity.toString(),
+          price: center.price.toString(),
+          image: center.image,
+          newImage: center.image,
+          facilities: facilitiesArr
+        }
+      }, () => Logger.log(center));
+    }
+    if (updateCenter.data === 'failed') {
       this.setState({
         loading: false
       });
@@ -170,6 +168,7 @@ class UpdateCenterForm extends Component {
     event.preventDefault();
     this.setState({ loading: true });
     const fv = new FormValidator();
+    const { center } = this.state;
     const { updateCenter } = this.props;
     const errors = fv.validateCenterForm(this.state.center);
     if (errors) {
@@ -181,18 +180,8 @@ class UpdateCenterForm extends Component {
         Toast.error(message);
       });
     } else {
-      // Logger.log(createUser);
-      updateCenter(this.state.center);
+      updateCenter(center);
     }
-    // event.preventDefault();
-    // console.log(this.state.center);
-    // if (this.isValid() === true) {
-    //   this.setState({
-    //     loading: true
-    //   });
-    //   const { updateCenter } = this.props;
-    //   updateCenter(this.state.center);
-    // }
   }
 
   /**
@@ -251,7 +240,9 @@ class UpdateCenterForm extends Component {
                 {loading && <Loader />}
                 <div className={['row'].join(' ')}>
                   <Input
-                    s={6}
+                    l={6}
+                    s={12}
+                    m={12}
                     id="image_url"
                     type="text"
                     name="name"
@@ -261,7 +252,7 @@ class UpdateCenterForm extends Component {
                     label="Center Name"
                     labelClassName={center.name && 'active'}
                   />
-                  <Input s={6} name="stateId" value={center.stateId} onChange={this.onChange} type="select" label="States">
+                  <Input l={6} s={12} m={12} name="stateId" value={center.stateId} onChange={this.onChange} type="select" label="States">
                     <option defaultValue="State" disabled>Select States</option>
                     {
                       states.map(state => (
@@ -276,7 +267,9 @@ class UpdateCenterForm extends Component {
                 </div>
                 <div className="row">
                   <Input
-                    s={6}
+                    l={6}
+                    s={12}
+                    m={12}
                     id="address"
                     type="text"
                     className="validate"
@@ -287,7 +280,9 @@ class UpdateCenterForm extends Component {
                     labelClassName={center.address && 'active'}
                   />
                   <Input
-                    s={6}
+                    l={6}
+                    s={12}
+                    m={12}
                     id="price"
                     name="price"
                     value={!center.price ? '' : center.price}
@@ -300,7 +295,9 @@ class UpdateCenterForm extends Component {
                 </div>
                 <div className="row">
                   <Input
-                    s={6}
+                    l={6}
+                    s={12}
+                    m={12}
                     id="hall"
                     name="hallCapacity"
                     value={!center.hallCapacity ? '' : center.hallCapacity}
@@ -311,7 +308,9 @@ class UpdateCenterForm extends Component {
                     labelClassName={center.hallCapacity && 'active'}
                   />
                   <Input
-                    s={6}
+                    l={6}
+                    s={12}
+                    m={12}
                     id="carPark"
                     name="carParkCapacity"
                     value={!center.carParkCapacity ? '' : center.carParkCapacity}
@@ -339,9 +338,9 @@ class UpdateCenterForm extends Component {
                   </div>
                 </div>
                 <div className={['file-field', 'input-field', 's12'].join(' ')}>
-                  <div className="btn">
+                  <div className="btn action-button">
                     <span>Center image</span>
-                    <input type="file" name="image" onChange={this.onFileChange} accept="image/*" />
+                    <input type="file" name="newImage" onChange={this.onFileChange} accept="image/*" />
                   </div>
                   <div className="file-path-wrapper">
                     <input className={['file-path', 'validate'].join(' ')} type="text" placeholder={errors.image || 'upload image'} />
@@ -380,13 +379,16 @@ UpdateCenterForm.defaultProps = defaultProps;
 
 const matchStateToProps = state => ({
   stateProps: {
-    response: state.update
+    updateCenter: state.update,
+    getCenter: state.get,
+    states: state.getAllStates
   }
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   updateCenter: CenterActions.updateCenter,
-  getCenters: CenterActions.getAll
+  getCenter: CenterActions.getCenter,
+  getStates: CenterActions.getAllStates
 }, dispatch);
 
 export default connect(matchStateToProps, mapDispatchToProps)(UpdateCenterForm);

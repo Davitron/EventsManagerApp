@@ -33,7 +33,7 @@ export default class AppReducer {
     }
   }
 
-   /**
+  /**
    *
    * @param {*} state
    * @param {*} action
@@ -140,6 +140,10 @@ export default class AppReducer {
         newState.status = 'failed';
         newState.data = action.data;
         return newState;
+      case mainActionType.RESET_STATE:
+        newState.status = null;
+        newState.data = null;
+        return newState;
       default:
         return state;
     }
@@ -167,6 +171,10 @@ export default class AppReducer {
       case mainActionType.DELETE_FAILED:
         newState.status = 'failed';
         newState.data = action.data;
+        return newState;
+      case mainActionType.RESET_STATE:
+        newState.status = null;
+        newState.data = null;
         return newState;
       default:
         return state;
