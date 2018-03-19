@@ -2,7 +2,6 @@ import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import jwt from 'jsonwebtoken';
 import swaggerUi from 'swagger-ui-express';
 import dotenv from 'dotenv';
 import path from 'path';

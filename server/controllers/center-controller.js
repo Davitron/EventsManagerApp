@@ -53,6 +53,68 @@ export default class CenterController {
     }
     return facilities;
   }
+
+  /**
+   *
+   * @param {*} req
+   * @param {*} res
+   * @return {object} response
+   */
+  static validateCenterName(req, res) {
+    let query;
+    if (req.params.centerId) {
+      query = {
+        name: req.body.name,
+        stateId: req.body.stateId,
+        address: req.body.address
+      };
+    } else {
+      query = {
+        name: req.body.name,
+        address: req.body.address,
+        stateId: req.body.stateId,
+        id: {
+          [Sequelize.Op.ne]: req.params.centerId
+        }
+      };
+    }
+    return Centers.findAll({
+      where: query
+    })
+      .then((centers) => {
+        // Check atleast a match is found
+        if (centers.length > 0) {
+          return res.status(400).json({ message: 'Center already exists', statusCode: 400 });
+        }
+        return null;
+      })
+      .catch(error => res.status(500).json({ message: 'Internal Server Error', statusCode: 500 }));
+  }
+
+  /**
+   *
+   * @param {*} req
+   * @param {*} res
+   * @returns {object} Insert new center
+   */
+  static handleCenterInsert(req, res) {
+    req.body.facilities = CenterController.handleFacilities(req.body.facilities);
+    Centers.create({
+      name: req.body.name,
+      stateId: parseInt(req.body.stateId, 10),
+      address: req.body.address,
+      hallCapacity: parseInt(req.body.hallCapacity, 10),
+      carParkCapacity: parseInt(req.body.carParkCapacity, 10),
+      facilities: req.body.facilities,
+      image: req.body.image,
+      createdBy: parseInt(req.decoded.id, 10),
+      updatedBy: parseInt(req.decoded.id, 10),
+      price: parseInt(req.body.price, 10)
+    })
+      .then(center => res.status(201).json({ message: 'New Center Created', centerId: center.id, statusCode: 201 }))
+      .catch(error => res.status(500).json({ message: 'Internal Server Error', statusCode: 500, error }));
+  }
+
   /**
    *
    * @param {object} req - HTTP request object
@@ -65,66 +127,18 @@ export default class CenterController {
       const centerValidation = new validator(req.body, centerRules);
       // Validate request body fields meet validation rules
       if (centerValidation.passes()) {
-        // Check if center already exists
-        Centers.findAll({
-          where: {
-            name: req.body.name,
-            stateId: req.body.stateId,
-            address: req.body.address
-          }
-        })
-          .then((centers) => {
-            // Check atleast a match is found
-            if (centers.length > 0) {
-              return res.status(400).json({
-                message: 'Center already exists',
-                statusCode: 400
-              });
+        return CenterController.validateCenterName(req, res)
+          .then((report) => {
+            if (report === null) {
+              return CenterController.handleCenterInsert(req, res);
             }
-
-            const facilityArray = CenterController.handleFacilities(req.body.facilities);
-            Centers.create({
-              name: req.body.name,
-              stateId: parseInt(req.body.stateId, 10),
-              address: req.body.address,
-              hallCapacity: parseInt(req.body.hallCapacity, 10),
-              carParkCapacity: parseInt(req.body.carParkCapacity, 10),
-              facilities: facilityArray,
-              image: req.body.image,
-              createdBy: parseInt(req.decoded.id, 10),
-              updatedBy: parseInt(req.decoded.id, 10),
-              price: parseInt(req.body.price, 10)
-            })
-              .then(center => res.status(201).json({
-                message: 'New Center Created',
-                centerId: center.id,
-                statusCode: 201
-              }))
-              .catch(error => res.status(500).json({
-                message: 'Internal Server Error',
-                statusCode: 500,
-                error
-              }));
-          })
-          .catch(error => res.status(500).json({
-            message: 'Internal Server Error',
-            statusCode: 500,
-            error
-          }));
-      } else {
-        // if validation fails
-        return res.status(400).json({
-          message: centerValidation.errors,
-          statusCode: 400,
-        });
+          });
       }
-    } else {
-      // If user isn't an administrator
-      return res.status(401).json({
-        message: 'This user is not an administrator',
-        statusCode: 401
-      });
+      // if validation fails
+      return res.status(400).json({ message: centerValidation.errors, statusCode: 400 });
     }
+    // If user isn't an administrator
+    return res.status(401).json({ message: 'This user is not an administrator', statusCode: 401 });
   }
 
   /**
@@ -260,45 +274,22 @@ export default class CenterController {
             }
             // if center name is changed, check if new center name is available
             if (req.body.name && req.body.name !== center.name) {
-              return Centers.findOne({
-                where: {
-                  name: req.body.name,
-                  address: req.body.address,
-                  stateId: req.body.stateId,
-                  id: {
-                    [Sequelize.Op.ne]: req.params.centerId
+              return CenterController.validateCenterName(req, res)
+                .then((report) => {
+                  if (report === null) {
+                    return CenterController.handleCenterUpdate(center, req.body, res);
                   }
-                }
-              })
-                .then((exist) => {
-                  if (exist) {
-                    return res.status(400).json({
-                      message: 'A center already exist in this name and location',
-                      statusCode: 400
-                    });
-                  }
-                  return CenterController.handleCenterUpdate(center, req.body, res);
-                })
-                .catch(error => res.status(500).json({
-                  message: 'Internal Server Error',
-                  statusCode: 500
-                }));
+                });
             }
             return CenterController.handleCenterUpdate(center, req.body, res);
           });
       } else {
         // if validation fails
-        return res.status(400).json({
-          message: centerValidation.errors,
-          statusCode: 400,
-        });
+        return res.status(400).json({ message: centerValidation.errors, statusCode: 400 });
       }
     } else {
       // If user isn't an administrator
-      return res.status(401).json({
-        message: 'This user is not an administrator',
-        statusCode: 401
-      });
+      return res.status(401).json({ message: 'This user is not an administrator', statusCode: 401 });
     }
   }
 

@@ -3,12 +3,15 @@ import Sequelize from 'sequelize';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
-import app from '../server';
 import model from '../models';
 import Mailer from '../services/mail-service';
+import messageBody from '../config/mail-template';
+
 
 dotenv.load();
 const Users = model.User;
+
+const mailer = new Mailer();
 
 // compliance rule for user input
 const newUserRules = {
@@ -67,29 +70,13 @@ export default class UserController {
             isAdmin: Boolean(req.body.isAdmin) || false
           }).then((user) => {
             const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, { expiresIn: '7d' });
-            const message = `<p>Welcome ${user.username}.</p><br/>
-                            <p>Click the link below to complete your registration</p><br />
-                            <a href="http://event-manager-andela.herokuapp.com/verified?token=${token}">Complete Registration</a><br/>
-                            `;
-            const mailBody = {
-              from: 'matthews.segunapp@gmail.com',
-              to: user.email,
-              subject: 'Welcome to EventsManager',
-              html: message
-            };
-            const mailer = new Mailer();
-            if (mailer.isMailSent(mailBody)) {
-              res.status(500).json({
-                message: 'Oops!, an error has occured',
-                statusCode: 500
-              });
-            } else {
-              res.status(201).json({
-                message: 'User registration successfull. An email has been sent for verification',
-                userDetails: user,
-                statusCode: 201
-              });
-            }
+            const message = messageBody.accountCreated(user.username, token);
+            mailer.sendMail(user.email, message, 'Welcome to EventsManager');
+            return res.status(201).json({
+              message: 'User registration successfull. An email has been sent for verification',
+              userDetails: user,
+              statusCode: 201
+            });
           }).catch(err => res.status(500).json({ message: 'Oops!, an error has occured', error: err, statusCode: 500 }));
         }
       }).catch(err => res.status(500).json({ message: 'Oops!, an error has occured', error: err, statusCode: 500 }));

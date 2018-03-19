@@ -150,6 +150,7 @@ export default class EventActions {
         data: eventObj
       })
         .then((response) => {
+          console.log(response.data);
           dispatch(Dispatcher.action(mainActionType.UPDATE_SUCCESS, response.data.message));
           Toast.success(response.data.message);
         })
@@ -179,9 +180,13 @@ export default class EventActions {
         },
       })
         .then((response) => {
+          console.log(response.data);
           const { message } = response.data;
           dispatch(Dispatcher.action(mainActionType.UPDATE_SUCCESS, message));
           Toast.success(message);
+        })
+        .then(() => {
+          dispatch(Dispatcher.action(mainActionType.RESET_STATE, null));
         })
         .catch((error) => {
           const { message } = error.response.data;
@@ -212,6 +217,9 @@ export default class EventActions {
           const { message } = response.data;
           dispatch(Dispatcher.action(mainActionType.UPDATE_SUCCESS, message));
           Toast.success(message);
+        })
+        .then(() => {
+          dispatch(Dispatcher.action(mainActionType.RESET_STATE, null));
         })
         .catch((error) => {
           const { message } = error.response.data;

@@ -199,7 +199,7 @@ describe('Test API', () => {
           });
       });
 
-      it('Should return 201 and event created for post if all request object properties exist', (done) => {
+      it('Should return 400 if selected startDate is in the future', (done) => {
         chai.request(app)
           .post('/api/v1/events')
           .set('x-access-token', token)
