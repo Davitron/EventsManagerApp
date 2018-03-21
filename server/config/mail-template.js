@@ -4,6 +4,14 @@ const messageBody = {
                   <a href="http://event-manager-andela.herokuapp.com/verified?token=${token}">Complete Registration</a><br/>`;
     return body;
   },
+
+  resetPassword: (username, token) => {
+    const body = `<p>Welcome ${username}.</p><br/><p>Click the link below to reset your password</p><br />
+                  <a href="http://event-manager-andela.herokuapp.com/reset-password?token=${token}">Reset Password</a><br/>
+                  This link expires in 15 mins`;
+    return body;
+  },
+
   eventCreated: (username) => {
     const body = `<p>Well done ${username}.</p><br/><p>You have successfully created an event.<br />You would get a response shortly from the event center
                 </p>Thank you for using EventsManager`;
@@ -19,7 +27,7 @@ const messageBody = {
     return body;
   },
 
-  eventRejected: (username, centerName, startDate, newDate) => {
+  eventRejected: (username, centerName, startDate) => {
     const body = `<p>Hello ${username}</p><br/>
               <p> Unfortunately your event in ${centerName}, scheduled for ${startDate} has been cancelled by the center.<br />
               However, The center would like you to reschedule your event<br/>

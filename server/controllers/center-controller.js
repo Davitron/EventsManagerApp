@@ -7,7 +7,7 @@ const Events = model.Event;
 const States = model.State;
 
 
-// compliance rules for user input
+// validation rules for user input
 const centerRules = {
   name: 'required|string|min:3|max:30',
   stateId: 'required|integer',
@@ -46,10 +46,12 @@ export default class CenterController {
     // If parameter is an array
     if (Array.isArray(facilitiesInput)) {
       facilities = facilitiesInput.map(f => f.toLowerCase());
-    } else {
+    } else if (typeof facilitiesInput === 'string') {
       facilities = facilitiesInput.split(',')
         .map(facility => facility.trim().toLowerCase())
         .filter(word => word !== ' ');
+    } else {
+      return 'invaild facilities input';
     }
     return facilities;
   }
@@ -87,8 +89,7 @@ export default class CenterController {
           return res.status(400).json({ message: 'Center already exists', statusCode: 400 });
         }
         return null;
-      })
-      .catch(error => res.status(500).json({ message: 'Internal Server Error', statusCode: 500 }));
+      });
   }
 
   /**
@@ -111,8 +112,33 @@ export default class CenterController {
       updatedBy: parseInt(req.decoded.id, 10),
       price: parseInt(req.body.price, 10)
     })
-      .then(center => res.status(201).json({ message: 'New Center Created', centerId: center.id, statusCode: 201 }))
-      .catch(error => res.status(500).json({ message: 'Internal Server Error', statusCode: 500, error }));
+      .then(center => res.status(201).json({ message: 'New Center Created', centerId: center.id, statusCode: 201 }));
+  }
+
+  /**
+   *
+   * @param {object} center - existing center in database
+   * @param {object} request - incoming update from client
+   * @param {object} response - HTTP response object
+   * @returns {object} - success or error messages
+   */
+  static handleCenterUpdate(center, request, response) {
+    return center.update({
+      name: request.name || center.name,
+      stateId: parseInt(request.stateId, 10) || center.stateId,
+      address: request.address || center.address,
+      hallCapacity: parseInt(request.hallCapacity, 10) || center.hallCapacity,
+      carParkCapacity: parseInt(request.carParkCapacity, 10) ||
+      center.carParkCapacity,
+      facilities: request.facilities || center.facilities,
+      image: request.image || center.image,
+      updatedBy: parseInt(request.admin, 10) || center.updatedBy,
+      price: parseInt(request.price, 10) || center.price
+    })
+      .then(updatedCenter => response.status(200).json({
+        message: 'Center update successful',
+        status: 200
+      }));
   }
 
   /**
@@ -171,10 +197,7 @@ export default class CenterController {
         res.status(200).json({
           allCenters: centers
         }); // return all centers retrieved from the database
-      }).catch(err => res.status(500).json({
-        message: 'Oops!, an error has occured', // return this if an error occurs
-        error: err.name
-      }));
+      });
   }
 
   /**
@@ -211,38 +234,7 @@ export default class CenterController {
           });
         }
         return res.status(200).send(center); // return this if center is present
-      })
-      .catch(error => res.status(500).send(error));
-  }
-
-  /**
-   *
-   * @param {object} center - existing center in database
-   * @param {object} request - incoming update from client
-   * @param {object} response - HTTP response object
-   * @returns {object} - success or error messages
-   */
-  static handleCenterUpdate(center, request, response) {
-    return center.update({
-      name: request.name || center.name,
-      stateId: parseInt(request.stateId, 10) || center.stateId,
-      address: request.address || center.address,
-      hallCapacity: parseInt(request.hallCapacity, 10) || center.hallCapacity,
-      carParkCapacity: parseInt(request.carParkCapacity, 10) ||
-      center.carParkCapacity,
-      facilities: request.facilities || center.facilities,
-      image: request.image || center.image,
-      updatedBy: parseInt(request.admin, 10) || center.updatedBy,
-      price: parseInt(request.price, 10) || center.price
-    })
-      .then(updatedCenter => response.status(200).json({
-        message: 'Center update successful',
-        status: 200
-      }))
-      .catch(error => response.status(500).json({
-        message: 'Internal Server Error',
-        statusCode: 500
-      }));
+      });
   }
 
   /**
@@ -282,7 +274,8 @@ export default class CenterController {
                 });
             }
             return CenterController.handleCenterUpdate(center, req.body, res);
-          });
+          })
+          .catch(error => res.status(500).json({ message: 'Internal Server Error', statusCode: 500 }));
       } else {
         // if validation fails
         return res.status(400).json({ message: centerValidation.errors, statusCode: 400 });
@@ -311,10 +304,9 @@ export default class CenterController {
           }
           center.destroy()
           // to return this center is deleted successfully
-            .then(() => res.status(200).json({ message: 'Center is successfully deleted' }))
-            .catch(error => res.status(400).json(error));
+            .then(() => res.status(200).json({ message: 'Center is successfully deleted', statusCode: 200 }));
         })
-        .catch(error => res.status(500).json(error));
+        .catch(error => res.status(500).json({ message: 'Internal Server Error', statusCode: 500 }));
     }
   }
 
@@ -324,68 +316,19 @@ export default class CenterController {
    * @returns {object} query
    */
   static generateQuery(params) {
-    let query = {};
+    const query = {};
     const { Op } = Sequelize;
-    if (params.location === null && params.capacity && params.facilities) {
-      query = {
-        hallCapacity: {
-          [Op.between]: [params.capacity[0], params.capacity[1]]
-        },
-        facilities: {
-          [Op.contains]: params.facilities
-        }
-      };
-      return query;
-    }
-    if (params.location && params.capacity === null && params.facilities) {
-      query = {
-        stateId: params.location,
-        facilities: {
-          [Op.contains]: params.facilities
-        }
-      };
-      return query;
-    }
-    if (params.location && params.capacity && params.facilities === null) {
-      query = {
-        hallCapacity: {
-          [Op.between]: [params.capacity[0], params.capacity[1]]
-        },
-        stateId: params.location,
-      };
-      return query;
-    }
-    if (params.location === null && params.capacity === null && params.facilities) {
-      query = {
-        facilities: {
-          [Op.contains]: params.facilities
-        }
-      };
-      return query;
-    }
-    if (params.location === null && params.capacity && params.facilities === null) {
-      query = {
-        hallCapacity: {
-          [Op.between]: [params.capacity[0], params.capacity[1]]
-        }
-      };
-      return query;
-    }
-    if (params.location && params.capacity === null && params.facilities === null) {
-      query = {
-        stateId: params.location
-      };
-      return query;
-    }
-    query = {
-      hallCapacity: {
-        [Op.between]: [params.capacity[0], params.capacity[1]],
-      },
-      facilities: {
+    if (params.location) query.stateId = params.location;
+    if (params.facilities) {
+      query.facilities = {
         [Op.contains]: params.facilities
-      },
-      stateId: params.location
-    };
+      };
+    }
+    if (params.capacity) {
+      query.hallCapacity = {
+        [Op.between]: [params.capacity[0], params.capacity[1]]
+      };
+    }
     return query;
   }
 
@@ -397,47 +340,41 @@ export default class CenterController {
    */
   static searchCenters(req, res) {
     const query = CenterController.generateQuery(req.body);
-    const limit = 9;
-    let offset = 0;
-    // count all centers that match query and use tota; ammount to determine
-    // number of pages
-    Centers.findAndCountAll({ where: query })
-      .then((centers) => {
-        const { page } = req.body;
-        const pages = Math.ceil(centers.count / limit);
-        offset = limit * (page - 1);
-        Centers.findAll({
-          where: query,
-          attributes: ['id', 'name', 'address', 'image'],
-          limit,
-          offset,
-          include: [{
-            model: model.State,
-            required: true,
-            attributes: ['statName']
-          }, {
-            model: model.User,
-            required: true,
-            attributes: ['username']
-          }]
-        })
-          .then((centersList) => {
-            const response = {
-              centers: centersList,
-              pages,
-              page
-            };
-            return res.status(200).json(response);
+    if (query) {
+      const limit = 9;
+      let offset = 0;
+      // count all centers that match query and use tota; ammount to determine
+      // number of pages
+      Centers.findAndCountAll({ where: query })
+        .then((centers) => {
+          const { page } = req.body;
+          const pages = Math.ceil(centers.count / limit);
+          offset = limit * (page - 1);
+          Centers.findAll({
+            where: query,
+            attributes: ['id', 'name', 'address', 'image'],
+            limit,
+            offset,
+            include: [{
+              model: model.State,
+              required: true,
+              attributes: ['statName']
+            }, {
+              model: model.User,
+              required: true,
+              attributes: ['username']
+            }]
           })
-          .catch(error => res.status(500).json({
-            message: 'Internal Server Error',
-            statusCode: 500
-          }));
-      })
-      .catch(error => res.status(500).json({
-        message: 'Internal Server Error',
-        statusCode: 500
-      }));
+            .then((centersList) => {
+              const response = {
+                centers: centersList,
+                pages,
+                page
+              };
+              return res.status(200).json(response);
+            });
+        });
+    }
   }
 
   /**
@@ -455,10 +392,6 @@ export default class CenterController {
           });
         }
         res.status(200).json(states);
-      })
-      .catch(error => res.status(500).json({
-        message: 'Server Error',
-        statusCode: 500
-      }));
+      });
   }
 }

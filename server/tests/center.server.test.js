@@ -1,20 +1,19 @@
 import chai from 'chai';
-import fs from 'fs';
 import chaiHttp from 'chai-http';
-import faker from 'faker';
-import path from 'path';
 import app from '../server';
-import model from '../models';
-
-console.log(__dirname);
-const should = chai.should();
-const Centers = model.Center;
+import CenterController from '../controllers/center-controller';
 
 chai.use(chaiHttp);
 
 let token;
 let notAdminToken;
 let centerID;
+
+const isLowerCase = (param) => {
+  if (param === param.toLowerCase()) {
+    return param;
+  }
+};
 describe('Testing Api endpoints for centers', () => {
   describe('POST /api/v1/centers', () => {
     it('should return HTTP 200 when email and password are correct', (done) => {
@@ -280,7 +279,6 @@ describe('Testing Api endpoints for centers', () => {
           image: 'test/image/link'
         })
         .end((err, res) => {
-          console.log(res.body);
           res.should.have.status(401);
           res.body.should.be.an('object');
           res.body.should.have.property('message').eql('This user is not an administrator');
@@ -329,8 +327,21 @@ describe('Testing Api endpoints for centers', () => {
     });
   });
 
-  describe('GET /api/v1/centers/:id', () => {
+  describe('GET /api/v1/centers/:centerId', () => {
     // Testing to get all centers
+    it('Should return 404 if centerId is not found', (done) => {
+      chai.request(app)
+        .get(`/api/v1/centers/${-1}/`)
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(404);
+          res.body.should.be.an('object');
+          res.body.should.have.property('message');
+          res.body.message.should.eql('Center Not Found');
+          done();
+        });
+    });
+
     it('Should return 200 with center object requested for', (done) => {
       chai.request(app)
         .get(`/api/v1/centers/${centerID}/`)
@@ -345,6 +356,52 @@ describe('Testing Api endpoints for centers', () => {
 
 
   describe('PUT /api/v1/centers/:id', () => {
+    it('Should return 404 if center is not found', (done) => {
+      chai.request(app)
+        .put(`/api/v1/centers/${-1}/`)
+        .set('x-access-token', token)
+        .send({
+          name: 'The power space',
+          stateId: 1,
+          address: '7, abc avenue, ikeja',
+          hallCapacity: '600',
+          carParkCapacity: '200',
+          facilities: 'swimming pool, projectors, cctv, vip lounges',
+          price: '1200000'
+        })
+        .end((err, res) => {
+          res.should.have.status(404);
+          res.body.should.be.an('object');
+          res.body.should.have.property('message');
+          res.body.message.should.eql('center does not exist');
+          done();
+        });
+    });
+
+    it('Should return 500 if centerId is not a number', (done) => {
+      chai.request(app)
+        .put(`/api/v1/centers/${undefined}/`)
+        .set('x-access-token', token)
+        .send({
+          name: 'The power space',
+          stateId: 1,
+          address: '7, abc avenue, ikeja',
+          hallCapacity: '600',
+          carParkCapacity: '200',
+          facilities: 'swimming pool, projectors, cctv, vip lounges',
+          price: '1200000'
+        })
+        .end((err, res) => {
+          res.should.have.status(500);
+          res.body.should.be.an('object');
+          res.body.should.have.property('message');
+          res.body.should.have.property('statusCode');
+          res.body.message.should.eql('Internal Server Error');
+          res.body.statusCode.should.eql(500);
+          done();
+        });
+    });
+
     it('Should return 200 with modified center', (done) => {
       chai.request(app)
         .put(`/api/v1/centers/${centerID}/`)
@@ -381,7 +438,7 @@ describe('Testing Api endpoints for centers', () => {
         });
     });
 
-    it('Should return 200 with modified center', (done) => {
+    it('Should return 200 if center is deleted', (done) => {
       chai.request(app)
         .delete(`/api/v1/centers/${centerID}/`)
         .set('x-access-token', token)
@@ -393,13 +450,97 @@ describe('Testing Api endpoints for centers', () => {
         });
     });
 
-    fs.readdir(path.resolve(__dirname, '../public/uploads'), (err, files) => {
-      if (err) throw err;
-      for (const file of files) {
-        fs.unlink(path.join(path.resolve(__dirname, '../public/uploads'), file), (err) => {
-          if (err) throw err;
+    it('Should return 500 if centerId not a number', (done) => {
+      chai.request(app)
+        .delete(`/api/v1/centers/${undefined}/`)
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(500);
+          res.body.should.be.an('object');
+          res.body.should.have.property('message');
+          res.body.should.have.property('statusCode');
+          res.body.message.should.eql('Internal Server Error');
+          res.body.statusCode.should.eql(500);
+          done();
         });
-      }
     });
   });
 });
+
+describe('Testing API endpoint for states', () => {
+  it('should a list of states', (done) => {
+    chai.request(app)
+      .get('/api/v1/states')
+      .then((res) => {
+        res.should.have.status(200);
+        res.body.should.be.an('array');
+        res.body.length.should.eql(37);
+        done();
+      });
+  });
+});
+
+describe('Testing Center Controller Utitlity Methods', () => {
+  describe('Testing handle facilities function in center ceontroller', () => {
+    it('should return an array of lowercase strings if input is an array', (done) => {
+      const testInput = ['Test', 'Is', 'All', 'That', 'Matters'];
+      const result = CenterController.handleFacilities(testInput);
+      const lowerCaseArr = result.filter(isLowerCase);
+      result.should.be.an('array');
+      lowerCaseArr.length.should.be.eql(result.length);
+      done();
+    });
+
+    it('should return an array of lowercase strings if input is a string', (done) => {
+      const testInput = 'Test, Is, All, That, Matters';
+      const result = CenterController.handleFacilities(testInput);
+      const lowerCaseArr = result.filter(isLowerCase);
+      result.should.be.an('array');
+      lowerCaseArr.length.should.be.eql(result.length);
+      done();
+    });
+
+    it('should return "Invalid facilities input" if input is not an array or string', (done) => {
+      const testInput = 1000000;
+      const result = CenterController.handleFacilities(testInput);
+      result.should.be.a('string');
+      result.should.be.eql('invaild facilities input');
+      done();
+    });
+  });
+
+  describe('Testing search center query generator', () => {
+    it('Should return an object with stateId field if input has location property', (done) => {
+      const param = {
+        location: 25,
+      };
+      const query = CenterController.generateQuery(param);
+      query.should.be.an('object');
+      query.should.have.property('stateId');
+      done();
+    });
+
+    it('Should return an object with facilities field if input has facilities property', (done) => {
+      const param = {
+        facilities: ['media support', 'cctv', 'security'],
+      };
+      const query = CenterController.generateQuery(param);
+      query.should.be.an('object');
+      query.should.have.property('facilities');
+      query.facilities.should.be.an('object');
+      done();
+    });
+
+    it('Should return an object with facilities field if input has facilities property', (done) => {
+      const param = {
+        capacity: [500, 1000],
+      };
+      const query = CenterController.generateQuery(param);
+      query.should.be.an('object');
+      query.should.have.property('hallCapacity');
+      query.hallCapacity.should.be.an('object');
+      done();
+    });
+  });
+});
+

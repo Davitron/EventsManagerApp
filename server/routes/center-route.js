@@ -1,4 +1,3 @@
-import express from 'express';
 import multipart from 'connect-multiparty';
 import path from 'path';
 import CenterController from '../controllers/center-controller';

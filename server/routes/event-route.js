@@ -1,4 +1,3 @@
-import express from 'express';
 import EventController from '../controllers/event-controller';
 import Security from '../middlewares/security';
 

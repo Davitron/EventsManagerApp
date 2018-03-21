@@ -92,7 +92,6 @@ export default class UserController {
    */
   static authenticate(req, res) {
     const validate = new validator(req.body, existingUserRules);
-    console.log('users', Users);
     // check validation compliance
     if (validate.passes()) {
       return Users.findOne({
@@ -216,34 +215,34 @@ export default class UserController {
       .then((user) => {
         if (user) {
           const token = jwt.sign({ id: user.id, email: user.email }, process.env.SECRET_KEY, { expiresIn: '15m' });
-          const message = `<p>Welcome ${user.username}.</p><br/>
-          <p>Click the link below to reset your password</p><br />
-          <a href="http://event-manager-andela.herokuapp.com/reset-password?token=${token}">Reset Password</a><br/>
-          This link expires in 15 mins`;
-          const mailBody = {
-            from: 'matthews.segunapp@gmail.com',
-            to: user.email,
-            subject: 'Password Reset Link',
-            html: message
-          };
-          const mailer = new Mailer();
-          if (mailer.isMailSent(mailBody)) {
-            res.status(500).json({
-              message: 'Oops!, an error has occured',
-              statusCode: 500
-            });
-          } else {
-            res.status(200).json({
-              message: 'Password reset link is sent',
-              statusCode: 200
-            });
-          }
+          const message = messageBody.resetPassword(user.username, token);
+          mailer.sendMail(user.email, message, 'Password Reset Link');
+          return res.status(200).json({ message: 'Password reset link is sent', statusCode: 200 });
+          // const message = `<p>Welcome ${user.username}.</p><br/>
+          // <p>Click the link below to reset your password</p><br />
+          // <a href="http://event-manager-andela.herokuapp.com/reset-password?token=${token}">Reset Password</a><br/>
+          // This link expires in 15 mins`;
+          // const mailBody = {
+          //   from: 'matthews.segunapp@gmail.com',
+          //   to: user.email,
+          //   subject: 'Password Reset Link',
+          //   html: message
+          // };
+          // const mailer = new Mailer();
+          // if (mailer.isMailSent(mailBody)) {
+          //   res.status(500).json({
+          //     message: 'Oops!, an error has occured',
+          //     statusCode: 500
+          //   });
+          // } else {
+          //   res.status(200).json({
+          //     message: 'Password reset link is sent',
+          //     statusCode: 200
+          //   });
+          // }
         }
       })
-      .catch(err => res.status(500).json({
-        message: 'Oops!, an error has occured',
-        error: err.name
-      }));
+      .catch(err => res.status(500).json({ message: 'Oops!, an error has occured', error: err.name }));
   }
 
   /**
@@ -263,18 +262,10 @@ export default class UserController {
           password: bcrypt.hashSync(req.body.password, 10)
         })
           .then(() => {
-            res.status(200).json({
-              message: 'Password reset successful. Now redirecting....'
-            });
+            res.status(200).json({ message: 'Password reset successful. Now redirecting....' });
           })
-          .catch(err => res.status(500).json({
-            message: 'Oops!, an error has occured',
-            error: err.name
-          }));
+          .catch(err => res.status(500).json({ message: 'Oops!, an error has occured', error: err.name }));
       })
-      .catch(err => res.status(500).json({
-        message: 'Oops!, an error has occured',
-        error: err.name
-      }));
+      .catch(err => res.status(500).json({ message: 'Oops!, an error has occured', error: err.name }));
   }
 }

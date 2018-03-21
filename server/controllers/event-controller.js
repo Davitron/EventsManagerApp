@@ -79,8 +79,7 @@ export default class EventController {
           });
         }
         return null;
-      })
-      .catch(error => res.status(500).json({ message: 'Internal Server Error', statusCode: 500 }));
+      });
   }
 
   /**
@@ -107,11 +106,7 @@ export default class EventController {
           eventId: createdEvent.id,
           statusCode: 201
         });
-      })
-      .catch(error => res.status(500).json({
-        message: 'Internal Server Error',
-        statusCode: 500
-      }));
+      });
   }
 
   /**
@@ -130,31 +125,8 @@ export default class EventController {
       image: req.body.image || event.image,
       status: req.body.status || event.status
     })
-      .then(modifiedEvent => modifiedEvent)
-      .catch(error => res.status(500).json({
-        message: 'Internal Server Error',
-        statusCode: 500
-      }));
+      .then(modifiedEvent => modifiedEvent);
   }
-
-  // /**
-  //  *
-  //  * @param {string} toEmail
-  //  * @param {string} message
-  //  * @param {string} title
-  //  * @returns {*} sends email
-  //  */
-  // static sendMail(toEmail, message, title) {
-  //   // const message = messageBody.eventCreated(req.decoded.username);
-  //   const mailer = new Mailer();
-  //   const mailInfo = {
-  //     from: 'matthews.segunapp@gmail.com',
-  //     to: toEmail,
-  //     subject: title,
-  //     html: message
-  //   };
-  //   return mailer.useNodemailer(mailInfo);
-  // }
 
   /**
    *
@@ -217,11 +189,6 @@ export default class EventController {
           allEvents: events,
           statusCode: 200
         });
-      }).catch((error) => {
-        res.status(500).json({
-          message: 'Internal Server Error',
-          statusCode: 500
-        });
       });
   }
 
@@ -242,12 +209,12 @@ export default class EventController {
       .then((event) => {
         if (!event) {
           return res.status(404).json({
-            message: 'Center Not Found',
+            message: 'Event Not Found',
           });
         }
         return res.status(200).send(event);
       })
-      .catch(error => res.status(500).send(error));
+      .catch(error => res.status(500).send({ message: 'Internal Server Error' }));
   }
 
   /**
@@ -316,9 +283,8 @@ export default class EventController {
         }
         event.destroy()
           .then(() => res.status(200).send({ message: 'Event is successfully  deleted', statusCode: 200 }))
-          .catch(error => res.status(500).json({ error: 'Server Error', statusCode: 500 }));
       })
-      .catch(error => res.status(400).json({ err: error }));
+      .catch(error => res.status(500).json({ message: 'Server Error', statusCode: 500 }));
   }
 
   /**
@@ -329,7 +295,7 @@ export default class EventController {
    */
   static approveEvent(req, res) {
     if (req.decoded.isAdmin === true) {
-      Events.findOne({
+      return Events.findOne({
         where: {
           id: req.params.eventId
         },
@@ -345,6 +311,7 @@ export default class EventController {
         ]
       })
         .then((event) => {
+          if (!event) return res.status(404).json({ message: 'Event not found', statusCode: 404 });
           event.update({
             status: 'accepted'
           })
@@ -353,11 +320,11 @@ export default class EventController {
                 messageBody.eventApproved(event.User.username, event.Center.name, event.startDate);
               mailer.sendMail(event.User.email, message, 'Event Approved');
               return res.status(200).json({ event, message: 'Event Approved', statusCode: 200 });
-            })
-            .catch(error => res.status(500).json({ message: 'Internal Server Error', statusCode: 500 }));
+            });
         })
         .catch(error => res.status(500).json({ message: 'Internal Server Error', statusCode: 500 }));
     }
+    return res.status(401).json({ message: 'This user is not an administrator', statusCode: 401 });
   }
 
   /**
@@ -367,7 +334,7 @@ export default class EventController {
    */
   static rejectEvent(req, res) {
     if (req.decoded.isAdmin === true) {
-      Events.findOne({
+      return Events.findOne({
         where: {
           id: req.params.eventId
         },
@@ -383,6 +350,7 @@ export default class EventController {
         ]
       })
         .then((event) => {
+          if (!event) return res.status(404).json({ message: 'Event not found', statusCode: 404 });
           event.update({
             status: 'rejected'
           })
@@ -390,16 +358,15 @@ export default class EventController {
               const message = messageBody.eventRejected(
                 event.User.username,
                 event.Center.name,
-                event.startDate,
-                req.body.eventDate
+                event.startDate
               );
               mailer.sendMail(event.User.email, message, 'Event Cancelled');
               return res.status(200).json({ event, message: 'Event Cancelled', statusCode: 200 });
             })
-            .catch(error => res.status(500).json({ message: 'Internal Server Error', statusCode: 500 }));
         })
         .catch(error => res.status(500).json({ message: 'Internal Server Error', statusCode: 500 }));
     }
+    return res.status(401).json({ message: 'This user is not an administrator', statusCode: 401 });
   }
 
   /**
@@ -444,7 +411,8 @@ export default class EventController {
         centerId: req.params.centerId,
         startDate: {
           [Sequelize.Op.gt]: new Date()
-        }
+        },
+        status: 'accepted'
       }
     })
       .then((events) => {
