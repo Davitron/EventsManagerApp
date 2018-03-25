@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import shortid from 'shortid';
 import MenuItem from 'material-ui/MenuItem';
-import { Row, Button, Col, Card, CardTitle } from 'react-materialize';
+import { Row, Col, Card, CardTitle, Button } from 'react-materialize';
 import history from '../../helpers/history';
 import Header from '../header';
 import Loader from '../reusables/loader';
@@ -87,7 +87,6 @@ class CenterResults extends Component {
   */
   onChange(event) {
     const { name, value } = event.target;
-    console.log(value);
     const { searchQuery } = this.state;
     this.setState({
       searchQuery: {
@@ -219,12 +218,13 @@ class CenterResults extends Component {
                   {centers !== null &&
                     centers.map(center => (
                       <Card
-                        header={<CardTitle reveal image={center.image || '/image/banner4.jpg'} waves="light" />}
+                        header={<CardTitle image={center.image || '/image/banner4.jpg'} waves="light" />}
                         title={center.name}
-                        className="cardText card"
+                        className="cardText card hoverable"
                         key={shortid.generate()}
+                        onClick={() => { history.push(`/centers/${center.id}`); }}
                       >
-                        <p><a onClick={() => this.handleOpen((center.id))}>Book this center</a></p>
+                        <p><a role="link" tabIndex="-1" onClick={() => this.handleOpen((center.id))}>Book this center</a></p>
                       </Card>
                     ))
                   }

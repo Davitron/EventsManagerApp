@@ -5,9 +5,8 @@ import Dispatcher from '../helpers/dispatch';
 import Logger from '../helpers/logger';
 import Toast from '../helpers/toast';
 import history from '../helpers/history';
+import imageUpload from '../helpers/image-upload';
 
-const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/eventsmanager/upload';
-const CLOUDINARY_UPLOAD_PRESET = 'uq5d6tkk';
 const CENTER_BASE_URL = '/api/v1/centers';
 
 
@@ -18,21 +17,6 @@ const cookies = new Cookies();
  *
  */
 export default class CenterActions {
-  /**
-   *
-   * @param {object} centerData - Image to be uploaded
-   * @returns {object} - cloudinary api response
-   */
-  static handleImageUpload(file) {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-    return axios.post(CLOUDINARY_URL, formData)
-      .then((response) => {
-        return response.data.url;
-      })
-      .catch(error => error.response);
-  }
   /**
    *@returns {*}
    * this action is handles fetching all centers
@@ -116,12 +100,12 @@ export default class CenterActions {
    *@returns {*}
    * this action is handles creating a center
    */
-  static createCenter(newCenter, imageUrl) {
+  static createCenter(newCenter) {
     const token = cookies.get('jwt-events-manager');
     const facilitiesString = newCenter.facilities.join();
     return (dispatch) => {
       dispatch(Dispatcher.action(mainActionType.CREATE_REQUEST, newCenter));
-      CenterActions.handleImageUpload(newCenter.image)
+      imageUpload(newCenter.image)
         .then((imageUrl) => {
           newCenter.image = imageUrl;
           newCenter.facilities = facilitiesString;
@@ -190,7 +174,7 @@ export default class CenterActions {
     return (dispatch) => {
       dispatch(Dispatcher.action(mainActionType.UPDATE_REQUEST, centerObj));
       if (centerObj.image !== centerObj.newImage) {
-        CenterActions.handleImageUpload(centerObj.newImage)
+        imageUpload(centerObj.newImage)
           .then((imageUrl) => {
             centerObj.image = imageUrl;
             CenterActions.handleCenterUpdate(centerObj)
@@ -236,7 +220,6 @@ export default class CenterActions {
         data: param
       })
         .then((response) => {
-          console.log(response)
           dispatch(Dispatcher.action(mainActionType.SEARCH_SUCCESS, response.data));
         })
         .catch((error) => {

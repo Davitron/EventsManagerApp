@@ -553,7 +553,6 @@ describe('PUT /api/v1/events/reject/:eventId for aproving events', () => {
         done();
       });
   });
-  
   it('Should return 404 if event is not found', (done) => {
     chai.request(app)
       .put(`/api/v1/events/reject/${-1}`)

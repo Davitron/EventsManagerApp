@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import moment from 'moment';
 import debounce from 'throttle-debounce/debounce';
+import shortid from 'shortid';
 import PropTypes from 'prop-types';
 import swal from 'sweetalert2';
-import { Input, Icon } from 'react-materialize';
+import { Input, Icon, Row, Col, Card, CardTitle } from 'react-materialize';
 import Pagination from '../reusables/pagination';
 import Loader from '../reusables/loader';
 import EventActions from '../../actions/event-action';
@@ -107,9 +109,9 @@ class Event extends Component {
    * @returns {*} style class for status
    */
   handleStatusClass = (status) => {
-    if (status === 'pending') return 'chip orange';
-    if (status === 'accepted') return 'chip cyan';
-    if (status === 'rejected') return 'chip red';
+    if (status === 'pending') return 'orange-text';
+    if (status === 'accepted') return 'cyan-text';
+    if (status === 'rejected') return 'red-text';
   }
 
   /**
@@ -117,17 +119,7 @@ class Event extends Component {
    * @returns {*} update event modal
    */
   handleOpen = (eventId) => {
-    const { pageOfItems } = this.state;
-    const event = pageOfItems.find(x => x.id === eventId);
-    history.push('/update-event', {
-      event,
-    });
-  };
-
-  handleModalClose = () => {
-    this.setState({
-      loading: true
-    });
+    history.push(`/update-event/${eventId}`);
   };
 
   /**
@@ -179,16 +171,6 @@ class Event extends Component {
   }
 
   /**
-   * @param {*} event
-   * @returns {*} triggers when key is pressed
-   */
-  handleKeyDown(event) {
-    if (event.keyCode === 13) {
-      this.triggerSearch();
-    }
-  }
-
-  /**
  *@returns {*} event for sortin
  */
   render() {
@@ -214,7 +196,72 @@ class Event extends Component {
           overflow: 'auto'
         }}
         >
-          <div className={['container', 'animated', 'bounceInRight'].join(' ')} style={{ paddingTop: '100px' }}>
+          <div className={['container', 'animated', 'bounceInRight'].join(' ')} style={{ marginTop: '64px' }}>
+            <div className={['row', 'center'].join(' ')} />
+            <div className={['col', 's12', 'm8', 'l12'].join(' ')}>
+              <div className="row">
+                <h3 className={['title', 'col', 's6', 'black-text'].join(' ')}>
+                  My Events
+                  {loading === true && <Loader />}
+                </h3>
+              </div>
+              <Row>
+                <Col s={12} className="cards-container">
+                  {pageOfItems !== null &&
+                    pageOfItems.map(event => (
+                      <Card
+                        header={<CardTitle image={event.image || '/images/banner4.jpg'} waves="light" />}
+                        title={event.eventName}
+                        className="cardText card hoverable"
+                        key={shortid.generate()}
+                      >
+                        <p>{moment(event.startDate).format('MMMM Do YYYY')} - {moment(event.endDate).format('MMMM Do YYYY')}</p>
+                        <span>{event.Center.name}</span><br />
+                        <span className={this.handleStatusClass(event.status)}>
+                          {event.status}
+                          <i role="button" tabIndex="-1" className=" material-icons delete right" onClick={() => { this.handleDelete(event.id); }}>delete</i>
+                          <i role="button" tabIndex="-1" className=" material-icons edit right" onClick={() => { this.handleOpen(event.id); }}>mode_edit</i>
+                        </span>
+                      </Card>
+                    ))
+                  }
+                </Col>
+              </Row>
+            </div>
+            <Pagination items={data} onChangePage={this.onChangePage} itemsPerPage={9} />
+          </div>
+          {/* <div className={['container', 'animated', 'bounceInRight'].join(' ')} style={{ marginTop: '64px' }}>
+            <div className={['row', 'center'].join(' ')} />
+            <div className={['col', 's12', 'm8', 'l12'].join(' ')}>
+              <div className="row">
+                <h3 className={['white-text', 'title', 'col', 's6'].join(' ')}>
+                  Centers
+                  {loading === true && <Loader />}
+                </h3>
+              </div>
+              <Row>
+                <Col s={12} className="cards-container">
+                  {centers !== null &&
+                    centers.map(center => (
+                      <Card
+                        header={<CardTitle reveal image={center.image || '/image/banner4.jpg'} waves="light" />}
+                        title={center.name}
+                        className="cardText card"
+                        key={shortid.generate()}
+                      >
+                        <p><a onClick={() => this.handleOpen((center.id))}>Book this center</a></p>
+                      </Card>
+                    ))
+                  }
+                </Col>
+              </Row>
+              <Row className="center">
+                <button onClick={this.toPrevPage} disabled={currentPage === 1} className={['waves-effect', 'animated', 'bounceInUp', 'btn', 'btn-large'].join(' ')}>Prev</button>
+                <button onClick={this.toNextPage} disabled={currentPage === totalPages} className={['waves-effect', 'animated', 'bounceInUp', 'btn', 'btn-large'].join(' ')}>Next</button>
+              </Row>
+            </div>
+          </div> */}
+          {/* <div className={['container', 'animated', 'bounceInRight'].join(' ')} style={{ paddingTop: '100px' }}>
             <div className={['row', 'event'].join(' ')} />
             <div className={['col', 's12', 'm8', 'l12'].join(' ')}>
               <div className={['card-panel', 'white'].join(' ')}>
@@ -277,10 +324,8 @@ class Event extends Component {
                 />
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
-        {/* <UpdateEventModal selectedEvent={selectedEvent} />
-        <DeleteEventModal eventId={this.state.event_Id} /> */}
       </div>
     );
   }

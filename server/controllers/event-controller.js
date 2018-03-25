@@ -204,7 +204,7 @@ export default class EventController {
         id: req.params.eventId,
         userId: req.decoded.id
       },
-      attributes: ['id', 'eventName', 'startDate', 'endDate', 'image', 'status']
+      attributes: ['id', 'eventName', 'startDate', 'days', 'endDate', 'centerId', 'image', 'status']
     })
       .then((event) => {
         if (!event) {
@@ -212,7 +212,7 @@ export default class EventController {
             message: 'Event Not Found',
           });
         }
-        return res.status(200).send(event);
+        return res.status(200).json({ event });
       })
       .catch(error => res.status(500).send({ message: 'Internal Server Error' }));
   }
@@ -282,7 +282,7 @@ export default class EventController {
           return res.status(404).json({ message: 'Event does not exist' });
         }
         event.destroy()
-          .then(() => res.status(200).send({ message: 'Event is successfully  deleted', statusCode: 200 }))
+          .then(() => res.status(200).send({ message: 'Event is successfully  deleted', statusCode: 200 }));
       })
       .catch(error => res.status(500).json({ message: 'Server Error', statusCode: 500 }));
   }
@@ -362,7 +362,7 @@ export default class EventController {
               );
               mailer.sendMail(event.User.email, message, 'Event Cancelled');
               return res.status(200).json({ event, message: 'Event Cancelled', statusCode: 200 });
-            })
+            });
         })
         .catch(error => res.status(500).json({ message: 'Internal Server Error', statusCode: 500 }));
     }

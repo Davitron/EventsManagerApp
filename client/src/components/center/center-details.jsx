@@ -23,7 +23,7 @@ class CenterDetails extends Component {
     this.state = {
       center: {},
       facilityList: []
-    }
+    };
     this.renderFacilities = this.renderFacilities.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleDelete = this.handleDelete.bind(this);

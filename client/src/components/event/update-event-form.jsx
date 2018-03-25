@@ -3,9 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Input, Row } from 'react-materialize';
 import PropTypes from 'prop-types';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
 import EventActions from '../../actions/event-action';
 import Header from '../header';
 import history from '../../helpers/history';
@@ -15,13 +12,15 @@ import Loader from '../reusables/loader';
 
 
 const propTypes = {
-  updateEvent: PropTypes.func.isRequired,
-  stateProps: PropTypes.objectOf(() => null),
-  location: PropTypes.objectOf(() => null).isRequired
+  updateEvent: PropTypes.func,
+  getEvent: PropTypes.func.isRequired,
+  match: PropTypes.objectOf(() => null).isRequired,
+  stateProps: PropTypes.objectOf(() => null)
 };
 
 const defaultProps = {
-  stateProps: {}
+  stateProps: {},
+  updateEvent: EventActions.updateEvent
 };
 /**
  *component for create event modal
@@ -37,7 +36,6 @@ class UpdateEventForm extends Component {
       event: {},
       errors: {},
       loading: false,
-      message: ''
     };
 
     this.onChange = this.onChange.bind(this);
@@ -50,16 +48,9 @@ class UpdateEventForm extends Component {
    * @returns {*} set value of props to event on initial render
    */
   componentWillMount() {
-    const { event } = this.props.location.state;
-    this.setState({
-      event: {
-        id: event.id,
-        eventName: event.eventName,
-        startDate: this.formatDate(event.startDate),
-        days: event.days.toString(),
-        centerId: event.centerId.toString()
-      }
-    });
+    const { getEvent } = this.props;
+    const { eventId } = this.props.match.params;
+    getEvent(eventId);
   }
 
   /**
@@ -68,21 +59,46 @@ class UpdateEventForm extends Component {
    * @returns {*} to set state when props changes
    */
   componentWillReceiveProps(nextProps) {
-    const { message } = this.state;
-    console.log(nextProps);
-    const { data, status } = nextProps.stateProps.stateProps;
-    if (status === 'success') {
+    const { updateEvent, getEvent } = nextProps.stateProps;
+    if (updateEvent.status === 'success') {
+      this.setState({ loading: false });
+      history.push('/centers');
+    }
+    if (getEvent.data) {
+      
+      const { event } = getEvent.data;
       this.setState({
         loading: false,
         event: {
-          eventName: '',
-          startDate: '',
-          days: '',
-          centerId: '',
+          eventName: event.eventName,
+          startDate: this.formatDate(event.startDate),
+          days: event.days.toString(),
+          centerId: event.centerId.toString(),
         }
+      }, () => {
+        console.log(this.state.event);
       });
-      history.push('/events');
     }
+    if (updateEvent.data === 'failed') {
+      this.setState({
+        loading: false
+      });
+    }
+    // const { message } = this.state;
+    // console.log(nextProps);
+    // const { data, status } = nextProps.stateProps.stateProps;
+    // if (status === 'success') {
+    //   this.setState({
+    //     loading: false,
+    //     event: {
+    //       eventName: '',
+    //       startDate: '',
+    //       days: '',
+    //       centerId: '',
+    //     }
+    //   });
+    //   history.push('/events');
+    // }
   }
 
   /**
@@ -164,20 +180,6 @@ class UpdateEventForm extends Component {
     history.goBack();
   }
 
-  // /**
-  //  *@returns {*} check if form imputs are valid
-  //  */
-  // isValid() {
-  //   let validity = true;
-  //   const formValidator = new FormValidator();
-  //   const { errors, isValid } = formValidator.validateEventInput(this.state.event);
-  //   if (isValid === false) {
-  //     this.setState({ errors });
-  //     validity = false;
-  //     return validity;
-  //   }
-  //   return validity;
-  // }
 
   /**
   *@param {*} date
@@ -237,7 +239,7 @@ class UpdateEventForm extends Component {
                       <Input
                         s={12}
                         name="eventName"
-                        defaultValue={event.eventName}
+                        value={!event.eventName ? '' : event.eventName}
                         onChange={this.onChange}
                         label="Event Name"
                         labelClassName={event.eventName && 'active'}
@@ -247,7 +249,7 @@ class UpdateEventForm extends Component {
                       <Input
                         s={12}
                         name="startDate"
-                        defaultValue={event.startDate}
+                        value={!event.startDate ? '' : event.startDate}
                         type="date"
                         onChange={this.onDateChange}
                         label="Start Date"
@@ -259,7 +261,7 @@ class UpdateEventForm extends Component {
                         s={12}
                         name="days"
                         type="number"
-                        defaultValue={event.days}
+                        value={!event.days ? '' : event.days}
                         onChange={this.onChange}
                         label="Days"
                         labelClassName={event.days && 'active'}
@@ -292,13 +294,14 @@ UpdateEventForm.defaultProps = defaultProps;
 
 const matchStateToProps = state => ({
   stateProps: {
-    stateProps: state.update
+    updateEvent: state.update,
+    getEvent: state.get
   }
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   updateEvent: EventActions.updateEvent,
-  getEvents: EventActions.getAll
+  getEvent: EventActions.getEvent
 }, dispatch);
 
 export default connect(matchStateToProps, mapDispatchToProps)(UpdateEventForm);

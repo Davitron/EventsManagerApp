@@ -1,9 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { Router, Route, Switch, Redirect } from 'react-router';
+import { Router, Route, Switch } from 'react-router';
 import history from '../helpers/history';
-import '../style.scss';
 import Home from './home';
 import Register from './authentication/register';
 import Login from './authentication/login';
@@ -25,6 +22,7 @@ import NotFound from './notFound';
 import CenterDetails from './center/center-details';
 import UserRoute from '../helpers/user-route';
 import AdminRoute from '../helpers/admin-route';
+import '../style.scss';
 
 const App = () => (
   <Router history={history}>
@@ -45,7 +43,7 @@ const App = () => (
         <AdminRoute exact path="/create-center" component={CreateCenterForm} redirectPath="/login" />
         <AdminRoute path="/update-center/:centerId" component={UpdateCenterForm} redirectPath="/login" />
         <UserRoute exact path="/create-event" component={CreateEventForm} redirectPath="/login" />
-        <UserRoute exact path="/update-event" component={UpdateEventForm} redirectPath="/login" />
+        <UserRoute exact path="/update-event/:eventId" component={UpdateEventForm} redirectPath="/login" />
         <AdminRoute path="/pending-events/:centerId" component={PendingEvent} redirectPath="/login" />
         <Route path="/upcoming-events/:centerId" component={UpcomingEvent} />
         <Route component={NotFound} />

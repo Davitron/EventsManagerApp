@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux';
 import debounce from 'throttle-debounce/debounce';
 import PropTypes from 'prop-types';
 import { Input, Icon } from 'react-materialize';
-import swal from 'sweetalert2';
 import Pagination from '../reusables/pagination';
 import Loader from '../reusables/loader';
 import CenterActions from '../../actions/center-action';
@@ -13,7 +12,9 @@ import Header from '../header';
 import history from '../../helpers/history';
 
 /**
- * @returns {*} Centers Component
+ * Center Component
+ * @class
+ * @extends Component
  */
 class Center extends Component {
   /**
@@ -25,21 +26,16 @@ class Center extends Component {
       data: [],
       searchNotfound: '',
       pageOfItems: [],
-      selectedCenter: {},
-      center_Id: undefined,
       loading: true,
-      message: ''
+      itemsPerPage: 7
     };
-
     this.handleSearch = this.handleSearch.bind(this);
     this.onChangePage = this.onChangePage.bind(this);
     this.triggerSearch = debounce(100, this.triggerSearch);
-    this.handleOpen = this.handleOpen.bind(this);
-    this.handleCreate = this.handleCreate.bind(this);
   }
 
   /**
-   *@returns {*} fetches all centers
+   *@returns {object} fetches all centers
    */
   componentWillMount() {
     // CenterActions.getAll()
@@ -52,82 +48,36 @@ class Center extends Component {
    * @returns {*} change state if new prop is recieved
    */
   componentWillReceiveProps(nextProps) {
-    const { centers, deleteCenter } = nextProps.stateProps;
-    const { data, message } = this.state;
-    const { getAll } = this.props;
+    const { centers } = nextProps.stateProps;
+    const { data } = this.state;
     if (centers.data && centers.data.allCenters !== data) {
+      const { allCenters } = centers.data;
       this.setState({
-        data: centers.data.allCenters,
+        data: allCenters,
         loading: false,
-        message: ''
       });
     }
-
-    // if (deleteCenter.data !== message && deleteCenter.data) {
-    //   this.setState({
-    //     message: deleteCenter.data
-    //   });
-    //   getAll();
-    // }
   }
 
-  /**
-   *
-   * @param {*} pageOfItems
-   * @returns {*} newPage
-   */
+/**
+ *
+ * @param {*} pageOfItems
+ * @returns {*} -
+ */
   onChangePage(pageOfItems) {
-    const { stateProps } = this.props;
-    // update state with new page of items
-    if (pageOfItems) {
-      this.setState({ pageOfItems });
-    } else {
-      this.setState({ pageOfItems: stateProps });
-    }
+    this.setState({ pageOfItems });
   }
+
 
   /**
    *@param {*} event
   *@returns {*} updates state.search with search parameters
   */
   handleSearch(event) {
-    clearTimeout(this.state.loadTimeOut);
     const { value } = event.target;
-    const { stateProps } = this.props;
-    this.triggerSearch(value, stateProps.centers.data);
+    const { data } = this.state;
+    this.triggerSearch(value, data);
   }
-
-  /**
-   * @param {*} centerId
-   * @returns {*} update center modal
-   */
-  handleOpen = (centerId) => {
-    const { pageOfItems } = this.state;
-    const center = pageOfItems.find(x => x.id === centerId);
-    history.push(`/update-center/${centerId}`);
-  };
-
-
-  // /**
-  //  * @param {*} centerId
-  //  * @returns {*} update center modal
-  //  */
-  // handleDelete = (centerId) => {
-  //   const { deleteCenter } = this.props;
-  //   swal({
-  //     title: 'Are you sure?',
-  //     text: "You won't be able to revert this!",
-  //     type: 'warning',
-  //     showCancelButton: true,
-  //     confirmButtonColor: '#032958',
-  //     cancelButtonColor: '#d33',
-  //     confirmButtonText: 'Yes, delete it!'
-  //   }).then((result) => {
-  //     if (result.value) {
-  //       deleteCenter(centerId);
-  //     }
-  //   });
-  // };
 
   /**
    *
@@ -136,7 +86,7 @@ class Center extends Component {
    * @returns {*} trrigers onchange of search input
    */
   triggerSearch(value, data) {
-    const { stateProps } = this.props;
+    const { allCenters } = this.props.stateProps.centers.data;
     if (value.length > 0) {
       const newItems = data.filter(item =>
         item.name.toLowerCase().includes(value.toLowerCase()));
@@ -146,23 +96,12 @@ class Center extends Component {
           searchNotfound: '',
         });
       } else {
-        this.setState({ searchNotfound: 'no center matches this query' });
+        this.setState({ searchNotfound: 'Oops!, no center matches this query' });
       }
     } else {
-      this.setState({ data: stateProps.centers.data });
+      this.setState({ data: allCenters });
     }
   }
-
-
-  // /**
-  //  * @param {*} event
-  //  * @returns {*} triggers when key is pressed
-  //  */
-  // handleKeyDown(event) {
-  //   if (event.keyCode === 13) {
-  //     this.triggerSearch();
-  //   }
-  // }
 
   /**
    * @param {*} event
@@ -181,7 +120,7 @@ class Center extends Component {
       searchNotfound,
       pageOfItems,
       loading,
-      selectedCenter,
+      itemsPerPage
       // openUpdateModal
     } = this.state;
 
@@ -208,15 +147,13 @@ class Center extends Component {
                     Centers
                     {loading === true && <Loader />}
                   </h4>
-                  {!searchNotfound.length || <p className="red-text">{searchNotfound}</p>}
+                  {!searchNotfound.length || <p className="red-text">{searchNotfound}</p>} 
                   <Input
                     s={6}
                     type="text"
-                    label="Search...."
+                    label="Filter by name"
                     validate
                     onChange={this.handleSearch}
-                    onKeyDown={this.handleKeyDown}
-                    ref={(searchField) => { this.node = searchField; }}
                   >
                     <Icon>search</Icon>
                   </Input>
@@ -236,7 +173,7 @@ class Center extends Component {
                           <td>{item.name}</td>
                           <td>{item.State.statName}</td>
                           <td>
-                            <Link className="waves-effect waves-light  btn action-button" to={`/centers/${item.id}`}><i className=" material-icons">menu</i></Link>
+                            <Link to={`/centers/${item.id}`}><i className=" material-icons">menu</i></Link>
                           </td>
                         </tr>))
                     }
@@ -247,12 +184,7 @@ class Center extends Component {
                     <i className="material-icons">add</i>
                   </Link>
                 </div>
-                <Pagination
-                  items={
-                    data
-                  }
-                  onChangePage={this.onChangePage}
-                />
+                <Pagination items={data} onChangePage={this.onChangePage} />
               </div>
             </div>
           </div>
@@ -278,13 +210,11 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 Center.propTypes = {
   stateProps: PropTypes.objectOf(() => null),
   getAll: PropTypes.func,
-  deleteCenter: PropTypes.func,
 };
 
 Center.defaultProps = {
   stateProps: {},
   getAll: CenterActions.getAll,
-  deleteCenter: CenterActions.deleteCenter
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Center);

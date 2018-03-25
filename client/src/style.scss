@@ -267,6 +267,16 @@ i.icon-grey {
   }
 }
 
+.pagination li.active {
+  background-color: #032958 !important;
+}
+
+.pagination { 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 
 
 @media only screen and (min-width: 601px) {
@@ -286,7 +296,24 @@ i.icon-grey {
 }
 
 
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
 
+.edit {
+  color: #032958 !important;
+}
+
+.delete {
+  color: red !important;
+}
+
+.dropdown-content li > span {
+  color: #032958 !important;
+}
+
+.card .card-title {
+  font-size: 28px !important;
+  font-weight: 400 !important;
+}
 
 /* 
 .center-modal {

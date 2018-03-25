@@ -1,39 +1,38 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import * as _ from 'lodash';
 
-
 const propTypes = {
-  items: PropTypes.arrayOf(() => null),
+  items: PropTypes.arrayOf(() => null).isRequired,
   onChangePage: PropTypes.func.isRequired,
-  initialPage: PropTypes.number,
-  itemsPerPage: PropTypes.number
+  itemsPerPage: PropTypes.number,
+  initialPage: PropTypes.number
 };
 
 const defaultProps = {
-  initialPage: 1,
-  items: [],
-  itemsPerPage: 7
+  itemsPerPage: 7,
+  initialPage: 1
 };
 
 /**
  *
+ * @extends Component
+ * 
  */
 class Pagination extends Component {
   /**
-   *
+   * @constructor
    * @param {*} props
+   * Initialize state
    */
   constructor(props) {
     super(props);
     this.state = { pager: {} };
   }
 
-
   /**
    *@returns {*} l
-   */
+  */
   componentWillMount() {
     // set page if items array isn't empty
     if (this.props.items && this.props.items.length) {
@@ -49,22 +48,11 @@ class Pagination extends Component {
   }
 
   /**
-   * @param {*} newProps
-   * @param {*} nextState
-   *@returns {*} handle prop changes
-   */
-  componentWillUpdate(newProps, nextState) {
-    if (this.props.itemsPerPage !== newProps.itemsPerPage) {
-      this.setPage(this.props.initialPage);
-    }
-  }
-
-  /**
-   *
-   * @param {*} prevProps
-   * @param {*} prevState
-   * @returns {*} l
-   */
+ *
+ * @param {*} prevProps
+ * @param {*} prevState
+ * @return {*} -
+ */
   componentDidUpdate(prevProps, prevState) {
     // reset page if items array has changed
     if (this.props.items !== prevProps.items) {
@@ -74,53 +62,44 @@ class Pagination extends Component {
 
 
   /**
- *
- * @param {*} page
- * @returns {*} l
- */
+   *
+   * @param {number} page
+   * @returns{*} -
+   */
   setPage(page) {
     const { items } = this.props;
     let { pager } = this.state;
-    if (items === null) return;
-    if (page < 1 || page > pager.totalPages) {
-      return;
-    }
-    // get new pager object for specified page
+    if (page < 1 || page > pager.totalPages) return null;
     pager = this.getPager(items.length, page);
-    // get new page of items from items array
+    // get new page of data
     const pageOfItems = items.slice(pager.startIndex, pager.endIndex + 1);
-    // update state
     this.setState({ pager });
-    // call change page function in parent component
     this.props.onChangePage(pageOfItems);
   }
 
   /**
    *
-   * @param {*} totalItems
-   * @param {*} currentPage
-   * @param {*} pageSize
-   * @returns {*} configures paginator
+   * @param {number} totalItems
+   * @param {number} currentPage
+   * @param {number} pageSize
+   * @returns {object} -
    */
-  getPager(totalItems, currentPage, pageSize) {
+  getPager(totalItems, currentPage) {
     const { itemsPerPage } = this.props;
-    // default to first page
+
     currentPage = currentPage || 1;
+    const pageSize = itemsPerPage;
 
-    // default page size is 10
-    pageSize = itemsPerPage;
-
-    // calculate total pages
+    // get total number of pages
     const totalPages = Math.ceil(totalItems / pageSize);
 
     let startPage;
     let endPage;
+
     if (totalPages <= 10) {
-      // less than 10 total pages so show all
       startPage = 1;
       endPage = totalPages;
     } else {
-      // more than 10 total pages so calculate start and end pages
       if (currentPage <= 6) {
         startPage = 1;
         endPage = 10;
@@ -133,13 +112,13 @@ class Pagination extends Component {
       endPage = currentPage + 4;
     }
 
-    // calculate start and end item indexes
+    // calculate calculate start point to end point
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
 
-    // create an array of pages to ng-repeat in the pager control
+    // to generate page numbers
     const pages = _.range(startPage, endPage + 1);
-    // return object with all pager properties required by the view
+
     return {
       totalItems,
       currentPage,
@@ -166,20 +145,20 @@ class Pagination extends Component {
     return (
       <ul className="pagination">
         <li className={pager.currentPage === 1 ? 'disabled' : ''}>
-          <a className="chip" onClick={() => this.setPage(1)} >First</a>
+          <a role="button" tabIndex="0" className="chip" onClick={() => this.setPage(1)} >First</a>
         </li>
         <li className={pager.currentPage === 1 ? 'disabled' : ''}>
-          <a onClick={() => this.setPage(pager.currentPage - 1)}><i className="material-icons">chevron_left</i></a>
+          <a role="button" tabIndex="0" onClick={() => this.setPage(pager.currentPage - 1)}><i className="material-icons">chevron_left</i></a>
         </li>
         {pager.pages.map((page, index) => (
           <li key={page} className={pager.currentPage === page ? 'active' : ''}>
-            <a onClick={() => this.setPage(page)}>{page}</a>
+            <a role="button" tabIndex="0" onClick={() => this.setPage(page)}>{page}</a>
           </li>))}
         <li className={pager.currentPage === pager.totalPages ? 'disabled' : ''}>
-          <a onClick={() => this.setPage(pager.currentPage + 1)}><i className="material-icons">chevron_right</i></a>
+          <a role="button" tabIndex="0" onClick={() => this.setPage(pager.currentPage + 1)}><i className="material-icons">chevron_right</i></a>
         </li>
         <li className={pager.currentPage === pager.totalPages ? 'disabled' : ''}>
-          <a className="chip" onClick={() => this.setPage(pager.totalPages)}>Last</a>
+          <a role="button" tabIndex="0" className="chip" onClick={() => this.setPage(pager.totalPages)}>Last</a>
         </li>
       </ul>
     );
@@ -189,3 +168,4 @@ class Pagination extends Component {
 Pagination.propTypes = propTypes;
 Pagination.defaultProps = defaultProps;
 export default Pagination;
+

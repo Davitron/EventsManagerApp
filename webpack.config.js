@@ -102,9 +102,6 @@ const path = require('path');
 const webpack = require('webpack');
 const CompressionPlugin = require('compression-webpack-plugin');
 
-const hotPath = path.join(__dirname, 'client', 'public', 'hot');
-
-
 module.exports = {
   devtool: 'eval-source-map',
   entry: [
