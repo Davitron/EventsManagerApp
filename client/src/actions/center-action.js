@@ -33,7 +33,6 @@ export default class CenterActions {
         }
       })
         .then((response) => {
-          console.log(response.data);
           dispatch(Dispatcher.action(mainActionType.GETALL_SUCCESS, response.data));
         })
         .catch((error) => {
@@ -64,7 +63,6 @@ export default class CenterActions {
         })
         .catch((error) => {
           const err = error.response.data;
-          console.log(err);
           dispatch(Dispatcher.action(mainActionType.GET_FAILED, err));
         });
     };
@@ -158,7 +156,7 @@ export default class CenterActions {
       .catch((error) => {
         const { message } = error.response.data;
         Toast.error(message);
-        return message;
+        return error.response.data;
         // dispatch(Dispatcher.action(mainActionType.UPDATE_FAILED, message));
       });
   }
@@ -223,7 +221,6 @@ export default class CenterActions {
           dispatch(Dispatcher.action(mainActionType.SEARCH_SUCCESS, response.data));
         })
         .catch((error) => {
-          console.log(error.response.data);
           dispatch(Dispatcher.action(mainActionType.SEARCH_FAILURE, error.response.data));
         });
     };

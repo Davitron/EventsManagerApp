@@ -326,6 +326,11 @@ class Event extends Component {
             </div>
           </div> */}
         </div>
+        <div className={['fixed-action-btn', 'click-to-toggle', 'spin-close'].join(' ')}>
+          <Link className={['btn-floating', 'btn-large', 'waves-effect', 'waves-light', 'action-button'].join(' ')} to="/center-search">
+            <i className="material-icons">add</i>
+          </Link>
+        </div>
       </div>
     );
   }

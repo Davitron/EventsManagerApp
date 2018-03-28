@@ -19,7 +19,7 @@ const cookies = new Cookies();
  */
 export default class EventActions {
   /**
-   *@returns {*}
+   *@returns {void}
    * this action is handles fetching all events
    */
   static getAll() {
@@ -45,9 +45,9 @@ export default class EventActions {
   }
 
   /**
-   *@param {*} eventId - The Id of the center to fetch
-   *@returns {*}
-   * this action is handles fetching all events
+   *@param {number} eventId - The Id of the center to fetch
+   *@returns {void}
+   *
    */
   static getEvent(eventId) {
     const token = cookies.get('jwt-events-manager');
@@ -72,9 +72,9 @@ export default class EventActions {
   }
 
   /**
-   *@param {*} centerId
-   *@returns {*}
-   * this action is handles fetching all events
+   *@param {number} centerId
+   *@returns {void}
+   *
    */
   static getPendingEvent(centerId) {
     return (dispatch) => {
@@ -101,9 +101,8 @@ export default class EventActions {
   }
 
   /**
-   *@param {*} centerId
-   *@returns {*}
-   * this action is handles fetching all events
+   *@param {number} centerId
+   *@returns {void}
    */
   static getUpcomingEvent(centerId) {
     const token = cookies.get('jwt-events-manager');
@@ -126,52 +125,69 @@ export default class EventActions {
     };
   }
 
+  /**
+   *
+   * @param {object} event
+   * @param {string} token
+   * @param {function} dispatch
+   * @return {void}
+   */
+  static handleCreateEvent(event, token, dispatch) {
+    dispatch(Dispatcher.action(mainActionType.CREATE_REQUEST, event));
+    axios({
+      method: 'POST',
+      url: '/api/v1/events',
+      headers: {
+        'x-access-token': token
+      },
+      data: event
+    })
+      .then((response) => {
+        const { message } = response.data;
+        dispatch(Dispatcher.action(mainActionType.CREATE_SUCCESS, message));
+        Toast.success(message);
+      })
+      .catch((error) => {
+        const { message } = error.response.data;
+        dispatch(Dispatcher.action(mainActionType.CREATE_FAILED, message));
+        Toast.error(message);
+      });
+  }
+
 
   /**
    *
-   * @param {*} newEvent
-   *@returns {*}
-   * this action is handles creating a event
+   * @param {object} newEvent
+   * @returns {void}
+   *
    */
   static createEvent(newEvent) {
     const token = cookies.get('jwt-events-manager');
     return (dispatch) => {
-      dispatch(Dispatcher.action(mainActionType.CREATE_REQUEST, newEvent));
-      imageUpload(newEvent.image)
-        .then((imageUrl) => {
-          newEvent.image = imageUrl;
-          axios({
-            method: 'POST',
-            url: '/api/v1/events',
-            headers: {
-              'x-access-token': token
-            },
-            data: newEvent
+      if (newEvent.image.name) {
+        imageUpload(newEvent.image)
+          .then((imageUrl) => {
+            newEvent.image = imageUrl;
+            EventActions.handleCreateEvent(newEvent, token, dispatch);
           })
-            .then((response) => {
-              const { message } = response.data;
-              dispatch(Dispatcher.action(mainActionType.CREATE_SUCCESS, message));
-              Toast.success(message);
-            })
-            .catch((error) => {
-              const { message } = error.response.data;
-              dispatch(Dispatcher.action(mainActionType.CREATE_FAILED, message));
-              Toast.error(message);
-            });
-        })
-        .catch((error) => {
-          Toast.error('Image upload error');
-        });
+          .catch((error) => {
+            Toast.error('Image upload error');
+          });
+      } else {
+        EventActions.handleCreateEvent(newEvent, token, dispatch);
+      }
     };
   }
 
   /**
-   *
-   * @param {*} eventObj
-   * @returns {object} the response object from server
-   */
-  static handleEventUpdate(eventObj) {
-    const token = cookies.get('jwt-events-manager');
+ *
+ * @param {object} eventObj
+ * @param {token} token
+ * @param {function} dispatch
+ * @returns {void}
+ */
+  static handleEventUpdate(eventObj, token, dispatch) {
+    dispatch(Dispatcher.action(mainActionType.UPDATE_REQUEST, eventObj));
     return axios({
       method: 'PUT',
       url: `/api/v1/events/${eventObj.id}`,
@@ -181,64 +197,44 @@ export default class EventActions {
       data: eventObj
     })
       .then((response) => {
-        console.log(response.data);
-        // dispatch(Dispatcher.action(mainActionType.UPDATE_SUCCESS, response.data.message));
         Toast.success(response.data.message);
-        return response.data.message;
+        dispatch(Dispatcher.action(mainActionType.UPDATE_SUCCESS, response.data.message));
+      })
+      .then(() => {
+        dispatch(Dispatcher.action(mainActionType.RESET_STATE, null));
       })
       .catch((error) => {
         const { message } = error.response.data;
-        // dispatch(Dispatcher.action(mainActionType.UPDATE_FAILED, message));
         Toast.error(message);
+        dispatch(Dispatcher.action(mainActionType.UPDATE_FAILED, message));
       });
   }
 
   /**
    *
-   * @param {*} eventObj
-   * @returns {*}
+   * @param {object} eventObj
+   * @returns {void}
    * this action is handles updating a event
    */
   static updateEvent(eventObj) {
+    const token = cookies.get('jwt-events-manager');
     return (dispatch) => {
-      dispatch(Dispatcher.action(mainActionType.UPDATE_REQUEST, eventObj));
       if (eventObj.image !== eventObj.newImage) {
         imageUpload(eventObj.newImage)
           .then((imageUrl) => {
             eventObj.image = imageUrl;
-            EventActions.handleEventUpdate(eventObj)
-              .then((response) => {
-                dispatch(Dispatcher.action(mainActionType.UPDATE_SUCCESS, response));
-              })
-              .then(() => {
-                dispatch(Dispatcher.action(mainActionType.RESET_STATE, null));
-              })
-              .catch((error) => {
-                dispatch(Dispatcher.action(mainActionType.UPDATE_FAILED, error));
-              });
-          })
-          .catch((error) => {
-            Toast.error('Image upload error');
+            EventActions.handleEventUpdate(eventObj, token, dispatch);
           });
       } else {
-        EventActions.handleEventUpdate(eventObj)
-          .then((response) => {
-            dispatch(Dispatcher.action(mainActionType.UPDATE_SUCCESS, response));
-          })
-          .then(() => {
-            dispatch(Dispatcher.action(mainActionType.RESET_STATE, null));
-          })
-          .catch((error) => {
-            dispatch(Dispatcher.action(mainActionType.UPDATE_FAILED, error));
-          });
+        EventActions.handleEventUpdate(eventObj, token, dispatch);
       }
     };
   }
 
   /**
    *
-   * @param {*} eventId
-   * @returns {*}
+   * @param {number} eventId
+   * @returns {void}
    * this action is handles updating a event
    */
   static approveEvent(eventId) {
@@ -253,7 +249,6 @@ export default class EventActions {
         },
       })
         .then((response) => {
-          console.log(response.data);
           const { message } = response.data;
           dispatch(Dispatcher.action(mainActionType.UPDATE_SUCCESS, message));
           Toast.success(message);
@@ -271,8 +266,8 @@ export default class EventActions {
 
   /**
    *
-   * @param {*} eventId
-   * @returns {*}
+   * @param {number} eventId
+   * @returns {void}
    * this action is handles updating a event
    */
   static rejectEvent(eventId) {
@@ -304,8 +299,8 @@ export default class EventActions {
 
   /**
    *
-   * @param {*} id
-   * @returns {*}
+   * @param {number} id
+   * @returns {void}
    * this action is handles deleting a event
   */
   static deleteEvent(id) {

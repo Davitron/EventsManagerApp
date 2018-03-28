@@ -17,13 +17,12 @@ const eventAction = new EventActions();
 const propTypes = {
   stateProps: PropTypes.objectOf(() => null),
   createEvent: PropTypes.func.isRequired,
-  centerId: PropTypes.number,
-  location: PropTypes.objectOf(() => null).isRequired
+  match: PropTypes.objectOf(() => null).isRequired,
+
 };
 
 const defaultProps = {
-  stateProps: {},
-  centerId: undefined
+  stateProps: {}
 };
 /**
  *component for create event modal
@@ -50,6 +49,7 @@ class CreateEventForm extends Component {
     this.onDateChange = this.onDateChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.goBack = this.goBack.bind(this);
+    this.onFileChange = this.onFileChange.bind(this);
   }
 
   /**
@@ -71,6 +71,7 @@ class CreateEventForm extends Component {
               startDate: '',
               days: '',
               centerId: '',
+              image: {}
             }
           });
           history.push('/events');
@@ -117,6 +118,22 @@ class CreateEventForm extends Component {
     });
   }
 
+  /**
+  *@param {*} e
+  *@returns {*}
+  *this handles the event when any property in the state changes
+  */
+  onFileChange(e) {
+    const { name, files } = e.target;
+    const { event } = this.state;
+    this.setState({
+      event: {
+        ...event,
+        [name]: files[0]
+      }
+    });
+  }
+
 
   /**
    *
@@ -128,7 +145,7 @@ class CreateEventForm extends Component {
     e.preventDefault();
     this.setState({ loading: true });
     const { event } = this.state;
-    console.log(event);
+    const { centerId } = this.props.match.params;
     const fv = new FormValidator();
     const { createEvent } = this.props;
     const errors = fv.validateEventForm(event);
@@ -145,7 +162,7 @@ class CreateEventForm extends Component {
         loading: true,
         event: {
           ...event,
-          centerId: this.props.location.state.centerId.toString()
+          centerId: centerId.toString()
         }
       }, () => {
         createEvent(this.state.event);
@@ -203,16 +220,25 @@ class CreateEventForm extends Component {
           <div className="container" style={{ marginTop: '64px' }}>
             <center>
               <Row>
-                <div className="card-panel white contain center animated bounceInRight">
+                <div className="card-panel white contain image_input center animated bounceInRight ">
                   <div className="title">Create New Event</div>
                   <Row>
                     <Input s={12} name="eventName" value={event.eventName} onChange={this.onChange} label="Event Name" />
                   </Row>
                   <Row>
-                    <Input s={12} name="startDate" value={event.startDate} type="date" onChange={this.onDateChange} label="Start Date" />
+                    <Input s={12} m={12} l={6} name="startDate" value={event.startDate} type="date" onChange={this.onDateChange} label="Start Date" />
+                    <Input s={12} m={12} l={6} name="days" type="number" value={event.days} onChange={this.onChange} label="Days" />
                   </Row>
                   <Row>
-                    <Input s={12} name="days" type="number" value={event.days} onChange={this.onChange} label="Days" />
+                    <div className={['file-field', 'input-field', 's12'].join(' ')}>
+                      <div className="btn action-button">
+                        <span>Center image</span>
+                        <input type="file" name="image" onChange={this.onFileChange} accept="image/*" />
+                      </div>
+                      <div className="file-path-wrapper">
+                        <input className={['file-path', 'validate'].join(' ')} type="text" placeholder={errors.image || 'upload image'} />
+                      </div>
+                    </div>
                   </Row>
                   <Row className="center">
                     <button

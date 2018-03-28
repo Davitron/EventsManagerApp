@@ -229,6 +229,7 @@ export default class EventController {
       req.body.endDate = moment(req.body.startDate).add(req.body.days - 1, 'days').toDate();
       req.body.userId = req.decoded.id;
       const now = new Date();
+      console.log('>>>>', req.body.startDate, now);
       if (req.body.startDate > now) {
         req.body.status = 'pending';
       }

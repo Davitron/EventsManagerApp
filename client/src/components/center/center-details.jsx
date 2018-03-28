@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import shortid from 'shortid';
 import PropTypes from 'prop-types';
-import { Row, Col, Button } from 'react-materialize';
+import { Row, Col, Button, Icon } from 'react-materialize';
 import swal from 'sweetalert2';
 import Loader from '../reusables/loader';
 import CenterActions from '../../actions/center-action';
@@ -27,6 +27,7 @@ class CenterDetails extends Component {
     this.renderFacilities = this.renderFacilities.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.handleCreate = this.handleCreate.bind(this);
   }
 
   /**
@@ -45,9 +46,7 @@ class CenterDetails extends Component {
   componentWillReceiveProps(nextProps) {
     const { center, deleteState } = nextProps.stateProps;
     if (center.data) {
-      console.log(center.data.facilities)
       const facilitiesArr = center.data.facilities.map(f => f.toUpperCase());
-      console.log(facilitiesArr);
       this.setState({
         center: {
           id: center.data.id,
@@ -66,6 +65,15 @@ class CenterDetails extends Component {
     if (deleteState.status === 'success') {
       history.push('/centers');
     }
+  }
+
+  /**
+   * @param {*} centerId
+   * @returns {*} update center modal
+   */
+  handleCreate(centerId) {
+    const { id } = this.state.center;
+    history.push(`/create-event/${id}`);
   }
 
   /**
@@ -118,7 +126,10 @@ class CenterDetails extends Component {
         <div className="container" style={{ marginTop: '64px' }}>
           <Row>
             <Col s={12}>
-              <h4 className="title">{center.name}</h4>
+              <Row>
+                <Col s={6}><h4 className="title">{center.name}</h4></Col>
+                <Col s={6}><Button large className="right orange" waves="light" onClick={this.handleCreate}>ADD EVENT<Icon left>event_note</Icon></Button></Col>
+              </Row>
               <div className="slider__holdr">
                 <div className="carousel carousel-slider">
                   <a className="carousel-item" href="#one"><img src={center.image} alt="demo" /></a>

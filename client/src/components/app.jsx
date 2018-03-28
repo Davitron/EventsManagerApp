@@ -42,7 +42,7 @@ const App = () => (
         <UserRoute exact path="/events" component={Events} redirectPath="/login" />
         <AdminRoute exact path="/create-center" component={CreateCenterForm} redirectPath="/login" />
         <AdminRoute path="/update-center/:centerId" component={UpdateCenterForm} redirectPath="/login" />
-        <UserRoute exact path="/create-event" component={CreateEventForm} redirectPath="/login" />
+        <UserRoute exact path="/create-event/:centerId" component={CreateEventForm} redirectPath="/login" />
         <UserRoute exact path="/update-event/:eventId" component={UpdateEventForm} redirectPath="/login" />
         <AdminRoute path="/pending-events/:centerId" component={PendingEvent} redirectPath="/login" />
         <Route path="/upcoming-events/:centerId" component={UpcomingEvent} />

@@ -26,29 +26,16 @@ nav {
 
 .contain {
   margin:auto;
-  position:fixed;
-  width: 500px;
-  height: 500px;
-  top:0;
-  bottom:0;
-  left:0;
-  right:0;
+  height: auto;
 }
 
+.image_input {
+  margin-left: 0 !important; 
+  margin-right: 0 !important;
+}
 
+@media only screen and (min-width: 501px) {
 
-@media only screen and (max-width: 500px) {
-  .contain {
-    margin:auto;
-    position:fixed;
-    width: 400px;
-    height: 430px;
-    top:0;
-    bottom:0;
-    left:0;
-    right:0;
-    padding-bottom: 10px;
-  }
 }
 
 .contain2 {

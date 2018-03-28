@@ -42,6 +42,7 @@ class UpdateEventForm extends Component {
     this.onDateChange = this.onDateChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.goBack = this.goBack.bind(this);
+    this.onFileChange = this.onFileChange.bind(this);
   }
 
   /**
@@ -62,21 +63,22 @@ class UpdateEventForm extends Component {
     const { updateEvent, getEvent } = nextProps.stateProps;
     if (updateEvent.status === 'success') {
       this.setState({ loading: false });
-      history.push('/centers');
+      history.push('/events');
     }
+
     if (getEvent.data) {
-      
       const { event } = getEvent.data;
       this.setState({
         loading: false,
         event: {
+          id: event.id,
           eventName: event.eventName,
           startDate: this.formatDate(event.startDate),
           days: event.days.toString(),
           centerId: event.centerId.toString(),
+          image: event.image,
+          newImage: event.image,
         }
-      }, () => {
-        console.log(this.state.event);
       });
     }
     if (updateEvent.data === 'failed') {
@@ -116,6 +118,21 @@ class UpdateEventForm extends Component {
       }
     });
   }
+  /**
+  *@param {*} e
+  *@returns {*}
+  *this handles the event when any property in the state changes
+  */
+  onFileChange(e) {
+    const { name, files } = e.target;
+    const { event } = this.state;
+    this.setState({
+      event: {
+        ...event,
+        [name]: files[0]
+      }
+    });
+  }
 
   /**
   *@param {*} e
@@ -125,7 +142,6 @@ class UpdateEventForm extends Component {
   onDateChange(e) {
     const { name, value } = e.target;
     const date = this.formatDateBack(value);
-    console.log(date);
     const { event } = this.state;
     this.setState({
       event: {
@@ -157,6 +173,7 @@ class UpdateEventForm extends Component {
         Toast.error(message);
       });
     } else {
+      console.log(this.state.event);
       updateEvent(this.state.event);
     }
     // e.preventDefault();
@@ -228,7 +245,7 @@ class UpdateEventForm extends Component {
         }}
         >
           <Header />
-          <div className="container">
+          <div className="container" style={{ marginTop: '64px' }}>
             <center>
               <Row>
                 <div className="card-panel white contain center animated bounceInRight">
@@ -248,6 +265,8 @@ class UpdateEventForm extends Component {
                     <Row>
                       <Input
                         s={12}
+                        m={12}
+                        l={6}
                         name="startDate"
                         value={!event.startDate ? '' : event.startDate}
                         type="date"
@@ -255,10 +274,10 @@ class UpdateEventForm extends Component {
                         label="Start Date"
                         labelClassName={event.startDate && 'active'}
                       />
-                    </Row>
-                    <Row>
                       <Input
                         s={12}
+                        m={12}
+                        l={6}
                         name="days"
                         type="number"
                         value={!event.days ? '' : event.days}
@@ -266,6 +285,17 @@ class UpdateEventForm extends Component {
                         label="Days"
                         labelClassName={event.days && 'active'}
                       />
+                    </Row>
+                    <Row>
+                      <div className={['file-field', 'input-field', 's12'].join(' ')}>
+                        <div className="btn action-button">
+                          <span>Center image</span>
+                          <input type="file" name="newImage" onChange={this.onFileChange} accept="image/*" />
+                        </div>
+                        <div className="file-path-wrapper">
+                          <input className={['file-path', 'validate'].join(' ')} type="text" placeholder={errors.image || 'upload image'} />
+                        </div>
+                      </div>
                     </Row>
                     <Row className="center">
                       <button

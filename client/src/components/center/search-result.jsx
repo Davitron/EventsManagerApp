@@ -224,7 +224,7 @@ class CenterResults extends Component {
                         key={shortid.generate()}
                         onClick={() => { history.push(`/centers/${center.id}`); }}
                       >
-                        <p><a role="link" tabIndex="-1" onClick={() => this.handleOpen((center.id))}>Book this center</a></p>
+                        {/* <p><a role="link" tabIndex="-1" onClick={() => this.handleOpen((center.id))}>Book this center</a></p> */}
                       </Card>
                     ))
                   }

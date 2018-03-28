@@ -19,6 +19,8 @@ const eventActionType = {
   DELETE_SUCCESS: 'CREATE_DELETE_SUCCESS',
   DELETE_FAILED: 'EVENT_DELETE_FAILED',
 
+  
+
 };
 
 export default eventActionType;

@@ -147,7 +147,6 @@ class UpdateCenterForm extends Component {
    * @returns {*} handles selecttion of facilities
    */
   onMultiSelect(event, index, values) {
-    console.log('hey!!');
     const { center } = this.state;
     this.setState({
       center: {
