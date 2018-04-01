@@ -356,6 +356,51 @@ describe('Testing Api endpoints for centers', () => {
 
 
   describe('PUT /api/v1/centers/:id', () => {
+    it('Should return HTTP 401 with response object when user is not an admin', (done) => {
+      chai.request(app)
+        .put(`/api/v1/centers/${centerID}/`)
+        .set('x-access-token', notAdminToken)
+        .send({
+          name: 'The power spot',
+          stateId: 1,
+          address: '7, xyz avenue, ikaja',
+          hallCapacity: '600',
+          carParkCapacity: '200',
+          facilities: 'swimming pool, projectors, cctv, vip lounges',
+          price: '1200000',
+          image: 'test/image/link'
+        })
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.should.be.an('object');
+          res.body.should.have.property('message').eql('This user is not an administrator');
+          done();
+        });
+    });
+
+    it('Should return HTTP status 400 and message if center name exceeds or less than 30 chatacters', (done) => {
+      chai.request(app)
+        .put(`/api/v1/centers/${centerID}/`)
+        .set('x-access-token', token)
+        .send({
+          name: 'Ao',
+          stateId: 1,
+          address: '7, abc avenue, ikeja',
+          hallCapacity: '600',
+          carParkCapacity: '200',
+          facilities: 'swimming pool, projectors, cctv, vip lounges',
+          price: '1200000'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.an('object');
+          res.body.should.have.property('message');
+          res.body.message.errors.should.have.property('name');
+          res.body.message.errors.name.should.be.an('array');
+          done();
+        });
+    });
+
     it('Should return 404 if center is not found', (done) => {
       chai.request(app)
         .put(`/api/v1/centers/${-1}/`)
@@ -412,6 +457,26 @@ describe('Testing Api endpoints for centers', () => {
           address: '7, abc avenue, ikeja',
           hallCapacity: '600',
           carParkCapacity: '200',
+          facilities: 'swimming pool, projectors, cctv, vip lounges',
+          price: '1200000'
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.an('object');
+          res.body.should.have.property('message');
+          done();
+        });
+    });
+
+    it('Should return 200 with modified center event if request body has no name field ', (done) => {
+      chai.request(app)
+        .put(`/api/v1/centers/${centerID}/`)
+        .set('x-access-token', token)
+        .send({
+          stateId: 1,
+          address: '7, abc avenue, lagos-island',
+          hallCapacity: '600',
+          carParkCapacity: '400',
           facilities: 'swimming pool, projectors, cctv, vip lounges',
           price: '1200000'
         })

@@ -48,13 +48,5 @@ export default class Mailer {
 
     return this.useNodemailer(mailInfo);
   }
-  /**
-   *
-   * @param {object} message
-   * @returns {*} sends email
-   */
-  useSendgrid(message) {
-    sgMail.send(message);
-  }
 }
 

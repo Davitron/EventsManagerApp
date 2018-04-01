@@ -4,15 +4,9 @@ import mainActionType from './actionTypes/main-action-types';
 import Dispatcher from '../helpers/dispatch';
 import Logger from '../helpers/logger';
 import Toast from '../helpers/toast';
-import history from '../helpers/history';
 import imageUpload from '../helpers/image-upload';
 
-
-const EVENT_BASE_URL = 'api/v1/events';
-
 const cookies = new Cookies();
-// const token = cookies.get('jwt-events-manager');
-
 
 /**
  *

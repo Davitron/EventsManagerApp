@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import model from '../models';
 import Mailer from '../services/mail-service';
-import messageBody from '../config/mail-template';
+import * as mailTemplate from '../config/mail-template';
 
 
 dotenv.load();
@@ -27,14 +27,22 @@ const existingUserRules = {
   password: 'required'
 };
 
+const resetPasswordRules = {
+  email: 'required|email',
+};
+
+const passwordResetRules = {
+  password: 'required|min:6'
+};
+
 /**
  *
  */
 export default class UserController {
   /**
    *
-   * @param {*} req
-   * @param {*} res
+   * @param {object} req
+   * @param {object} res
    * @return {json} returns ststus and message
    */
   static create(req, res) {
@@ -45,20 +53,11 @@ export default class UserController {
       // check if user with email or username already exists
       return Users.findAll({
         where: {
-          [Op.or]: [
-            {
-              email: req.body.email
-            },
-            {
-              username: req.body.username
-            }
-          ]
+          [Op.or]: [{ email: req.body.email }, { username: req.body.username }]
         }
       }).then((users) => {
         if (users.length > 0) {
-          res.status(400).json({
-            message: 'email or username already taken' // to return this if user exists
-          });
+          res.status(400).json({ message: 'email or username already taken' });
         } else if (req.body.password !== req.body.confirmPassword) {
           return res.status(400).json({ message: 'Passwords do not match' });
         } else {
@@ -69,17 +68,18 @@ export default class UserController {
             password: newPassword,
             isAdmin: Boolean(req.body.isAdmin) || false
           }).then((user) => {
-            const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, { expiresIn: '7d' });
-            const message = messageBody.accountCreated(user.username, token);
+            const token = jwt.sign({ email: user.email }, process.env.SECRET_KEY, { expiresIn: '7d' });
+            const message = mailTemplate.messageBody.accountCreated(user.username, token);
             mailer.sendMail(user.email, message, 'Welcome to EventsManager');
             return res.status(201).json({
               message: 'User registration successfull. An email has been sent for verification',
               userDetails: user,
+              token,
               statusCode: 201
             });
-          }).catch(err => res.status(500).json({ message: 'Oops!, an error has occured', error: err, statusCode: 500 }));
+          });
         }
-      }).catch(err => res.status(500).json({ message: 'Oops!, an error has occured', error: err, statusCode: 500 }));
+      });
     }
     return res.status(400).json({ message: validate.errors }); // to record this if validation fails
   }
@@ -115,13 +115,9 @@ export default class UserController {
           isVerified: user.isVerified
         }, process.env.SECRET_KEY, { expiresIn: '1d' });
         res.status(200).json({ message: 'Authentication Is Successful!', userDetails: user, Token: token });
-      }).catch(err => res.status(500).json({
-        message: 'Oops!, an error has occured',
-        error: err.name
-      }));
+      });
     }
-
-    res.status(400).json({ message: validate.errors.first('email') });
+    res.status(400).json({ message: validate.errors });
   }
 
   /**
@@ -133,26 +129,18 @@ export default class UserController {
   static completeRegistration(req, res) {
     return Users.findOne({
       where: {
-        id: req.decoded.id
+        email: req.decoded.email
       }
     }).then((user) => {
-      if (!user) {
-        return res.status(404).json({ message: 'User does not exist' });
-      }
-
       if (user.isVerified === true) {
-        res.status(400).json({ message: 'User is already verified' });
-      } else {
-        user.update({
-          isVerified: true
-        }).then(() => {
-          const token = jwt.sign({ id: user.id, isAdmin: user.isAdmin }, process.env.SECRET_KEY, { expiresIn: '1d' });
-          res.status(200).json({ message: 'Welcome to Event Manager', user: user.username, Token: token });
-        }).catch(err => res.status(500).json({
-          message: 'Oops!, an error has occured',
-          error: err.name
-        }));
+        return res.status(400).json({ message: 'User is already verified' });
       }
+      return user.update({
+        isVerified: true
+      }).then(() => {
+        const token = jwt.sign({ id: user.id, isAdmin: user.isAdmin }, process.env.SECRET_KEY, { expiresIn: '1d' });
+        return res.status(200).json({ message: 'Welcome to Event Manager', user: user.username, Token: token });
+      });
     }).catch(err => res.status(500).json({
       message: 'Oops!, an error has occured',
       error: err.name
@@ -167,11 +155,8 @@ export default class UserController {
    */
   static getUsers(req, res) {
     return Users.findAll().then((users) => {
-      res.status(200).json(users);
-    }).catch(err => res.status(500).json({
-      message: 'Oops!, an error has occured',
-      error: err.name
-    }));
+      res.status(200).json({ users });
+    });
   }
 
 
@@ -196,8 +181,9 @@ export default class UserController {
             .then(() => res.status(200).json({ message: 'User is successfully  deleted' }))
             .catch(error => res.status(400).json(error));
         })
-        .catch(error => res.status(400).json(error));
+        .catch(error => res.status(500).json(error));
     }
+    return res.status(401).json({ message: 'Not an admin' });
   }
 
   /**
@@ -207,42 +193,24 @@ export default class UserController {
    * @returns {json} returns message object id deletion is successful
    */
   static resetPasswordRequest(req, res) {
-    return Users.findOne({
-      where: {
-        email: req.body.email
-      }
-    })
-      .then((user) => {
-        if (user) {
-          const token = jwt.sign({ id: user.id, email: user.email }, process.env.SECRET_KEY, { expiresIn: '15m' });
-          const message = messageBody.resetPassword(user.username, token);
-          mailer.sendMail(user.email, message, 'Password Reset Link');
-          return res.status(200).json({ message: 'Password reset link is sent', statusCode: 200 });
-          // const message = `<p>Welcome ${user.username}.</p><br/>
-          // <p>Click the link below to reset your password</p><br />
-          // <a href="http://event-manager-andela.herokuapp.com/reset-password?token=${token}">Reset Password</a><br/>
-          // This link expires in 15 mins`;
-          // const mailBody = {
-          //   from: 'matthews.segunapp@gmail.com',
-          //   to: user.email,
-          //   subject: 'Password Reset Link',
-          //   html: message
-          // };
-          // const mailer = new Mailer();
-          // if (mailer.isMailSent(mailBody)) {
-          //   res.status(500).json({
-          //     message: 'Oops!, an error has occured',
-          //     statusCode: 500
-          //   });
-          // } else {
-          //   res.status(200).json({
-          //     message: 'Password reset link is sent',
-          //     statusCode: 200
-          //   });
-          // }
+    const validate = new validator(req.body, resetPasswordRules);
+    if (validate.passes()) {
+      return Users.findOne({
+        where: {
+          email: req.body.email
         }
       })
-      .catch(err => res.status(500).json({ message: 'Oops!, an error has occured', error: err.name }));
+        .then((user) => {
+          if (user) {
+            const token = jwt.sign({ id: user.id, email: user.email }, process.env.SECRET_KEY, { expiresIn: '15m' });
+            const message = mailTemplate.messageBody.resetPassword(user.username, token);
+            mailer.sendMail(user.email, message, 'Password Reset Link');
+            return res.status(200).json({ message: 'Password reset link is sent', statusCode: 200, token });
+          }
+          return res.status(404).json({ message: 'User does not exist' });
+        });
+    }
+    return res.status(400).json({ message: validate.errors });
   }
 
   /**
@@ -252,20 +220,23 @@ export default class UserController {
    * @returns {json} returns message object id deletion is successful
    */
   static resetPassword(req, res) {
-    return Users.findOne({
-      where: {
-        email: req.decoded.email
-      }
-    })
-      .then((user) => {
-        user.update({
-          password: bcrypt.hashSync(req.body.password, 10)
-        })
-          .then(() => {
-            res.status(200).json({ message: 'Password reset successful. Now redirecting....' });
-          })
-          .catch(err => res.status(500).json({ message: 'Oops!, an error has occured', error: err.name }));
+    const validate = new validator(req.body, passwordResetRules);
+    if (validate.passes()) {
+      return Users.findOne({
+        where: {
+          email: req.decoded.email
+        }
       })
-      .catch(err => res.status(500).json({ message: 'Oops!, an error has occured', error: err.name }));
+        .then((user) => {
+          return user.update({
+            password: bcrypt.hashSync(req.body.password, 10)
+          })
+            .then(() => {
+              res.status(200).json({ message: 'Password reset successful. Now redirecting....' });
+            })
+            .catch(err => res.status(500).json({ message: 'Oops!, an error has occured', error: err.name }));
+        });
+    }
+    return res.status(400).json({ message: validate.errors });
   }
 }

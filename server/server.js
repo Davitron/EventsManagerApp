@@ -3,14 +3,12 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
-import dotenv from 'dotenv';
 import path from 'path';
+import './env';
 import eventRoutes from './routes/event-route';
 import centerRoutes from './routes/center-route';
 import userRoutes from './routes/user-routes';
 import swaggerDoc from './doc/swagger.json';
-
-dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 8000;

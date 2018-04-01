@@ -2,7 +2,7 @@ import validator from 'validatorjs';
 import moment from 'moment';
 import Sequelize from 'sequelize';
 import model from '../models';
-import messageBody from '../config/mail-template';
+import * as mailTemplate from '../config/mail-template';
 import Mailer from '../services/mail-service';
 
 const Events = model.Event;
@@ -42,34 +42,21 @@ export default class EventController {
       query = {
         centerId: req.body.centerId,
         [Sequelize.Op.or]: {
-          startDate: {
-            [Sequelize.Op.between]: [req.body.startDate, req.body.endDate]
-          },
-          endDate: {
-            [Sequelize.Op.between]: [req.body.startDate, req.body.endDate]
-          }
+          startDate: { [Sequelize.Op.between]: [req.body.startDate, req.body.endDate] },
+          endDate: { [Sequelize.Op.between]: [req.body.startDate, req.body.endDate] }
         },
-        id: {
-          [Sequelize.Op.ne]: parseInt(req.params.eventId, 10)
-        }
+        id: { [Sequelize.Op.ne]: parseInt(req.params.eventId, 10) }
       };
     } else {
       query = {
         centerId: req.body.centerId,
         [Sequelize.Op.or]: {
-          startDate: {
-            [Sequelize.Op.between]: [req.body.startDate, req.body.endDate]
-          },
-          endDate: {
-            [Sequelize.Op.between]: [req.body.startDate, req.body.endDate]
-          }
+          startDate: { [Sequelize.Op.between]: [req.body.startDate, req.body.endDate] },
+          endDate: { [Sequelize.Op.between]: [req.body.startDate, req.body.endDate] }
         }
       };
     }
-    return Events.findOne({
-      // to checked if date is booked
-      where: query
-    })
+    return Events.findOne({ where: query })
       .then((available) => {
         if (available) {
           return res.status(400).json({
@@ -99,7 +86,7 @@ export default class EventController {
       image: req.body.image,
     })
       .then((createdEvent) => {
-        const message = messageBody.eventCreated(req.decoded.username);
+        const message = mailTemplate.messageBody.eventCreated(req.decoded.username);
         mailer.sendMail(req.decoded.email, message, 'New Event Created');
         return res.status(201).send({
           message: `${createdEvent.eventName} event Created Successfully`,
@@ -168,28 +155,14 @@ export default class EventController {
    */
   static getAll(req, res) {
     return Events.findAll({
-      where: {
-        userId: req.decoded.id
-      },
-      include: [
-        {
-          model: Centers,
-          attributes: ['name']
-        }
-      ]
-    })
-      .then((events) => {
-        if (events.length < 1) {
-          return res.status(200).json({
-            message: 'No Events Available',
-            statusCode: 200
-          });
-        }
-        return res.status(200).json({
-          allEvents: events,
-          statusCode: 200
-        });
-      });
+      where: { userId: req.decoded.id },
+      include: [{ model: Centers, attributes: ['name'] }]
+    }).then((events) => {
+      if (events.length < 1) {
+        return res.status(200).json({ message: 'No Events Available', statusCode: 200 });
+      }
+      return res.status(200).json({ allEvents: events, statusCode: 200 });
+    });
   }
 
   /**
@@ -200,17 +173,12 @@ export default class EventController {
    */
   static get(req, res) {
     return Events.findOne({
-      where: {
-        id: req.params.eventId,
-        userId: req.decoded.id
-      },
+      where: { id: req.params.eventId, userId: req.decoded.id },
       attributes: ['id', 'eventName', 'startDate', 'days', 'endDate', 'centerId', 'image', 'status']
     })
       .then((event) => {
         if (!event) {
-          return res.status(404).json({
-            message: 'Event Not Found',
-          });
+          return res.status(404).json({ message: 'Event Not Found' });
         }
         return res.status(200).json({ event });
       })
@@ -218,9 +186,10 @@ export default class EventController {
   }
 
   /**
+   *
    * @param {*} req
    * @param {*} res
-   * @returns {json} returns edited event
+   * @returns {object} - response object
    */
   static update(req, res) {
     const validate = new validator(req.body, eventRules);
@@ -229,7 +198,6 @@ export default class EventController {
       req.body.endDate = moment(req.body.startDate).add(req.body.days - 1, 'days').toDate();
       req.body.userId = req.decoded.id;
       const now = new Date();
-      console.log('>>>>', req.body.startDate, now);
       if (req.body.startDate > now) {
         req.body.status = 'pending';
       }
@@ -252,7 +220,7 @@ export default class EventController {
           return EventController.checkDateAvailabity(req, res)
             .then((report) => {
               if (report === null) {
-                EventController.handleEventUpdate(event, req, res)
+                return EventController.handleEventUpdate(event, req, res)
                   .then(modifiedEvent => res.status(200).json({
                     message: 'Event Updated Successfully', // to return this if user event is updated successfully
                     statusCode: 200
@@ -282,7 +250,7 @@ export default class EventController {
         if (!event) {
           return res.status(404).json({ message: 'Event does not exist' });
         }
-        event.destroy()
+        return event.destroy()
           .then(() => res.status(200).send({ message: 'Event is successfully  deleted', statusCode: 200 }));
       })
       .catch(error => res.status(500).json({ message: 'Server Error', statusCode: 500 }));
@@ -313,14 +281,17 @@ export default class EventController {
       })
         .then((event) => {
           if (!event) return res.status(404).json({ message: 'Event not found', statusCode: 404 });
-          event.update({
+          return event.update({
             status: 'accepted'
           })
             .then(() => {
+              const { eventApproved } = mailTemplate.messageBody;
+
               const message =
-                messageBody.eventApproved(event.User.username, event.Center.name, event.startDate);
+                eventApproved(event.User.username, event.Center.name, event.startDate);
+
               mailer.sendMail(event.User.email, message, 'Event Approved');
-              return res.status(200).json({ event, message: 'Event Approved', statusCode: 200 });
+              res.status(200).json({ event, message: 'Event Approved', statusCode: 200 });
             });
         })
         .catch(error => res.status(500).json({ message: 'Internal Server Error', statusCode: 500 }));
@@ -352,17 +323,17 @@ export default class EventController {
       })
         .then((event) => {
           if (!event) return res.status(404).json({ message: 'Event not found', statusCode: 404 });
-          event.update({
+          return event.update({
             status: 'rejected'
           })
             .then(() => {
-              const message = messageBody.eventRejected(
+              const message = mailTemplate.messageBody.eventRejected(
                 event.User.username,
                 event.Center.name,
                 event.startDate
               );
               mailer.sendMail(event.User.email, message, 'Event Cancelled');
-              return res.status(200).json({ event, message: 'Event Cancelled', statusCode: 200 });
+              res.status(200).json({ event, message: 'Event Cancelled', statusCode: 200 });
             });
         })
         .catch(error => res.status(500).json({ message: 'Internal Server Error', statusCode: 500 }));
@@ -400,6 +371,7 @@ export default class EventController {
         .catch(error => res.status(500).json({ message: 'Internal Server Error', statusCode: 500 }));
     }
   }
+
 
   /**
    * @param  {*} req

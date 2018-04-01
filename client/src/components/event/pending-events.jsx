@@ -253,7 +253,7 @@ class PendingEvent extends Component {
                           <td>{moment(item.startDate).format('YYYY-MM-DD')}</td>
                           <td>{moment(item.endDate).format('YYYY-MM-DD')}</td>
                           <td>
-                            <button className={['waves-effect', 'waves-light', 'btn'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleApprove((item.id))} ><i className=" material-icons">done</i></button>
+                            <button className={['waves-effect', 'waves-light', 'btn', 'action-button'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleApprove((item.id))} ><i className=" material-icons">done</i></button>
                             <button className={['waves-effect', 'waves-light', 'btn', 'red'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleReject((item.id))} ><i className=" material-icons">cancel</i></button>
                           </td>
                         </tr>))

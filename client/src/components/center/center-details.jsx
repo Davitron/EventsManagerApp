@@ -11,6 +11,12 @@ import CenterActions from '../../actions/center-action';
 import Header from '../header';
 import history from '../../helpers/history';
 
+const getPendingEventCount = ({ events }) => {
+  const pendingEvents = events.filter(event => event.status === 'pending');
+  return pendingEvents.length;
+};
+
+
 /**
  * @returns {*} Centers Component
  */
@@ -22,12 +28,15 @@ class CenterDetails extends Component {
     super(props);
     this.state = {
       center: {},
-      facilityList: []
+      facilityList: [],
+      pendingEvents: 0
     };
     this.renderFacilities = this.renderFacilities.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleCreate = this.handleCreate.bind(this);
+    this.getPendingEvent = this.getPendingEvent.bind(this);
+    this.getUpcomingEvent = this.getUpcomingEvent.bind(this);
   }
 
   /**
@@ -57,8 +66,10 @@ class CenterDetails extends Component {
           carParkCapacity: center.data.carParkCapacity.toString(),
           price: center.data.price.toString(),
           image: center.data.image,
-          facilities: facilitiesArr
-        }
+          facilities: facilitiesArr,
+          events: center.events
+        },
+        pendingEvents: getPendingEventCount(center.data)
       });
     }
 
@@ -82,6 +93,26 @@ class CenterDetails extends Component {
   handleUpdate() {
     const { id } = this.state.center;
     history.push(`/update-center/${id}`);
+  }
+
+  /**
+   *
+   * @param {*} eventId
+   * @returns {void}
+   */
+  getPendingEvent() {
+    const { id } = this.state.center;
+    history.push(`/pending-events/${id}`);
+  }
+
+  /**
+   *
+   * @param {*} eventId
+   * @returns {void}
+   */
+  getUpcomingEvent() {
+    const { id } = this.state.center;
+    history.push(`/upcoming-events/${id}`)
   }
 
   /**
@@ -119,7 +150,7 @@ class CenterDetails extends Component {
  *@returns {*} event for sortin
  */
   render() {
-    const { center, facilityList } = this.state;
+    const { center, facilityList, pendingEvents } = this.state;
     return (
       <div>
         <Header />
@@ -127,7 +158,9 @@ class CenterDetails extends Component {
           <Row>
             <Col s={12}>
               <Row>
-                <Col s={6}><h4 className="title">{center.name}</h4></Col>
+                <Col s={6}>
+                  <h4 className="title">{center.name}</h4>
+                </Col>
                 <Col s={6}><Button large className="right orange" waves="light" onClick={this.handleCreate}>ADD EVENT<Icon left>event_note</Icon></Button></Col>
               </Row>
               <div className="slider__holdr">
@@ -135,7 +168,10 @@ class CenterDetails extends Component {
                   <a className="carousel-item" href="#one"><img src={center.image} alt="demo" /></a>
                 </div>
               </div>
-              <p><i className="material-icons">location_on</i>{center.address} {center.state}</p>
+              <p>
+                <i className="material-icons">location_on</i>{center.address} {center.state}
+                <span role="link" tabIndex="-1" className="new badge blue" data-badge-caption="pending events" onClick={this.getPendingEvent}>{pendingEvents}</span>
+              </p>
               {/* <div className="divider" /> */}
             </Col>
             <Col s={12} m={12} l={6} style={{ marginTop: '30px' }}>
@@ -165,6 +201,7 @@ class CenterDetails extends Component {
                   <p><span>₦{center.price}</span> per event</p>
                 </div>
               </div>
+              <Button s={12} large className="orange" waves="light" onClick={this.getUpcomingEvent}>ADD EVENT<Icon left>event_note</Icon></Button>
             </Col>
             <Col s={12} m={12} l={6} style={{ marginTop: '30px' }}>
               <ul className="collection with-header">

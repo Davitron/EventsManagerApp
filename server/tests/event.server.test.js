@@ -306,7 +306,7 @@ describe('Test API', () => {
           done();
         });
     });
-    // Testing to get all events
+    // Testing to get a single event
     it('Should return 200 with event object requested for', (done) => {
       chai.request(app)
         .get(`/api/v1/events/${eventID}`)
@@ -314,10 +314,11 @@ describe('Test API', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.an('object');
-          res.body.should.have.property('id');
-          res.body.should.have.property('eventName');
-          res.body.should.have.property('startDate');
-          res.body.should.have.property('endDate');
+          res.body.should.have.property('event');
+          res.body.event.should.have.property('id');
+          res.body.event.should.have.property('eventName');
+          res.body.event.should.have.property('startDate');
+          res.body.event.should.have.property('endDate');
           done();
         });
     });

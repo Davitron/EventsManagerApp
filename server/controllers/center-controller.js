@@ -94,8 +94,8 @@ export default class CenterController {
 
   /**
    *
-   * @param {*} req
-   * @param {*} res
+   * @param {*} req - request object
+   * @param {*} res - response object
    * @returns {object} Insert new center
    */
   static handleCenterInsert(req, res) {
@@ -302,7 +302,7 @@ export default class CenterController {
               message: 'Center does not exist',
             });
           }
-          center.destroy()
+          return center.destroy()
           // to return this center is deleted successfully
             .then(() => res.status(200).json({ message: 'Center is successfully deleted', statusCode: 200 }));
         })
@@ -319,6 +319,7 @@ export default class CenterController {
     const query = {};
     const { Op } = Sequelize;
     if (params.location) query.stateId = params.location;
+    if (params.name) query.name = params.name;
     if (params.facilities) {
       query.facilities = {
         [Op.contains]: params.facilities
@@ -385,13 +386,6 @@ export default class CenterController {
    */
   static getAllStates(req, res) {
     return States.findAll({ limit: 37 })
-      .then((states) => {
-        if (!states) {
-          return res.status(404).json({
-            massage: 'There are no centers'
-          });
-        }
-        res.status(200).json(states);
-      });
+      .then((states) => { res.status(200).json(states); });
   }
 }

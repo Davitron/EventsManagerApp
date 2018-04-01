@@ -1,13 +1,22 @@
-const messageBody = {
+
+
+export const getHostname = () => {
+  if (process.env.NODE_ENV === 'development') {
+    return process.env.DEVELOPMENT_HOSTURL;
+  }
+  return process.env.PRODUCTION_HOSTURL;
+};
+
+export const messageBody = {
   accountCreated: (username, token) => {
     const body = `<p>Welcome ${username}.</p><br/><p>Click the link below to complete your registration</p><br />
-                  <a href="http://event-manager-andela.herokuapp.com/verified?token=${token}">Complete Registration</a><br/>`;
+                  <a href="${getHostname()}/verified?token=${token}">Complete Registration</a><br/>`;
     return body;
   },
 
   resetPassword: (username, token) => {
     const body = `<p>Welcome ${username}.</p><br/><p>Click the link below to reset your password</p><br />
-                  <a href="http://event-manager-andela.herokuapp.com/reset-password?token=${token}">Reset Password</a><br/>
+                  <a href="${getHostname()}/reset-password?token=${token}">Reset Password</a><br/>
                   This link expires in 15 mins`;
     return body;
   },
@@ -35,5 +44,3 @@ const messageBody = {
     return body;
   }
 };
-
-export default messageBody;
