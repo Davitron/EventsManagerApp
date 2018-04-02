@@ -29,9 +29,25 @@ const centerUpdateRules = {
   price: 'string',
 };
 
+
+// JSDOC @return variables
+/**
+ * @typedef {object} CenterInsertResponse
+ * @property {string} message - Response message
+ * @property {Number} centerId - Id of new center
+ * @property {Number} statusCode - HTTP status code of response
+ */
+
+/**
+ * @typedef {object} CenterUpdateResponse
+ * @property {string} message - Response message
+ * @property {Number} statusCode - HTTP status code of response
+ */
+
 /**
  * @export
- * @class
+ * @class CenterController
+ *
  *
  */
 export default class CenterController {
@@ -39,7 +55,7 @@ export default class CenterController {
    *
    * @param {string|array} facilitiesInput - A string or array of facilities
    * @returns {array} An array of facilities
-   *
+   * @memberOf CenterController
    */
   static handleFacilities(facilitiesInput) {
     let facilities;
@@ -57,10 +73,11 @@ export default class CenterController {
   }
 
   /**
+   * Check if Center already exists
    *
-   * @param {*} req
-   * @param {*} res
-   * @return {object} response
+   * @param {*} req - HTTP request Object
+   * @param {*} res - HTTP response Object
+   * @return {object|null} - JSON response if center exists or null if otherwise
    */
   static validateCenterName(req, res) {
     let query;
@@ -93,10 +110,11 @@ export default class CenterController {
   }
 
   /**
+   * Insert new center into database
    *
-   * @param {*} req - request object
-   * @param {*} res - response object
-   * @returns {object} Insert new center
+   * @param {object} req - HTTP request object
+   * @param {object} res - HTTP response object
+   * @returns {CenterInsertResponse} - JSON response
    */
   static handleCenterInsert(req, res) {
     req.body.facilities = CenterController.handleFacilities(req.body.facilities);
@@ -118,9 +136,9 @@ export default class CenterController {
   /**
    *
    * @param {object} center - existing center in database
-   * @param {object} request - incoming update from client
+   * @param {object} request - HTTP request body
    * @param {object} response - HTTP response object
-   * @returns {object} - success or error messages
+   * @returns {CenterUpdateResponse} - JSON response
    */
   static handleCenterUpdate(center, request, response) {
     return center.update({
@@ -137,15 +155,16 @@ export default class CenterController {
     })
       .then(updatedCenter => response.status(200).json({
         message: 'Center update successful',
-        status: 200
+        statusCode: 200
       }));
   }
 
   /**
+   * Create a new center
    *
    * @param {object} req - HTTP request object
    * @param {object} res - HTTP response object
-   * @returns {object} Object with properties message, statusCode, centerId( if request succeeds )
+   * @returns {function} Object with properties message, statusCode, centerId( if request succeeds )
    */
   static create(req, res) {
     // Ensure user is an admin
@@ -380,9 +399,10 @@ export default class CenterController {
 
   /**
    *
-   * @param {*} req
-   * @param {*} res
-   * @returns {*} returns all states
+   * @param {object} req - HTTP request object
+   * @param {object} res - HTTP response object
+   * @returns {object} - List of states
+   *
    */
   static getAllStates(req, res) {
     return States.findAll({ limit: 37 })

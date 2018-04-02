@@ -1,5 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
+import '../env.test';
 import app from '../server';
 import CenterController from '../controllers/center-controller';
 

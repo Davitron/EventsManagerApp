@@ -1,10 +1,9 @@
 
 
 export const getHostname = () => {
-  if (process.env.NODE_ENV === 'development') {
-    return process.env.DEVELOPMENT_HOSTURL;
-  }
-  return process.env.PRODUCTION_HOSTURL;
+  if (process.env.NODE_ENV === 'development') return process.env.DEVELOPMENT_HOSTURL;
+  if (process.env.NODE_ENV === 'production') return process.env.PRODUCTION_HOSTURL;
+  return process.env.TEST_HOSTURL;
 };
 
 export const messageBody = {

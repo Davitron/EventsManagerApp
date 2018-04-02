@@ -1,10 +1,11 @@
 import moment from 'moment';
+import '../env.test';
 import * as mailTemplate from '../config/mail-template';
 
 describe('Node Environment', () => {
   it('should return current node environment host url as  specified in the env file', () => {
     const url = mailTemplate.getHostname();
-    url.should.be.a('string').eql('http://localhost:8000');
+    url.should.be.a('string').eql('http://localhost:8002');
   });
 });
 

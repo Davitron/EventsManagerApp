@@ -8,7 +8,7 @@
     "logging": false
   },
   "test": {
-    "username": "postgres",
+    "username": "andela",
     "password": "postgres",
     "database": "test",
     "host": "127.0.0.1",

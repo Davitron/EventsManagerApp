@@ -227,15 +227,11 @@ export default class UserController {
           email: req.decoded.email
         }
       })
-        .then((user) => {
-          return user.update({
-            password: bcrypt.hashSync(req.body.password, 10)
+        .then(user => user.update({ password: bcrypt.hashSync(req.body.password, 10) })
+          .then(() => {
+            res.status(200).json({ message: 'Password reset successful. Now redirecting....' });
           })
-            .then(() => {
-              res.status(200).json({ message: 'Password reset successful. Now redirecting....' });
-            })
-            .catch(err => res.status(500).json({ message: 'Oops!, an error has occured', error: err.name }));
-        });
+          .catch(err => res.status(500).json({ message: 'Oops!, an error has occured', error: err.name })));
     }
     return res.status(400).json({ message: validate.errors });
   }

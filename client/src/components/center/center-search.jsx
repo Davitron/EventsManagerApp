@@ -23,6 +23,7 @@ const facilities = [
 ];
 
 /**
+ * @class CenterSearch
  *
  */
 class CenterSearch extends Component {
