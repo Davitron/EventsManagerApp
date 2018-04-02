@@ -1,1 +1,1 @@
-process.env.NODE_ENV = 'test' || 'travis';
+process.env.NODE_ENV = 'test';
