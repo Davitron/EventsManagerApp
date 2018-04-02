@@ -33,6 +33,7 @@ export default class CenterActions {
         }
       })
         .then((response) => {
+          console.log('>>>>>', response.data);
           dispatch(Dispatcher.action(mainActionType.GETALL_SUCCESS, response.data));
         })
         .catch((error) => {

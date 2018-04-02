@@ -204,7 +204,7 @@ export default class EventActions {
       });
   }
 
-  /**
+  /**;
    *
    * @param {object} eventObj
    * @returns {void}

@@ -1,6 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import '../env.test';
+// import '../env.test';
 import app from '../server';
 import model from '../models';
 

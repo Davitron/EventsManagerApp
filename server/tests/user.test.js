@@ -1,7 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import faker from 'faker';
-import '../env.test';
+// import '../env.test';
 import app from '../server';
 import model from '../models';
 
@@ -446,7 +446,7 @@ describe('Testing Authentication Routes', () => {
           res.body.should.have.property('message').eql('Password reset successful. Now redirecting....');
           done();
         });
-    }); 
+    });
   });
 
   describe('GET /api/v1/user/', () => {
@@ -484,8 +484,6 @@ describe('Testing Authentication Routes', () => {
       where: {
         email: 'matthews.segun@gmail.com'
       }
-    }).then(() => {
-      console.log('>>>>>>', 'deleted');
     });
     done();
   });

@@ -118,6 +118,7 @@
     "pg-hstore": "^2.3.2",
     "prop-types": "^15.6.0",
     "query-string": "^5.0.1",
+    "rc-pagination": "^1.16.2",
     "react": "^16.2.0",
     "react-alert": "^2.4.0",
     "react-animate-css": "^0.0.1",

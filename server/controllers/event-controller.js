@@ -159,7 +159,7 @@ export default class EventController {
       include: [{ model: Centers, attributes: ['name'] }]
     }).then((events) => {
       if (events.length < 1) {
-        return res.status(200).json({ message: 'No Events Available', statusCode: 200 });
+        return res.status(200).json({ message: 'No Events Available', allEvents: [], statusCode: 200 });
       }
       return res.status(200).json({ allEvents: events, statusCode: 200 });
     });
@@ -265,18 +265,10 @@ export default class EventController {
   static approveEvent(req, res) {
     if (req.decoded.isAdmin === true) {
       return Events.findOne({
-        where: {
-          id: req.params.eventId
-        },
+        where: { id: req.params.eventId },
         include: [
-          {
-            model: model.Center,
-            attributes: ['name']
-          },
-          {
-            model: model.User,
-            attributes: ['email', 'username']
-          }
+          { model: model.Center, attributes: ['name'] },
+          { model: model.User, attributes: ['email', 'username'] }
         ]
       })
         .then((event) => {

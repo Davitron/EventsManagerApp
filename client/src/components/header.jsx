@@ -130,7 +130,7 @@ class Header extends Component {
       <header>
         <Navbar fixed className="title white-text" brand="EventManager" right>
           {navs}
-          {user && <li><a onClick={this.logOut} target="">logout</a></li>}
+          {user && <li><a role="link" tabIndex="-1b" onClick={this.logOut} target="">logout</a></li>}
         </Navbar>
         {/* <div className="navbar-fixed">
           <nav className=" z-depth-0 navigation">

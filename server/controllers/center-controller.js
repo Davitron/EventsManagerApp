@@ -29,6 +29,8 @@ const centerUpdateRules = {
   price: 'string',
 };
 
+let recordCount;
+
 
 // JSDOC @return variables
 /**
@@ -48,13 +50,12 @@ const centerUpdateRules = {
  * @export
  * @class CenterController
  *
- *
  */
 export default class CenterController {
   /**
    *
    * @param {string|array} facilitiesInput - A string or array of facilities
-   * @returns {array} An array of facilities
+   * @returns {array} An array of facilities in lowercase
    * @memberOf CenterController
    */
   static handleFacilities(facilitiesInput) {
@@ -101,13 +102,13 @@ export default class CenterController {
       where: query
     })
       .then((centers) => {
-        // Check atleast a match is found
         if (centers.length > 0) {
           return res.status(400).json({ message: 'Center already exists', statusCode: 400 });
         }
         return null;
       });
   }
+
 
   /**
    * Insert new center into database
@@ -159,18 +160,18 @@ export default class CenterController {
       }));
   }
 
+
   /**
-   * Create a new center
    *
    * @param {object} req - HTTP request object
    * @param {object} res - HTTP response object
-   * @returns {function} Object with properties message, statusCode, centerId( if request succeeds )
+   * @returns {function}
+   * Create a new center.
+   * Handles validations and sends validated data to database insert helper
    */
   static create(req, res) {
-    // Ensure user is an admin
     if (req.decoded.isAdmin === true) {
       const centerValidation = new validator(req.body, centerRules);
-      // Validate request body fields meet validation rules
       if (centerValidation.passes()) {
         return CenterController.validateCenterName(req, res)
           .then((report) => {
@@ -179,10 +180,8 @@ export default class CenterController {
             }
           });
       }
-      // if validation fails
       return res.status(400).json({ message: centerValidation.errors, statusCode: 400 });
     }
-    // If user isn't an administrator
     return res.status(401).json({ message: 'This user is not an administrator', statusCode: 401 });
   }
 
@@ -208,14 +207,15 @@ export default class CenterController {
     })
       .then((centers) => {
         if (centers.length < 1) {
-          res.status(200).json({
+          return res.status(200).json({
             message: 'No Centers Available',
-            statusCode: 200
+            statusCode: 200,
+            allCenters: []
           });
         }
-        res.status(200).json({
+        return res.status(200).json({
           allCenters: centers
-        }); // return all centers retrieved from the database
+        });
       });
   }
 
@@ -226,7 +226,6 @@ export default class CenterController {
    * @returns {json} The requested center object
    */
   static get(req, res) {
-    // fecth single center with id provided in the request include dwith events in that center
     return Centers.findOne({
       where: {
         id: req.params.centerId
@@ -266,14 +265,12 @@ export default class CenterController {
       req.body.admin = req.decoded.id;
       const centerValidation = new validator(req.body, centerUpdateRules);
       if (centerValidation.passes()) {
-        // find the center
         Centers.findOne({
           where: {
             id: req.params.centerId
           }
         })
           .then((center) => {
-            // if center doesn't exist
             if (!center) {
               return res.status(404).json({
                 message: 'center does not exist',
@@ -283,7 +280,6 @@ export default class CenterController {
             if (req.body.facilities) {
               req.body.facilities = CenterController.handleFacilities(req.body.facilities);
             }
-            // if center name is changed, check if new center name is available
             if (req.body.name && req.body.name !== center.name) {
               return CenterController.validateCenterName(req, res)
                 .then((report) => {
@@ -293,22 +289,18 @@ export default class CenterController {
                 });
             }
             return CenterController.handleCenterUpdate(center, req.body, res);
-          })
-          .catch(error => res.status(500).json({ message: 'Internal Server Error', statusCode: 500 }));
+          });
       } else {
-        // if validation fails
         return res.status(400).json({ message: centerValidation.errors, statusCode: 400 });
       }
     } else {
-      // If user isn't an administrator
       return res.status(401).json({ message: 'This user is not an administrator', statusCode: 401 });
     }
   }
 
   /**
-   *
-   * @param {object} req
-   * @param {object} res
+   * @param {object} req - HTTP request object
+   * @param {object} res - HTTP response object
    * @returns {object} returns message object id deletion is successful
    */
   static delete(req, res) {
@@ -331,8 +323,8 @@ export default class CenterController {
 
   /**
    *
-   * @param {object} params
-   * @returns {object} query
+   * @param {object} params - User search combinations
+   * @returns {object} - sequelize query
    */
   static generateQuery(params) {
     const query = {};
@@ -349,6 +341,7 @@ export default class CenterController {
         [Op.between]: [params.capacity[0], params.capacity[1]]
       };
     }
+    query.limit = params.limit || 9; 
     return query;
   }
 
@@ -359,21 +352,18 @@ export default class CenterController {
    * @returns {*} returns centers result
    */
   static searchCenters(req, res) {
+    let offset = 0;
     const query = CenterController.generateQuery(req.body);
+    const { page } = req.body;
+    offset = query.limit * (page - 1);
     if (query) {
-      const limit = 9;
-      let offset = 0;
-      // count all centers that match query and use tota; ammount to determine
-      // number of pages
       Centers.findAndCountAll({ where: query })
         .then((centers) => {
-          const { page } = req.body;
-          const pages = Math.ceil(centers.count / limit);
-          offset = limit * (page - 1);
+          const pages = Math.ceil(centers.count / query.limit);
           Centers.findAll({
             where: query,
             attributes: ['id', 'name', 'address', 'image'],
-            limit,
+            limit: query.limit,
             offset,
             include: [{
               model: model.State,
