@@ -5,9 +5,7 @@ import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import path from 'path';
 import './env';
-import eventRoutes from './routes/event-route';
-import centerRoutes from './routes/center-route';
-import userRoutes from './routes/user-routes';
+import routesV1 from './routes/v1';
 import swaggerDoc from './doc/swagger.json';
 
 const app = express();
@@ -20,9 +18,8 @@ app.use(logger('dev'));
 app.use(cors());
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
-eventRoutes(app);
-centerRoutes(app);
-userRoutes(app);
+routesV1(app);
+
 
 app.use(express.static(path.join(__dirname, '../client/public')));
 

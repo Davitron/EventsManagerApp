@@ -30,6 +30,7 @@ class Event extends Component {
     super(props);
     this.state = {
       data: [],
+      pagingData: {},
       searchNotfound: '',
       pageOfItems: [],
       selectedEvent: {},
@@ -39,7 +40,7 @@ class Event extends Component {
     };
 
     this.handleSearch = this.handleSearch.bind(this);
-    this.onChangePage = this.onChangePage.bind(this);
+    // this.onChangePage = this.onChangePage.bind(this);
     this.triggerSearch = debounce(100, this.triggerSearch);
     this.handleOpen = this.handleOpen.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
@@ -61,9 +62,10 @@ class Event extends Component {
     const { events, eventDeleted } = nextProps.stateProps;
     const { data, message } = this.state;
     const { getAll } = this.props;
-    if (events.data && events.data.allEvents !== data) {
+    if (events.data && events.data.data !== data) {
       this.setState({
-        data: events.data.allEvents,
+        data: events.data.data,
+        pagingData: events.data.meta,
         loading: false,
         message: ''
       });
@@ -77,20 +79,20 @@ class Event extends Component {
     }
   }
 
-  /**
-   *
-   * @param {*} pageOfItems
-   * @returns {*} newPage
-   */
-  onChangePage(pageOfItems) {
-    const { stateProps } = this.props;
-    // update state with new page of items
-    if (pageOfItems) {
-      this.setState({ pageOfItems });
-    } else {
-      this.setState({ pageOfItems: stateProps });
-    }
-  }
+  // /**
+  //  *
+  //  * @param {*} pageOfItems
+  //  * @returns {*} newPage
+  //  */
+  // onChangePage(pageOfItems) {
+  //   const { stateProps } = this.props;
+  //   // update state with new page of items
+  //   if (pageOfItems) {
+  //     this.setState({ pageOfItems });
+  //   } else {
+  //     this.setState({ pageOfItems: stateProps });
+  //   }
+  // }
 
   /**
    *@param {*} event
@@ -177,9 +179,8 @@ class Event extends Component {
     const {
       data,
       searchNotfound,
-      pageOfItems,
       loading,
-      selectedEvent,
+      pagingData
       // openUpdateModal
     } = this.state;
     return (
@@ -207,8 +208,8 @@ class Event extends Component {
               </div>
               <Row>
                 <Col s={12} className="cards-container">
-                  {pageOfItems !== null &&
-                    pageOfItems.map(event => (
+                  {data !== null &&
+                    data.map(event => (
                       <Card
                         header={<CardTitle image={event.image || '/images/banner4.jpg'} waves="light" />}
                         title={event.eventName}
@@ -227,8 +228,8 @@ class Event extends Component {
                   }
                 </Col>
               </Row>
+              <Pagination pagingData={pagingData} />
             </div>
-            <Pagination items={data} onChangePage={this.onChangePage} itemsPerPage={9} />
           </div>
           {/* <div className={['container', 'animated', 'bounceInRight'].join(' ')} style={{ marginTop: '64px' }}>
             <div className={['row', 'center'].join(' ')} />

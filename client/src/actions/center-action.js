@@ -61,6 +61,7 @@ export default class CenterActions {
         }
       })
         .then((response) => {
+          console.log(response.data);
           dispatch(Dispatcher.action(mainActionType.GET_SUCCESS, response.data));
         })
         .catch((error) => {
@@ -86,7 +87,8 @@ export default class CenterActions {
         }
       })
         .then((response) => {
-          dispatch(Dispatcher.action(mainActionType.GETSTATES_SUCCESS, response.data));
+          const { states } = response.data;
+          dispatch(Dispatcher.action(mainActionType.GETSTATES_SUCCESS, states));
         })
         .catch((error) => {
           dispatch(Dispatcher.action(mainActionType.GETSTATES_FAILED, error.response.data));
@@ -220,7 +222,8 @@ export default class CenterActions {
         data: param
       })
         .then((response) => {
-          dispatch(Dispatcher.action(mainActionType.SEARCH_SUCCESS, response.data));
+          const { data, meta } = response.data;
+          dispatch(Dispatcher.action(mainActionType.SEARCH_SUCCESS, { data, meta }));
         })
         .catch((error) => {
           dispatch(Dispatcher.action(mainActionType.SEARCH_FAILURE, error.response.data));

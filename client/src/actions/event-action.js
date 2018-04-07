@@ -28,8 +28,9 @@ export default class EventActions {
         }
       })
         .then((response) => {
-          Toast.success(response.data.message);
-          dispatch(Dispatcher.action(mainActionType.GETALL_SUCCESS, response.data));
+          const { message, data: { data, meta } } = response;
+          Toast.success(message);
+          dispatch(Dispatcher.action(mainActionType.GETALL_SUCCESS, { data, meta }));
         })
         .catch((error) => {
           // console.log(error.response);

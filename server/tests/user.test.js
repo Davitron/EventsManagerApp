@@ -1,7 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import faker from 'faker';
-// import '../env.test';
 import app from '../server';
 import model from '../models';
 

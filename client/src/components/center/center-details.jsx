@@ -53,23 +53,24 @@ class CenterDetails extends Component {
    * @returns {*} change state if new prop is recieved
    */
   componentWillReceiveProps(nextProps) {
-    const { center, deleteState } = nextProps.stateProps;
-    if (center.data) {
-      const facilitiesArr = center.data.facilities.map(f => f.toUpperCase());
+    const { singleCenter, deleteState } = nextProps.stateProps;
+    if (singleCenter.data) {
+      const { center } = singleCenter.data;
+      const facilitiesArr = center.facilities.map(f => f.toUpperCase());
       this.setState({
         center: {
-          id: center.data.id,
-          name: center.data.name,
-          address: center.data.address,
-          state: center.data.State.statName,
-          hallCapacity: center.data.hallCapacity.toString(),
-          carParkCapacity: center.data.carParkCapacity.toString(),
-          price: center.data.price.toString(),
-          image: center.data.image,
+          id: center.id,
+          name: center.name,
+          address: center.address,
+          state: center.State.stateName,
+          hallCapacity: center.hallCapacity.toString(),
+          carParkCapacity: center.carParkCapacity.toString(),
+          price: center.price.toString(),
+          image: center.image,
           facilities: facilitiesArr,
           events: center.events
         },
-        pendingEvents: getPendingEventCount(center.data)
+        pendingEvents: getPendingEventCount(center)
       });
     }
 
@@ -112,7 +113,7 @@ class CenterDetails extends Component {
    */
   getUpcomingEvent() {
     const { id } = this.state.center;
-    history.push(`/upcoming-events/${id}`)
+    history.push(`/upcoming-events/${id}`);
   }
 
   /**
@@ -223,7 +224,7 @@ class CenterDetails extends Component {
 
 const mapStateToProps = state => ({
   stateProps: {
-    center: state.get,
+    singleCenter: state.get,
     deleteState: state.deleteItem
   }
 });

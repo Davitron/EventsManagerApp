@@ -38,7 +38,6 @@ class CenterResults extends Component {
     };
     this.onChange = this.onChange.bind(this);
     this.onMultiSelect = this.onMultiSelect.bind(this);
-
   }
 
   /**
@@ -70,10 +69,10 @@ class CenterResults extends Component {
    */
   componentWillReceiveProps(nextProps) {
     const { centers } = nextProps.stateProps;
-    if (centers.data && centers.data.centers !== this.state.centers) {
-      console.log(centers.data);
+    if (centers.data && centers.data.data !== this.state.centers) {
+      const { data, meta } = centers.data;
       this.setState({
-        centers: centers.data.centers,
+        centers: data,
         loading: false,
         currentPage: centers.data.page,
         totalPages: centers.data.pages

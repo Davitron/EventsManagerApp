@@ -2,7 +2,7 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 // import '../env.test';
 import app from '../server';
-import CenterController from '../controllers/center-controller';
+import CenterController from '../controllers/v1/center-controller';
 
 chai.use(chaiHttp);
 
@@ -424,9 +424,9 @@ describe('Testing Api endpoints for centers', () => {
         });
     });
 
-    it('Should return 500 if centerId is not a number', (done) => {
+    it('Should return 400 if centerId is not a number', (done) => {
       chai.request(app)
-        .put(`/api/v1/centers/${undefined}/`)
+        .put('/api/v1/centers/jbkbkkkhvk/')
         .set('x-access-token', token)
         .send({
           name: 'The power space',
@@ -438,12 +438,10 @@ describe('Testing Api endpoints for centers', () => {
           price: '1200000'
         })
         .end((err, res) => {
-          res.should.have.status(500);
+          res.should.have.status(400);
           res.body.should.be.an('object');
           res.body.should.have.property('message');
-          res.body.should.have.property('statusCode');
-          res.body.message.should.eql('Internal Server Error');
-          res.body.statusCode.should.eql(500);
+          res.body.message.should.eql('invalid center Id');
           done();
         });
     });
@@ -580,9 +578,11 @@ describe('Testing Center Controller Utitlity Methods', () => {
       const param = {
         location: 25,
       };
-      const query = CenterController.generateQuery(param);
-      query.should.be.an('object');
-      query.should.have.property('stateId');
+      const searchParams = CenterController.generateQuery(param);
+      searchParams.should.be.an('object');
+      searchParams.should.have.property('query');
+      searchParams.should.have.property('limit');
+      searchParams.query.should.have.property('stateId');
       done();
     });
 
@@ -590,10 +590,11 @@ describe('Testing Center Controller Utitlity Methods', () => {
       const param = {
         facilities: ['media support', 'cctv', 'security'],
       };
-      const query = CenterController.generateQuery(param);
-      query.should.be.an('object');
-      query.should.have.property('facilities');
-      query.facilities.should.be.an('object');
+      const searchParams = CenterController.generateQuery(param);
+      searchParams.should.be.an('object');
+      searchParams.should.have.property('query');
+      searchParams.should.have.property('limit');
+      searchParams.query.should.have.property('facilities');
       done();
     });
 
@@ -601,10 +602,11 @@ describe('Testing Center Controller Utitlity Methods', () => {
       const param = {
         capacity: [500, 1000],
       };
-      const query = CenterController.generateQuery(param);
-      query.should.be.an('object');
-      query.should.have.property('hallCapacity');
-      query.hallCapacity.should.be.an('object');
+      const searchParams = CenterController.generateQuery(param);
+      searchParams.should.be.an('object');
+      searchParams.should.have.property('query');
+      searchParams.should.have.property('limit');
+      searchParams.query.should.have.property('hallCapacity');
       done();
     });
   });

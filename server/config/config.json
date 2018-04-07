@@ -2,7 +2,7 @@
   "development": {
     "username": "andela",
     "password": "postgres",
-    "database": "eventManager-develop",
+    "database": "event-manager",
     "host": "127.0.0.1",
     "dialect": "postgres",
     "logging": false

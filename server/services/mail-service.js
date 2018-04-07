@@ -3,6 +3,7 @@ import sgMail from '@sendgrid/mail';
 import dotenv from 'dotenv';
 
 dotenv.load();
+
 const mailTransport = nodemailer.createTransport({
   service: 'Gmail',
   auth: {
@@ -23,10 +24,12 @@ export default class Mailer {
    * @returns {boolean} returns a boolean value indicating if mail was sent successfully or not
    */
   useNodemailer(mail) {
+    console.log(process.env.EMAIL_PASSWORD);
     return mailTransport.sendMail(mail, (err, info) => {
       if (err) {
-        return err;
+        throw err;
       }
+      console.log('Message Sent');
       return 'Message Sent';
     });
   }

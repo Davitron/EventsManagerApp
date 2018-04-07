@@ -211,7 +211,6 @@ describe('Test API', () => {
             days: '4',
           })
           .end((err, res) => {
-            eventID = res.body.eventId;
             res.should.have.status(400);
             res.body.should.be.an('object');
             res.body.should.have.property('message').eql('Date must be in the future');
@@ -232,7 +231,7 @@ describe('Test API', () => {
             days: '4',
           })
           .end((err, res) => {
-            eventID = res.body.eventId;
+            eventID = res.body.createdEvent.id;
             res.should.have.status(201);
             res.body.should.be.an('object');
             res.body.should.have.property('message');
@@ -268,6 +267,7 @@ describe('Test API', () => {
         .get('/api/v1/events')
         .set('x-access-token', token)
         .end((err, res) => {
+          console.log('>>>>>', res.body);
           res.should.have.status(200);
           res.body.should.be.an('object');
           res.body.should.have.property('allEvents');

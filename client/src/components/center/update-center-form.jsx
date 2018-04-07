@@ -82,7 +82,8 @@ class UpdateCenterForm extends Component {
       history.push('/centers');
     }
     if (getCenter.data && states.data) {
-      const center = getCenter.data;
+      console.log(getCenter.data);
+      const { center } = getCenter.data;
       const facilitiesArr = center.facilities.map(f => f.toUpperCase());
       this.setState({
         states: states.data,
@@ -257,7 +258,7 @@ class UpdateCenterForm extends Component {
                         <option
                           key={state.id}
                           value={state.id}
-                        >{state.statName}
+                        >{state.stateName}
                         </option>
                       ))
                     }

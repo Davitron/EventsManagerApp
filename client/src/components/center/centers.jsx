@@ -197,7 +197,7 @@ class Center extends Component {
                       data.map((item, index) => (
                         <tr key={item.id}>
                           <td>{item.name}</td>
-                          <td>{item.State.statName}</td>
+                          <td>{item.State.stateName}</td>
                           <td>
                             <Link to={`/centers/${item.id}`}><i className=" material-icons">menu</i></Link>
                           </td>

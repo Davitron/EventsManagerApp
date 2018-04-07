@@ -3,21 +3,18 @@ import PropTypes from 'prop-types';
 import * as _ from 'lodash';
 
 const propTypes = {
-  items: PropTypes.arrayOf(() => null).isRequired,
-  onChangePage: PropTypes.func.isRequired,
-  itemsPerPage: PropTypes.number,
-  initialPage: PropTypes.number
+  pagingData: PropTypes.objectOf(() => null),
+  // onChangePage: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
-  itemsPerPage: 7,
-  initialPage: 1
+  pagingData: null
 };
 
 /**
- *
+ * @class
  * @extends Component
- * 
+ *
  */
 class Pagination extends Component {
   /**
@@ -31,12 +28,14 @@ class Pagination extends Component {
   }
 
   /**
-   *@returns {*} l
-  */
-  componentWillMount() {
-    // set page if items array isn't empty
-    if (this.props.items && this.props.items.length) {
-      this.setPage(this.props.initialPage);
+   *
+   * @param {object} nextProps
+   * @returns {void}
+   */
+  componentWillReceiveProps(nextProps) {
+    const { pagingData } = nextProps;
+    if (pagingData) {
+      this.setState({ pager: pagingData });
     }
   }
 
@@ -47,88 +46,86 @@ class Pagination extends Component {
     return true;
   }
 
-  /**
- *
- * @param {*} prevProps
- * @param {*} prevState
- * @return {*} -
- */
-  componentDidUpdate(prevProps, prevState) {
-    // reset page if items array has changed
-    if (this.props.items !== prevProps.items) {
-      this.setPage(this.props.initialPage);
-    }
-  }
+//   /**
+//  *
+//  * @param {*} prevProps
+//  * @param {*} prevState
+//  * @return {*} -
+//  */
+//   componentDidUpdate(prevProps, prevState) {
+//     // reset page if items array has changed
+//     if (this.props.items !== prevProps.items) {
+//       this.setPage(this.props.initialPage);
+//     }
+//   }
 
+
+  // /**
+  //  *
+  //  * @param {number} page
+  //  * @returns{*} -
+  //  */
+  // setPage(page) {
+  //   // const { items } = this.props;
+  //   const { pager } = this.state;
+  //   if (page < 1 || page > pager.pages) return null;
+  //   // pager = this.getPager(items.length, page);
+  //   // get new page of data
+  //   // const pageOfItems = items.slice(pager.startIndex, pager.endIndex + 1);
+  //   this.setState({ pager });
+  //   // this.props.onChangePage(pageOfItems);
+  // }
 
   /**
    *
-   * @param {number} page
-   * @returns{*} -
-   */
-  setPage(page) {
-    const { items } = this.props;
-    let { pager } = this.state;
-    if (page < 1 || page > pager.totalPages) return null;
-    pager = this.getPager(items.length, page);
-    // get new page of data
-    const pageOfItems = items.slice(pager.startIndex, pager.endIndex + 1);
-    this.setState({ pager });
-    this.props.onChangePage(pageOfItems);
-  }
-
-  /**
-   *
-   * @param {number} totalItems
-   * @param {number} currentPage
-   * @param {number} pageSize
    * @returns {object} -
    */
-  getPager(totalItems, currentPage) {
-    const { itemsPerPage } = this.props;
+  getPager(pagingData) {
+    const {
+      pages,
+      page,
+      limit,
+      count
+    } = pagingData;
+    // const { itemsPerPage } = this.props;
 
-    currentPage = currentPage || 1;
-    const pageSize = itemsPerPage;
+    // currentPage = currentPage || 1;
+    // const pageSize = itemsPerPage;
 
     // get total number of pages
-    const totalPages = Math.ceil(totalItems / pageSize);
+    // const totalPages = Math.ceil(totalItems / pageSize);
 
     let startPage;
     let endPage;
 
-    if (totalPages <= 10) {
+    if (pages <= 10) {
       startPage = 1;
-      endPage = totalPages;
+      endPage = pages;
     } else {
-      if (currentPage <= 6) {
+      if (page <= 6) {
         startPage = 1;
         endPage = 10;
       }
-      if (currentPage + 4 >= totalPages) {
-        startPage = totalPages - 9;
-        endPage = totalPages;
+      if (page + 4 >= pages) {
+        startPage = pages - 9;
+        endPage = pages;
       }
-      startPage = currentPage - 5;
-      endPage = currentPage + 4;
+      startPage = page - 5;
+      endPage = page + 4;
     }
 
     // calculate calculate start point to end point
-    const startIndex = (currentPage - 1) * pageSize;
-    const endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
+    const startIndex = (page - 1) * limit;
+    const endIndex = Math.min(startIndex + limit - 1, count - 1);
 
     // to generate page numbers
     const pages = _.range(startPage, endPage + 1);
 
     return {
-      totalItems,
-      currentPage,
-      pageSize,
-      totalPages,
       startPage,
       endPage,
       startIndex,
       endIndex,
-      pages
     };
   }
 

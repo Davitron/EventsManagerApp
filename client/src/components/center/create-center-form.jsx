@@ -281,7 +281,7 @@ class CreateCenterForm extends Component {
                         <option
                           key={state.id}
                           value={state.id}
-                        >{state.statName}
+                        >{state.stateName}
                         </option>
                       ))
                     }
