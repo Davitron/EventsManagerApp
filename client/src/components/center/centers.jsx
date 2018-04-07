@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import debounce from 'throttle-debounce/debounce';
 import PropTypes from 'prop-types';
 import { Input, Icon } from 'react-materialize';
+import ReactPaginate from 'react-paginate';
 import Pagination from '../reusables/pagination';
 import Loader from '../reusables/loader';
 import CenterActions from '../../actions/center-action';
@@ -27,10 +28,11 @@ class Center extends Component {
       searchNotfound: '',
       pageOfItems: [],
       loading: true,
-      itemsPerPage: 7
+      itemsPerPage: 7,
+      currentPage: 1
     };
     this.handleSearch = this.handleSearch.bind(this);
-    this.onChangePage = this.onChangePage.bind(this);
+    this.toChangePage = this.toChangePage.bind(this);
     this.triggerSearch = debounce(100, this.triggerSearch);
   }
 
@@ -40,7 +42,7 @@ class Center extends Component {
   componentWillMount() {
     // CenterActions.getAll()
     const { getAll } = this.props;
-    getAll();
+    getAll(this.state.currentPage);
   }
 
   /**
@@ -51,9 +53,10 @@ class Center extends Component {
     const { centers } = nextProps.stateProps;
     const { data } = this.state;
     if (centers.data && centers.data.allCenters !== data) {
-      const { allCenters } = centers.data;
+      const { allCenters, pages } = centers.data;
       this.setState({
         data: allCenters,
+        totalPages: pages,
         loading: false,
       });
     }
@@ -66,6 +69,29 @@ class Center extends Component {
  */
   onChangePage(pageOfItems) {
     this.setState({ pageOfItems });
+  }
+
+  /**
+   * @param {object} currentPage
+   *
+   * @returns {void} 
+   */
+  loadCentersformServer(currentPage) {
+    const { getAll } = this.props;
+    this.setState({
+      currentPage
+    }, () => getAll(this.state.currentPage))
+    
+  }
+
+  /**
+   * @param {object} data
+   *
+   * @returns {void} for next page
+   */
+  toChangePage(data) {
+    const { selected } = data;
+    this.loadCentersformServer(selected + 1);
   }
 
 
@@ -168,7 +194,7 @@ class Center extends Component {
                   </thead>
                   <tbody>
                     {
-                      pageOfItems.map((item, index) => (
+                      data.map((item, index) => (
                         <tr key={item.id}>
                           <td>{item.name}</td>
                           <td>{item.State.statName}</td>
@@ -184,7 +210,19 @@ class Center extends Component {
                     <i className="material-icons">add</i>
                   </Link>
                 </div>
-                <Pagination items={data} onChangePage={this.onChangePage} />
+                <ReactPaginate
+                  previousLabel="prev"
+                  nextLabel="next"
+                  breakLabel={<a href="">...</a>}
+                  breakClassName="break-me"
+                  pageCount={this.state.totalPages}
+                  marginPagesDisplayed={2}
+                  pageRangeDisplayed={5}
+                  onPageChange={this.toChangePage}
+                  containerClassName="pagination"
+                  subContainerClassName="pages pagination"
+                  activeClassName="active"
+                  />
               </div>
             </div>
           </div>

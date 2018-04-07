@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import shortid from 'shortid';
 import MenuItem from 'material-ui/MenuItem';
+import ReactPaginate from 'react-paginate';
 import { Row, Col, Card, CardTitle, Button } from 'react-materialize';
 import history from '../../helpers/history';
 import Header from '../header';
@@ -37,8 +38,7 @@ class CenterResults extends Component {
     };
     this.onChange = this.onChange.bind(this);
     this.onMultiSelect = this.onMultiSelect.bind(this);
-    this.toNextPage = this.toNextPage.bind(this);
-    this.toPrevPage = this.toPrevPage.bind(this);
+
   }
 
   /**
@@ -133,14 +133,16 @@ class CenterResults extends Component {
   }
 
   /**
- * @returns {*} for next page
- */
-  toNextPage() {
-    const { currentPage, searchQuery } = this.state;
+   * @param {object} currentPage
+   *
+   * @returns {void} 
+   */
+  loadCentersformServer(currentPage) {
+    const { searchQuery } = this.state;
     this.setState({
       searchQuery: {
         ...searchQuery,
-        page: currentPage + 1
+        page: currentPage
       }
     }, () => {
       const { searchCenter } = this.props;
@@ -149,20 +151,15 @@ class CenterResults extends Component {
   }
 
   /**
-   * @returns {*} for previous page
+   * @param {object} data
+   * 
+   * @returns {void} for next page
    */
-  toPrevPage() {
-    const { currentPage, searchQuery } = this.state;
-    this.setState({
-      searchQuery: {
-        ...searchQuery,
-        page: currentPage - 1
-      }
-    }, () => {
-      const { searchCenter } = this.props;
-      searchCenter(this.state.searchQuery);
-    });
+  toChangePage(data) {
+    const { selected } = data;
+    this.loadCentersformServer(selected);
   }
+
 
   /**
    * @param {*} centerId
@@ -231,8 +228,21 @@ class CenterResults extends Component {
                 </Col>
               </Row>
               <Row className="center">
-                <button onClick={this.toPrevPage} disabled={currentPage === 1} className={['waves-effect', 'animated', 'bounceInUp', 'btn', 'btn-large'].join(' ')}>Prev</button>
-                <button onClick={this.toNextPage} disabled={currentPage === totalPages} className={['waves-effect', 'animated', 'bounceInUp', 'btn', 'btn-large'].join(' ')}>Next</button>
+                <Col s={12}>
+                  <ReactPaginate
+                    previousLabel="previous"
+                    nextLabel="next"
+                    breakLabel={<a href="">...</a>}
+                    breakClassName="break-me"
+                    pageCount={this.state.totalPages}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={this.handlePageClick}
+                    containerClassName="pagination"
+                    subContainerClassName="pages pagination"
+                    activeClassName="active"
+                  />
+                </Col>
               </Row>
             </div>
           </div>

@@ -21,13 +21,14 @@ export default class CenterActions {
    *@returns {*}
    * this action is handles fetching all centers
    */
-  static getAll() {
+  static getAll(page) {
+    console.log(`${CENTER_BASE_URL}?page=${page}`);
     const token = cookies.get('jwt-events-manager');
     return (dispatch) => {
       dispatch(Dispatcher.action(mainActionType.GETALL_REQUEST, null));
       axios({
         method: 'GET',
-        url: CENTER_BASE_URL,
+        url: `${CENTER_BASE_URL}?page=${page}`,
         headers: {
           'x-access-token': token
         }

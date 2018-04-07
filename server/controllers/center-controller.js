@@ -55,7 +55,9 @@ export default class CenterController {
   /**
    *
    * @param {string|array} facilitiesInput - A string or array of facilities
+   *
    * @returns {array} An array of facilities in lowercase
+   *
    * @memberOf CenterController
    */
   static handleFacilities(facilitiesInput) {
@@ -77,7 +79,9 @@ export default class CenterController {
    * Check if Center already exists
    *
    * @param {*} req - HTTP request Object
+   *
    * @param {*} res - HTTP response Object
+   *
    * @return {object|null} - JSON response if center exists or null if otherwise
    */
   static validateCenterName(req, res) {
@@ -192,9 +196,11 @@ export default class CenterController {
    * @returns {object} The list of all centers
    */
   static getAll(req, res) {
-    // to fetch all centers available in the database
-    return Centers.findAll({
-      attributes: ['id', 'stateId', 'name', 'image', 'address', 'facilities', 'hallCapacity', 'carParkCapacity', 'price', 'createdBy'],
+    const limit = 1;
+    let offset = 0;
+    const currentPage = req.query.page;
+    offset = limit * (currentPage - 1);
+    return Centers.findAndCountAll({
       include: [{
         model: model.State,
         required: true,
@@ -203,18 +209,23 @@ export default class CenterController {
         model: model.User,
         required: true,
         attributes: ['username']
-      }]
+      }],
+      limit,
+      offset
     })
       .then((centers) => {
-        if (centers.length < 1) {
+        if (centers.rows < 1) {
           return res.status(200).json({
             message: 'No Centers Available',
             statusCode: 200,
-            allCenters: []
+            allCenters: centers.row,
+            totalCenters: centers.count
           });
         }
         return res.status(200).json({
-          allCenters: centers
+          allCenters: centers.rows,
+          totalCenters: centers.count,
+          pages: Math.ceil(centers.count / limit)
         });
       });
   }
@@ -304,7 +315,6 @@ export default class CenterController {
    * @returns {object} returns message object id deletion is successful
    */
   static delete(req, res) {
-    // to check if user is an admin
     if (req.decoded.isAdmin === true) {
       return Centers.findById(req.params.centerId)
         .then((center) => {
@@ -314,7 +324,6 @@ export default class CenterController {
             });
           }
           return center.destroy()
-          // to return this center is deleted successfully
             .then(() => res.status(200).json({ message: 'Center is successfully deleted', statusCode: 200 }));
         })
         .catch(error => res.status(500).json({ message: 'Internal Server Error', statusCode: 500 }));
@@ -341,8 +350,8 @@ export default class CenterController {
         [Op.between]: [params.capacity[0], params.capacity[1]]
       };
     }
-    query.limit = params.limit || 9; 
-    return query;
+    const limit = params.limit || 9;
+    return { query, limit };
   }
 
   /**
@@ -353,36 +362,34 @@ export default class CenterController {
    */
   static searchCenters(req, res) {
     let offset = 0;
-    const query = CenterController.generateQuery(req.body);
+    const { query, limit } = CenterController.generateQuery(req.body);
     const { page } = req.body;
-    offset = query.limit * (page - 1);
+    offset = limit * (page - 1);
     if (query) {
-      Centers.findAndCountAll({ where: query })
-        .then((centers) => {
-          const pages = Math.ceil(centers.count / query.limit);
-          Centers.findAll({
-            where: query,
-            attributes: ['id', 'name', 'address', 'image'],
-            limit: query.limit,
-            offset,
-            include: [{
-              model: model.State,
-              required: true,
-              attributes: ['statName']
-            }, {
-              model: model.User,
-              required: true,
-              attributes: ['username']
-            }]
-          })
-            .then((centersList) => {
-              const response = {
-                centers: centersList,
-                pages,
-                page
-              };
-              return res.status(200).json(response);
-            });
+      Centers.findAndCountAll({
+        where: query,
+        limit,
+        offset,
+        include: [{
+          model: model.State,
+          required: true,
+          attributes: ['statName']
+        }, {
+          model: model.User,
+          required: true,
+          attributes: ['username']
+        }]
+      })
+        .then(centers => res.status(200).json({
+          centers: centers.rows,
+          totalCenters: centers.count,
+          pages: Math.ceil(centers.count / limit )
+        }))
+        .catch((error) => {
+          return res.status(500).json({
+            message: 'server error',
+            error
+          });
         });
     }
   }
