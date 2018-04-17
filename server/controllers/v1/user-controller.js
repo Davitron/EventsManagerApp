@@ -6,6 +6,7 @@ import bcrypt from 'bcrypt';
 import model from '../../models';
 import Mailer from '../../services/mail-service';
 import * as mailTemplate from '../../config/mail-template';
+import Pagination from '../../services/pagingService';
 
 
 dotenv.load();
@@ -190,9 +191,21 @@ export default class UserController {
    * @returns {json} returns all users
    */
   static getUsers(req, res) {
-    return Users.findAll().then((users) => {
-      res.status(200).json({ message: 'Users Retrieved', users, statusCode: 200 });
-    });
+    const limit = parseInt(req.query.limit, 10) || 1;
+    let offset = 0;
+    const currentPage = parseInt(req.query.page, 10) || 1;
+    offset = limit * (currentPage - 1);
+    return Users.findAndCountAll({ limit, offset })
+      .then((users) => {
+        if (users.rows < 1) {
+          res.status(200).json({
+            message: 'Users Retrieved',
+            data: null,
+            meta: null,
+            statusCode: 200,
+          });
+        }
+      });
   }
 
 
