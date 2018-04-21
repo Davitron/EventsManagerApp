@@ -32,7 +32,6 @@ class PendingEvent extends Component {
     this.handleSearch = this.handleSearch.bind(this);
     this.onChangePage = this.onChangePage.bind(this);
     this.triggerSearch = debounce(100, this.triggerSearch);
-
   }
 
   /**
@@ -148,7 +147,7 @@ class PendingEvent extends Component {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
-        rejectEvent(this.state.event_Id);
+        rejectEvent(event_Id);
       }
     });
   };

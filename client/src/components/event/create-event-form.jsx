@@ -9,10 +9,6 @@ import history from '../../helpers/history';
 import FormValidator from '../../helpers/form-validator';
 import Toast from '../../helpers/toast';
 import Loader from '../reusables/loader';
-import FormInput from '../reusables/input';
-
-
-const eventAction = new EventActions();
 
 const propTypes = {
   stateProps: PropTypes.objectOf(() => null),
@@ -42,7 +38,7 @@ class CreateEventForm extends Component {
       },
       errors: {},
       loading: false,
-      message: ''
+      message: '' // eslint-disable-line
     };
 
     this.onChange = this.onChange.bind(this);
@@ -57,11 +53,10 @@ class CreateEventForm extends Component {
    * @returns {*} new props
    */
   componentWillReceiveProps(nextProps) {
-    const { message } = this.state;
     const { response } = nextProps.stateProps;
     if (response.data !== this.props.stateProps.response.data && response) {
       this.setState({
-        message: response.data
+        message: response.data // eslint-disable-line
       }, () => {
         if (response.status === 'success') {
           this.setState({
@@ -222,6 +217,7 @@ class CreateEventForm extends Component {
               <Row>
                 <div className="card-panel white contain image_input center animated bounceInRight ">
                   <div className="title">Create New Event</div>
+                  { loading && <Loader /> }
                   <Row>
                     <Input s={12} name="eventName" value={event.eventName} onChange={this.onChange} label="Event Name" />
                   </Row>

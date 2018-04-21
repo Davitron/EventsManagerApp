@@ -2,7 +2,6 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 import mainActionType from './actionTypes/main-action-types';
 import Dispatcher from '../helpers/dispatch';
-import Logger from '../helpers/logger';
 import Toast from '../helpers/toast';
 import history from '../helpers/history';
 import imageUpload from '../helpers/image-upload';
@@ -18,11 +17,12 @@ const cookies = new Cookies();
  */
 export default class CenterActions {
   /**
-   *@returns {*}
-   * this action is handles fetching all centers
+   *
+   * @param {number} page - page of centers
+   *
+   * @returns {void}
    */
   static getAll(page) {
-    console.log(`${CENTER_BASE_URL}?page=${page}`);
     const token = cookies.get('jwt-events-manager');
     return (dispatch) => {
       dispatch(Dispatcher.action(mainActionType.GETALL_REQUEST, null));
@@ -34,7 +34,6 @@ export default class CenterActions {
         }
       })
         .then((response) => {
-          console.log('>>>>>', response.data);
           dispatch(Dispatcher.action(mainActionType.GETALL_SUCCESS, response.data));
         })
         .catch((error) => {
@@ -46,8 +45,9 @@ export default class CenterActions {
 
   /**
  *
- * @param {*} centerId - The Id of the center to fetch
- * @returns {object} - The center with the request id
+ * @param {number} centerId - The Id of the center to fetch
+ *
+ * @returns {void} - The center with the request id
  */
   static getCenter(centerId) {
     const token = cookies.get('jwt-events-manager');
@@ -61,7 +61,6 @@ export default class CenterActions {
         }
       })
         .then((response) => {
-          console.log(response.data);
           dispatch(Dispatcher.action(mainActionType.GET_SUCCESS, response.data));
         })
         .catch((error) => {
@@ -72,7 +71,7 @@ export default class CenterActions {
   }
 
   /**
-   *@returns {*}
+   *@returns {void}
    * this action is handles fetching all states
    */
   static getAllStates() {
@@ -98,8 +97,9 @@ export default class CenterActions {
 
   /**
    *
-   * @param {*} newCenter
-   *@returns {*}
+   * @param {object} newCenter
+   *
+   * @returns {void}
    * this action is handles creating a center
    */
   static createCenter(newCenter) {
@@ -139,8 +139,9 @@ export default class CenterActions {
 
   /**
    *
-   * @param {*} centerObj
-   * @returns {object} the response object from server
+   * @param {object} centerObj
+   *
+   * @returns {string | object} the response from server
    */
   static handleCenterUpdate(centerObj) {
     const token = cookies.get('jwt-events-manager');
@@ -155,19 +156,18 @@ export default class CenterActions {
       .then((response) => {
         Toast.success(response.data.message);
         return response.data.message;
-        // dispatch(Dispatcher.action(mainActionType.UPDATE_SUCCESS, response.data.message));
       })
       .catch((error) => {
         const { message } = error.response.data;
         Toast.error(message);
         return error.response.data;
-        // dispatch(Dispatcher.action(mainActionType.UPDATE_FAILED, message));
       });
   }
   /**
    *
-   * @param {*} centerObj
-   * @returns {*}
+   * @param {object} centerObj
+   *
+   * @returns {void}
    * this action is handles updating a center
    */
   static updateCenter(centerObj) {
@@ -209,8 +209,9 @@ export default class CenterActions {
   }
   /**
    *
-   * @param {*} param
-   * @returns {*}
+   * @param {object} param - query
+   *
+   * @returns {void}
    * this action handles searching for centers
    */
   static search(param) {
@@ -233,8 +234,9 @@ export default class CenterActions {
 
   /**
    *
-   * @param {*} id
-   * @returns {*}
+   * @param {number} id
+   *
+   * @returns {void}
    * this action is handles deleting a center
   */
   static deleteCenter(id) {

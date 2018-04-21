@@ -6,7 +6,6 @@ import debounce from 'throttle-debounce/debounce';
 import PropTypes from 'prop-types';
 import { Input, Icon } from 'react-materialize';
 import ReactPaginate from 'react-paginate';
-import Pagination from '../reusables/pagination';
 import Loader from '../reusables/loader';
 import CenterActions from '../../actions/center-action';
 import Header from '../header';
@@ -26,9 +25,7 @@ class Center extends Component {
     this.state = {
       data: [],
       searchNotfound: '',
-      pageOfItems: [],
       loading: true,
-      itemsPerPage: 7,
       currentPage: 1
     };
     this.handleSearch = this.handleSearch.bind(this);
@@ -62,26 +59,25 @@ class Center extends Component {
     }
   }
 
-/**
- *
- * @param {*} pageOfItems
- * @returns {*} -
- */
+  /**
+   *
+   * @param {*} pageOfItems
+   * @returns {*} -
+   */
   onChangePage(pageOfItems) {
-    this.setState({ pageOfItems });
+    // this.setState({ pageOfItems });
   }
 
   /**
    * @param {object} currentPage
    *
-   * @returns {void} 
+   * @returns {void}
    */
   loadCentersformServer(currentPage) {
     const { getAll } = this.props;
     this.setState({
       currentPage
-    }, () => getAll(this.state.currentPage))
-    
+    }, () => getAll(this.state.currentPage));
   }
 
   /**
@@ -144,9 +140,7 @@ class Center extends Component {
     const {
       data,
       searchNotfound,
-      pageOfItems,
       loading,
-      itemsPerPage
       // openUpdateModal
     } = this.state;
 
@@ -164,7 +158,7 @@ class Center extends Component {
           overflow: 'auto'
         }}
         >
-          <div className={['container', 'animated', 'bounceInRight'].join(' ')} style={{ marginTop: '64px'}}>
+          <div className={['container', 'animated', 'bounceInRight'].join(' ')} style={{ marginTop: '64px' }}>
             <div className={['row', 'center'].join(' ')} />
             <div className={['col', 's12', 'm8', 'l12'].join(' ')}>
               <div className={['card-panel', 'white'].join(' ')}>
@@ -173,7 +167,7 @@ class Center extends Component {
                     Centers
                     {loading === true && <Loader />}
                   </h4>
-                  {!searchNotfound.length || <p className="red-text">{searchNotfound}</p>} 
+                  { !searchNotfound.length || <p className="red-text">{searchNotfound}</p> }
                   <Input
                     s={6}
                     type="text"
@@ -222,7 +216,7 @@ class Center extends Component {
                   containerClassName="pagination"
                   subContainerClassName="pages pagination"
                   activeClassName="active"
-                  />
+                />
               </div>
             </div>
           </div>

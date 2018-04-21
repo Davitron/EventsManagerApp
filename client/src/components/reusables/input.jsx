@@ -18,7 +18,6 @@ const FormInput = ({
   value,
   colSize,
   label,
-  error,
   type,
   onChange
 }) => {

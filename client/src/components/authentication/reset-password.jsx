@@ -30,9 +30,11 @@ class ResetPassword extends Component {
   }
 
   /**
- *@param {*} event
- *@returns {*}
- *this handles the event when any property in the state changes
+ * @param {*} event
+ *
+ * @returns {*}
+ *
+ * this handles the event when any property in the state changes
  */
   onChange(event) {
     const { name, value } = event.target;
@@ -47,8 +49,10 @@ class ResetPassword extends Component {
 
   /**
    *
-   * @param {*} event
+   * @param {object} event
+   *
    * @returns {*}
+   *
    * this handles the event when form is submitted
    */
   onSubmit(event) {
@@ -68,7 +72,7 @@ class ResetPassword extends Component {
 
 
   /**
-   *@returns {*} view htmlFor langing page
+   *@returns {view} view htmlFor langing page
    */
   render() {
     const { user } = this.state;

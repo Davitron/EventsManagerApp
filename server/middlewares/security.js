@@ -1,4 +1,7 @@
 import jwt from 'jsonwebtoken';
+import model from '../models';
+
+const Users = model.User;
 /**
  *
  */
@@ -17,13 +20,23 @@ export default class Security {
     if (token) {
       jwt.verify(token, process.env.SECRET_KEY, (err, resolved) => {
         if (err) {
-          return res.status(403).json({ message: 'Token is invalid or expired' });
+          return res.status(403).json({ message: 'Token is invalid or expired', statusCode: 403 });
         }
-        req.decoded = resolved;
-        return next();
+        Users.findOne({
+          where: {
+            id: resolved.id
+          }
+        })
+          .then((user) => {
+            if (user) {
+              req.decoded = resolved;
+              return next();
+            }
+            return res.status(404).json({ message: 'User Not Found', statusCode: 404 });
+          });
       });
     } else {
-      return res.status(403).json({ message: 'No Token Was Provided' });
+      return res.status(403).json({ message: 'No Token Was Provided', statusCode: 403 });
     }
   }
 }

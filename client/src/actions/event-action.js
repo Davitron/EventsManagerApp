@@ -41,6 +41,7 @@ export default class EventActions {
 
   /**
    *@param {number} eventId - The Id of the center to fetch
+   *
    *@returns {void}
    *
    */
@@ -56,7 +57,6 @@ export default class EventActions {
         }
       })
         .then((response) => {
-          console.log(response);
           dispatch(Dispatcher.action(mainActionType.GET_SUCCESS, response.data));
         })
         .catch((error) => {
@@ -68,6 +68,7 @@ export default class EventActions {
 
   /**
    *@param {number} centerId
+   *
    *@returns {void}
    *
    */
@@ -96,8 +97,9 @@ export default class EventActions {
   }
 
   /**
-   *@param {number} centerId
-   *@returns {void}
+   * @param {number} centerId
+   *
+   * @returns {void}
    */
   static getUpcomingEvent(centerId) {
     const token = cookies.get('jwt-events-manager');
@@ -123,8 +125,11 @@ export default class EventActions {
   /**
    *
    * @param {object} event
+   *
    * @param {string} token
+   *
    * @param {function} dispatch
+   *
    * @return {void}
    */
   static handleCreateEvent(event, token, dispatch) {
@@ -153,6 +158,7 @@ export default class EventActions {
   /**
    *
    * @param {object} newEvent
+   *
    * @returns {void}
    *
    */
@@ -177,8 +183,11 @@ export default class EventActions {
   /**
  *
  * @param {object} eventObj
+ *
  * @param {token} token
+ *
  * @param {function} dispatch
+ *
  * @returns {void}
  */
   static handleEventUpdate(eventObj, token, dispatch) {
@@ -205,10 +214,12 @@ export default class EventActions {
       });
   }
 
-  /**;
+  /**
    *
    * @param {object} eventObj
+   *
    * @returns {void}
+   *
    * this action is handles updating a event
    */
   static updateEvent(eventObj) {
@@ -229,7 +240,9 @@ export default class EventActions {
   /**
    *
    * @param {number} eventId
+   *
    * @returns {void}
+   *
    * this action is handles updating a event
    */
   static approveEvent(eventId) {
@@ -262,7 +275,9 @@ export default class EventActions {
   /**
    *
    * @param {number} eventId
+   *
    * @returns {void}
+   *
    * this action is handles updating a event
    */
   static rejectEvent(eventId) {
@@ -295,7 +310,9 @@ export default class EventActions {
   /**
    *
    * @param {number} id
+   *
    * @returns {void}
+   *
    * this action is handles deleting a event
   */
   static deleteEvent(id) {

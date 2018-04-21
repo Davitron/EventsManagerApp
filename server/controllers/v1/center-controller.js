@@ -13,10 +13,10 @@ const centerRules = {
   name: 'required|string|min:3|max:30',
   stateId: 'required|integer',
   address: 'required|string|min:10',
-  hallCapacity: 'required|string',
-  carParkCapacity: 'required|string',
-  facilities: 'required|string',
-  price: 'required|string',
+  hallCapacity: 'required|numeric',
+  carParkCapacity: 'required|numeric',
+  facilities: 'required|array',
+  price: 'required|numeric',
   image: 'required|string'
 };
 
@@ -24,10 +24,10 @@ const centerUpdateRules = {
   name: 'string|min:3|max:30',
   stateId: 'integer',
   address: 'string|min:10',
-  hallCapacity: 'string',
-  carParkCapacity: 'string',
-  facilities: 'string',
-  price: 'string',
+  hallCapacity: 'numeric',
+  carParkCapacity: 'numeric',
+  facilities: 'array',
+  price: 'numeric',
 };
 
 
@@ -58,28 +58,28 @@ const centerUpdateRules = {
  *
  */
 export default class CenterController {
-  /**
-   *
-   * @param {string|array} facilitiesInput - A string or array of facilities
-   *
-   * @returns {array} An array of facilities in lowercase
-   *
-   * @memberof CenterController
-   */
-  static handleFacilities(facilitiesInput) {
-    let facilities;
-    // If parameter is an array
-    if (Array.isArray(facilitiesInput)) {
-      facilities = facilitiesInput.map(f => f.toLowerCase());
-    } else if (typeof facilitiesInput === 'string') {
-      facilities = facilitiesInput.split(',')
-        .map(facility => facility.trim().toLowerCase())
-        .filter(word => word !== ' ');
-    } else {
-      return 'invaild facilities input';
-    }
-    return facilities;
-  }
+  // /**
+  //  *
+  //  * @param {string|array} facilitiesInput - A string or array of facilities
+  //  *
+  //  * @returns {array} An array of facilities in lowercase
+  //  *
+  //  * @memberof CenterController
+  //  */
+  // static handleFacilities(facilitiesInput) {
+  //   return facilitiesInput.map(f => f.toLowerCase());
+  //   // // If parameter is an array
+  //   // if (Array.isArray(facilitiesInput)) {
+  //   //   facilities = facilitiesInput.map(f => f.toLowerCase());
+  //   // } else if (typeof facilitiesInput === 'string') {
+  //   //   facilities = facilitiesInput.split(',')
+  //   //     .map(facility => facility.trim().toLowerCase())
+  //   //     .filter(word => word !== ' ');
+  //   // } else {
+  //   //   return 'invaild facilities input';
+  //   // }
+  //   // return facilities;
+  // }
 
   /**
    * Check if Center already exists
@@ -102,7 +102,7 @@ export default class CenterController {
         stateId: req.body.stateId,
         address: req.body.address,
         id: {
-          [Sequelize.Op.ne]: req.params.centerId
+          [Sequelize.Op.ne]: parseInt(req.params.centerId, 10)
         }
       };
     } else {
@@ -115,7 +115,7 @@ export default class CenterController {
     return Centers.findAll({ where: query })
       .then((centers) => {
         if (centers.length > 0) {
-          return res.status(400).json({ message: 'Center already exists', statusCode: 400 });
+          return res.status(409).json({ message: 'Center already exists', statusCode: 409 });
         }
         return null;
       });
@@ -134,7 +134,7 @@ export default class CenterController {
    * @memberof CenterController
    */
   static handleCenterInsert(req, res) {
-    req.body.facilities = CenterController.handleFacilities(req.body.facilities);
+    req.body.facilities = req.body.facilities.map(f => f.toLowerCase());
     Centers.create({
       name: req.body.name,
       stateId: parseInt(req.body.stateId, 10),
@@ -145,7 +145,7 @@ export default class CenterController {
       image: req.body.image,
       createdBy: parseInt(req.decoded.id, 10),
       updatedBy: parseInt(req.decoded.id, 10),
-      price: parseInt(req.body.price, 10)
+      price: parseFloat(req.body.price)
     })
       .then(center => res.status(201).json({ message: 'New Center Created', centerId: center.id, statusCode: 201 }));
   }
@@ -173,12 +173,12 @@ export default class CenterController {
       facilities: request.facilities || center.facilities,
       image: request.image || center.image,
       updatedBy: parseInt(request.admin, 10) || center.updatedBy,
-      price: parseInt(request.price, 10) || center.price
+      price: parseFloat(request.price) || center.price
     })
       .then(updatedCenter => response.status(200).json({
         message: 'Center update successful',
-        updatedCenter,
-        statusCode: 200
+        statusCode: 200,
+        updatedCenter
       }));
   }
 
@@ -221,6 +221,10 @@ export default class CenterController {
    * @memberof CenterController
    */
   static getAll(req, res) {
+    const url = {
+      baseUrl: req.baseUrl,
+      model: 'centers'
+    };
     const limit = parseInt(req.query.limit, 10) || 1;
     let offset = 0;
     const currentPage = parseInt(req.query.page, 10) || 1;
@@ -249,9 +253,11 @@ export default class CenterController {
         }
         return res.status(200).json({
           message: 'Centers Retrieved',
+          statusCode: 200,
           data: centers.rows,
-          meta: Pagination.createPagingData(centers, limit, offset, currentPage),
-          statusCode: 200
+          metaData: {
+            pagination: Pagination.createPagingData(centers, limit, offset, currentPage, url),
+          }
         });
       });
   }
@@ -327,7 +333,7 @@ export default class CenterController {
               });
             }
             if (req.body.facilities) {
-              req.body.facilities = CenterController.handleFacilities(req.body.facilities);
+              req.body.facilities = req.body.facilities.map(f => f.toLowerCase());
             }
             if (req.body.name && req.body.name !== center.name) {
               return CenterController.validateCenterName(req, res)
@@ -411,6 +417,10 @@ export default class CenterController {
    * @memberof CenterController
    */
   static searchCenters(req, res) {
+    const url = {
+      baseUrl: req.baseUrl,
+      model: 'searchCenters'
+    };
     let offset = 0;
     const { query, limit } = CenterController.generateQuery(req.body);
     const { page } = req.body;
@@ -442,7 +452,9 @@ export default class CenterController {
           return res.status(200).json({
             message: 'Centers retrieved',
             data: centers.rows,
-            meta: Pagination.createPagingData(centers, limit, offset, page),
+            metadata: {
+              pagination: Pagination.createPagingData(centers, limit, offset, page, url),
+            },
             statusCode: 200
           });
         });

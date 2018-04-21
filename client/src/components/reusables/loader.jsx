@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 /**
  * @param {*} props
 * @returns {*} view for prealoader

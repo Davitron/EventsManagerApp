@@ -12,13 +12,7 @@ import Loader from '../reusables/loader';
 import FormValidator from '../../helpers/form-validator';
 import history from '../../helpers/history';
 import Header from '../header';
-import Logger from '../../helpers/logger';
 import Toast from '../../helpers/toast';
-
-
-const centerAction = new CenterActions();
-// window.jQuery = window.$ = jQuery;
-
 
 const facilities = [
   'CCTV',
@@ -157,7 +151,6 @@ class CreateCenterForm extends Component {
    * @returns {*} handles selecttion of facilities
    */
   onMultiSelect(event, index, values) {
-    console.log(values);
     const { center } = this.state;
     this.setState({
       center: {

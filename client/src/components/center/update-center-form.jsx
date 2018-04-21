@@ -35,7 +35,9 @@ const defaultProps = {
   stateProps: {},
 };
 /**
- *component for create center modal
+ * component for create center modal
+ * @class
+ *
  */
 class UpdateCenterForm extends Component {
   /**
@@ -76,13 +78,11 @@ class UpdateCenterForm extends Component {
   componentWillReceiveProps(nextProps) {
     // const { message } = this.state;
     const { updateCenter, getCenter, states } = nextProps.stateProps;
-    console.log(updateCenter);
     if (updateCenter.status === 'success') {
       this.setState({ loading: false });
       history.push('/centers');
     }
     if (getCenter.data && states.data) {
-      console.log(getCenter.data);
       const { center } = getCenter.data;
       const facilitiesArr = center.facilities.map(f => f.toUpperCase());
       this.setState({
@@ -202,8 +202,8 @@ class UpdateCenterForm extends Component {
   }
 
   /**
-  *@param {*} e
-  *@returns {*}
+  *@param {object} e
+  *@returns {void}
   *return to previous page
   */
   goBack(e) {

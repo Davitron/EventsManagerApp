@@ -10,11 +10,6 @@ let token;
 let notAdminToken;
 let centerID;
 
-const isLowerCase = (param) => {
-  if (param === param.toLowerCase()) {
-    return param;
-  }
-};
 describe('Testing Api endpoints for centers', () => {
   describe('POST /api/v1/centers', () => {
     it('should return HTTP 200 when email and password are correct', (done) => {
@@ -58,7 +53,7 @@ describe('Testing Api endpoints for centers', () => {
           address: '7, xyz avenue, ikaja',
           hallCapacity: 600,
           carParkCapacity: 200,
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
+          facilities: [['swimming pool, projectors, cctv, vip lounges']],
           price: 1200000,
           image: 'test/image/link'
         })
@@ -82,7 +77,7 @@ describe('Testing Api endpoints for centers', () => {
           address: '7, xyz avenue, ikaja',
           hallCapacity: 600,
           carParkCapacity: 200,
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
+          facilities: [['swimming pool, projectors, cctv, vip lounges']],
           price: 1200000,
           image: 'test/image/link'
         })
@@ -106,7 +101,7 @@ describe('Testing Api endpoints for centers', () => {
           // address: '7, xyz avenue, ikaja',
           hallCapacity: 600,
           carParkCapacity: 200,
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
           price: 1200000,
           image: 'test/image/link'
         })
@@ -129,7 +124,7 @@ describe('Testing Api endpoints for centers', () => {
           stateId: 1,
           address: '7, xyz avenue, ikaja',
           carParkCapacity: 200,
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
           price: 1200000,
           image: 'test/image/link'
         })
@@ -153,7 +148,7 @@ describe('Testing Api endpoints for centers', () => {
           stateId: 1,
           address: '7, xyz avenue, ikaja',
           hallCapacity: 600,
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
           price: 1200000,
           image: 'test/image/link'
         })
@@ -200,7 +195,7 @@ describe('Testing Api endpoints for centers', () => {
           address: '7, xyz avenue, ikaja',
           hallCapacity: 600,
           carParkCapacity: 200,
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
           image: 'test/image/link'
         })
         .end((err, res) => {
@@ -224,7 +219,7 @@ describe('Testing Api endpoints for centers', () => {
           address: '7, xyz avenue, ikaja',
           hallCapacity: 600,
           carParkCapacity: 200,
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
           price: 1200000,
           image: 'test/image/link'
         })
@@ -248,7 +243,7 @@ describe('Testing Api endpoints for centers', () => {
           address: '7, xyz',
           hallCapacity: '600',
           carParkCapacity: '200',
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
           price: '1200000',
           image: 'test/image/link'
         })
@@ -275,7 +270,7 @@ describe('Testing Api endpoints for centers', () => {
           address: '7, xyz avenue, ikaja',
           hallCapacity: '600',
           carParkCapacity: '200',
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
           price: '1200000',
           image: 'test/image/link'
         })
@@ -297,7 +292,7 @@ describe('Testing Api endpoints for centers', () => {
           address: '7, xyz avenue, ikaja',
           hallCapacity: '600',
           carParkCapacity: '200',
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
           price: '1200000',
           image: 'test/image/link'
         })
@@ -321,8 +316,16 @@ describe('Testing Api endpoints for centers', () => {
         .set('x-access-token', token)
         .end((err, res) => {
           res.should.have.status(200);
-          res.body.should.have.property('allCenters');
-          res.body.allCenters.should.an('array');
+          res.body.should.have.property('message');
+          res.body.should.have.property('statusCode');
+          res.body.should.have.property('data');
+          res.body.should.have.property('metaData');
+          res.body.message.should.eql('Centers Retrieved');
+          res.body.statusCode.should.eql(200);
+          res.body.data.should.an('array');
+          res.body.metaData.should.be.an('object');
+          // res.body.metaData.should.have.property('pagination');
+          // res.body.mataData.pagination.should.be.an('object');
           done();
         });
     });
@@ -367,7 +370,7 @@ describe('Testing Api endpoints for centers', () => {
           address: '7, xyz avenue, ikaja',
           hallCapacity: '600',
           carParkCapacity: '200',
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
           price: '1200000',
           image: 'test/image/link'
         })
@@ -389,7 +392,7 @@ describe('Testing Api endpoints for centers', () => {
           address: '7, abc avenue, ikeja',
           hallCapacity: '600',
           carParkCapacity: '200',
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
           price: '1200000'
         })
         .end((err, res) => {
@@ -412,7 +415,7 @@ describe('Testing Api endpoints for centers', () => {
           address: '7, abc avenue, ikeja',
           hallCapacity: '600',
           carParkCapacity: '200',
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
           price: '1200000'
         })
         .end((err, res) => {
@@ -434,14 +437,14 @@ describe('Testing Api endpoints for centers', () => {
           address: '7, abc avenue, ikeja',
           hallCapacity: '600',
           carParkCapacity: '200',
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
           price: '1200000'
         })
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.be.an('object');
           res.body.should.have.property('message');
-          res.body.message.should.eql('invalid center Id');
+          res.body.message.should.eql('Invalid CenterId');
           done();
         });
     });
@@ -456,7 +459,7 @@ describe('Testing Api endpoints for centers', () => {
           address: '7, abc avenue, ikeja',
           hallCapacity: '600',
           carParkCapacity: '200',
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
           price: '1200000'
         })
         .end((err, res) => {
@@ -476,7 +479,7 @@ describe('Testing Api endpoints for centers', () => {
           address: '7, abc avenue, lagos-island',
           hallCapacity: '600',
           carParkCapacity: '400',
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
           price: '1200000'
         })
         .end((err, res) => {
@@ -516,15 +519,15 @@ describe('Testing Api endpoints for centers', () => {
 
     it('Should return 500 if centerId not a number', (done) => {
       chai.request(app)
-        .delete(`/api/v1/centers/${undefined}/`)
+        .delete('/api/v1/centers/houwhgouwhgw/')
         .set('x-access-token', token)
         .end((err, res) => {
-          res.should.have.status(500);
+          res.should.have.status(400);
           res.body.should.be.an('object');
           res.body.should.have.property('message');
           res.body.should.have.property('statusCode');
-          res.body.message.should.eql('Internal Server Error');
-          res.body.statusCode.should.eql(500);
+          res.body.message.should.eql('Invalid CenterId');
+          res.body.statusCode.should.eql(400);
           done();
         });
     });
@@ -537,41 +540,47 @@ describe('Testing API endpoint for states', () => {
       .get('/api/v1/states')
       .then((res) => {
         res.should.have.status(200);
-        res.body.should.be.an('array');
-        res.body.length.should.eql(37);
+        res.body.should.be.an('object');
+        res.body.should.have.property('message');
+        res.body.message.should.eql('States Retrieved');
+        res.body.should.have.property('statusCode');
+        res.body.statusCode.should.eql(200);
+        res.body.should.have.property('states');
+        res.body.states.should.be.an('array');
+        res.body.states.length.should.eql(37);
         done();
       });
   });
 });
 
 describe('Testing Center Controller Utitlity Methods', () => {
-  describe('Testing handle facilities function in center ceontroller', () => {
-    it('should return an array of lowercase strings if input is an array', (done) => {
-      const testInput = ['Test', 'Is', 'All', 'That', 'Matters'];
-      const result = CenterController.handleFacilities(testInput);
-      const lowerCaseArr = result.filter(isLowerCase);
-      result.should.be.an('array');
-      lowerCaseArr.length.should.be.eql(result.length);
-      done();
-    });
+  // describe('Testing handle facilities function in center ceontroller', () => {
+  //   it('should return an array of lowercase strings if input is an array', (done) => {
+  //     const testInput = ['Test', 'Is', 'All', 'That', 'Matters'];
+  //     const result = CenterController.handleFacilities(testInput);
+  //     const lowerCaseArr = result.filter(isLowerCase);
+  //     result.should.be.an('array');
+  //     lowerCaseArr.length.should.be.eql(result.length);
+  //     done();
+  //   });
 
-    it('should return an array of lowercase strings if input is a string', (done) => {
-      const testInput = 'Test, Is, All, That, Matters';
-      const result = CenterController.handleFacilities(testInput);
-      const lowerCaseArr = result.filter(isLowerCase);
-      result.should.be.an('array');
-      lowerCaseArr.length.should.be.eql(result.length);
-      done();
-    });
+  //   it('should return an array of lowercase strings if input is a string', (done) => {
+  //     const testInput = 'Test, Is, All, That, Matters';
+  //     const result = CenterController.handleFacilities(testInput);
+  //     const lowerCaseArr = result.filter(isLowerCase);
+  //     result.should.be.an('array');
+  //     lowerCaseArr.length.should.be.eql(result.length);
+  //     done();
+  //   });
 
-    it('should return "Invalid facilities input" if input is not an array or string', (done) => {
-      const testInput = 1000000;
-      const result = CenterController.handleFacilities(testInput);
-      result.should.be.a('string');
-      result.should.be.eql('invaild facilities input');
-      done();
-    });
-  });
+  //   it('should return "Invalid facilities input" if input is not an array or string', (done) => {
+  //     const testInput = 1000000;
+  //     const result = CenterController.handleFacilities(testInput);
+  //     result.should.be.a('string');
+  //     result.should.be.eql('invaild facilities input');
+  //     done();
+  //   });
+  // });
 
   describe('Testing search center query generator', () => {
     it('Should return an object with stateId field if input has location property', (done) => {

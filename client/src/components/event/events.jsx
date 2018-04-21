@@ -7,7 +7,7 @@ import debounce from 'throttle-debounce/debounce';
 import shortid from 'shortid';
 import PropTypes from 'prop-types';
 import swal from 'sweetalert2';
-import { Input, Icon, Row, Col, Card, CardTitle } from 'react-materialize';
+import { Row, Col, Card, CardTitle } from 'react-materialize';
 import Pagination from '../reusables/pagination';
 import Loader from '../reusables/loader';
 import EventActions from '../../actions/event-action';
@@ -32,8 +32,6 @@ class Event extends Component {
       data: [],
       pagingData: {},
       searchNotfound: '',
-      pageOfItems: [],
-      selectedEvent: {},
       event_Id: undefined,
       loading: true,
       message: ''
@@ -178,7 +176,7 @@ class Event extends Component {
   render() {
     const {
       data,
-      searchNotfound,
+      searchNotfound, // eslint-disable-line
       loading,
       pagingData
       // openUpdateModal
@@ -231,101 +229,6 @@ class Event extends Component {
               <Pagination pagingData={pagingData} />
             </div>
           </div>
-          {/* <div className={['container', 'animated', 'bounceInRight'].join(' ')} style={{ marginTop: '64px' }}>
-            <div className={['row', 'center'].join(' ')} />
-            <div className={['col', 's12', 'm8', 'l12'].join(' ')}>
-              <div className="row">
-                <h3 className={['white-text', 'title', 'col', 's6'].join(' ')}>
-                  Centers
-                  {loading === true && <Loader />}
-                </h3>
-              </div>
-              <Row>
-                <Col s={12} className="cards-container">
-                  {centers !== null &&
-                    centers.map(center => (
-                      <Card
-                        header={<CardTitle reveal image={center.image || '/image/banner4.jpg'} waves="light" />}
-                        title={center.name}
-                        className="cardText card"
-                        key={shortid.generate()}
-                      >
-                        <p><a onClick={() => this.handleOpen((center.id))}>Book this center</a></p>
-                      </Card>
-                    ))
-                  }
-                </Col>
-              </Row>
-              <Row className="center">
-                <button onClick={this.toPrevPage} disabled={currentPage === 1} className={['waves-effect', 'animated', 'bounceInUp', 'btn', 'btn-large'].join(' ')}>Prev</button>
-                <button onClick={this.toNextPage} disabled={currentPage === totalPages} className={['waves-effect', 'animated', 'bounceInUp', 'btn', 'btn-large'].join(' ')}>Next</button>
-              </Row>
-            </div>
-          </div> */}
-          {/* <div className={['container', 'animated', 'bounceInRight'].join(' ')} style={{ paddingTop: '100px' }}>
-            <div className={['row', 'event'].join(' ')} />
-            <div className={['col', 's12', 'm8', 'l12'].join(' ')}>
-              <div className={['card-panel', 'white'].join(' ')}>
-                <div className="row">
-                  <h4 className={['black-text', 'title', 'col', 's6'].join(' ')}>
-                    Events
-                    {loading === true && <Loader />}
-                  </h4>
-                  {!searchNotfound.length || <p className="red-text">{searchNotfound}</p>}
-                  <Input
-                    s={6}
-                    type="text"
-                    label="Search...."
-                    validate
-                    onChange={this.handleSearch}
-                    onKeyDown={this.handleKeyDown}
-                    ref={(searchField) => { this.node = searchField; }}
-                  >
-                    <Icon>search</Icon>
-                  </Input>
-                </div>
-                <table className={['bordered', 'evented', 'centered'].join(' ')}>
-                  <thead>
-                    <tr>
-                      <th>Event Name</th>
-                      <th>Event Center</th>
-                      <th>Event Status</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      pageOfItems.map((item, index) => (
-                        <tr key={item.id}>
-                          <td>{item.eventName}</td>
-                          <td>{item.Center.name}</td>
-                          <td>
-                            <span className={this.handleStatusClass(item.status)}>
-                              {item.status}
-                            </span>
-                          </td>
-                          <td>
-                            <button className={['waves-effect', 'waves-light', 'btn', 'action-button'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleOpen((item.id))} ><i className=" material-icons">create</i></button>
-                            <button className={['waves-effect', 'waves-light', 'btn', 'red'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleDelete((item.id))}><i className=" material-icons">delete</i></button>
-                          </td>
-                        </tr>))
-                    }
-                  </tbody>
-                </table>
-                <div className={['fixed-action-btn', 'click-to-toggle', 'spin-close'].join(' ')}>
-                  <Link className={['btn-floating', 'btn-large', 'waves-effect', 'waves-light', 'action-button'].join(' ')} to="/center-search">
-                    <i className="material-icons">add</i>
-                  </Link>
-                </div>
-                <Pagination
-                  items={
-                    data
-                  }
-                  onChangePage={this.onChangePage}
-                />
-              </div>
-            </div>
-          </div> */}
         </div>
         <div className={['fixed-action-btn', 'click-to-toggle', 'spin-close'].join(' ')}>
           <Link className={['btn-floating', 'btn-large', 'waves-effect', 'waves-light', 'action-button'].join(' ')} to="/center-search">

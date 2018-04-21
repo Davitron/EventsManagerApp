@@ -16,8 +16,8 @@ const cookies = new Cookies();
 export default class UserActions {
   /**
    *
-   * @param {*} data
-   * @returns {*}
+   * @param {object} data
+   * @returns {void}
    * A static method for handling user registration
    */
   static register(data) {
@@ -39,8 +39,10 @@ export default class UserActions {
   }
   /**
    *
-   * @param {*} token
-   * @returns {*}
+   * @param {string} token
+   *
+   * @returns {void}
+   *
    * this action handles user verification
    */
   static completeRegistration(token) {
@@ -57,7 +59,8 @@ export default class UserActions {
             const message = 'Token Expired';
             dispatch(Dispatcher.action(userActionsType.VERIFY_FAILURE, message));
           } else {
-            dispatch(Dispatcher.action(userActionsType.VERIFY_FAILURE, error.response.data.message));
+            const { message } = error.response.data;
+            dispatch(Dispatcher.action(userActionsType.VERIFY_FAILURE, message));
           }
         });
     };
@@ -65,8 +68,10 @@ export default class UserActions {
 
   /**
    *
-   * @param {*} user
-   * @returns {*}
+   * @param {object} user
+   *
+   * @returns {void}
+   *
    * this action handles user authentication
    */
   static login(user) {
@@ -88,8 +93,10 @@ export default class UserActions {
 
   /**
    *
-   * @param {*} email
-   * @returns {*}
+   * @param {string} email
+   *
+   * @returns {void}
+   *
    * this action handles reset password reset
    */
   static resetRequest(email) {
@@ -112,8 +119,10 @@ export default class UserActions {
 
   /**
    *
-   * @param {*} password
-   * @returns {*}
+   * @param {string} password
+   *
+   * @returns {void}
+   *
    * this action handles password reset
    */
   static resetPassword(password) {
@@ -137,7 +146,8 @@ export default class UserActions {
 
   /**
    *
-   * @returns {*}
+   * @returns {void}
+   *
    * this action handles password reset
    */
   static logout() {

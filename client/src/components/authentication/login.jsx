@@ -33,9 +33,9 @@ class Login extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-    /**
-   *
-   */
+  /**
+  * @returns {void}
+  */
   componentWillMount() {
     if (AuthChecker.checkUserAuth()) {
       history.push('/center-search');
@@ -43,10 +43,12 @@ class Login extends Component {
   }
 
   /**
- *@param {*} event
- *@returns {*}
- *this handles the event when any property in the state changes
- */
+  * @param {object} event
+  *
+  * @returns {void}
+  *
+  * this handles the event when any property in the state changes
+  */
   onChange(event) {
     const { name, value } = event.target;
     const { user } = this.state;
@@ -60,8 +62,10 @@ class Login extends Component {
 
   /**
    *
-   * @param {*} event
-   * @returns {*}
+   * @param {object} event
+   *
+   * @returns {void}
+   *
    * this handles the event when form is submitted
    */
   onSubmit(event) {
@@ -77,16 +81,13 @@ class Login extends Component {
         Toast.error(message);
       });
     } else {
-      // Logger.log(createUser);
       authUser(this.state.user);
     }
-    // const { authUser } = this.props;
-    // authUser(this.state.user);
   }
 
 
   /**
-   *@returns {*} view htmlFor langing page
+   *@returns {void} view htmlFor langing page
    */
   render() {
     const { user } = this.state;

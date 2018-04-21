@@ -73,7 +73,7 @@ export default class UserController {
             password: newPassword,
             isAdmin: Boolean(req.body.isAdmin) || false
           }).then((user) => {
-            const token = jwt.sign({ email: user.email }, process.env.SECRET_KEY, { expiresIn: '7d' });
+            const token = jwt.sign({ id: user.id, email: user.email }, process.env.SECRET_KEY, { expiresIn: '7d' });
             const message = mailTemplate.messageBody.accountCreated(user.username, token);
             mailer.sendMail(user.email, message, 'Welcome to EventsManager');
             const userDetails = {
@@ -191,6 +191,10 @@ export default class UserController {
    * @returns {json} returns all users
    */
   static getUsers(req, res) {
+    const url = {
+      baseUrl: req.baseUrl,
+      model: 'users'
+    };
     const limit = parseInt(req.query.limit, 10) || 1;
     let offset = 0;
     const currentPage = parseInt(req.query.page, 10) || 1;
@@ -198,13 +202,21 @@ export default class UserController {
     return Users.findAndCountAll({ limit, offset })
       .then((users) => {
         if (users.rows < 1) {
-          res.status(200).json({
-            message: 'Users Retrieved',
+          res.status(400).json({
+            message: 'No Users Found',
             data: null,
             meta: null,
-            statusCode: 200,
+            statusCode: 400,
           });
         }
+        res.status(200).json({
+          message: 'Users Retrieved',
+          data: users.rows,
+          metaData: {
+            pagination: Pagination.createPagingData(users, limit, offset, currentPage, url),
+          },
+          statusCode: 200
+        });
       });
   }
 
@@ -220,6 +232,7 @@ export default class UserController {
    * @returns {json} returns message object id deletion is successful
    */
   static delete(req, res) {
+    if (isNaN(req.params.userId)) return res.status(400).json({ message: 'Invalid User Id', statusCode: 400 });
     // to check if user is an admin
     if (req.decoded.isAdmin === true) {
       return Users.findById(req.params.userId)

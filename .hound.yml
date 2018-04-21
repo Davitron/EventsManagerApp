@@ -1,3 +1,5 @@
 eslint:
-enabled: true
-config_file: server/.eslintrc.json
+  enabled: true
+  config_file: .eslintrc
+scss:
+  enabled: false

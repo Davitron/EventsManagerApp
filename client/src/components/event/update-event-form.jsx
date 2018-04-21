@@ -173,7 +173,6 @@ class UpdateEventForm extends Component {
         Toast.error(message);
       });
     } else {
-      console.log(this.state.event);
       updateEvent(this.state.event);
     }
     // e.preventDefault();

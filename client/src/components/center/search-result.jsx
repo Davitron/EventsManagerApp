@@ -7,14 +7,14 @@ import PropTypes from 'prop-types';
 import shortid from 'shortid';
 import MenuItem from 'material-ui/MenuItem';
 import ReactPaginate from 'react-paginate';
-import { Row, Col, Card, CardTitle, Button } from 'react-materialize';
+import { Row, Col, Card, CardTitle } from 'react-materialize';
 import history from '../../helpers/history';
 import Header from '../header';
 import Loader from '../reusables/loader';
 import CenterActions from '../../actions/center-action';
 
 /**
- *
+ * @class
  */
 class CenterResults extends Component {
   /**
@@ -33,7 +33,6 @@ class CenterResults extends Component {
         capacity: '',
         page: 1
       },
-      currentPage: undefined,
       totalPages: undefined
     };
     this.onChange = this.onChange.bind(this);
@@ -70,11 +69,10 @@ class CenterResults extends Component {
   componentWillReceiveProps(nextProps) {
     const { centers } = nextProps.stateProps;
     if (centers.data && centers.data.data !== this.state.centers) {
-      const { data, meta } = centers.data;
+      const { data } = centers.data;
       this.setState({
         centers: data,
         loading: false,
-        currentPage: centers.data.page,
         totalPages: centers.data.pages
       });
     }
@@ -134,7 +132,7 @@ class CenterResults extends Component {
   /**
    * @param {object} currentPage
    *
-   * @returns {void} 
+   * @returns {void}
    */
   loadCentersformServer(currentPage) {
     const { searchQuery } = this.state;
@@ -151,7 +149,7 @@ class CenterResults extends Component {
 
   /**
    * @param {object} data
-   * 
+   *
    * @returns {void} for next page
    */
   toChangePage(data) {
@@ -172,19 +170,14 @@ class CenterResults extends Component {
     });
   };
 
-  resizeImage = (imageLink) => {
-
-  }
 
   /**
-   *
+   * @returns {*} view
    */
   render() {
     const {
       centers,
       loading,
-      currentPage,
-      totalPages
     } = this.state;
     return (
       <div>
@@ -219,9 +212,7 @@ class CenterResults extends Component {
                         className="cardText card hoverable"
                         key={shortid.generate()}
                         onClick={() => { history.push(`/centers/${center.id}`); }}
-                      >
-                        {/* <p><a role="link" tabIndex="-1" onClick={() => this.handleOpen((center.id))}>Book this center</a></p> */}
-                      </Card>
+                      />
                     ))
                   }
                 </Col>

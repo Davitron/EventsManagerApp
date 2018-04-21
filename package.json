@@ -4,6 +4,7 @@
   "description": "An Event Management Application for event centers and  event booking.",
   "main": "./server/server.js",
   "scripts": {
+    "lint": "./node_modules/.bin/eslint --ext .jsx --ext .js **",
     "clean": "rm -rf build && mkdir build",
     "build:server": "babel ./server --out-dir build -s",
     "load-config": "cp ./server/config/config.json ./build/config/config.json",
@@ -11,6 +12,7 @@
     "build": "npm run clean && npm run build:server && npm run load-config && npm run load-swagger",
     "db:migration": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
     "test": "NODE_ENV=test npm run db:migration && nyc --reporter=html --reporter=text mocha --timeout 10000 ./server/tests/* --exit --require babel-register --reporter spec",
+    "test:travis": "npm run db:migration && nyc --reporter=html --reporter=text mocha --timeout 10000 ./server/tests/* --exit --require babel-register --reporter spec",
     "babel-node": "babel-node --preset=es2015",
     "start": "nodemon --exec npm run babel-node -- ./server/server.js",
     "build:client": "webpack --config webpack.config.js",
@@ -113,7 +115,6 @@
     "node-sass-chokidar": "^0.0.3",
     "nodemailer": "^4.4.1",
     "nodemon": "^1.12.1",
-    "npm-run-all": "^4.1.2",
     "pg": "^7.4.1",
     "pg-hstore": "^2.3.2",
     "prop-types": "^15.6.0",

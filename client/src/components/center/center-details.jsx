@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import shortid from 'shortid';
 import PropTypes from 'prop-types';
 import { Row, Col, Button, Icon } from 'react-materialize';
 import swal from 'sweetalert2';
-import Loader from '../reusables/loader';
 import CenterActions from '../../actions/center-action';
 import Header from '../header';
 import history from '../../helpers/history';
@@ -28,7 +26,6 @@ class CenterDetails extends Component {
     super(props);
     this.state = {
       center: {},
-      facilityList: [],
       pendingEvents: 0
     };
     this.renderFacilities = this.renderFacilities.bind(this);
@@ -80,23 +77,6 @@ class CenterDetails extends Component {
   }
 
   /**
-   * @param {*} centerId
-   * @returns {*} update center modal
-   */
-  handleCreate(centerId) {
-    const { id } = this.state.center;
-    history.push(`/create-event/${id}`);
-  }
-
-  /**
-   * @returns {*} update center modal
-   */
-  handleUpdate() {
-    const { id } = this.state.center;
-    history.push(`/update-center/${id}`);
-  }
-
-  /**
    *
    * @param {*} eventId
    * @returns {void}
@@ -114,6 +94,23 @@ class CenterDetails extends Component {
   getUpcomingEvent() {
     const { id } = this.state.center;
     history.push(`/upcoming-events/${id}`);
+  }
+
+  /**
+   * @param {*} centerId
+   * @returns {*} update center modal
+   */
+  handleCreate(centerId) {
+    const { id } = this.state.center;
+    history.push(`/create-event/${id}`);
+  }
+
+  /**
+   * @returns {*} update center modal
+   */
+  handleUpdate() {
+    const { id } = this.state.center;
+    history.push(`/update-center/${id}`);
   }
 
   /**
@@ -138,7 +135,7 @@ class CenterDetails extends Component {
   }
 
   /**
-   * 
+  * @returns {void}
   */
   renderFacilities() {
     const { facilities } = this.state.center;
@@ -151,7 +148,7 @@ class CenterDetails extends Component {
  *@returns {*} event for sortin
  */
   render() {
-    const { center, facilityList, pendingEvents } = this.state;
+    const { center, pendingEvents } = this.state;
     return (
       <div>
         <Header />
@@ -215,7 +212,7 @@ class CenterDetails extends Component {
         <Button floating fab="horizontal" icon="menu" className="action-button pulse" large style={{ bottom: '45px', right: '24px' }}>
           <Button floating icon="mode_edit" className="blue" onClick={this.handleUpdate} />
           <Button floating icon="delete" className="red" onClick={this.handleDelete} />
-          <Button floating icon="schedule" className="cyan" onClick={() => {history.push(`/pending-events/${center.id}`); }} />
+          <Button floating icon="schedule" className="cyan" onClick={() => { history.push(`/pending-events/${center.id}`); }} />
         </Button>
       </div>
     );

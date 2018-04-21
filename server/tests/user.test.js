@@ -4,7 +4,8 @@ import faker from 'faker';
 import app from '../server';
 import model from '../models';
 
-const should = chai.should();
+
+const should = chai.should(); // eslint-disable-line
 const Users = model.User;
 
 chai.use(chaiHttp);
@@ -301,7 +302,7 @@ describe('Testing Authentication Routes', () => {
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.be.an('object');
-          res.body.should.have.property('message').eql('Invalid Password');
+          res.body.should.have.property('message').eql('Invalid Login Credentials');
           done();
         });
     });
@@ -455,9 +456,14 @@ describe('Testing Authentication Routes', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.an('object');
-          res.body.should.have.property('users');
-          res.body.users.should.be.an('array');
-          res.body.users.length.should.be.above(0);
+          res.body.should.have.property('message');
+          res.body.should.have.property('statusCode');
+          res.body.should.have.property('data');
+          res.body.should.have.property('metaData');
+          res.body.message.should.be.eql('Users Retrieved');
+          res.body.data.should.be.an('array');
+          res.body.metaData.should.be.an('object');
+          res.body.data.length.should.be.above(0);
           done();
         });
     });

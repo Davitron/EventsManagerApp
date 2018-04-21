@@ -23,7 +23,6 @@ class UpcomingEvent extends Component {
       data: [],
       searchNotfound: '',
       pageOfItems: [],
-      event_Id: undefined,
       loading: true
     };
 
@@ -48,7 +47,6 @@ class UpcomingEvent extends Component {
    */
   componentWillReceiveProps(nextProps) {
     if (nextProps.stateProps.events.data) {
-      console.log('.....');
       this.setState({
         data: nextProps.stateProps.events.data.upcomingEvents,
         loading: false
@@ -92,32 +90,6 @@ class UpcomingEvent extends Component {
     if (status === 'accepted') return 'chip cyan';
     if (status === 'rejected') return 'chip red';
   }
-
-  /**
-   * @param {*} eventId
-   * @returns {*} update event modal
-   */
-  handleApprove = (eventId) => {
-    const { event_Id } = this.state;
-    this.setState({
-      event_Id: eventId
-    }, () => {
-      $('#approveEvent').modal('open');
-    });
-  };
-
-  /**
-   * @param {*} eventId
-   * @returns {*} update event modal
-   */
-  handleReject = (eventId) => {
-    const { event_Id } = this.state;
-    this.setState({
-      event_Id: eventId
-    }, () => {
-      $('#rejectEvent').modal('open');
-    });
-  };
 
   /**
    *

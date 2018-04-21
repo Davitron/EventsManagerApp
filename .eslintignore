@@ -1,0 +1,6 @@
+client/public/*
+node_modules
+coverage
+package.json
+package-lock.json
+README.md

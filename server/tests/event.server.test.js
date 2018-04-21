@@ -56,7 +56,7 @@ describe('Test API', () => {
           address: '7, xyz avenue, ikaja',
           hallCapacity: '600',
           carParkCapacity: '200',
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
           price: '1200000',
           image: 'test/image/url'
         })
@@ -174,11 +174,12 @@ describe('Test API', () => {
             res.body.should.have.property('message');
             res.body.message.errors.should.have.property('centerId');
             res.body.message.errors.centerId.should.be.an('array');
-            res.body.message.errors.centerId[0].should.eql('The centerId must be a number.');
+            res.body.message.errors.centerId[0].should.eql('The centerId must be an integer.');
             done();
           });
       });
-      it('Should return 400 if days is not a string', (done) => {
+
+      it('Should return 400 if days is not a number', (done) => {
         chai.request(app)
           .post('/api/v1/events')
           .set('x-access-token', token)
@@ -186,16 +187,16 @@ describe('Test API', () => {
             centerId: '24',
             eventName: 'The Wedding Party',
             startDate: '21-09-2017',
-            days: 4,
+            days: 'jwhvhwi',
           })
           .end((err, res) => {
             res.should.have.status(400);
             res.body.should.be.an('object');
             res.body.should.have.property('message');
-            res.body.should.have.property('message');
+            res.body.message.should.have.property('errors');
             res.body.message.errors.should.have.property('days');
             res.body.message.errors.days.should.be.an('array');
-            res.body.message.errors.days[0].should.eql('The days must be a string.');
+            res.body.message.errors.days[0].should.eql('The days must be a number.');
             done();
           });
       });
@@ -267,12 +268,14 @@ describe('Test API', () => {
         .get('/api/v1/events')
         .set('x-access-token', token)
         .end((err, res) => {
-          console.log('>>>>>', res.body);
           res.should.have.status(200);
           res.body.should.be.an('object');
-          res.body.should.have.property('allEvents');
+          res.body.should.have.property('message');
           res.body.should.have.property('statusCode').eql(200);
-          res.body.allEvents.should.be.an('array');
+          res.body.should.have.property('data');
+          res.body.should.have.property('metaData');
+          res.body.metaData.should.be.an('object');
+          res.body.data.should.be.an('array');
           done();
         });
     });
@@ -296,13 +299,13 @@ describe('Test API', () => {
     // Testing to get all centers
     it('Should return 500 if eventId is not a number', (done) => {
       chai.request(app)
-        .get(`/api/v1/events/${undefined}/`)
+        .get('/api/v1/events/bjfdljbd/')
         .set('x-access-token', token)
         .end((err, res) => {
-          res.should.have.status(500);
+          res.should.have.status(400);
           res.body.should.be.an('object');
           res.body.should.have.property('message');
-          res.body.message.should.eql('Internal Server Error');
+          res.body.message.should.eql('Invalid event Id');
           done();
         });
     });
@@ -371,7 +374,7 @@ describe('PUT /api/v1/events/:id', () => {
         centerId: centerID.toString(),
         eventName: 'My Wedding',
         startDate: '2022-12-12',
-        days: 4
+        days: 'kwkwgwb'
       })
       .end((err, res) => {
         res.should.have.status(400);
@@ -380,7 +383,7 @@ describe('PUT /api/v1/events/:id', () => {
         res.body.message.should.have.property('errors');
         res.body.message.errors.should.have.property('days');
         res.body.message.errors.days.should.be.an('array');
-        res.body.message.errors.days[0].should.eql('The days must be a string.');
+        res.body.message.errors.days[0].should.eql('The days must be a number.');
         done();
       });
   });
@@ -405,7 +408,7 @@ describe('PUT /api/v1/events/:id', () => {
 
   it('Should return 500 if eventId is not a number', (done) => {
     chai.request(app)
-      .put(`/api/v1/events/${undefined}/`)
+      .put('/api/v1/events/jdwvjhv/')
       .set('x-access-token', token)
       .send({
         centerId: centerID.toString(),
@@ -414,12 +417,12 @@ describe('PUT /api/v1/events/:id', () => {
         days: '4'
       })
       .end((err, res) => {
-        res.should.have.status(500);
+        res.should.have.status(400);
         res.body.should.be.an('object');
         res.body.should.have.property('message');
         res.body.should.have.property('statusCode');
-        res.body.message.should.eql('Server Error');
-        res.body.statusCode.should.eql(500);
+        res.body.message.should.eql('Invalid Event Id');
+        res.body.statusCode.should.eql(400);
         done();
       });
   });
@@ -493,15 +496,15 @@ describe('PUT /api/v1/events/approve/:eventId for aproving events', () => {
 
   it('Should return 500 if eventId is not a number', (done) => {
     chai.request(app)
-      .put(`/api/v1/events/approve/${undefined}/`)
+      .put('/api/v1/events/approve/undefined/')
       .set('x-access-token', token)
       .end((err, res) => {
-        res.should.have.status(500);
+        res.should.have.status(400);
         res.body.should.be.an('object');
         res.body.should.have.property('message');
         res.body.should.have.property('statusCode');
-        res.body.message.should.eql('Internal Server Error');
-        res.body.statusCode.should.eql(500);
+        res.body.message.should.eql('Invalid Event Id');
+        res.body.statusCode.should.eql(400);
         done();
       });
   });
@@ -607,12 +610,12 @@ describe('PUT /api/v1/events/reject/:eventId for aproving events', () => {
       .put(`/api/v1/events/reject/${undefined}/`)
       .set('x-access-token', token)
       .end((err, res) => {
-        res.should.have.status(500);
+        res.should.have.status(400);
         res.body.should.be.an('object');
         res.body.should.have.property('message');
         res.body.should.have.property('statusCode');
-        res.body.message.should.eql('Internal Server Error');
-        res.body.statusCode.should.eql(500);
+        res.body.message.should.eql('Invalid Event Id');
+        res.body.statusCode.should.eql(400);
         done();
       });
   });
@@ -638,12 +641,12 @@ describe('DELETE /api/v1/events/:id', () => {
       .delete(`/api/v1/events/${undefined}/`)
       .set('x-access-token', token)
       .end((err, res) => {
-        res.should.have.status(500);
+        res.should.have.status(400);
         res.body.should.be.an('object');
         res.body.should.have.property('message');
         res.body.should.have.property('statusCode');
-        res.body.message.should.eql('Server Error');
-        res.body.statusCode.should.eql(500);
+        res.body.message.should.eql('Invalid Event Id');
+        res.body.statusCode.should.eql(400);
         done();
       });
   });

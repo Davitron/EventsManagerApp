@@ -24,12 +24,11 @@ export default class Mailer {
    * @returns {boolean} returns a boolean value indicating if mail was sent successfully or not
    */
   useNodemailer(mail) {
-    console.log(process.env.EMAIL_PASSWORD);
     return mailTransport.sendMail(mail, (err, info) => {
       if (err) {
         throw err;
       }
-      console.log('Message Sent');
+      console.log('Message Sent'); // eslint-disable-line
       return 'Message Sent';
     });
   }
