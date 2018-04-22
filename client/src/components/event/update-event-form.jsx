@@ -3,9 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Input, Row } from 'react-materialize';
 import PropTypes from 'prop-types';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
 import EventActions from '../../actions/event-action';
 import Header from '../header';
 import history from '../../helpers/history';
@@ -15,13 +12,15 @@ import Loader from '../reusables/loader';
 
 
 const propTypes = {
-  updateEvent: PropTypes.func.isRequired,
-  stateProps: PropTypes.objectOf(() => null),
-  location: PropTypes.objectOf(() => null).isRequired
+  updateEvent: PropTypes.func,
+  getEvent: PropTypes.func.isRequired,
+  match: PropTypes.objectOf(() => null).isRequired,
+  stateProps: PropTypes.objectOf(() => null)
 };
 
 const defaultProps = {
-  stateProps: {}
+  stateProps: {},
+  updateEvent: EventActions.updateEvent
 };
 /**
  *component for create event modal
@@ -37,29 +36,22 @@ class UpdateEventForm extends Component {
       event: {},
       errors: {},
       loading: false,
-      message: ''
     };
 
     this.onChange = this.onChange.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.goBack = this.goBack.bind(this);
+    this.onFileChange = this.onFileChange.bind(this);
   }
 
   /**
    * @returns {*} set value of props to event on initial render
    */
   componentWillMount() {
-    const { event } = this.props.location.state;
-    this.setState({
-      event: {
-        id: event.id,
-        eventName: event.eventName,
-        startDate: this.formatDate(event.startDate),
-        days: event.days.toString(),
-        centerId: event.centerId.toString()
-      }
-    });
+    const { getEvent } = this.props;
+    const { eventId } = this.props.match.params;
+    getEvent(eventId);
   }
 
   /**
@@ -68,21 +60,47 @@ class UpdateEventForm extends Component {
    * @returns {*} to set state when props changes
    */
   componentWillReceiveProps(nextProps) {
-    const { message } = this.state;
-    console.log(nextProps);
-    const { data, status } = nextProps.stateProps.stateProps;
-    if (status === 'success') {
+    const { updateEvent, getEvent } = nextProps.stateProps;
+    if (updateEvent.status === 'success') {
+      this.setState({ loading: false });
+      history.push('/events');
+    }
+
+    if (getEvent.data) {
+      const { event } = getEvent.data;
       this.setState({
         loading: false,
         event: {
-          eventName: '',
-          startDate: '',
-          days: '',
-          centerId: '',
+          id: event.id,
+          eventName: event.eventName,
+          startDate: this.formatDate(event.startDate),
+          days: event.days.toString(),
+          centerId: event.centerId.toString(),
+          image: event.image,
+          newImage: event.image,
         }
       });
-      history.push('/events');
     }
+    if (updateEvent.data === 'failed') {
+      this.setState({
+        loading: false
+      });
+    }
+    // const { message } = this.state;
+    // console.log(nextProps);
+    // const { data, status } = nextProps.stateProps.stateProps;
+    // if (status === 'success') {
+    //   this.setState({
+    //     loading: false,
+    //     event: {
+    //       eventName: '',
+    //       startDate: '',
+    //       days: '',
+    //       centerId: '',
+    //     }
+    //   });
+    //   history.push('/events');
+    // }
   }
 
   /**
@@ -100,6 +118,21 @@ class UpdateEventForm extends Component {
       }
     });
   }
+  /**
+  *@param {*} e
+  *@returns {*}
+  *this handles the event when any property in the state changes
+  */
+  onFileChange(e) {
+    const { name, files } = e.target;
+    const { event } = this.state;
+    this.setState({
+      event: {
+        ...event,
+        [name]: files[0]
+      }
+    });
+  }
 
   /**
   *@param {*} e
@@ -109,7 +142,6 @@ class UpdateEventForm extends Component {
   onDateChange(e) {
     const { name, value } = e.target;
     const date = this.formatDateBack(value);
-    console.log(date);
     const { event } = this.state;
     this.setState({
       event: {
@@ -164,20 +196,6 @@ class UpdateEventForm extends Component {
     history.goBack();
   }
 
-  // /**
-  //  *@returns {*} check if form imputs are valid
-  //  */
-  // isValid() {
-  //   let validity = true;
-  //   const formValidator = new FormValidator();
-  //   const { errors, isValid } = formValidator.validateEventInput(this.state.event);
-  //   if (isValid === false) {
-  //     this.setState({ errors });
-  //     validity = false;
-  //     return validity;
-  //   }
-  //   return validity;
-  // }
 
   /**
   *@param {*} date
@@ -215,7 +233,7 @@ class UpdateEventForm extends Component {
     return (
       <div>
         <div style={{
-          backgroundColor: 'rgb(5, 22, 22)',
+          backgroundColor: '#f5f5f5',
           position: 'absolute',
           top: 0,
           right: 0,
@@ -226,7 +244,7 @@ class UpdateEventForm extends Component {
         }}
         >
           <Header />
-          <div className="container">
+          <div className="container" style={{ marginTop: '64px' }}>
             <center>
               <Row>
                 <div className="card-panel white contain center animated bounceInRight">
@@ -237,7 +255,7 @@ class UpdateEventForm extends Component {
                       <Input
                         s={12}
                         name="eventName"
-                        defaultValue={event.eventName}
+                        value={!event.eventName ? '' : event.eventName}
                         onChange={this.onChange}
                         label="Event Name"
                         labelClassName={event.eventName && 'active'}
@@ -246,28 +264,41 @@ class UpdateEventForm extends Component {
                     <Row>
                       <Input
                         s={12}
+                        m={12}
+                        l={6}
                         name="startDate"
-                        defaultValue={event.startDate}
+                        value={!event.startDate ? '' : event.startDate}
                         type="date"
                         onChange={this.onDateChange}
                         label="Start Date"
                         labelClassName={event.startDate && 'active'}
                       />
-                    </Row>
-                    <Row>
                       <Input
                         s={12}
+                        m={12}
+                        l={6}
                         name="days"
                         type="number"
-                        defaultValue={event.days}
+                        value={!event.days ? '' : event.days}
                         onChange={this.onChange}
                         label="Days"
                         labelClassName={event.days && 'active'}
                       />
                     </Row>
+                    <Row>
+                      <div className={['file-field', 'input-field', 's12'].join(' ')}>
+                        <div className="btn action-button">
+                          <span>Center image</span>
+                          <input type="file" name="newImage" onChange={this.onFileChange} accept="image/*" />
+                        </div>
+                        <div className="file-path-wrapper">
+                          <input className={['file-path', 'validate'].join(' ')} type="text" placeholder={errors.image || 'upload image'} />
+                        </div>
+                      </div>
+                    </Row>
                     <Row className="center">
                       <button
-                        className="btn waves-effect waves-light btn-large"
+                        className="btn waves-effect waves-light btn-large action-button"
                         onClick={this.onSubmit}
                         disabled={!event.days || !event.eventName || !event.startDate}
                       >
@@ -292,13 +323,14 @@ UpdateEventForm.defaultProps = defaultProps;
 
 const matchStateToProps = state => ({
   stateProps: {
-    stateProps: state.update
+    updateEvent: state.update,
+    getEvent: state.get
   }
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   updateEvent: EventActions.updateEvent,
-  getEvents: EventActions.getAll
+  getEvent: EventActions.getEvent
 }, dispatch);
 
 export default connect(matchStateToProps, mapDispatchToProps)(UpdateEventForm);

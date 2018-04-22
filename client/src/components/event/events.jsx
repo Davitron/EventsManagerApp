@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import moment from 'moment';
 import debounce from 'throttle-debounce/debounce';
+import shortid from 'shortid';
 import PropTypes from 'prop-types';
 import swal from 'sweetalert2';
-import { Input, Icon } from 'react-materialize';
+import { Row, Col, Card, CardTitle } from 'react-materialize';
 import Pagination from '../reusables/pagination';
 import Loader from '../reusables/loader';
 import EventActions from '../../actions/event-action';
@@ -28,16 +30,15 @@ class Event extends Component {
     super(props);
     this.state = {
       data: [],
+      pagingData: {},
       searchNotfound: '',
-      pageOfItems: [],
-      selectedEvent: {},
       event_Id: undefined,
       loading: true,
       message: ''
     };
 
     this.handleSearch = this.handleSearch.bind(this);
-    this.onChangePage = this.onChangePage.bind(this);
+    // this.onChangePage = this.onChangePage.bind(this);
     this.triggerSearch = debounce(100, this.triggerSearch);
     this.handleOpen = this.handleOpen.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
@@ -59,9 +60,10 @@ class Event extends Component {
     const { events, eventDeleted } = nextProps.stateProps;
     const { data, message } = this.state;
     const { getAll } = this.props;
-    if (events.data && events.data.allEvents !== data) {
+    if (events.data && events.data.data !== data) {
       this.setState({
-        data: events.data.allEvents,
+        data: events.data.data,
+        pagingData: events.data.meta,
         loading: false,
         message: ''
       });
@@ -75,20 +77,20 @@ class Event extends Component {
     }
   }
 
-  /**
-   *
-   * @param {*} pageOfItems
-   * @returns {*} newPage
-   */
-  onChangePage(pageOfItems) {
-    const { stateProps } = this.props;
-    // update state with new page of items
-    if (pageOfItems) {
-      this.setState({ pageOfItems });
-    } else {
-      this.setState({ pageOfItems: stateProps });
-    }
-  }
+  // /**
+  //  *
+  //  * @param {*} pageOfItems
+  //  * @returns {*} newPage
+  //  */
+  // onChangePage(pageOfItems) {
+  //   const { stateProps } = this.props;
+  //   // update state with new page of items
+  //   if (pageOfItems) {
+  //     this.setState({ pageOfItems });
+  //   } else {
+  //     this.setState({ pageOfItems: stateProps });
+  //   }
+  // }
 
   /**
    *@param {*} event
@@ -107,9 +109,9 @@ class Event extends Component {
    * @returns {*} style class for status
    */
   handleStatusClass = (status) => {
-    if (status === 'pending') return 'chip orange';
-    if (status === 'accepted') return 'chip cyan';
-    if (status === 'rejected') return 'chip red';
+    if (status === 'pending') return 'orange-text';
+    if (status === 'accepted') return 'cyan-text';
+    if (status === 'rejected') return 'red-text';
   }
 
   /**
@@ -117,17 +119,7 @@ class Event extends Component {
    * @returns {*} update event modal
    */
   handleOpen = (eventId) => {
-    const { pageOfItems } = this.state;
-    const event = pageOfItems.find(x => x.id === eventId);
-    history.push('/update-event', {
-      event,
-    });
-  };
-
-  handleModalClose = () => {
-    this.setState({
-      loading: true
-    });
+    history.push(`/update-event/${eventId}`);
   };
 
   /**
@@ -179,32 +171,21 @@ class Event extends Component {
   }
 
   /**
-   * @param {*} event
-   * @returns {*} triggers when key is pressed
-   */
-  handleKeyDown(event) {
-    if (event.keyCode === 13) {
-      this.triggerSearch();
-    }
-  }
-
-  /**
  *@returns {*} event for sortin
  */
   render() {
     const {
       data,
-      searchNotfound,
-      pageOfItems,
+      searchNotfound, // eslint-disable-line
       loading,
-      selectedEvent,
+      pagingData
       // openUpdateModal
     } = this.state;
     return (
       <div>
         <Header />
         <div style={{
-          backgroundColor: 'rgb(5, 22, 22)',
+          backgroundColor: '#f5f5f5',
           position: 'absolute',
           top: 0,
           right: 0,
@@ -214,73 +195,46 @@ class Event extends Component {
           overflow: 'auto'
         }}
         >
-          <div className={['container', 'animated', 'bounceInRight'].join(' ')} style={{ paddingTop: '100px' }}>
-            <div className={['row', 'event'].join(' ')} />
+          <div className={['container', 'animated', 'bounceInRight'].join(' ')} style={{ marginTop: '64px' }}>
+            <div className={['row', 'center'].join(' ')} />
             <div className={['col', 's12', 'm8', 'l12'].join(' ')}>
-              <div className={['card-panel', 'white'].join(' ')}>
-                <div className="row">
-                  <h4 className={['black-text', 'title', 'col', 's6'].join(' ')}>
-                    Events
-                    {loading === true && <Loader />}
-                  </h4>
-                  {!searchNotfound.length || <p className="red-text">{searchNotfound}</p>}
-                  <Input
-                    s={6}
-                    type="text"
-                    label="Search...."
-                    validate
-                    onChange={this.handleSearch}
-                    onKeyDown={this.handleKeyDown}
-                    ref={(searchField) => { this.node = searchField; }}
-                  >
-                    <Icon>search</Icon>
-                  </Input>
-                </div>
-                <table className={['bordered', 'evented', 'centered'].join(' ')}>
-                  <thead>
-                    <tr>
-                      <th>Event Name</th>
-                      <th>Event Center</th>
-                      <th>Event Status</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      pageOfItems.map((item, index) => (
-                        <tr key={item.id}>
-                          <td>{item.eventName}</td>
-                          <td>{item.Center.name}</td>
-                          <td>
-                            <span className={this.handleStatusClass(item.status)}>
-                              {item.status}
-                            </span>
-                          </td>
-                          <td>
-                            <button className={['waves-effect', 'waves-light', 'btn'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleOpen((item.id))} ><i className=" material-icons">create</i></button>
-                            <button className={['waves-effect', 'waves-light', 'btn', 'red'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleDelete((item.id))}><i className=" material-icons">delete</i></button>
-                          </td>
-                        </tr>))
-                    }
-                  </tbody>
-                </table>
-                <div className={['fixed-action-btn', 'click-to-toggle', 'spin-close'].join(' ')}>
-                  <Link className={['btn-floating', 'btn-large', 'waves-effect', 'waves-light'].join(' ')} to="/center-search">
-                    <i className="material-icons">add</i>
-                  </Link>
-                </div>
-                <Pagination
-                  items={
-                    data
-                  }
-                  onChangePage={this.onChangePage}
-                />
+              <div className="row">
+                <h3 className={['title', 'col', 's6', 'black-text'].join(' ')}>
+                  My Events
+                  {loading === true && <Loader />}
+                </h3>
               </div>
+              <Row>
+                <Col s={12} className="cards-container">
+                  {data !== null &&
+                    data.map(event => (
+                      <Card
+                        header={<CardTitle image={event.image || '/images/banner4.jpg'} waves="light" />}
+                        title={event.eventName}
+                        className="cardText card hoverable"
+                        key={shortid.generate()}
+                      >
+                        <p>{moment(event.startDate).format('MMMM Do YYYY')} - {moment(event.endDate).format('MMMM Do YYYY')}</p>
+                        <span>{event.Center.name}</span><br />
+                        <span className={this.handleStatusClass(event.status)}>
+                          {event.status}
+                          <i role="button" tabIndex="-1" className=" material-icons delete right" onClick={() => { this.handleDelete(event.id); }}>delete</i>
+                          <i role="button" tabIndex="-1" className=" material-icons edit right" onClick={() => { this.handleOpen(event.id); }}>mode_edit</i>
+                        </span>
+                      </Card>
+                    ))
+                  }
+                </Col>
+              </Row>
+              <Pagination pagingData={pagingData} />
             </div>
           </div>
         </div>
-        {/* <UpdateEventModal selectedEvent={selectedEvent} />
-        <DeleteEventModal eventId={this.state.event_Id} /> */}
+        <div className={['fixed-action-btn', 'click-to-toggle', 'spin-close'].join(' ')}>
+          <Link className={['btn-floating', 'btn-large', 'waves-effect', 'waves-light', 'action-button'].join(' ')} to="/center-search">
+            <i className="material-icons">add</i>
+          </Link>
+        </div>
       </div>
     );
   }

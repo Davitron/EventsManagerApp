@@ -8,7 +8,7 @@ export default class Toast {
    * @returns {*} toast
    */
   static success(data) {
-    return Materialize.toast(data, 5000, 'green app-toast');
+    return Materialize.toast(data, 5000, 'green app-toast'); // eslint-disable-line
   }
 
   /**
@@ -17,7 +17,7 @@ export default class Toast {
    * @returns {*} toast
    */
   static error(data) {
-    return Materialize.toast(data, 5000, 'red app-toas');
+    return Materialize.toast(data, 5000, 'red app-toast'); // eslint-disable-line
   }
 
   /**
@@ -26,7 +26,7 @@ export default class Toast {
    * @returns {*} toast
    */
   static info(data) {
-    return Materialize.toast(data, 5000, 'orange app-toast');
+    return Materialize.toast(data, 5000, 'orange app-toast'); // eslint-disable-line
   }
 
   /**

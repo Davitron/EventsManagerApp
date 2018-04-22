@@ -1,9 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { Router, Route, Switch, Redirect } from 'react-router';
+import { Router, Route, Switch } from 'react-router';
 import history from '../helpers/history';
-import '../style.scss';
 import Home from './home';
 import Register from './authentication/register';
 import Login from './authentication/login';
@@ -22,9 +19,10 @@ import PendingEvent from './event/pending-events';
 import UpcomingEvent from './event/upcoming-events';
 import Events from './event/events';
 import NotFound from './notFound';
-import AuthChecker from '../helpers/auth-checker';
+import CenterDetails from './center/center-details';
 import UserRoute from '../helpers/user-route';
 import AdminRoute from '../helpers/admin-route';
+import '../style.scss';
 
 const App = () => (
   <Router history={history}>
@@ -39,14 +37,15 @@ const App = () => (
         <Route exact path="/verified" component={Verified} />
         <Route exact path="/center-search" component={CenterSearch} />
         <Route exact path="/center-result" component={CenterResult} />
+        <Route exact path="/centers/:centerId" component={CenterDetails} />
         <AdminRoute exact path="/centers" component={Centers} redirectPath="/login" />
         <UserRoute exact path="/events" component={Events} redirectPath="/login" />
         <AdminRoute exact path="/create-center" component={CreateCenterForm} redirectPath="/login" />
-        <AdminRoute exact path="/update-center" component={UpdateCenterForm} redirectPath="/login" />
-        <UserRoute exact path="/create-event" component={CreateEventForm} redirectPath="/login" />
-        <UserRoute exact path="/update-event" component={UpdateEventForm} redirectPath="/login" />
-        <AdminRoute exact path="/pending-events/:centerId" component={PendingEvent} redirectPath="/login" />
-        <Route exact path="/upcoming-events/:centerId" component={UpcomingEvent} />
+        <AdminRoute path="/update-center/:centerId" component={UpdateCenterForm} redirectPath="/login" />
+        <UserRoute exact path="/create-event/:centerId" component={CreateEventForm} redirectPath="/login" />
+        <UserRoute exact path="/update-event/:eventId" component={UpdateEventForm} redirectPath="/login" />
+        <AdminRoute path="/pending-events/:centerId" component={PendingEvent} redirectPath="/login" />
+        <Route path="/upcoming-events/:centerId" component={UpcomingEvent} />
         <Route component={NotFound} />
       </Switch>
     </div>

@@ -6,14 +6,15 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import shortid from 'shortid';
 import MenuItem from 'material-ui/MenuItem';
-import { Row, Button, Col, Card, CardTitle } from 'react-materialize';
+import ReactPaginate from 'react-paginate';
+import { Row, Col, Card, CardTitle } from 'react-materialize';
 import history from '../../helpers/history';
 import Header from '../header';
 import Loader from '../reusables/loader';
 import CenterActions from '../../actions/center-action';
 
 /**
- *
+ * @class
  */
 class CenterResults extends Component {
   /**
@@ -24,7 +25,6 @@ class CenterResults extends Component {
     super(props);
     this.state = {
       centers: [],
-      states: [],
       loading: false,
       facilities: [],
       searchQuery: {
@@ -33,13 +33,10 @@ class CenterResults extends Component {
         capacity: '',
         page: 1
       },
-      currentPage: undefined,
       totalPages: undefined
     };
     this.onChange = this.onChange.bind(this);
     this.onMultiSelect = this.onMultiSelect.bind(this);
-    this.toNextPage = this.toNextPage.bind(this);
-    this.toPrevPage = this.toPrevPage.bind(this);
   }
 
   /**
@@ -47,19 +44,11 @@ class CenterResults extends Component {
    *@returns {*} fetches all centers
    */
   componentWillMount() {
-    // const { state } = this.props.location.state;
-    const url = new URL(window.location.href);
     const param = queryString.parse(window.location.search);
     const facilities = param.facilities.split(',').map(x => x.toLowerCase());
     const capacity = param.capacity.split(',').map(x => parseInt(x, 10));
     const locationStr = param.location;
     const location = parseInt(locationStr, 10);
-    // const searchQuery = {
-    //   location: isNaN(location) ? null : location,
-    //   capacity: isNaN(capacity[0]) ? null : capacity,
-    //   facilities: facilities[0] === 'null' ? null : facilities,
-    //   page: 1
-    // };
     this.setState({
       searchQuery: {
         location: isNaN(location) ? null : location,
@@ -79,12 +68,11 @@ class CenterResults extends Component {
    */
   componentWillReceiveProps(nextProps) {
     const { centers } = nextProps.stateProps;
-    if (centers.data && centers.data.centers !== this.state.centers) {
-      console.log(centers.data);
+    if (centers.data && centers.data.data !== this.state.centers) {
+      const { data } = centers.data;
       this.setState({
-        centers: centers.data.centers,
+        centers: data,
         loading: false,
-        currentPage: centers.data.page,
         totalPages: centers.data.pages
       });
     }
@@ -96,7 +84,6 @@ class CenterResults extends Component {
   */
   onChange(event) {
     const { name, value } = event.target;
-    console.log(value);
     const { searchQuery } = this.state;
     this.setState({
       searchQuery: {
@@ -143,14 +130,16 @@ class CenterResults extends Component {
   }
 
   /**
- * @returns {*} for next page
- */
-  toNextPage() {
-    const { currentPage, searchQuery } = this.state;
+   * @param {object} currentPage
+   *
+   * @returns {void}
+   */
+  loadCentersformServer(currentPage) {
+    const { searchQuery } = this.state;
     this.setState({
       searchQuery: {
         ...searchQuery,
-        page: currentPage + 1
+        page: currentPage
       }
     }, () => {
       const { searchCenter } = this.props;
@@ -159,20 +148,15 @@ class CenterResults extends Component {
   }
 
   /**
-   * @returns {*} for previous page
+   * @param {object} data
+   *
+   * @returns {void} for next page
    */
-  toPrevPage() {
-    const { currentPage, searchQuery } = this.state;
-    this.setState({
-      searchQuery: {
-        ...searchQuery,
-        page: currentPage - 1
-      }
-    }, () => {
-      const { searchCenter } = this.props;
-      searchCenter(this.state.searchQuery);
-    });
+  toChangePage(data) {
+    const { selected } = data;
+    this.loadCentersformServer(selected);
   }
+
 
   /**
    * @param {*} centerId
@@ -186,23 +170,20 @@ class CenterResults extends Component {
     });
   };
 
+
   /**
-   *
+   * @returns {*} view
    */
   render() {
     const {
       centers,
-      states,
       loading,
-      searchQuery,
-      currentPage,
-      totalPages
     } = this.state;
     return (
       <div>
         <Header />
         <div style={{
-          backgroundColor: 'rgb(5, 22, 22)',
+          backgroundColor: '#f5f5f5',
           position: 'absolute',
           top: 0,
           right: 0,
@@ -212,7 +193,7 @@ class CenterResults extends Component {
           overflow: 'auto'
         }}
         >
-          <div className={['container', 'animated', 'bounceInRight'].join(' ')} style={{ paddingTop: '50px' }}>
+          <div className={['container', 'animated', 'bounceInRight'].join(' ')} style={{ marginTop: '64px' }}>
             <div className={['row', 'center'].join(' ')} />
             <div className={['col', 's12', 'm8', 'l12'].join(' ')}>
               <div className="row">
@@ -222,70 +203,44 @@ class CenterResults extends Component {
                 </h3>
               </div>
               <Row>
-                {centers !== null &&
-                  centers.map(center => (
-                    <Col s={12} m={6} l={4} key={shortid.generate()}>
+                <Col s={12} className="cards-container">
+                  {centers !== null &&
+                    centers.map(center => (
                       <Card
-                        header={<CardTitle reveal image={center.image || '../../../../src/assests/image/banner4.jpg'} waves="light" />}
+                        header={<CardTitle image={center.image || '/image/banner4.jpg'} waves="light" />}
                         title={center.name}
-                        className="cardText"
-                        reveal={
-                          <div>
-                            <Row>
-                              <Col s={3}>
-                                State:
-                              </Col>
-                              <Col s={9}>
-                                {center.State.statName}
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col s={3}>
-                                Capacity:
-                              </Col>
-                              <Col s={9}>
-                                {center.hallCapacity}
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col s={3}>
-                                Carpark Space:
-                              </Col>
-                              <Col s={9}>
-                                {center.carParkCapacity}
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col s={3}>
-                                facilities:
-                              </Col>
-                              <Col s={9}>
-                                {center.facilities.join(', ')}
-                              </Col>
-                            </Row>
-                            <Row className="center">
-                              <button
-                                className={['waves-effect', 'orange', 'animated', 'bounceInUp', 'btn', 'btn-large'].join(' ')}
-                                onClick={() => history.push(`/upcoming-events/${center.id}`)}
-                              >
-                                View Upcoming Events
-                              </button>
-                            </Row>
-                          </div>
-                        }
-                      >
-                        <p><a onClick={() => this.handleOpen((center.id))}>Book this center</a></p>
-                      </Card>
-                    </Col>
-                  ))
-                }
+                        className="cardText card hoverable"
+                        key={shortid.generate()}
+                        onClick={() => { history.push(`/centers/${center.id}`); }}
+                      />
+                    ))
+                  }
+                </Col>
               </Row>
               <Row className="center">
-                <button onClick={this.toPrevPage} disabled={currentPage === 1} className={['waves-effect', 'animated', 'bounceInUp', 'btn', 'btn-large'].join(' ')}>Prev</button>
-                <button onClick={this.toNextPage} disabled={currentPage === totalPages} className={['waves-effect', 'animated', 'bounceInUp', 'btn', 'btn-large'].join(' ')}>Next</button>
+                <Col s={12}>
+                  <ReactPaginate
+                    previousLabel="previous"
+                    nextLabel="next"
+                    breakLabel={<a href="">...</a>}
+                    breakClassName="break-me"
+                    pageCount={this.state.totalPages}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={this.handlePageClick}
+                    containerClassName="pagination"
+                    subContainerClassName="pages pagination"
+                    activeClassName="active"
+                  />
+                </Col>
               </Row>
             </div>
           </div>
+        </div>
+        <div className={['fixed-action-btn', 'click-to-toggle', 'spin-close'].join(' ')}>
+          <Link className={['btn-floating', 'btn-large', 'waves-effect', 'waves-light', 'action-button'].join(' ')} to="/center-search">
+            <i className="material-icons">search</i>
+          </Link>
         </div>
       </div>
     );
@@ -306,7 +261,6 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 CenterResults.propTypes = {
   stateProps: PropTypes.objectOf(() => null),
-  getStates: PropTypes.func.isRequired,
   searchCenter: PropTypes.func.isRequired,
 };
 

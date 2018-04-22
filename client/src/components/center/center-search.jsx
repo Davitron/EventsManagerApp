@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link, Redirect } from 'react-router-dom';
-import shortid from 'shortid';
-import axios from 'axios';
 import PropTypes from 'prop-types';
-import { Input, Icon, Row, Button, Col } from 'react-materialize';
+import shortid from 'shortid';
+import { Input, Icon, Row, Button } from 'react-materialize';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
@@ -14,7 +12,6 @@ import Loader from '../reusables/loader';
 import history from '../../helpers/history';
 import CenterActions from '../../actions/center-action';
 
-const centerAction = new CenterActions();
 
 const facilities = [
   'CCTV',
@@ -26,6 +23,7 @@ const facilities = [
 ];
 
 /**
+ * @class CenterSearch
  *
  */
 class CenterSearch extends Component {
@@ -55,13 +53,21 @@ class CenterSearch extends Component {
   /**
    *@returns {*} fetches all centers
    */
-  componentWillMount() {
-    const { states } = this.state;
-    if (states.length <= 0) {
-      axios.get('/api/v1/states')
-        .then((response) => {
-          this.setState({ states: response.data });
-        });
+  componentDidMount() {
+    const { getStates } = this.props;
+    getStates();
+  }
+
+  /**
+   *
+   * @param {object} nextProps - Incoming Props
+   * @returns {void}
+   *
+   */
+  componentWillReceiveProps(nextProps) {
+    const { allStates } = nextProps.stateProps;
+    if (allStates.status === 'success') {
+      this.setState({ states: allStates.data });
     }
   }
 
@@ -72,7 +78,6 @@ class CenterSearch extends Component {
   */
   onChange(event) {
     const { name, value } = event.target;
-    console.log(value);
     const { searchQuery } = this.state;
     this.setState({
       searchQuery: {
@@ -138,7 +143,6 @@ class CenterSearch extends Component {
   *this handles the event when any property in the state changes
    */
   handleChange(event, index, value) {
-    console.log(value);
     this.setState({
       searchQuery: {
         location: value
@@ -176,7 +180,7 @@ class CenterSearch extends Component {
         insetChildren
         key={shortid.generate()}
         value={value.id}
-        primaryText={value.statName}
+        primaryText={value.stateName}
       />
     ));
   }
@@ -190,7 +194,7 @@ class CenterSearch extends Component {
       <div>
         <Header />
         <div style={{
-          backgroundColor: 'rgb(5, 22, 22)',
+          backgroundColor: '#f5f5f5',
           position: 'absolute',
           top: 0,
           right: 0,
@@ -200,7 +204,7 @@ class CenterSearch extends Component {
           overflow: 'auto'
         }}
         >
-          <div className={['container', 'animated', 'bounceInRight'].join(' ')} style={{ paddingTop: '100px' }}>
+          <div className={['container', 'animated', 'bounceInRight'].join(' ')} style={{ marginTop: '64px' }}>
             <div className={['row', 'center'].join(' ')} />
             <div className={['col', 's12', 'm8', 'l12'].join(' ')}>
               <div className={['card-panel', 'white'].join(' ')}>
@@ -218,7 +222,7 @@ class CenterSearch extends Component {
                         <option
                           key={state.id}
                           value={state.id}
-                        >{state.statName}
+                        >{state.stateName}
                         </option>
                       ))
 
@@ -276,19 +280,23 @@ class CenterSearch extends Component {
   }
 }
 
-// const mapStateToProps = state => ({
-//   stateProps: {
-//     states: state.getStates
-//   }
-// });
+const mapStateToProps = state => ({
+  stateProps: {
+    allStates: state.getAllStates
+  }
+});
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  searchCenters: CenterActions.search
+  searchCenters: CenterActions.search,
+  getStates: CenterActions.getAllStates
 }, dispatch);
 
 CenterSearch.propTypes = {
-  searchCenters: PropTypes.func.isRequired
+  getStates: PropTypes.func.isRequired,
+  stateProps: PropTypes.objectOf(() => null)
 };
 
-
-export default connect(null, mapDispatchToProps)(CenterSearch);
+CenterSearch.defaultProps = {
+  stateProps: {}
+};
+export default connect(mapStateToProps, mapDispatchToProps)(CenterSearch);

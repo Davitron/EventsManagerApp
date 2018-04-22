@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Input, Row, Container, Icon } from 'react-materialize';
+import { Input, Row, Container } from 'react-materialize';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -10,7 +10,8 @@ import UserActions from '../../actions/user-actions';
 
 
 /**
- * @returns {*} Component for SignUp
+ * @class
+ *
  */
 class ForgotPassword extends Component {
 /**
@@ -23,19 +24,20 @@ class ForgotPassword extends Component {
       user: {
         email: ''
       }
-    }
+    };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   /**
- *@param {*} event
- *@returns {*}
+ * @param {object} event
+ *
+ * @returns {void}
+ *
  *this handles the event when any property in the state changes
  */
   onChange(event) {
-    const { name, value } = event.target;
-    const { user } = this.state;
+    const { value } = event.target;
     this.setState({
       user: {
         email: value
@@ -89,7 +91,7 @@ class ForgotPassword extends Component {
                       <br />
                       <center>
                         <Row>
-                          <button onClick={this.onSubmit} className={['col', 's12', 'btn', 'btn-large', 'waves-effect'].join(' ')}>
+                          <button onClick={this.onSubmit} className={['col', 's12', 'btn', 'btn-large', 'waves-effect', 'action-button'].join(' ')}>
                               Send Reset Link
                           </button>
                         </Row>

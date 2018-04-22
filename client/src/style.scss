@@ -9,41 +9,37 @@ html {
 @import url('https://fonts.googleapis.com/css?family=Bad+Script');
 
 nav {
-  background-color: rgba(5, 5, 5, 0.64) !important;
+  background-color: #032958 !important;
+}
+
+.cards-container {
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  break-inside: avoid;
+
+  .card {
+    display: inline-block;
+    overflow: visible;
+    width: 100%;
+  }
 }
 
 .contain {
   margin:auto;
-  position:fixed;
-  width: 500px;
-  height: 500px;
-  top:0;
-  bottom:0;
-  left:0;
-  right:0;
+  height: auto;
 }
 
+.image_input {
+  margin-left: 0 !important; 
+  margin-right: 0 !important;
+}
 
+@media only screen and (min-width: 501px) {
 
-@media only screen and (max-width: 500px) {
-  .contain {
-    margin:auto;
-    position:fixed;
-    width: 400px;
-    height: 430px;
-    top:0;
-    bottom:0;
-    left:0;
-    right:0;
-    padding-bottom: 10px;
-  }
 }
 
 .contain2 {
-  margin:auto;
-  position:fixed;
-  width: 600px;
-  height: 630px;
+  height: auto;
   top:0;
   bottom:0;
   left:0;
@@ -53,10 +49,7 @@ nav {
 
 @media only screen and (max-width: 500px) {
   .contain2 {
-    margin:auto;
-    position:fixed;
-    width: 400px;
-    height: 630px;
+    height: auto;
     top:0;
     bottom:0;
     left:0;
@@ -67,6 +60,10 @@ nav {
 
 .banner {
   margin-top: 200px;
+}
+
+.brand-logo {
+  margin-left: 10px !important;
 }
 
 .title {
@@ -142,6 +139,10 @@ nav {
     border: 2px solid white; }
 
 
+.carousel .carousel-item {
+  display: unset !important;
+}
+
 .section__hero {
   height: 100vh;
   padding-top: 5%;
@@ -195,11 +196,11 @@ nav {
 .App-intro {
   font-size: large; }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg); }
-  to {
-    transform: rotate(360deg); } }
+// @keyframes App-logo-spin {
+//   from {
+//     transform: rotate(0deg); }
+//   to {
+//     transform: rotate(360deg); } }
 
 .App-signup {
   display: inline-block;
@@ -226,6 +227,81 @@ nav {
 .cardText {
   text-overflow: ellipsis !important
 }
+
+.action-button {
+  background-color: #032958 !important;
+}
+
+.input-field input[type=text]:focus + label {
+  color: #032958 !important;
+}
+
+.input-field input[type=number]:focus + label {
+  color: #032958 !important;
+}
+
+.input-field input[type=email]:focus + label {
+  color: #032958 !important;
+}
+
+i.icon-grey {
+  color: black;
+}
+
+@media only screen and (max-width: 550px) {
+  .carousel {
+    height: 200px !important;
+  }
+}
+
+.pagination li.active {
+  background-color: #032958 !important;
+}
+
+.pagination { 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+@media only screen and (min-width: 601px) {
+  .cards-container {
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
+  }
+}
+
+@media only screen and (min-width: 993px) {
+  .cards-container {
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+    column-count: 3;
+  }
+}
+
+
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+
+.edit {
+  color: #032958 !important;
+}
+
+.delete {
+  color: red !important;
+}
+
+.dropdown-content li > span {
+  color: #032958 !important;
+}
+
+.card .card-title {
+  font-size: 28px !important;
+  font-weight: 400 !important;
+}
+
 /* 
 .center-modal {
   display: flex; }

@@ -12,13 +12,7 @@ import Loader from '../reusables/loader';
 import FormValidator from '../../helpers/form-validator';
 import history from '../../helpers/history';
 import Header from '../header';
-import Logger from '../../helpers/logger';
 import Toast from '../../helpers/toast';
-
-
-const centerAction = new CenterActions();
-// window.jQuery = window.$ = jQuery;
-
 
 const facilities = [
   'CCTV',
@@ -157,7 +151,6 @@ class CreateCenterForm extends Component {
    * @returns {*} handles selecttion of facilities
    */
   onMultiSelect(event, index, values) {
-    console.log(values);
     const { center } = this.state;
     this.setState({
       center: {
@@ -256,7 +249,7 @@ class CreateCenterForm extends Component {
     return (
       <div>
         <div style={{
-          backgroundColor: 'rgb(5, 22, 22)',
+          backgroundColor: '#f5f5f5',
           position: 'absolute',
           top: 0,
           right: 0,
@@ -273,27 +266,27 @@ class CreateCenterForm extends Component {
                 <div className="title">Create New Center</div>
                 {loading && <Loader />}
                 <div className={['row'].join(' ')}>
-                  <Input s={6} id="image_url" type="text" name="name" value={center.name} onChange={this.onChange} className="validate" label="Center Name" />
-                  <Input s={6} name="stateId" value={center.stateId} onChange={this.onChange} type="select" label="States">
+                  <Input l={6} s={12} m={12} id="image_url" type="text" name="name" value={center.name} onChange={this.onChange} className="validate" label="Center Name" />
+                  <Input l={6} s={12} m={12} name="stateId" value={center.stateId} onChange={this.onChange} type="select" label="States">
                     <option defaultValue="State" disabled>Select States</option>
                     {
                       states.map(state => (
                         <option
                           key={state.id}
                           value={state.id}
-                        >{state.statName}
+                        >{state.stateName}
                         </option>
                       ))
                     }
                   </Input>
                 </div>
                 <div className="row">
-                  <Input s={6} id="address" type="text" className="validate" name="address" value={center.address} onChange={this.onChange} label="Center Address" />
-                  <Input s={6} id="price" name="price" value={center.price} type="number" onChange={this.onChange} className="validate" label="Center Price" />
+                  <Input l={6} s={12} m={12} id="address" type="text" className="validate" name="address" value={center.address} onChange={this.onChange} label="Center Address" />
+                  <Input l={6} s={12} m={12} id="price" name="price" value={center.price} type="number" onChange={this.onChange} className="validate" label="Center Price" />
                 </div>
                 <div className="row">
-                  <Input s={6} id="hall" name="hallCapacity" value={center.hallCapacity} type="number" onChange={this.onChange} className="validate" label="Hall Capacity" />
-                  <Input s={6} id="carPark" name="carParkCapacity" value={center.carParkCapacity} type="number" onChange={this.onChange} className="validate" label="Carpark Capacity" />
+                  <Input l={6} s={12} m={12} id="hall" name="hallCapacity" value={center.hallCapacity} type="number" onChange={this.onChange} className="validate" label="Hall Capacity" />
+                  <Input l={6} s={12} m={12} id="carPark" name="carParkCapacity" value={center.carParkCapacity} type="number" onChange={this.onChange} className="validate" label="Carpark Capacity" />
                 </div>
                 <div className="row">
                   <div className={['input-field', 'col', 's12'].join(' ')}>
@@ -312,7 +305,7 @@ class CreateCenterForm extends Component {
                   </div>
                 </div>
                 <div className={['file-field', 'input-field', 's12'].join(' ')}>
-                  <div className="btn">
+                  <div className="btn action-button">
                     <span>Center image</span>
                     <input type="file" name="image" onChange={this.onFileChange} accept="image/*" />
                   </div>
@@ -322,7 +315,7 @@ class CreateCenterForm extends Component {
                 </div>
                 <Row className="center">
                   <button
-                    className="btn waves-effect waves-light btn-large"
+                    className="btn waves-effect waves-light btn-large action-button"
                     onClick={this.onSubmit}
                     disabled={
                       !center.name ||

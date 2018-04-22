@@ -32,7 +32,6 @@ class PendingEvent extends Component {
     this.handleSearch = this.handleSearch.bind(this);
     this.onChangePage = this.onChangePage.bind(this);
     this.triggerSearch = debounce(100, this.triggerSearch);
-
   }
 
   /**
@@ -148,7 +147,7 @@ class PendingEvent extends Component {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
-        rejectEvent(this.state.event_Id);
+        rejectEvent(event_Id);
       }
     });
   };
@@ -202,7 +201,7 @@ class PendingEvent extends Component {
       <div>
         <Header />
         <div style={{
-          backgroundColor: 'rgb(5, 22, 22)',
+          backgroundColor: '#f5f5f5',
           position: 'absolute',
           top: 0,
           right: 0,
@@ -253,7 +252,7 @@ class PendingEvent extends Component {
                           <td>{moment(item.startDate).format('YYYY-MM-DD')}</td>
                           <td>{moment(item.endDate).format('YYYY-MM-DD')}</td>
                           <td>
-                            <button className={['waves-effect', 'waves-light', 'btn'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleApprove((item.id))} ><i className=" material-icons">done</i></button>
+                            <button className={['waves-effect', 'waves-light', 'btn', 'action-button'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleApprove((item.id))} ><i className=" material-icons">done</i></button>
                             <button className={['waves-effect', 'waves-light', 'btn', 'red'].join(' ')} style={{ marginLeft: '5px' }} onClick={() => this.handleReject((item.id))} ><i className=" material-icons">cancel</i></button>
                           </td>
                         </tr>))

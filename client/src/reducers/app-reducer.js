@@ -38,6 +38,34 @@ export default class AppReducer {
    * @param {*} state
    * @param {*} action
    * @returns {object}
+   * This is reducer is for creating an event or center
+   * it returns a new state if an action is dispatched
+   */
+  static get(state = initialState.app, action) {
+    const newState = {};
+    switch (action.type) {
+      case mainActionType.GET_REQUEST:
+        newState.status = 'fetching';
+        newState.data = null;
+        return newState;
+      case mainActionType.GET_SUCCESS:
+        newState.status = 'success';
+        newState.data = action.data;
+        return newState;
+      case mainActionType.GET_FAILED:
+        newState.status = 'failed';
+        newState.data = action.data;
+        return newState;
+      default:
+        return state;
+    }
+  }
+
+  /**
+   *
+   * @param {*} state
+   * @param {*} action
+   * @returns {object}
    * This reducer handles getting all states
    * it returns a new state if an action is dispatched
    */
@@ -112,6 +140,10 @@ export default class AppReducer {
         newState.status = 'failed';
         newState.data = action.data;
         return newState;
+      case mainActionType.RESET_STATE:
+        newState.status = null;
+        newState.data = null;
+        return newState;
       default:
         return state;
     }
@@ -139,6 +171,10 @@ export default class AppReducer {
       case mainActionType.DELETE_FAILED:
         newState.status = 'failed';
         newState.data = action.data;
+        return newState;
+      case mainActionType.RESET_STATE:
+        newState.status = null;
+        newState.data = null;
         return newState;
       default:
         return state;

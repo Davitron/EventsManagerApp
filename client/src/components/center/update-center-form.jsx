@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { Input, Row } from 'react-materialize';
 import PropTypes from 'prop-types';
@@ -27,16 +26,20 @@ const facilities = [
 const propTypes = {
   updateCenter: PropTypes.func.isRequired,
   stateProps: PropTypes.objectOf(() => null),
-  location: PropTypes.objectOf(() => null).isRequired
+  match: PropTypes.objectOf(() => null).isRequired,
+  getCenter: PropTypes.func.isRequired,
+  getStates: PropTypes.func.isRequired
 };
 
 const defaultProps = {
   stateProps: {},
 };
 /**
- *component for create center modal
+ * component for create center modal
+ * @class
+ *
  */
-class UpdateCenterModal extends Component {
+class UpdateCenterForm extends Component {
   /**
    *
    * @param {*} props
@@ -47,7 +50,6 @@ class UpdateCenterModal extends Component {
       center: {},
       errors: {},
       loading: false,
-      message: '',
       states: []
     };
 
@@ -62,25 +64,10 @@ class UpdateCenterModal extends Component {
    * @returns {*} set value of props to center on initial render
    */
   componentWillMount() {
-    const { center } = this.props.location.state.state;
-    const facilitiesArr = center.facilities.map(f => f.toUpperCase());
-    axios.get('/api/v1/states')
-      .then((response) => {
-        this.setState({
-          states: response.data,
-          center: {
-            id: center.id,
-            name: center.name,
-            address: center.address,
-            stateId: center.stateId.toString(),
-            hallCapacity: center.hallCapacity.toString(),
-            carParkCapacity: center.carParkCapacity.toString(),
-            price: center.price.toString(),
-            image: {},
-            facilities: facilitiesArr
-          }
-        }, () => Logger.log(center));
-      });
+    const { getCenter, getStates } = this.props;
+    const { centerId } = this.props.match.params;
+    getCenter(centerId);
+    getStates();
   }
 
   /**
@@ -89,20 +76,32 @@ class UpdateCenterModal extends Component {
    * @returns {*} to set state when props changes
    */
   componentWillReceiveProps(nextProps) {
-    const { message } = this.state;
-    if (nextProps.stateProps.response.data !== message) {
-      this.setState({
-        message: nextProps.stateProps.response.data
-      }, () => {
-        if (nextProps.stateProps.response.data) {
-          this.setState({
-            loading: false
-          });
-          history.push('/centers');
-        }
-      });
+    // const { message } = this.state;
+    const { updateCenter, getCenter, states } = nextProps.stateProps;
+    if (updateCenter.status === 'success') {
+      this.setState({ loading: false });
+      history.push('/centers');
     }
-    if (nextProps.stateProps.response.data === 'failed') {
+    if (getCenter.data && states.data) {
+      const { center } = getCenter.data;
+      const facilitiesArr = center.facilities.map(f => f.toUpperCase());
+      this.setState({
+        states: states.data,
+        center: {
+          id: center.id,
+          name: center.name,
+          address: center.address,
+          stateId: center.stateId.toString(),
+          hallCapacity: center.hallCapacity.toString(),
+          carParkCapacity: center.carParkCapacity.toString(),
+          price: center.price.toString(),
+          image: center.image,
+          newImage: center.image,
+          facilities: facilitiesArr
+        }
+      }, () => Logger.log(center));
+    }
+    if (updateCenter.data === 'failed') {
       this.setState({
         loading: false
       });
@@ -149,7 +148,6 @@ class UpdateCenterModal extends Component {
    * @returns {*} handles selecttion of facilities
    */
   onMultiSelect(event, index, values) {
-    console.log('hey!!');
     const { center } = this.state;
     this.setState({
       center: {
@@ -169,6 +167,7 @@ class UpdateCenterModal extends Component {
     event.preventDefault();
     this.setState({ loading: true });
     const fv = new FormValidator();
+    const { center } = this.state;
     const { updateCenter } = this.props;
     const errors = fv.validateCenterForm(this.state.center);
     if (errors) {
@@ -180,18 +179,8 @@ class UpdateCenterModal extends Component {
         Toast.error(message);
       });
     } else {
-      // Logger.log(createUser);
-      updateCenter(this.state.center);
+      updateCenter(center);
     }
-    // event.preventDefault();
-    // console.log(this.state.center);
-    // if (this.isValid() === true) {
-    //   this.setState({
-    //     loading: true
-    //   });
-    //   const { updateCenter } = this.props;
-    //   updateCenter(this.state.center);
-    // }
   }
 
   /**
@@ -213,8 +202,8 @@ class UpdateCenterModal extends Component {
   }
 
   /**
-  *@param {*} e
-  *@returns {*}
+  *@param {object} e
+  *@returns {void}
   *return to previous page
   */
   goBack(e) {
@@ -232,7 +221,7 @@ class UpdateCenterModal extends Component {
     return (
       <div>
         <div style={{
-          backgroundColor: 'rgb(5, 22, 22)',
+          backgroundColor: '#f5f5f5',
           position: 'absolute',
           top: 0,
           right: 0,
@@ -250,7 +239,9 @@ class UpdateCenterModal extends Component {
                 {loading && <Loader />}
                 <div className={['row'].join(' ')}>
                   <Input
-                    s={6}
+                    l={6}
+                    s={12}
+                    m={12}
                     id="image_url"
                     type="text"
                     name="name"
@@ -260,14 +251,14 @@ class UpdateCenterModal extends Component {
                     label="Center Name"
                     labelClassName={center.name && 'active'}
                   />
-                  <Input s={6} name="stateId" value={center.stateId} onChange={this.onChange} type="select" label="States">
+                  <Input l={6} s={12} m={12} name="stateId" value={center.stateId} onChange={this.onChange} type="select" label="States">
                     <option defaultValue="State" disabled>Select States</option>
                     {
                       states.map(state => (
                         <option
                           key={state.id}
                           value={state.id}
-                        >{state.statName}
+                        >{state.stateName}
                         </option>
                       ))
                     }
@@ -275,7 +266,9 @@ class UpdateCenterModal extends Component {
                 </div>
                 <div className="row">
                   <Input
-                    s={6}
+                    l={6}
+                    s={12}
+                    m={12}
                     id="address"
                     type="text"
                     className="validate"
@@ -286,7 +279,9 @@ class UpdateCenterModal extends Component {
                     labelClassName={center.address && 'active'}
                   />
                   <Input
-                    s={6}
+                    l={6}
+                    s={12}
+                    m={12}
                     id="price"
                     name="price"
                     value={!center.price ? '' : center.price}
@@ -299,7 +294,9 @@ class UpdateCenterModal extends Component {
                 </div>
                 <div className="row">
                   <Input
-                    s={6}
+                    l={6}
+                    s={12}
+                    m={12}
                     id="hall"
                     name="hallCapacity"
                     value={!center.hallCapacity ? '' : center.hallCapacity}
@@ -310,7 +307,9 @@ class UpdateCenterModal extends Component {
                     labelClassName={center.hallCapacity && 'active'}
                   />
                   <Input
-                    s={6}
+                    l={6}
+                    s={12}
+                    m={12}
                     id="carPark"
                     name="carParkCapacity"
                     value={!center.carParkCapacity ? '' : center.carParkCapacity}
@@ -338,9 +337,9 @@ class UpdateCenterModal extends Component {
                   </div>
                 </div>
                 <div className={['file-field', 'input-field', 's12'].join(' ')}>
-                  <div className="btn">
+                  <div className="btn action-button">
                     <span>Center image</span>
-                    <input type="file" name="image" onChange={this.onFileChange} accept="image/*" />
+                    <input type="file" name="newImage" onChange={this.onFileChange} accept="image/*" />
                   </div>
                   <div className="file-path-wrapper">
                     <input className={['file-path', 'validate'].join(' ')} type="text" placeholder={errors.image || 'upload image'} />
@@ -348,7 +347,7 @@ class UpdateCenterModal extends Component {
                 </div>
                 <Row className="center">
                   <button
-                    className="btn waves-effect waves-light btn-large"
+                    className="btn waves-effect waves-light btn-large action-button"
                     onClick={this.onSubmit}
                     disabled={
                       !center.name ||
@@ -357,8 +356,7 @@ class UpdateCenterModal extends Component {
                       !center.hallCapacity ||
                       !center.stateId ||
                       !center.price ||
-                      !center.facilities ||
-                      !center.image
+                      !center.facilities
                     }
                   >
                     Update
@@ -375,18 +373,21 @@ class UpdateCenterModal extends Component {
   }
 }
 
-UpdateCenterModal.propTypes = propTypes;
-UpdateCenterModal.defaultProps = defaultProps;
+UpdateCenterForm.propTypes = propTypes;
+UpdateCenterForm.defaultProps = defaultProps;
 
 const matchStateToProps = state => ({
   stateProps: {
-    response: state.update
+    updateCenter: state.update,
+    getCenter: state.get,
+    states: state.getAllStates
   }
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   updateCenter: CenterActions.updateCenter,
-  getCenters: CenterActions.getAll
+  getCenter: CenterActions.getCenter,
+  getStates: CenterActions.getAllStates
 }, dispatch);
 
-export default connect(matchStateToProps, mapDispatchToProps)(UpdateCenterModal);
+export default connect(matchStateToProps, mapDispatchToProps)(UpdateCenterForm);

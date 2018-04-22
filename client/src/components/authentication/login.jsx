@@ -10,6 +10,7 @@ import Toast from '../../helpers/toast';
 import FormValidator from '../../helpers/form-validator';
 import UserActions from '../../actions/user-actions';
 import AuthChecker from '../../helpers/auth-checker';
+import history from '../../helpers/history';
 
 
 /**
@@ -32,9 +33,9 @@ class Login extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-    /**
-   *
-   */
+  /**
+  * @returns {void}
+  */
   componentWillMount() {
     if (AuthChecker.checkUserAuth()) {
       history.push('/center-search');
@@ -42,10 +43,12 @@ class Login extends Component {
   }
 
   /**
- *@param {*} event
- *@returns {*}
- *this handles the event when any property in the state changes
- */
+  * @param {object} event
+  *
+  * @returns {void}
+  *
+  * this handles the event when any property in the state changes
+  */
   onChange(event) {
     const { name, value } = event.target;
     const { user } = this.state;
@@ -59,8 +62,10 @@ class Login extends Component {
 
   /**
    *
-   * @param {*} event
-   * @returns {*}
+   * @param {object} event
+   *
+   * @returns {void}
+   *
    * this handles the event when form is submitted
    */
   onSubmit(event) {
@@ -76,16 +81,13 @@ class Login extends Component {
         Toast.error(message);
       });
     } else {
-      // Logger.log(createUser);
       authUser(this.state.user);
     }
-    // const { authUser } = this.props;
-    // authUser(this.state.user);
   }
 
 
   /**
-   *@returns {*} view htmlFor langing page
+   *@returns {void} view htmlFor langing page
    */
   render() {
     const { user } = this.state;
@@ -117,7 +119,7 @@ class Login extends Component {
                         <Row>
                           <button
                             type="submit"
-                            className={['col', 's12', 'btn', 'btn-large', 'waves-effect'].join(' ')}
+                            className={['col', 's12', 'btn', 'btn-large', 'waves-effect', 'action-button'].join(' ')}
                             disabled={!user.email || !user.password}
                             onClick={this.onSubmit}
                           >

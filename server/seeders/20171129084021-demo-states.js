@@ -1,186 +1,186 @@
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.bulkInsert('States', [{
-    statName: 'Abia',
+    stateName: 'Abia',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Adamawa',
+    stateName: 'Adamawa',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Akwa Ibom',
+    stateName: 'Akwa Ibom',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Anambra',
+    stateName: 'Anambra',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Bauchi',
+    stateName: 'Bauchi',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Bayelsa',
+    stateName: 'Bayelsa',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Benue',
+    stateName: 'Benue',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Borno',
+    stateName: 'Borno',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Cross River',
+    stateName: 'Cross River',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Delta',
+    stateName: 'Delta',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Ebonyi',
+    stateName: 'Ebonyi',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Edo',
+    stateName: 'Edo',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Ekiti',
+    stateName: 'Ekiti',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Enugu',
+    stateName: 'Enugu',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'FCT',
+    stateName: 'FCT',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Gombe',
+    stateName: 'Gombe',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Imo',
+    stateName: 'Imo',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Jigawa',
+    stateName: 'Jigawa',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Kaduna',
+    stateName: 'Kaduna',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Kano',
+    stateName: 'Kano',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Katsina',
+    stateName: 'Katsina',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Kebbi',
+    stateName: 'Kebbi',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Kogi',
+    stateName: 'Kogi',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Kwara',
+    stateName: 'Kwara',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Lagos',
+    stateName: 'Lagos',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Nasarawa',
+    stateName: 'Nasarawa',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Niger',
+    stateName: 'Niger',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Ogun',
+    stateName: 'Ogun',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Ondo',
+    stateName: 'Ondo',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Osun',
+    stateName: 'Osun',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Oyo',
+    stateName: 'Oyo',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Plateau',
+    stateName: 'Plateau',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Rivers',
+    stateName: 'Rivers',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Sokoto',
+    stateName: 'Sokoto',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Taraba',
+    stateName: 'Taraba',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Yobe',
+    stateName: 'Yobe',
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
-    statName: 'Zamfara',
+    stateName: 'Zamfara',
     createdAt: new Date(),
     updatedAt: new Date()
   }

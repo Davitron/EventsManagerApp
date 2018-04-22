@@ -1,20 +1,15 @@
 import chai from 'chai';
-import fs from 'fs';
 import chaiHttp from 'chai-http';
-import faker from 'faker';
-import path from 'path';
+// import '../env.test';
 import app from '../server';
-import model from '../models';
-
-console.log(__dirname);
-const should = chai.should();
-const Centers = model.Center;
+import CenterController from '../controllers/v1/center-controller';
 
 chai.use(chaiHttp);
 
 let token;
 let notAdminToken;
 let centerID;
+
 describe('Testing Api endpoints for centers', () => {
   describe('POST /api/v1/centers', () => {
     it('should return HTTP 200 when email and password are correct', (done) => {
@@ -37,8 +32,8 @@ describe('Testing Api endpoints for centers', () => {
       chai.request(app)
         .post('/api/v1/users/login')
         .send({
-          email: 'segunmatthews@plush.com',
-          password: 'minerva1'
+          email: 'voltron@mailinator.com',
+          password: 'minerva'
         })
         .end((err, res) => {
           notAdminToken = res.body.Token;
@@ -53,15 +48,15 @@ describe('Testing Api endpoints for centers', () => {
       chai.request(app)
         .post('/api/v1/centers/')
         .set('x-access-token', token)
-        .set('Content-Type', 'multipart/form-data')
-        .field('stateId', 1)
-        .field('address', '7, xyz avenue, ikaja')
-        .field('hallCapacity', 600)
-        .field('carParkCapacity', 200)
-        .field('facilities', 'swimming pool, projectors, cctv, vip lounges')
-        .field('price', 120000)
-        .attach('image', path.resolve(__dirname, 'tools/8.jpg'), '8.jpg')
-        .type('form')
+        .send({
+          stateId: 1,
+          address: '7, xyz avenue, ikaja',
+          hallCapacity: 600,
+          carParkCapacity: 200,
+          facilities: [['swimming pool, projectors, cctv, vip lounges']],
+          price: 1200000,
+          image: 'test/image/link'
+        })
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.be.an('object');
@@ -77,15 +72,15 @@ describe('Testing Api endpoints for centers', () => {
       chai.request(app)
         .post('/api/v1/centers/')
         .set('x-access-token', token)
-        .set('Content-Type', 'multipart/form-data')
-        .field('name', 'The centers Place')
-        .field('address', '7, xyz avenue, ikaja')
-        .field('hallCapacity', 600)
-        .field('carParkCapacity', 200)
-        .field('facilities', 'swimming pool, projectors, cctv, vip lounges')
-        .field('price', 120000)
-        .attach('image', path.resolve(__dirname, 'tools/8.jpg'), '8.jpg')
-        .type('form')
+        .send({
+          name: 'The centers Place',
+          address: '7, xyz avenue, ikaja',
+          hallCapacity: 600,
+          carParkCapacity: 200,
+          facilities: [['swimming pool, projectors, cctv, vip lounges']],
+          price: 1200000,
+          image: 'test/image/link'
+        })
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.be.an('object');
@@ -100,24 +95,15 @@ describe('Testing Api endpoints for centers', () => {
       chai.request(app)
         .post('/api/v1/centers/')
         .set('x-access-token', token)
-        .set('Content-Type', 'multipart/form-data')
-        .field('name', 'The centers Place')
-        .field('stateId', 1)
-        // .field('address', '7, xyz avenue, ikaja')
-        .field('hallCapacity', 600)
-        .field('carParkCapacity', 200)
-        .field('facilities', 'swimming pool, projectors, cctv, vip lounges')
-        .field('price', 120000)
-        .attach('image', path.resolve(__dirname, 'tools/8.jpg'), '8.jpg')
-        .type('form')
         .send({
           name: 'The centers Place',
           stateId: 1,
           // address: '7, xyz avenue, ikaja',
           hallCapacity: 600,
           carParkCapacity: 200,
-          facilities: 'swimming pool, projectors, cctv, vip lounges',
-          price: 1200000
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
+          price: 1200000,
+          image: 'test/image/link'
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -133,16 +119,15 @@ describe('Testing Api endpoints for centers', () => {
       chai.request(app)
         .post('/api/v1/centers/')
         .set('x-access-token', token)
-        .set('Content-Type', 'multipart/form-data')
-        .field('name', 'The centers Place')
-        .field('stateId', 1)
-        .field('address', '7, xyz avenue, ikaja')
-        // .field('hallCapacity', 600)
-        .field('carParkCapacity', 200)
-        .field('facilities', 'swimming pool, projectors, cctv, vip lounges')
-        .field('price', 120000)
-        .attach('image', path.resolve(__dirname, 'tools/8.jpg'), '8.jpg')
-        .type('form')
+        .send({
+          name: 'The centers Place',
+          stateId: 1,
+          address: '7, xyz avenue, ikaja',
+          carParkCapacity: 200,
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
+          price: 1200000,
+          image: 'test/image/link'
+        })
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.be.an('object');
@@ -158,16 +143,15 @@ describe('Testing Api endpoints for centers', () => {
       chai.request(app)
         .post('/api/v1/centers/')
         .set('x-access-token', token)
-        .set('Content-Type', 'multipart/form-data')
-        .field('name', 'The centers Place')
-        .field('stateId', 1)
-        .field('address', '7, xyz avenue, ikaja')
-        .field('hallCapacity', 600)
-        // .field('carParkCapacity', 200)
-        .field('facilities', 'swimming pool, projectors, cctv, vip lounges')
-        .field('price', 120000)
-        .attach('image', path.resolve(__dirname, 'tools/8.jpg'), '8.jpg')
-        .type('form')
+        .send({
+          name: 'The centers Place',
+          stateId: 1,
+          address: '7, xyz avenue, ikaja',
+          hallCapacity: 600,
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
+          price: 1200000,
+          image: 'test/image/link'
+        })
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.be.an('object');
@@ -182,16 +166,15 @@ describe('Testing Api endpoints for centers', () => {
       chai.request(app)
         .post('/api/v1/centers/')
         .set('x-access-token', token)
-        .set('Content-Type', 'multipart/form-data')
-        .field('name', 'The centers Place')
-        .field('stateId', 1)
-        .field('address', '7, xyz avenue, ikaja')
-        .field('hallCapacity', 600)
-        .field('carParkCapacity', 200)
-        // .field('facilities', 'swimming pool, projectors, cctv, vip lounges')
-        .field('price', 120000)
-        .attach('image', path.resolve(__dirname, 'tools/8.jpg'), '8.jpg')
-        .type('form')
+        .send({
+          name: 'The centers Place',
+          stateId: 1,
+          address: '7, xyz avenue, ikaja',
+          hallCapacity: 600,
+          carParkCapacity: 200,
+          price: 1200000,
+          image: 'test/image/link'
+        })
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.be.an('object');
@@ -206,16 +189,15 @@ describe('Testing Api endpoints for centers', () => {
       chai.request(app)
         .post('/api/v1/centers/')
         .set('x-access-token', token)
-        .set('Content-Type', 'multipart/form-data')
-        .field('name', 'The centers Place')
-        .field('stateId', 1)
-        .field('address', '7, xyz avenue, ikaja')
-        .field('hallCapacity', 600)
-        .field('carParkCapacity', 200)
-        .field('facilities', 'swimming pool, projectors, cctv, vip lounges')
-        // .field('price', 120000)
-        .attach('image', path.resolve(__dirname, 'tools/8.jpg'), '8.jpg')
-        .type('form')
+        .send({
+          name: 'The centers Place',
+          stateId: 1,
+          address: '7, xyz avenue, ikaja',
+          hallCapacity: 600,
+          carParkCapacity: 200,
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
+          image: 'test/image/link'
+        })
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.be.an('object');
@@ -231,16 +213,16 @@ describe('Testing Api endpoints for centers', () => {
       chai.request(app)
         .post('/api/v1/centers/')
         .set('x-access-token', token)
-        .set('Content-Type', 'multipart/form-data')
-        .field('name', 'The centers Place where magic happens and you never forget')
-        .field('stateId', 1)
-        .field('address', '7, xyz avenue, ikaja')
-        .field('hallCapacity', 600)
-        .field('carParkCapacity', 200)
-        .field('facilities', 'swimming pool, projectors, cctv, vip lounges')
-        .field('price', 120000)
-        .attach('image', path.resolve(__dirname, 'tools/8.jpg'), '8.jpg')
-        .type('form')
+        .send({
+          name: 'The centers Place where magic happens and you never forget',
+          stateId: 1,
+          address: '7, xyz avenue, ikaja',
+          hallCapacity: 600,
+          carParkCapacity: 200,
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
+          price: 1200000,
+          image: 'test/image/link'
+        })
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.be.an('object');
@@ -255,16 +237,16 @@ describe('Testing Api endpoints for centers', () => {
       chai.request(app)
         .post('/api/v1/centers/')
         .set('x-access-token', token)
-        .set('Content-Type', 'multipart/form-data')
-        .field('name', 'The centers Place where magic happens and you never forget')
-        .field('stateId', 1)
-        .field('address', '7, xyz')
-        .field('hallCapacity', 600)
-        .field('carParkCapacity', 200)
-        .field('facilities', 'swimming pool, projectors, cctv, vip lounges')
-        .field('price', 120000)
-        .attach('image', path.resolve(__dirname, 'tools/8.jpg'), '8.jpg')
-        .type('form')
+        .send({
+          name: 'The power house',
+          stateId: 1,
+          address: '7, xyz',
+          hallCapacity: '600',
+          carParkCapacity: '200',
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
+          price: '1200000',
+          image: 'test/image/link'
+        })
         .end((err, res) => {
           centerID = res.body.centerId;
           res.should.have.status(400);
@@ -276,49 +258,49 @@ describe('Testing Api endpoints for centers', () => {
         });
     });
 
-    //   // =====VALID INPUT====== //
+    // =====VALID INPUT====== //
 
     it('Should return HTTP 401 with response object when user is not an admin', (done) => {
       chai.request(app)
         .post('/api/v1/centers/')
         .set('x-access-token', notAdminToken)
-        .set('Content-Type', 'multipart/form-data')
-        .field('name', 'The centers Place')
-        .field('stateId', 1)
-        .field('address', '7, xyz avenue, ikaja')
-        .field('hallCapacity', 600)
-        .field('carParkCapacity', 200)
-        .field('facilities', 'swimming pool, projectors, cctv, vip lounges')
-        .field('price', 120000)
-        .attach('image', path.resolve(__dirname, 'tools/8.jpg'), '8.jpg')
-        .type('form')
+        .send({
+          name: 'The power spot',
+          stateId: 1,
+          address: '7, xyz avenue, ikaja',
+          hallCapacity: '600',
+          carParkCapacity: '200',
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
+          price: '1200000',
+          image: 'test/image/link'
+        })
         .end((err, res) => {
           res.should.have.status(401);
           res.body.should.be.an('object');
-          res.body.should.have.property('message').eql('You do not have admin priviledge');
+          res.body.should.have.property('message').eql('This user is not an administrator');
           done();
         });
     });
 
-    it('Should return HTTP 201 with response object', (done) => {
+    it('Should return HTTP 201 with response object when all fields pass validation and user is admin', (done) => {
       chai.request(app)
         .post('/api/v1/centers/')
         .set('x-access-token', token)
-        .set('Content-Type', 'multipart/form-data')
-        .field('name', 'The power spot')
-        .field('stateId', 1)
-        .field('address', '7, xyz avenue, ikaja')
-        .field('hallCapacity', 600)
-        .field('carParkCapacity', 200)
-        .field('facilities', 'swimming pool, projectors, cctv, vip lounges')
-        .field('price', 120000)
-        .attach('image', path.resolve(__dirname, 'tools/8.jpg'), '8.jpg')
-        .type('form')
+        .send({
+          name: 'The power spot',
+          stateId: 1,
+          address: '7, xyz avenue, ikaja',
+          hallCapacity: '600',
+          carParkCapacity: '200',
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
+          price: '1200000',
+          image: 'test/image/link'
+        })
         .end((err, res) => {
           centerID = res.body.centerId;
           res.should.have.status(201);
           res.body.should.be.an('object');
-          res.body.should.have.property('message').eql('The power spot Is Created Successfully');
+          res.body.should.have.property('message').eql('New Center Created');
           res.body.should.have.property('centerId');
           res.body.should.have.property('statusCode');
           done();
@@ -334,14 +316,36 @@ describe('Testing Api endpoints for centers', () => {
         .set('x-access-token', token)
         .end((err, res) => {
           res.should.have.status(200);
-          res.body.should.be.an('array');
+          res.body.should.have.property('message');
+          res.body.should.have.property('statusCode');
+          res.body.should.have.property('data');
+          res.body.should.have.property('metaData');
+          res.body.message.should.eql('Centers Retrieved');
+          res.body.statusCode.should.eql(200);
+          res.body.data.should.an('array');
+          res.body.metaData.should.be.an('object');
+          // res.body.metaData.should.have.property('pagination');
+          // res.body.mataData.pagination.should.be.an('object');
           done();
         });
     });
   });
 
-  describe('GET /api/v1/centers/:id', () => {
+  describe('GET /api/v1/centers/:centerId', () => {
     // Testing to get all centers
+    it('Should return 404 if centerId is not found', (done) => {
+      chai.request(app)
+        .get(`/api/v1/centers/${-1}/`)
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(404);
+          res.body.should.be.an('object');
+          res.body.should.have.property('message');
+          res.body.message.should.eql('Center Not Found');
+          done();
+        });
+    });
+
     it('Should return 200 with center object requested for', (done) => {
       chai.request(app)
         .get(`/api/v1/centers/${centerID}/`)
@@ -354,21 +358,130 @@ describe('Testing Api endpoints for centers', () => {
     });
   });
 
+
   describe('PUT /api/v1/centers/:id', () => {
+    it('Should return HTTP 401 with response object when user is not an admin', (done) => {
+      chai.request(app)
+        .put(`/api/v1/centers/${centerID}/`)
+        .set('x-access-token', notAdminToken)
+        .send({
+          name: 'The power spot',
+          stateId: 1,
+          address: '7, xyz avenue, ikaja',
+          hallCapacity: '600',
+          carParkCapacity: '200',
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
+          price: '1200000',
+          image: 'test/image/link'
+        })
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.should.be.an('object');
+          res.body.should.have.property('message').eql('This user is not an administrator');
+          done();
+        });
+    });
+
+    it('Should return HTTP status 400 and message if center name exceeds or less than 30 chatacters', (done) => {
+      chai.request(app)
+        .put(`/api/v1/centers/${centerID}/`)
+        .set('x-access-token', token)
+        .send({
+          name: 'Ao',
+          stateId: 1,
+          address: '7, abc avenue, ikeja',
+          hallCapacity: '600',
+          carParkCapacity: '200',
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
+          price: '1200000'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.an('object');
+          res.body.should.have.property('message');
+          res.body.message.errors.should.have.property('name');
+          res.body.message.errors.name.should.be.an('array');
+          done();
+        });
+    });
+
+    it('Should return 404 if center is not found', (done) => {
+      chai.request(app)
+        .put(`/api/v1/centers/${-1}/`)
+        .set('x-access-token', token)
+        .send({
+          name: 'The power space',
+          stateId: 1,
+          address: '7, abc avenue, ikeja',
+          hallCapacity: '600',
+          carParkCapacity: '200',
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
+          price: '1200000'
+        })
+        .end((err, res) => {
+          res.should.have.status(404);
+          res.body.should.be.an('object');
+          res.body.should.have.property('message');
+          res.body.message.should.eql('center does not exist');
+          done();
+        });
+    });
+
+    it('Should return 400 if centerId is not a number', (done) => {
+      chai.request(app)
+        .put('/api/v1/centers/jbkbkkkhvk/')
+        .set('x-access-token', token)
+        .send({
+          name: 'The power space',
+          stateId: 1,
+          address: '7, abc avenue, ikeja',
+          hallCapacity: '600',
+          carParkCapacity: '200',
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
+          price: '1200000'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.an('object');
+          res.body.should.have.property('message');
+          res.body.message.should.eql('Invalid CenterId');
+          done();
+        });
+    });
+
     it('Should return 200 with modified center', (done) => {
       chai.request(app)
         .put(`/api/v1/centers/${centerID}/`)
         .set('x-access-token', token)
-        .set('Content-Type', 'multipart/form-data')
-        .field('name', 'The glamour Place')
-        .field('stateId', 1)
-        .field('address', '7, xyz avenue, ikaja')
-        .field('hallCapacity', 600)
-        .field('carParkCapacity', 200)
-        .field('facilities', 'swimming pool, projectors, cctv, vip lounges')
-        .field('price', 120000)
-        .attach('image', path.resolve(__dirname, 'tools/8.jpg'), '8.jpg')
-        .type('form')
+        .send({
+          name: 'The power space',
+          stateId: 1,
+          address: '7, abc avenue, ikeja',
+          hallCapacity: '600',
+          carParkCapacity: '200',
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
+          price: '1200000'
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.an('object');
+          res.body.should.have.property('message');
+          done();
+        });
+    });
+
+    it('Should return 200 with modified center event if request body has no name field ', (done) => {
+      chai.request(app)
+        .put(`/api/v1/centers/${centerID}/`)
+        .set('x-access-token', token)
+        .send({
+          stateId: 1,
+          address: '7, abc avenue, lagos-island',
+          hallCapacity: '600',
+          carParkCapacity: '400',
+          facilities: ['swimming pool, projectors, cctv, vip lounges'],
+          price: '1200000'
+        })
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.an('object');
@@ -392,7 +505,7 @@ describe('Testing Api endpoints for centers', () => {
         });
     });
 
-    it('Should return 200 with modified center', (done) => {
+    it('Should return 200 if center is deleted', (done) => {
       chai.request(app)
         .delete(`/api/v1/centers/${centerID}/`)
         .set('x-access-token', token)
@@ -404,13 +517,107 @@ describe('Testing Api endpoints for centers', () => {
         });
     });
 
-    fs.readdir(path.resolve(__dirname, '../public/uploads'), (err, files) => {
-      if (err) throw err;
-      for (const file of files) {
-        fs.unlink(path.join(path.resolve(__dirname, '../public/uploads'), file), (err) => {
-          if (err) throw err;
+    it('Should return 500 if centerId not a number', (done) => {
+      chai.request(app)
+        .delete('/api/v1/centers/houwhgouwhgw/')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.an('object');
+          res.body.should.have.property('message');
+          res.body.should.have.property('statusCode');
+          res.body.message.should.eql('Invalid CenterId');
+          res.body.statusCode.should.eql(400);
+          done();
         });
-      }
     });
   });
 });
+
+describe('Testing API endpoint for states', () => {
+  it('should a list of states', (done) => {
+    chai.request(app)
+      .get('/api/v1/states')
+      .then((res) => {
+        res.should.have.status(200);
+        res.body.should.be.an('object');
+        res.body.should.have.property('message');
+        res.body.message.should.eql('States Retrieved');
+        res.body.should.have.property('statusCode');
+        res.body.statusCode.should.eql(200);
+        res.body.should.have.property('states');
+        res.body.states.should.be.an('array');
+        res.body.states.length.should.eql(37);
+        done();
+      });
+  });
+});
+
+describe('Testing Center Controller Utitlity Methods', () => {
+  // describe('Testing handle facilities function in center ceontroller', () => {
+  //   it('should return an array of lowercase strings if input is an array', (done) => {
+  //     const testInput = ['Test', 'Is', 'All', 'That', 'Matters'];
+  //     const result = CenterController.handleFacilities(testInput);
+  //     const lowerCaseArr = result.filter(isLowerCase);
+  //     result.should.be.an('array');
+  //     lowerCaseArr.length.should.be.eql(result.length);
+  //     done();
+  //   });
+
+  //   it('should return an array of lowercase strings if input is a string', (done) => {
+  //     const testInput = 'Test, Is, All, That, Matters';
+  //     const result = CenterController.handleFacilities(testInput);
+  //     const lowerCaseArr = result.filter(isLowerCase);
+  //     result.should.be.an('array');
+  //     lowerCaseArr.length.should.be.eql(result.length);
+  //     done();
+  //   });
+
+  //   it('should return "Invalid facilities input" if input is not an array or string', (done) => {
+  //     const testInput = 1000000;
+  //     const result = CenterController.handleFacilities(testInput);
+  //     result.should.be.a('string');
+  //     result.should.be.eql('invaild facilities input');
+  //     done();
+  //   });
+  // });
+
+  describe('Testing search center query generator', () => {
+    it('Should return an object with stateId field if input has location property', (done) => {
+      const param = {
+        location: 25,
+      };
+      const searchParams = CenterController.generateQuery(param);
+      searchParams.should.be.an('object');
+      searchParams.should.have.property('query');
+      searchParams.should.have.property('limit');
+      searchParams.query.should.have.property('stateId');
+      done();
+    });
+
+    it('Should return an object with facilities field if input has facilities property', (done) => {
+      const param = {
+        facilities: ['media support', 'cctv', 'security'],
+      };
+      const searchParams = CenterController.generateQuery(param);
+      searchParams.should.be.an('object');
+      searchParams.should.have.property('query');
+      searchParams.should.have.property('limit');
+      searchParams.query.should.have.property('facilities');
+      done();
+    });
+
+    it('Should return an object with facilities field if input has facilities property', (done) => {
+      const param = {
+        capacity: [500, 1000],
+      };
+      const searchParams = CenterController.generateQuery(param);
+      searchParams.should.be.an('object');
+      searchParams.should.have.property('query');
+      searchParams.should.have.property('limit');
+      searchParams.query.should.have.property('hallCapacity');
+      done();
+    });
+  });
+});
+

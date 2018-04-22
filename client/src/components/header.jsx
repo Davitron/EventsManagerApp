@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Navbar, NavItem } from 'react-materialize';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { Navbar } from 'react-materialize';
 import shortid from 'shortid';
 import { NavLink } from 'react-router-dom';
 import AuthChecker from '../helpers/auth-checker';
@@ -130,14 +128,20 @@ class Header extends Component {
       <header>
         <Navbar fixed className="title white-text" brand="EventManager" right>
           {navs}
-          {user && <li><a onClick={this.logOut} target="">logout</a></li>}
+          {user && <li><a role="link" tabIndex="-1" onClick={this.logOut} target="">logout</a></li>}
         </Navbar>
         {/* <div className="navbar-fixed">
           <nav className=" z-depth-0 navigation">
             <div className="nav-wrapper">
               <div className="row">
                 <div className="col s12">
-                  <Link to="#side-nav" data-activates="mobile-demo" className="button-collapse hide-on-med-and-up"><i className="material-icons">menu</i></Link>
+                  <Link
+                    to="#side-nav"
+                    data-activates="mobile-demo"
+                    className="button-collapse hide-on-med-and-up"
+                  >
+                    <i className="material-icons">menu</i>
+                  </Link>
                   <Link to="/" className="brand-logo title" target="">EventsManager</Link>
                   <ul className="right hide-on-med-and-down">
                     {navs}

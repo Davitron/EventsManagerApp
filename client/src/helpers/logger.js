@@ -9,6 +9,6 @@ export default class Logger {
    * logs data to browser console
    */
   static log(data) {
-    return console.log(data);
+    return console.log(data); // eslint-disable-line
   }
 }

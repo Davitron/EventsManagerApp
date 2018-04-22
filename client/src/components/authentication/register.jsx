@@ -9,11 +9,11 @@ import Header from '../header';
 import FormValidator from '../../helpers/form-validator';
 import Toast from '../../helpers/toast';
 import UserActions from '../../actions/user-actions';
-import Logger from '../../helpers/logger';
 
 
 /**
- * @returns {*} Component for SignUp
+ * @class
+ *
  */
 class Register extends Component {
 /**
@@ -36,9 +36,10 @@ class Register extends Component {
   }
 
   /**
- *@param {*} event
- *@returns {*}
- *this handles the event when any property in the state changes
+ * @param {object} event
+ *
+ * @returns {void}
+ * this handles the event when any property in the state changes
  */
   onChange(event) {
     const { name, value } = event.target;
@@ -80,7 +81,7 @@ class Register extends Component {
    *@returns {*} view htmlFor langing page
    */
   render() {
-    const { user, errors } = this.state;
+    const { user } = this.state;
     const { stateProps } = this.props;
     return (
       <div>
@@ -109,7 +110,7 @@ class Register extends Component {
                       <div className="row">
                         <button
                           type="submit"
-                          className={['col', 's12', 'btn', 'btn-large', 'waves-effect'].join(' ')}
+                          className={['col', 's12', 'btn', 'btn-large', 'waves-effect', 'action-button'].join(' ')}
                           onClick={this.onSubmit}
                           disabled={
                             !user.email ||
