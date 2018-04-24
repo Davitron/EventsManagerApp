@@ -7,6 +7,8 @@ const Centers = model.Center;
 const Events = model.Event;
 const States = model.State;
 
+const { Op } = Sequelize;
+
 
 // validation rules for user input
 const centerRules = {
@@ -225,11 +227,15 @@ export default class CenterController {
       baseUrl: req.baseUrl,
       model: 'centers'
     };
+
+    let query = {};
+
     const limit = parseInt(req.query.limit, 10) || 1;
     let offset = 0;
     const currentPage = parseInt(req.query.page, 10) || 1;
     offset = limit * (currentPage - 1);
-    return Centers.findAndCountAll({
+
+    const defaultQuery = {
       include: [{
         model: model.State,
         required: true,
@@ -241,7 +247,22 @@ export default class CenterController {
       }],
       limit,
       offset
-    })
+    };
+
+    if (req.query.search) {
+      query = {
+        where: {
+          [Op.or]: {
+            name: { [Op.like]: `${req.query.search}%` },
+            address: { [Op.like]: req.query.search }
+          }
+        },
+        ...defaultQuery
+      };
+    } else {
+      query = defaultQuery;
+    }
+    return Centers.findAndCountAll(query)
       .then((centers) => {
         if (centers.rows < 1) {
           return res.status(404).json({
@@ -389,7 +410,6 @@ export default class CenterController {
    */
   static generateQuery(params) {
     const query = {};
-    const { Op } = Sequelize;
     if (params.location) query.stateId = params.location;
     if (params.name) query.name = params.name;
     if (params.facilities) {

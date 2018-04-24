@@ -18,17 +18,24 @@ const cookies = new Cookies();
 export default class CenterActions {
   /**
    *
+   * @param {string} search - search keyword
+   *
    * @param {number} page - page of centers
+   *
+   * @param {number} limit - amount per page
+   *
    *
    * @returns {void}
    */
-  static getAll(page) {
+  static getAll(search, page, limit) {
+    const pageSize = limit || 9;
+
     const token = cookies.get('jwt-events-manager');
     return (dispatch) => {
       dispatch(Dispatcher.action(mainActionType.GETALL_REQUEST, null));
       axios({
         method: 'GET',
-        url: `${CENTER_BASE_URL}?page=${page}`,
+        url: `${CENTER_BASE_URL}?page=${page}&limit=${pageSize}&search=${search}`,
         headers: {
           'x-access-token': token
         }

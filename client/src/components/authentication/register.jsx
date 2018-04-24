@@ -87,7 +87,7 @@ class Register extends Component {
       <div>
         <Header />
         <div className="home">
-          <main className="signup">
+          <main className="signup section__hero">
             <center>
               <div className="section" />
               <h4 className="white-text title"><b>REGISTER</b></h4>

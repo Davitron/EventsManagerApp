@@ -38,7 +38,7 @@ const App = () => (
         <Route exact path="/center-search" component={CenterSearch} />
         <Route exact path="/center-result" component={CenterResult} />
         <Route exact path="/centers/:centerId" component={CenterDetails} />
-        <AdminRoute exact path="/centers" component={Centers} redirectPath="/login" />
+        <Route exact path="/centers" component={Centers} />
         <UserRoute exact path="/events" component={Events} redirectPath="/login" />
         <AdminRoute exact path="/create-center" component={CreateCenterForm} redirectPath="/login" />
         <AdminRoute path="/update-center/:centerId" component={UpdateCenterForm} redirectPath="/login" />

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import debounce from 'throttle-debounce/debounce';
 import PropTypes from 'prop-types';
-import { Input, Icon } from 'react-materialize';
-import ReactPaginate from 'react-paginate';
+// import { Input, Icon } from 'react-materialize';
+import { Card, Icon, Image } from 'semantic-ui-react';
 import Loader from '../reusables/loader';
 import CenterActions from '../../actions/center-action';
 import Header from '../header';
@@ -36,10 +36,11 @@ class Center extends Component {
   /**
    *@returns {object} fetches all centers
    */
-  componentWillMount() {
+  componentDidMount() {
     // CenterActions.getAll()
     const { getAll } = this.props;
-    getAll(this.state.currentPage);
+    const { state } = history.location;
+    getAll(state.search);
   }
 
   /**
@@ -49,11 +50,9 @@ class Center extends Component {
   componentWillReceiveProps(nextProps) {
     const { centers } = nextProps.stateProps;
     const { data } = this.state;
-    if (centers.data && centers.data.allCenters !== data) {
-      const { allCenters, pages } = centers.data;
+    if (centers.data && centers.data.data !== data) {
       this.setState({
-        data: allCenters,
-        totalPages: pages,
+        data: centers.data.data,
         loading: false,
       });
     }
@@ -139,7 +138,7 @@ class Center extends Component {
   render() {
     const {
       data,
-      searchNotfound,
+      searchNotfound, // eslint-disable-line
       loading,
       // openUpdateModal
     } = this.state;
@@ -161,63 +160,79 @@ class Center extends Component {
           <div className={['container', 'animated', 'bounceInRight'].join(' ')} style={{ marginTop: '64px' }}>
             <div className={['row', 'center'].join(' ')} />
             <div className={['col', 's12', 'm8', 'l12'].join(' ')}>
-              <div className={['card-panel', 'white'].join(' ')}>
-                <div className="row">
-                  <h4 className={['black-text', 'title', 'col', 's6'].join(' ')}>
-                    Centers
-                    {loading === true && <Loader />}
-                  </h4>
-                  { !searchNotfound.length || <p className="red-text">{searchNotfound}</p> }
-                  <Input
-                    s={6}
-                    type="text"
-                    label="Filter by name"
-                    validate
-                    onChange={this.handleSearch}
-                  >
-                    <Icon>search</Icon>
-                  </Input>
-                </div>
-                <table className={['bordered', 'centered'].join(' ')}>
-                  <thead>
-                    <tr>
-                      <th>Center Name</th>
-                      <th>state</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      data.map((item, index) => (
-                        <tr key={item.id}>
-                          <td>{item.name}</td>
-                          <td>{item.State.stateName}</td>
-                          <td>
-                            <Link to={`/centers/${item.id}`}><i className=" material-icons">menu</i></Link>
-                          </td>
-                        </tr>))
-                    }
-                  </tbody>
-                </table>
-                <div className={['fixed-action-btn', 'click-to-toggle', 'spin-close'].join(' ')}>
-                  <Link className={['btn-floating', 'btn-large', 'waves-effect', 'waves-light', 'action-button'].join(' ')} to="/create-center">
-                    <i className="material-icons">add</i>
-                  </Link>
-                </div>
-                <ReactPaginate
-                  previousLabel="prev"
-                  nextLabel="next"
-                  breakLabel={<a href="">...</a>}
-                  breakClassName="break-me"
-                  pageCount={this.state.totalPages}
-                  marginPagesDisplayed={2}
-                  pageRangeDisplayed={5}
-                  onPageChange={this.toChangePage}
-                  containerClassName="pagination"
-                  subContainerClassName="pages pagination"
-                  activeClassName="active"
-                />
+              <div className="row">
+                <h4 className={['black-text', 'title', 'col', 's6'].join(' ')}>
+                  Centers
+                  {loading === true && <Loader />}
+                </h4>
+                {/* { !searchNotfound.length || <p className="red-text">{searchNotfound}</p> }
+                <Input
+                  s={6}
+                  type="text"
+                  label="Filter by name"
+                  validate
+                  onChange={this.handleSearch}
+                >
+                  <Icon>search</Icon>
+                </Input> */}
               </div>
+              { data &&
+                data.map(item => (
+                  <Card key={item.id}>
+                    <Image src="http://res.cloudinary.com/eventsmanager/image/upload/v1523025087/llrqzelqzeqxfm6kmv3u.jpg" />
+                    <Card.Content>
+                      <Card.Header>
+                        {item.name}
+                      </Card.Header>
+                      <Card.Meta>
+                        <span className="date">
+                          <Icon name="users" />
+                          {item.hallCapacity}
+                        </span>
+                      </Card.Meta>
+                      <Card.Description>
+                        {item.address} {item.State.stateName}
+                      </Card.Description>
+                    </Card.Content>
+                    <Card.Content extra>
+                      <a>
+                        <Icon name="browser" />
+                        View this center
+                      </a>
+                    </Card.Content>
+                  </Card>
+                ))
+              }
+              {/* <table className={['bordered', 'centered'].join(' ')}>
+                <thead>
+                  <tr>
+                    <th>Center Name</th>
+                    <th>state</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    data.map((item, index) => (
+                      <tr key={item.id}>
+                        <td>{item.name}</td>
+                        <td>{item.State.stateName}</td>
+                        <td>
+                          <Link to={`/centers/${item.id}`}>
+                            <i className=" material-icons">menu</i></Link>
+                        </td>
+                      </tr>))
+                  }
+                </tbody>
+              </table>
+              <div className={['fixed-action-btn', 'click-to-toggle', 'spin-close'].join(' ')}>
+                <Link
+                  className="btn-floating btn-large waves-effect waves-light action-button"
+                  to="/create-center"
+                >
+                  <i className="material-icons">add</i>
+                </Link>
+              </div> */}
             </div>
           </div>
         </div>
