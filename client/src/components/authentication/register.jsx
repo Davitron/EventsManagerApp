@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Input, Row, Container } from 'react-materialize';
+import { Input, Button } from 'semantic-ui-react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Loader from '../reusables/loader';
 import Header from '../header';
 import FormValidator from '../../helpers/form-validator';
-import Toast from '../../helpers/toast';
 import UserActions from '../../actions/user-actions';
 
 
@@ -29,10 +27,27 @@ class Register extends Component {
         password: '',
         confirmPassword: ''
       },
-      errors: null
+      serverError: '',
+      isLoading: false,
+      isDisabled: false,
+      errors: {}
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  /**
+   *
+   * @param {*} nextProps
+   *
+   * @returns {void}
+   */
+  componentWillReceiveProps(nextProps) {
+    const { serverError } = this.state;
+    const { data } = nextProps.response;
+    if (serverError !== data) {
+      this.setState({ serverError: data, isLoading: false, isDisabled: false });
+    }
   }
 
   /**
@@ -60,18 +75,13 @@ class Register extends Component {
    */
   onSubmit(event) {
     event.preventDefault();
+    this.setState({ isLoading: true, isDisabled: true });
     const fv = new FormValidator();
     const { createUser } = this.props;
     const errors = fv.validateSignUp(this.state.user);
     if (errors) {
-      this.setState({
-        errors
-      }, () => {
-        const message = Object.values(this.state.errors).join('\n');
-        Toast.error(message);
-      });
+      this.setState({ errors, isLoading: false, isDisabled: false });
     } else {
-      // Logger.log(createUser);
       createUser(this.state.user);
     }
   }
@@ -81,78 +91,63 @@ class Register extends Component {
    *@returns {*} view htmlFor langing page
    */
   render() {
-    const { user } = this.state;
-    const { stateProps } = this.props;
+    const {
+      isLoading,
+      errors,
+      isDisabled,
+      serverError
+    } = this.state;
+
     return (
       <div>
         <Header />
         <div className="home">
-          <main className="signup section__hero">
-            <center>
-              <div className="section" />
-              <h4 className="white-text title"><b>REGISTER</b></h4>
-              <Container>
-                <form>
-                  <Row className="z-depth-1 grey lighten-4 App-signup animated bounceInRight">
-                    {stateProps.status === 'creating' && <Loader />}
-                    <Row>
-                      <Input s={12} name="email" type="email" value={user.email} onChange={this.onChange} label="Email" />
-                    </Row>
-                    <Row>
-                      <Input s={12} name="username" value={user.username} label="Username" onChange={this.onChange} />
-                    </Row>
-                    <Row>
-                      <Input s={6} name="password" type="password" value={user.paswword} label="Password" onChange={this.onChange} />
-                      <Input s={6} name="confirmPassword" type="password" value={user.confirmPassword} label="Confirm Password" onChange={this.onChange} />
-                    </Row>
+          <main className="section__hero" id="index-banner">
+            <div className="my-container">
+              <div className="form-container">
+                <form name="singInForm" onSubmit={this.onSubmit}>
+                  <h3>Register</h3>
+                  <div className="App-signup animated bounceInRight" style={{ padding: '12px', paddingTop: '30px', paddingBottom: '20px' }} >
+                    <div style={{ textAlign: 'center' }}><span style={{ color: 'red' }}>{ serverError && serverError }</span></div>
+                    <span style={{ color: 'red' }}>{ errors.email && errors.email[0] }</span>
+                    <Input fluid icon="at" placeholder="email" onChange={this.onChange} name="email" />
                     <br />
-                    <center>
-                      <div className="row">
-                        <button
-                          type="submit"
-                          className={['col', 's12', 'btn', 'btn-large', 'waves-effect', 'action-button'].join(' ')}
-                          onClick={this.onSubmit}
-                          disabled={
-                            !user.email ||
-                            !user.username ||
-                            !user.password ||
-                            !user.confirmPassword
-                          }
-                        >
-                          Create Account
-                        </button>
-                      </div>
-                      <div className="row">
-                        <Link className={['col', 's12', 'btn', 'btn-large', 'waves-effect', 'red'].join(' ')} to="/login">Already a User?</Link>
-                      </div>
-                    </center>
-                  </Row>
+                    <span style={{ color: 'red' }}>{ errors.username && errors.username[0] }</span>
+                    <Input fluid icon="user" placeholder="username" onChange={this.onChange} name="username" />
+                    <br />
+                    <span style={{ color: 'red' }}>{ errors.password && errors.password[0] }</span>
+                    <Input fluid icon="lock" placeholder="password" type="password" onChange={this.onChange} name="password" />
+                    <br />
+                    <span style={{ color: 'red', textAlign: 'left !important' }}>{ errors.confirmPassword && errors.confirmPassword[0] }</span>
+                    <Input fluid icon="lock" placeholder="confirm password" type="password" onChange={this.onChange} name="confirmPassword" />
+                    <br />
+                    <Button color="facebook" loading={isLoading} disabled={isDisabled} fluid>Register</Button>
+                    <br />
+                    <span>Already have an account? <Link style={{ color: 'white !important' }} to="/login">Login</Link></span>
+                  </div>
                 </form>
-              </Container>
-            </center>
-            <div className="section" />
-            <div className="section" />
+              </div>
+            </div>
           </main>
         </div>
       </div>
-
     );
   }
 }
 
-const mapStateToProps = state => ({ stateProps: state.register });
+const mapStateToProps = state => ({ response: state.register });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   createUser: UserActions.register
 }, dispatch);
 
 Register.propTypes = {
-  stateProps: PropTypes.objectOf(() => null),
+  response: PropTypes.objectOf(() => null),
   createUser: PropTypes.func
 };
 
 Register.defaultProps = {
-  stateProps: {},
+  response: {},
   createUser: UserActions.register
 };
 

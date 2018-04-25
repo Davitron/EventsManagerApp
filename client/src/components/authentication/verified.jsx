@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'react-materialize';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import Header from '../header';
 import UserActions from '../../actions/user-actions';
 import Logger from '../../helpers/logger';
 
@@ -51,14 +51,15 @@ class VerifiedEmail extends Component {
    */
   render() {
     return (
-      <div className="home">
-        <div className={['banner', 'container', 'animated', 'bounceInUp'].join(' ')}>
-          <Row className="center">
-            <Col s={12} className={['light', 'white-text', 'center', 'animated', 'bounceInDown'].join(' ')}>
-              <h3 className="title"> <b>{this.state.message}</b><br /></h3>
-            </Col>
-          </Row>
-          <Row className="center"> <Link className={['btn', 'btn-large', 'waves-effect', 'blue'].join(' ')} to="/">Continue as user</Link></Row>
+      <div>
+        <Header />
+        <div className="home">
+          <div className="section section__hero" style={{ color: 'white' }}>
+            <div className="my-container" style={{ paddingTop: '8em' }}>
+              <h2 className="animated fadeInUp">{this.state.message}</h2>
+              <h3 style={{ paddingBottom: '60px' }} className="animated fadeInUp"><Link to="/">Continue as user</Link></h3>
+            </div>
+          </div>
         </div>
       </div>
     );

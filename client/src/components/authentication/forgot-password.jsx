@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Input, Row, Container } from 'react-materialize';
+import { Input, Button, Modal } from 'semantic-ui-react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Loader from '../reusables/loader';
+import FormValidator from '../../helpers/form-validator';
 import Header from '../header';
 import UserActions from '../../actions/user-actions';
 
@@ -23,10 +23,42 @@ class ForgotPassword extends Component {
     this.state = {
       user: {
         email: ''
-      }
+      },
+      isLoading: false,
+      isDisabled: false,
+      serverError: '',
+      serverSuccess: '',
+      errors: {},
+      showAlert: false,
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.closeAlert = this.closeAlert.bind(this);
+  }
+
+  /**
+   *
+   * @param {*} nextProps
+   *
+   * @returns {void}
+   */
+  componentWillReceiveProps(nextProps) {
+    const { serverError } = this.state;
+    const { data, status } = nextProps.response;
+    if (serverError !== data && status === 'success') {
+      this.setState({
+        serverSuccess: data,
+        isLoading: false,
+        isDisabled: false,
+        showAlert: true
+      });
+    } else {
+      this.setState({
+        serverError: data,
+        isLoading: false,
+        isDisabled: false,
+      });
+    }
   }
 
   /**
@@ -41,7 +73,7 @@ class ForgotPassword extends Component {
     this.setState({
       user: {
         email: value
-      }
+      },
     });
   }
 
@@ -53,13 +85,22 @@ class ForgotPassword extends Component {
    */
   onSubmit(event) {
     event.preventDefault();
+    this.setState({ isLoading: true, isDisabled: true, serverError: '' });
+    const fv = new FormValidator();
     const { requestReset } = this.props;
-    requestReset(this.state.user);
-    this.setState({
-      user: {
-        email: ''
-      }
-    });
+    const errors = fv.validatePasswordReset(this.state.user);
+    if (errors) {
+      this.setState({ errors, isLoading: false, isDisabled: false });
+    } else {
+      requestReset(this.state.user);
+    }
+  }
+
+  /**
+   * @returns {void}
+   */
+  closeAlert() {
+    this.setState({ showAlert: false });
   }
 
 
@@ -67,45 +108,41 @@ class ForgotPassword extends Component {
    *@returns {*} view htmlFor langing page
    */
   render() {
-    const { user } = this.state;
-    const { stateProps } = this.props;
+    const { user, isLoading, errors, isDisabled, serverError, showAlert, serverSuccess } = this.state; // eslint-disable-line
     return (
       <div>
         <Header />
-        <div className="App-main">
-          <main className="signin">
-            <center>
-              <div className="section" />
-              <h4 className="white-text"><b>Forgot Password</b></h4>
-              <Container>
-                <form>
-                  <div className={['z-depth-1', 'grey', 'lighten-4', 'row', 'App-signup', 'animated', 'bounceInRight'].join(' ')} >
-                    {stateProps.status === 'ongoing' && <Loader />}
-                    <div className={['col', 's12'].join('')}>
-                      <Row>
-                        <Input s={12} name="email" type="email" value={user.email} onChange={this.onChange} label="Enter your email" />
-                        <label htmlFor="forgot" style={{ float: 'right' }}>
-                          <Link id="forgot" to="#!" className="white-text" href="#!">blank</Link>
-                        </label>
-                      </Row>
-                      <br />
-                      <center>
-                        <Row>
-                          <button onClick={this.onSubmit} className={['col', 's12', 'btn', 'btn-large', 'waves-effect', 'action-button'].join(' ')}>
-                              Send Reset Link
-                          </button>
-                        </Row>
-                        <Row>
-                          <Link className={['col', 's12', 'btn', 'btn-large', 'waves-effect', 'red'].join(' ')} to="/login">Back</Link>
-                        </Row>
-                      </center>
-                    </div>
+        <div className="home">
+          <main className="section__hero" id="index-banner">
+            <div className="my-container">
+              <div className="form-container">
+                <form name="singInForm" onSubmit={this.onSubmit}>
+                  <h3>Forgot Password</h3>
+                  <div className="App-signup animated bounceInRight" style={{ padding: '12px', paddingTop: '30px', paddingBottom: '20px' }} >
+                    <div style={{ textAlign: 'center' }}><span style={{ color: 'red' }}>{ serverError && serverError }</span></div>
+                    <span style={{ color: 'red', paddingBottom: '4px' }}>{errors.email && errors.email[0]}</span>
+                    <Input fluid icon="at" placeholder="email" onChange={this.onChange} name="email" />
+                    <br />
+                    <Button color="facebook" fluid loading={isLoading} disabled={isDisabled}>Send Reset Link</Button>
+                    <br />
+                    <span>Back to<Link style={{ color: 'white !important' }} to="/"> home</Link></span>
                   </div>
                 </form>
-              </Container>
-            </center>
+              </div>
+            </div>
             <div className="section" />
             <div className="section" />
+            <Modal size="tiny" open={showAlert} onClose={this.close}>
+              <Modal.Header>
+                Password Reset Link
+              </Modal.Header>
+              <Modal.Content>
+                <p>{serverSuccess}</p>
+              </Modal.Content>
+              <Modal.Actions>
+                <Button color="facebook" icon="checkmark" labelPosition="right" content="OK" onClick={this.closeAlert} />
+              </Modal.Actions>
+            </Modal>
           </main>
         </div>
       </div>
@@ -113,19 +150,19 @@ class ForgotPassword extends Component {
   }
 }
 
-const mapStateToProps = state => ({ stateProps: state.resetPassword });
+const mapStateToProps = state => ({ response: state.resetPassword });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   requestReset: UserActions.resetRequest
 }, dispatch);
 
 ForgotPassword.propTypes = {
-  stateProps: PropTypes.objectOf(() => null),
+  response: PropTypes.objectOf(() => null),
   requestReset: PropTypes.func
 };
 
 ForgotPassword.defaultProps = {
-  stateProps: {},
+  response: {},
   requestReset: UserActions.resetRequest
 };
 
