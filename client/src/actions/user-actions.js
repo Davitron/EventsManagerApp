@@ -32,7 +32,6 @@ export default class UserActions {
         })
         .catch((error) => {
           const { message } = error.response.data;
-          Toast.error(message);
           dispatch(Dispatcher.action(userActionsType.SIGNUP_FAILURE, message));
         });
     };
@@ -84,9 +83,9 @@ export default class UserActions {
           history.push('/center-search');
         })
         .catch((error) => {
-          const err = error.response.data.message;
-          dispatch(Dispatcher.action(userActionsType.SIGNIN_FAILURE, err));
-          Toast.error(err);
+          const { message } = error.response.data;
+
+          dispatch(Dispatcher.action(userActionsType.SIGNIN_FAILURE, message));
         });
     };
   }
@@ -107,12 +106,11 @@ export default class UserActions {
           Logger.log(response);
           const { message } = response.data;
           dispatch(Dispatcher.action(userActionsType.RESET_SUCCESS, message));
-          Toast.success(message);
         })
         .catch((error) => {
           Logger.log(error.response);
           const err = error.response.data.message;
-          dispatch(Dispatcher.action(userActionsType.SIGNIN_FAILURE, err));
+          dispatch(Dispatcher.action(userActionsType.RESET_FAILURE, err));
         });
     };
   }
@@ -133,8 +131,7 @@ export default class UserActions {
           Logger.log(response);
           const { message } = response.data;
           dispatch(Dispatcher.action(userActionsType.RESET_SUCCESS, message));
-          Toast.success(message);
-          setTimeout(() => { history.push('/login'); }, 5000);
+          // setTimeout(() => { history.push('/login'); }, 5000);
         })
         .catch((error) => {
           const err = error.response.data.message;

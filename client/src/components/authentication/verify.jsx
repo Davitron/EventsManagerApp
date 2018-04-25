@@ -1,29 +1,22 @@
 import React from 'react';
-import { Row, Col } from 'react-materialize';
-
+import Header from '../header';
 
 /**
  * @param {*} props
  * @returns {*} rerurs view for landing page
  */
 const VerifyEmail = props => (
-  <div className="home">
-    <div className={['banner', 'container', 'animated', 'bounceInUp'].join(' ')}>
-      <Row className="center">
-        <h3>
-          <Col s={12} className={['light', 'white-text', 'center', 'animated', 'bounceInDown'].join(' ')}>
-            <b>A verificaton link has been sent to your email address<br />
-            Check your inbox to complete your registration.
-            </b>
-          </Col>
-        </h3>
-      </Row>
+  <div>
+    <Header />
+    <div className="home">
+      <div className="section section__hero" style={{ color: 'white' }}>
+        <div className="my-container" style={{ paddingTop: '8em' }}>
+          <h2 className="animated fadeInUp">Registration Successful.</h2>
+          <h3 style={{ paddingBottom: '60px' }} className="animated fadeInUp">A verification link has been sent to your mail</h3>
+        </div>
+      </div>
     </div>
   </div>
 );
-
-// VerifyEmail.propTypes = {
-//   location: PropTypes.objectOf(() => null).isRequired
-// };
 
 export default VerifyEmail;

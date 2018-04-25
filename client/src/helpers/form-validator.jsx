@@ -14,6 +14,15 @@ const signInRules = {
   password: 'required|min:6',
 };
 
+const resetRequestRules = {
+  email: 'required|email'
+};
+
+const passwordResetRules = {
+  password: 'required|min:6',
+  confirmPassword: 'required|min:6',
+};
+
 const centerRules = {
   name: 'required|string|min:3|max:30',
   stateId: 'required|integer',
@@ -47,6 +56,38 @@ export default class FormValidator {
       }
     }
     return status;
+  }
+
+  /**
+   *
+   * @param {*} data
+   * @returns {null | object}
+   * To check if given email is a valid format
+   */
+  validateInput(data) {
+    const validate = new validator(data, passwordResetRules);
+    if (!validate.passes()) {
+      const { errors } = validate;
+      const err = errors.errors;
+      return err;
+    }
+    return null;
+  }
+
+  /**
+   *
+   * @param {*} data
+   * @returns {null | object}
+   * To check if given email is a valid format
+   */
+  validatePasswordReset(data) {
+    const validate = new validator(data, resetRequestRules);
+    if (!validate.passes()) {
+      const { errors } = validate;
+      const err = errors.errors;
+      return err;
+    }
+    return null;
   }
 
   /**

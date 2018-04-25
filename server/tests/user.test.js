@@ -434,16 +434,32 @@ describe('Testing Authentication Routes', () => {
         });
     });
 
+    it('should return 400 if passwords do not match', (done) => {
+      chai.request(app)
+        .post(`/api/v1/users/password?token=${resetToken}`)
+        .send({
+          password: 'playcool',
+          confirmPassword: 'playcoolin'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.an('object');
+          res.body.should.have.property('message').eql('Passwords do not match');
+          done();
+        });
+    });
+
     it('should return 200 if password reset is successful', (done) => {
       chai.request(app)
         .post(`/api/v1/users/password?token=${resetToken}`)
         .send({
-          password: 'playcool'
+          password: 'playcool',
+          confirmPassword: 'playcool'
         })
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.an('object');
-          res.body.should.have.property('message').eql('Password reset successful. Now redirecting....');
+          res.body.should.have.property('message').eql('Password reset successful. You can proceed to Login');
           done();
         });
     });

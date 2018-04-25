@@ -28,8 +28,7 @@ export default class UserReducer {
         return newState;
       case userActionType.SIGNUP_FAILURE:
         newState.status = 'failed';
-        newState.data = null;
-        newState.error = action.message;
+        newState.data = action.data;
         return newState;
       default:
         return state;
@@ -59,7 +58,7 @@ export default class UserReducer {
         return newState;
       case userActionType.SIGNIN_FAILURE:
         newState.isAuthenticated = false;
-        newState.data = action.err;
+        newState.data = action.data;
         newState.status = 'failed';
         return newState;
       default:

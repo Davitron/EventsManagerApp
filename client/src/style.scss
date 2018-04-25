@@ -12,6 +12,16 @@ nav {
   background-color: #032958 !important;
 }
 
+.form-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  // form{
+
+  // }
+}
+
 .home-search-input {
   margin-top: 50px;
   border-radius: 50px;
@@ -276,16 +286,26 @@ nav {
 //     transform: rotate(360deg); } }
 
 .App-signup {
-  display: inline-block;
   padding: 32px 48px 0px 48px;
-  border: 1px solid #EEE;}
+  border: 1px solid #EEE;
+  margin-right: auto;
+  margin-left: auto;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  min-width: 23rem;
+}
 
 @media only screen and (min-width: 700px) {
   .App-signup {
     display: inline-block;
     padding: 32px 48px 0px 48px;
     border: 1px solid #EEE;
-    width: 450px; }
+    border-radius: 5px;
+    margin: auto;
+    min-width: 35rem;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+  }
 }
 
 .App-signup main {
@@ -412,10 +432,10 @@ i.icon-grey {
 }
 
 
-.active {
-  background-color: #032958 !important;
-  color: white;
-}
+// .active {
+//   background-color: #032958 !important;
+//   color: white;
+// }
 
 
 .navigator .icon {

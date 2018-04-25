@@ -33,7 +33,8 @@ const resetPasswordRules = {
 };
 
 const passwordResetRules = {
-  password: 'required|min:6'
+  password: 'required|min:6',
+  confirmPassword: 'required|min:6'
 };
 
 /**
@@ -296,6 +297,9 @@ export default class UserController {
   static resetPassword(req, res) {
     const validate = new validator(req.body, passwordResetRules);
     if (validate.passes()) {
+      if (req.body.password !== req.body.confirmPassword) {
+        return res.status(400).json({ message: 'Passwords do not match', statusCode: 400 });
+      }
       return Users.findOne({
         where: {
           email: req.decoded.email
@@ -303,7 +307,7 @@ export default class UserController {
       })
         .then(user => user.update({ password: bcrypt.hashSync(req.body.password, 10) })
           .then(() => {
-            res.status(200).json({ message: 'Password reset successful. Now redirecting....', statusCode: 200 });
+            res.status(200).json({ message: 'Password reset successful. You can proceed to Login', statusCode: 200 });
           })
           .catch(err => res.status(500).json({ message: 'Oops!, an error has occured', error: err.name, statusCode: 500 })));
     }
