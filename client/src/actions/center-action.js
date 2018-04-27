@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
+import queryString from 'query-string';
 import mainActionType from './actionTypes/main-action-types';
 import Dispatcher from '../helpers/dispatch';
 import Toast from '../helpers/toast';
@@ -18,7 +19,7 @@ const cookies = new Cookies();
 export default class CenterActions {
   /**
    *
-   * @param {string} search - search keyword
+   * @param {object} query - search parameters
    *
    * @param {number} page - page of centers
    *
@@ -27,15 +28,25 @@ export default class CenterActions {
    *
    * @returns {void}
    */
-  static getAll(search, page, limit) {
-    const pageSize = limit || 9;
-
+  static getAll(query) {
+    let qString;
+    let api;
     const token = cookies.get('jwt-events-manager');
+
+    if (query) {
+      query.limit = query.limit || 9;
+      query.page = query.page || 1;
+      qString = queryString.stringify(query, { arrayFormat: 'bracket' });
+      api = `${CENTER_BASE_URL}?${qString}`;
+    } else {
+      api = CENTER_BASE_URL;
+    }
+
     return (dispatch) => {
       dispatch(Dispatcher.action(mainActionType.GETALL_REQUEST, null));
       axios({
         method: 'GET',
-        url: `${CENTER_BASE_URL}?page=${page}&limit=${pageSize}&search=${search}`,
+        url: api,
         headers: {
           'x-access-token': token
         }
@@ -224,6 +235,7 @@ export default class CenterActions {
   static search(param) {
     return (dispatch) => {
       dispatch(Dispatcher.action(mainActionType.SEARCH_REQUEST, param));
+
       axios({
         method: 'POST',
         url: '/api/v1/searchcenter',
