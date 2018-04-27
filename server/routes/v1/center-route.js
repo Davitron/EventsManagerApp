@@ -5,7 +5,6 @@ import Security from '../../middlewares/security';
 const centersRouterV1 = express.Router();
 
 centersRouterV1.post('/centers', Security.check, CenterController.create);
-centersRouterV1.post('/searchcenter', CenterController.searchCenters);
 centersRouterV1.get('/centers', CenterController.getAll);
 centersRouterV1.get('/centers/:centerId', CenterController.get);
 centersRouterV1.get('/states', CenterController.getAllStates);

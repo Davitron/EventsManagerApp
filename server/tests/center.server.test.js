@@ -2,7 +2,7 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 // import '../env.test';
 import app from '../server';
-import CenterController from '../controllers/v1/center-controller';
+
 
 chai.use(chaiHttp);
 
@@ -319,12 +319,12 @@ describe('Testing Api endpoints for centers', () => {
           res.body.should.have.property('message');
           res.body.should.have.property('statusCode');
           res.body.should.have.property('data');
-          res.body.should.have.property('metaData');
+          res.body.should.have.property('metadata');
           res.body.message.should.eql('Centers Retrieved');
           res.body.statusCode.should.eql(200);
           res.body.data.should.an('array');
-          res.body.metaData.should.be.an('object');
-          // res.body.metaData.should.have.property('pagination');
+          res.body.metadata.should.be.an('object');
+          res.body.metadata.should.have.property('pagination');
           // res.body.mataData.pagination.should.be.an('object');
           done();
         });
@@ -552,72 +552,3 @@ describe('Testing API endpoint for states', () => {
       });
   });
 });
-
-describe('Testing Center Controller Utitlity Methods', () => {
-  // describe('Testing handle facilities function in center ceontroller', () => {
-  //   it('should return an array of lowercase strings if input is an array', (done) => {
-  //     const testInput = ['Test', 'Is', 'All', 'That', 'Matters'];
-  //     const result = CenterController.handleFacilities(testInput);
-  //     const lowerCaseArr = result.filter(isLowerCase);
-  //     result.should.be.an('array');
-  //     lowerCaseArr.length.should.be.eql(result.length);
-  //     done();
-  //   });
-
-  //   it('should return an array of lowercase strings if input is a string', (done) => {
-  //     const testInput = 'Test, Is, All, That, Matters';
-  //     const result = CenterController.handleFacilities(testInput);
-  //     const lowerCaseArr = result.filter(isLowerCase);
-  //     result.should.be.an('array');
-  //     lowerCaseArr.length.should.be.eql(result.length);
-  //     done();
-  //   });
-
-  //   it('should return "Invalid facilities input" if input is not an array or string', (done) => {
-  //     const testInput = 1000000;
-  //     const result = CenterController.handleFacilities(testInput);
-  //     result.should.be.a('string');
-  //     result.should.be.eql('invaild facilities input');
-  //     done();
-  //   });
-  // });
-
-  describe('Testing search center query generator', () => {
-    it('Should return an object with stateId field if input has location property', (done) => {
-      const param = {
-        location: 25,
-      };
-      const searchParams = CenterController.generateQuery(param);
-      searchParams.should.be.an('object');
-      searchParams.should.have.property('query');
-      searchParams.should.have.property('limit');
-      searchParams.query.should.have.property('stateId');
-      done();
-    });
-
-    it('Should return an object with facilities field if input has facilities property', (done) => {
-      const param = {
-        facilities: ['media support', 'cctv', 'security'],
-      };
-      const searchParams = CenterController.generateQuery(param);
-      searchParams.should.be.an('object');
-      searchParams.should.have.property('query');
-      searchParams.should.have.property('limit');
-      searchParams.query.should.have.property('facilities');
-      done();
-    });
-
-    it('Should return an object with facilities field if input has facilities property', (done) => {
-      const param = {
-        capacity: [500, 1000],
-      };
-      const searchParams = CenterController.generateQuery(param);
-      searchParams.should.be.an('object');
-      searchParams.should.have.property('query');
-      searchParams.should.have.property('limit');
-      searchParams.query.should.have.property('hallCapacity');
-      done();
-    });
-  });
-});
-

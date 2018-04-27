@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-// import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import debounce from 'throttle-debounce/debounce';
 import PropTypes from 'prop-types';
-// import { Input, Icon } from 'react-materialize';
-import { Card, Icon, Image } from 'semantic-ui-react';
-import Loader from '../reusables/loader';
+import queryString from 'query-string';
+import { Grid, Dimmer, Loader } from 'semantic-ui-react';
+import SearchForm from './search-form';
 import CenterActions from '../../actions/center-action';
 import Header from '../header';
 import history from '../../helpers/history';
+import Paginator from '../reusables/pagination';
+import CenterCard from './center-card';
 
 /**
  * Center Component
@@ -24,23 +24,24 @@ class Center extends Component {
     super(props);
     this.state = {
       data: [],
-      searchNotfound: '',
-      loading: true,
-      currentPage: 1
+      pagingData: {},
+      states: [],
+      loading: false,
+      serverError: ''
     };
-    this.handleSearch = this.handleSearch.bind(this);
-    this.toChangePage = this.toChangePage.bind(this);
-    this.triggerSearch = debounce(100, this.triggerSearch);
+    this.onSearch = this.onSearch.bind(this);
+    this.onChangePage = this.onChangePage.bind(this);
+    this.onPageSizeChange = this.onPageSizeChange.bind(this);
   }
 
   /**
    *@returns {object} fetches all centers
    */
   componentDidMount() {
-    // CenterActions.getAll()
-    const { getAll } = this.props;
-    const { state } = history.location;
-    getAll(state.search);
+    const { getAll, getStates } = this.props;
+    const query = queryString.parse(window.location.search);
+    getStates();
+    getAll(query);
   }
 
   /**
@@ -48,80 +49,66 @@ class Center extends Component {
    * @returns {*} change state if new prop is recieved
    */
   componentWillReceiveProps(nextProps) {
-    const { centers } = nextProps.stateProps;
-    const { data } = this.state;
-    if (centers.data && centers.data.data !== data) {
+    const { centers: { data, status }, allStates } = nextProps.response;
+    if (nextProps.location.search !== this.props.location.search) {
+      const query = queryString.parse(window.location.search);
+      this.setState({ loading: true });
+      this.props.getAll(query);
+    }
+    if (status === 'failed') {
       this.setState({
-        data: centers.data.data,
-        loading: false,
+        serverError: data.message
       });
+    }
+    if (data && data.data !== this.state.data && status === 'success') {
+      const payload = data.data;
+      const { pagination } = data.metadata;
+      this.setState({ data: payload, pagingData: pagination, loading: false });
+    }
+    if (allStates.status === 'success') {
+      this.setState({ states: allStates.data });
     }
   }
 
   /**
    *
-   * @param {*} pageOfItems
-   * @returns {*} -
+   * @param {number} newPage
+   *
+   * @returns {void} -
    */
-  onChangePage(pageOfItems) {
-    // this.setState({ pageOfItems });
+  onChangePage(newPage) {
+    const query = queryString.parse(this.props.location.search);
+    query.page = newPage;
+    const qString = queryString.stringify(query, { arrayFormat: 'bracket' });
+    history.push(`/centers?${qString}`);
+  }
+
+
+  /**
+   *
+   * @param {number} currentPage
+   *
+   * @param {number} pageSize
+   *
+   * @returns{void}
+   */
+  onPageSizeChange(currentPage, pageSize) {
+    const query = queryString.parse(this.props.location.search);
+    query.limit = pageSize;
+    query.page = currentPage;
+    const qString = queryString.stringify(query, { arrayFormat: 'bracket' });
+    history.push(`/centers?${qString}`);
   }
 
   /**
-   * @param {object} currentPage
+   *
+   * @param {object} query
    *
    * @returns {void}
    */
-  loadCentersformServer(currentPage) {
-    const { getAll } = this.props;
-    this.setState({
-      currentPage
-    }, () => getAll(this.state.currentPage));
-  }
-
-  /**
-   * @param {object} data
-   *
-   * @returns {void} for next page
-   */
-  toChangePage(data) {
-    const { selected } = data;
-    this.loadCentersformServer(selected + 1);
-  }
-
-
-  /**
-   *@param {*} event
-  *@returns {*} updates state.search with search parameters
-  */
-  handleSearch(event) {
-    const { value } = event.target;
-    const { data } = this.state;
-    this.triggerSearch(value, data);
-  }
-
-  /**
-   *
-   * @param {*} value
-   * @param {*} data
-   * @returns {*} trrigers onchange of search input
-   */
-  triggerSearch(value, data) {
-    const { allCenters } = this.props.stateProps.centers.data;
-    if (value.length > 0) {
-      const newItems = data.filter(item =>
-        item.name.toLowerCase().includes(value.toLowerCase()));
-      if (newItems.length > 0) {
-        this.setState({
-          data: newItems,
-          searchNotfound: '',
-        });
-      } else {
-        this.setState({ searchNotfound: 'Oops!, no center matches this query' });
-      }
-    } else {
-      this.setState({ data: allCenters });
-    }
+  onSearch(query) {
+    const qString = queryString.stringify(query, { arrayFormat: 'bracket' });
+    history.push(`/centers?${qString}`);
   }
 
   /**
@@ -138,102 +125,44 @@ class Center extends Component {
   render() {
     const {
       data,
-      searchNotfound, // eslint-disable-line
+      states,
       loading,
-      // openUpdateModal
+      serverError
     } = this.state;
 
     return (
       <div>
         <Header />
-        <div style={{
-          backgroundColor: '#f5f5f5',
-          position: 'absolute',
-          top: 0,
-          right: 0,
-          bottom: 0,
-          left: 0,
-          paddingBottom: '20px',
-          overflow: 'auto'
-        }}
-        >
-          <div className={['container', 'animated', 'bounceInRight'].join(' ')} style={{ marginTop: '64px' }}>
-            <div className={['row', 'center'].join(' ')} />
-            <div className={['col', 's12', 'm8', 'l12'].join(' ')}>
-              <div className="row">
-                <h4 className={['black-text', 'title', 'col', 's6'].join(' ')}>
-                  Centers
-                  {loading === true && <Loader />}
-                </h4>
-                {/* { !searchNotfound.length || <p className="red-text">{searchNotfound}</p> }
-                <Input
-                  s={6}
-                  type="text"
-                  label="Filter by name"
-                  validate
-                  onChange={this.handleSearch}
-                >
-                  <Icon>search</Icon>
-                </Input> */}
-              </div>
-              { data &&
-                data.map(item => (
-                  <Card key={item.id}>
-                    <Image src="http://res.cloudinary.com/eventsmanager/image/upload/v1523025087/llrqzelqzeqxfm6kmv3u.jpg" />
-                    <Card.Content>
-                      <Card.Header>
-                        {item.name}
-                      </Card.Header>
-                      <Card.Meta>
-                        <span className="date">
-                          <Icon name="users" />
-                          {item.hallCapacity}
-                        </span>
-                      </Card.Meta>
-                      <Card.Description>
-                        {item.address} {item.State.stateName}
-                      </Card.Description>
-                    </Card.Content>
-                    <Card.Content extra>
-                      <a>
-                        <Icon name="browser" />
-                        View this center
-                      </a>
-                    </Card.Content>
-                  </Card>
-                ))
-              }
-              {/* <table className={['bordered', 'centered'].join(' ')}>
-                <thead>
-                  <tr>
-                    <th>Center Name</th>
-                    <th>state</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    data.map((item, index) => (
-                      <tr key={item.id}>
-                        <td>{item.name}</td>
-                        <td>{item.State.stateName}</td>
-                        <td>
-                          <Link to={`/centers/${item.id}`}>
-                            <i className=" material-icons">menu</i></Link>
-                        </td>
-                      </tr>))
-                  }
-                </tbody>
-              </table>
-              <div className={['fixed-action-btn', 'click-to-toggle', 'spin-close'].join(' ')}>
-                <Link
-                  className="btn-floating btn-large waves-effect waves-light action-button"
-                  to="/create-center"
-                >
-                  <i className="material-icons">add</i>
-                </Link>
-              </div> */}
+        <div className="background">
+          <div className="my-container">
+            <div style={{ textAlign: 'center' }}>
+              <span style={{ fontSize: '45px' }}>Centers</span>
             </div>
+            <SearchForm states={states} onSearch={this.onSearch} />
+            <Grid>
+              <Grid.Row colunms={3}>
+                { loading === true &&
+                  <Dimmer active inverted>
+                    <Loader size="large">Loading</Loader>
+                  </Dimmer>
+                }
+                { serverError && <h2 className="animated fadeInUp">{serverError}</h2> }
+                { data &&
+                  data.map(item => (
+                    <Grid.Column key={item.id}>
+                      <CenterCard center={item} />
+                    </Grid.Column>
+                  ))
+                }
+              </Grid.Row>
+            </Grid>
+            { this.state.data.length > 0 &&
+            <Paginator
+              pagingData={this.state.pagingData}
+              onChange={this.onChangePage}
+              onShowSizeChange={this.onPageSizeChange}
+            />
+            }
           </div>
         </div>
       </div>
@@ -242,26 +171,30 @@ class Center extends Component {
 }
 
 const mapStateToProps = state => ({
-  stateProps: {
+  response: {
     centers: state.getAll,
-    deleteCenter: state.deleteItem
-    // newCenter: state.createCenter
+    deleteCenter: state.deleteItem,
+    allStates: state.getAllStates
   }
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   getAll: CenterActions.getAll,
-  deleteCenter: CenterActions.deleteCenter
+  deleteCenter: CenterActions.deleteCenter,
+  getStates: CenterActions.getAllStates
 }, dispatch);
 
 Center.propTypes = {
-  stateProps: PropTypes.objectOf(() => null),
+  response: PropTypes.objectOf(() => null),
   getAll: PropTypes.func,
+  location: PropTypes.objectOf(() => null).isRequired,
+  getStates: PropTypes.func
 };
 
 Center.defaultProps = {
-  stateProps: {},
+  response: {},
   getAll: CenterActions.getAll,
+  getStates: CenterActions.getAllStates
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Center);

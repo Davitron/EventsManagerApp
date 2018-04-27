@@ -3,6 +3,7 @@ import Sequelize from 'sequelize';
 import model from '../../models';
 import Pagination from '../../services/pagingService';
 
+
 const Centers = model.Center;
 const Events = model.Event;
 const States = model.State;
@@ -32,6 +33,11 @@ const centerUpdateRules = {
   price: 'numeric',
 };
 
+const validateUrl = (item, response) => {
+  if (item && (isNaN(item) || item < 0)) {
+    return response.status(400).json({ message: 'Invalid Request', statusCode: 400 });
+  }
+};
 
 // JSDOC @return variables
 /**
@@ -82,6 +88,49 @@ export default class CenterController {
   //   // }
   //   // return facilities;
   // }
+
+  /**
+   *
+   * @param {object} param - User search combinations
+   *
+   * @param {number} limit - size of data
+   *
+   * @param {number} offset
+   *
+   * @returns {object} - sequelize query
+   *
+   * @memberOf CenterController
+   */
+  static generateQuery(param, limit, offset) {
+    let customQuery = {};
+    let query = {};
+
+    const defaultQuery = {
+      include: [
+        { model: model.State, required: true, attributes: ['stateName'] },
+        { model: model.User, required: true, attributes: ['username'] }],
+      limit,
+      offset,
+      order: [['id']]
+    };
+
+    if (Object.keys(param).length === 0) return defaultQuery;
+
+    if (param.search) {
+      query = {
+        [Op.or]: [
+          { name: { ilike: `%${param.search}%` } },
+          { address: { ilike: `%${param.search}%` } }
+        ]
+      };
+    }
+    if (param.state) query.stateId = param.state;
+    if (param.facilities) query.facilities = { [Op.contains]: param.facilities };
+    if (param.capacity) query.hallCapacity = { [Op.gte]: param.capacity };
+
+    customQuery = { where: query, ...defaultQuery };
+    return customQuery;
+  }
 
   /**
    * Check if Center already exists
@@ -150,6 +199,40 @@ export default class CenterController {
       price: parseFloat(req.body.price)
     })
       .then(center => res.status(201).json({ message: 'New Center Created', centerId: center.id, statusCode: 201 }));
+  }
+
+  /**
+   *
+   * @param {*} query
+   *
+   * @param {object} response
+   *
+   * @param {object} meta
+   *
+   * @return {object} The list of all centers
+   */
+  static handleGetAll(query, response, meta) {
+    const { offset, limit } = query;
+    const page = (offset / limit) + 1;
+    return Centers.findAndCountAll(query)
+      .then((centers) => {
+        if (centers.rows.length === 0) {
+          return response.status(404).json({
+            message: 'No centers found',
+            statusCode: 404,
+            data: null,
+            meta: null,
+          });
+        }
+        return response.status(200).json({
+          message: 'Centers Retrieved',
+          data: centers.rows,
+          metadata: {
+            pagination: Pagination.createPagingData(centers, limit, offset, page, meta),
+          },
+          statusCode: 200
+        });
+      });
   }
 
   /**
@@ -223,64 +306,24 @@ export default class CenterController {
    * @memberof CenterController
    */
   static getAll(req, res) {
-    const url = {
-      baseUrl: req.baseUrl,
-      model: 'centers'
-    };
-
-    let query = {};
-
-    const limit = parseInt(req.query.limit, 10) || 1;
-    let offset = 0;
-    const currentPage = parseInt(req.query.page, 10) || 1;
-    offset = limit * (currentPage - 1);
-
-    const defaultQuery = {
-      include: [{
-        model: model.State,
-        required: true,
-        attributes: ['stateName']
-      }, {
-        model: model.User,
-        required: true,
-        attributes: ['username']
-      }],
+    const requestMeta = { baseUrl: req.baseUrl, model: 'centers' };
+    const {
       limit,
-      offset
-    };
+      page,
+      state,
+      capacity
+    } = req.query;
 
-    if (req.query.search) {
-      query = {
-        where: {
-          [Op.or]: {
-            name: { [Op.like]: `${req.query.search}%` },
-            address: { [Op.like]: req.query.search }
-          }
-        },
-        ...defaultQuery
-      };
-    } else {
-      query = defaultQuery;
-    }
-    return Centers.findAndCountAll(query)
-      .then((centers) => {
-        if (centers.rows < 1) {
-          return res.status(404).json({
-            message: 'No Centers Available',
-            statusCode: 404,
-            meta: null,
-            data: null
-          });
-        }
-        return res.status(200).json({
-          message: 'Centers Retrieved',
-          statusCode: 200,
-          data: centers.rows,
-          metaData: {
-            pagination: Pagination.createPagingData(centers, limit, offset, currentPage, url),
-          }
-        });
-      });
+    validateUrl(state);
+    validateUrl(capacity);
+
+    const limiter = parseInt(limit, 10) || 9;
+    let offset = 0;
+    const currentPage = parseInt(page, 10) || 1;
+    offset = limiter * (currentPage - 1);
+
+    const query = CenterController.generateQuery(req.query, limiter, offset);
+    CenterController.handleGetAll(query, res, requestMeta);
   }
 
   /**
@@ -397,87 +440,6 @@ export default class CenterController {
             .then(() => res.status(200).json({ message: 'Center is successfully deleted', statusCode: 200 }));
         })
         .catch(error => res.status(500).json({ message: 'Internal Server Error', statusCode: 500 }));
-    }
-  }
-
-  /**
-   *
-   * @param {object} params - User search combinations
-   *
-   * @returns {object} - sequelize query
-   *
-   * @memberOf CenterController
-   */
-  static generateQuery(params) {
-    const query = {};
-    if (params.location) query.stateId = params.location;
-    if (params.name) query.name = params.name;
-    if (params.facilities) {
-      query.facilities = {
-        [Op.contains]: params.facilities
-      };
-    }
-    if (params.capacity) {
-      query.hallCapacity = {
-        [Op.between]: [params.capacity[0], params.capacity[1]]
-      };
-    }
-    const limit = params.limit || 9;
-    return { query, limit };
-  }
-
-  /**
-   *
-   * @param {object} req - HTTP request Object
-   *
-   * @param {object} res - HTTP response Object
-   *
-   * @returns {object} returns centers result
-   *
-   * @memberof CenterController
-   */
-  static searchCenters(req, res) {
-    const url = {
-      baseUrl: req.baseUrl,
-      model: 'searchCenters'
-    };
-    let offset = 0;
-    const { query, limit } = CenterController.generateQuery(req.body);
-    const { page } = req.body;
-    offset = limit * (page - 1);
-    if (query) {
-      Centers.findAndCountAll({
-        where: query,
-        limit,
-        offset,
-        include: [{
-          model: model.State,
-          required: true,
-          attributes: ['stateName']
-        }, {
-          model: model.User,
-          required: true,
-          attributes: ['username']
-        }]
-      })
-        .then((centers) => {
-          if (centers.row < 1) {
-            return res.status(404).json({
-              message: 'No centers found',
-              statusCode: 404,
-              data: null,
-              meta: null,
-            });
-          }
-          return res.status(200).json({
-            message: 'Centers retrieved',
-            data: centers.rows,
-            metadata: {
-              pagination: Pagination.createPagingData(centers, limit, offset, page, url),
-            },
-            statusCode: 200
-          });
-        });
     }
   }
 
