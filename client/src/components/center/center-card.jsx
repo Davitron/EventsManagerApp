@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, Icon, Image } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const CenterCard = ({ center }) => (
@@ -20,10 +21,10 @@ const CenterCard = ({ center }) => (
       </Card.Description>
     </Card.Content>
     <Card.Content extra>
-      <a>
+      <Link to={`/centers/${center.id}`}>
         <Icon name="browser" />
         View this center
-      </a>
+      </Link>
     </Card.Content>
   </Card>
 );

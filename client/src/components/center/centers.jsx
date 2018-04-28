@@ -57,7 +57,9 @@ class Center extends Component {
     }
     if (status === 'failed') {
       this.setState({
-        serverError: data.message
+        serverError: data.message,
+        data: [],
+        loading: false
       });
     }
     if (data && data.data !== this.state.data && status === 'success') {

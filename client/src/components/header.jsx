@@ -146,7 +146,6 @@ class Header extends Component {
   //     navs: items
   //   });
   // }
-
   /**
    *@returns {*} view for langing page
    */
@@ -160,10 +159,10 @@ class Header extends Component {
             <NavLink to="/login" target="">Login</NavLink>
             <NavLink to="/register" target="">Register</NavLink>
           </div>
-          <a href="#" className="icon" onClick={this.navCLick}>&#9776;</a>
+          <a className="icon" onClick={this.navCLick}>&#9776;</a>
         </div>
         <div id="mySidenav" className="sidenav" style={sideNavStyle}>
-          <a href="#" className="closebtn" onClick={this.closeSideNav}>&times;</a>
+          <a className="closebtn" onClick={this.closeSideNav}>&times;</a>
           <NavLink to="/login" target="">Login</NavLink>
           <NavLink to="/register" target="">Register</NavLink>
         </div>
