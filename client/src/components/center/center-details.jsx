@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import shortid from 'shortid';
 import PropTypes from 'prop-types';
-import { Row, Col, Button, Icon } from 'react-materialize';
+import { Image, Icon, Button } from 'semantic-ui-react';
 import swal from 'sweetalert2';
 import CenterActions from '../../actions/center-action';
+import CenterTable from './center-table';
 import Header from '../header';
 import history from '../../helpers/history';
 
@@ -25,8 +26,9 @@ class CenterDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      center: {},
-      pendingEvents: 0
+      center: null,
+      pendingEvents: 0,
+      serverError: null
     };
     this.renderFacilities = this.renderFacilities.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
@@ -51,9 +53,8 @@ class CenterDetails extends Component {
    */
   componentWillReceiveProps(nextProps) {
     const { singleCenter, deleteState } = nextProps.stateProps;
-    if (singleCenter.data) {
+    if (singleCenter.data && singleCenter.status === 'success') {
       const { center } = singleCenter.data;
-      const facilitiesArr = center.facilities.map(f => f.toUpperCase());
       this.setState({
         center: {
           id: center.id,
@@ -64,11 +65,13 @@ class CenterDetails extends Component {
           carParkCapacity: center.carParkCapacity.toString(),
           price: center.price.toString(),
           image: center.image,
-          facilities: facilitiesArr,
+          facilities: center.facilities.map(f => f.toUpperCase()),
           events: center.events
         },
         pendingEvents: getPendingEventCount(center)
       });
+    } else if (singleCenter.data && singleCenter.status === 'failed') {
+      this.setState({ serverError: singleCenter.data.message });
     }
 
     if (deleteState.status === 'success') {
@@ -148,72 +151,35 @@ class CenterDetails extends Component {
  *@returns {*} event for sortin
  */
   render() {
-    const { center, pendingEvents } = this.state;
+    const { center, pendingEvents, serverError } = this.state; // eslint-disable-line
     return (
       <div>
         <Header />
-        <div className="container" style={{ marginTop: '64px' }}>
-          <Row>
-            <Col s={12}>
-              <Row>
-                <Col s={6}>
-                  <h4 className="title">{center.name}</h4>
-                </Col>
-                <Col s={6}><Button large className="right orange" waves="light" onClick={this.handleCreate}>ADD EVENT<Icon left>event_note</Icon></Button></Col>
-              </Row>
-              <div className="slider__holdr">
-                <div className="carousel carousel-slider">
-                  <a className="carousel-item" href="#one"><img src={center.image} alt="demo" /></a>
+        <div className="background">
+          <div className="my-container">
+            { serverError &&
+              <div style={{ textAlign: 'center' }}>
+                <h2 className="animated fadeInUp">{serverError}</h2>
+              </div>
+            }
+            { center &&
+              <div className="">
+                <Image fluid src="http://res.cloudinary.com/eventsmanager/image/upload/v1523025087/llrqzelqzeqxfm6kmv3u.jpg" />
+                <div style={{ marginTop: '20px' }}>
+                  <span style={{ fontSize: '27px' }}>{center.name}</span><br />
+                  <br />
+                  <span style={{ fontSize: '18px', marginTop: '20px' }}><Icon name="marker" />{center.address} {center.state}</span>
+                </div>
+                <CenterTable center={center} />
+                <div className="ui grid">
+                  <Button primary size="medium" content="Update Center" />
+                  <Button negative size="medium" content="Delete Center" />
+                  <Button positive size="medium" content="Book an Event Here" />
                 </div>
               </div>
-              <p>
-                <i className="material-icons">location_on</i>{center.address} {center.state}
-                <span role="link" tabIndex="-1" className="new badge blue" data-badge-caption="pending events" onClick={this.getPendingEvent}>{pendingEvents}</span>
-              </p>
-              {/* <div className="divider" /> */}
-            </Col>
-            <Col s={12} m={12} l={6} style={{ marginTop: '30px' }}>
-              <div className="row center">
-                <div className="col s4">
-                  <p>Hall Capacity</p>
-                </div>
-                <div className="col s8">
-                  <p>{center.hallCapacity}</p>
-                </div>
-              </div>
-              <div className="divider" />
-              <div className="row center">
-                <div className="col s4">
-                  <p>Parking Space</p>
-                </div>
-                <div className="col s8">
-                  <p>{center.carParkCapacity} cars approx.</p>
-                </div>
-              </div>
-              <div className="divider" />
-              <div className="row center">
-                <div className="col s4">
-                  <p>Price</p>
-                </div>
-                <div className="col s8">
-                  <p><span>₦{center.price}</span> per event</p>
-                </div>
-              </div>
-              <Button s={12} large className="orange" waves="light" onClick={this.getUpcomingEvent}>ADD EVENT<Icon left>event_note</Icon></Button>
-            </Col>
-            <Col s={12} m={12} l={6} style={{ marginTop: '30px' }}>
-              <ul className="collection with-header">
-                <li className="collection-header"><h4>Facilities</h4></li>
-                {this.renderFacilities()}
-              </ul>
-            </Col>
-          </Row>
+            }
+          </div>
         </div>
-        <Button floating fab="horizontal" icon="menu" className="action-button pulse" large style={{ bottom: '45px', right: '24px' }}>
-          <Button floating icon="mode_edit" className="blue" onClick={this.handleUpdate} />
-          <Button floating icon="delete" className="red" onClick={this.handleDelete} />
-          <Button floating icon="schedule" className="cyan" onClick={() => { history.push(`/pending-events/${center.id}`); }} />
-        </Button>
       </div>
     );
   }

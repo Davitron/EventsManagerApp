@@ -35,8 +35,9 @@ const centerUpdateRules = {
 
 const validateUrl = (item, response) => {
   if (item && (isNaN(item) || item < 0)) {
-    return response.status(400).json({ message: 'Invalid Request', statusCode: 400 });
+    return false;
   }
+  return true;
 };
 
 // JSDOC @return variables
@@ -314,16 +315,17 @@ export default class CenterController {
       capacity
     } = req.query;
 
-    validateUrl(state);
-    validateUrl(capacity);
+    if (validateUrl(state) && validateUrl(capacity)) {
+      const limiter = parseInt(limit, 10) || 9;
+      let offset = 0;
+      const currentPage = parseInt(page, 10) || 1;
+      offset = limiter * (currentPage - 1);
 
-    const limiter = parseInt(limit, 10) || 9;
-    let offset = 0;
-    const currentPage = parseInt(page, 10) || 1;
-    offset = limiter * (currentPage - 1);
-
-    const query = CenterController.generateQuery(req.query, limiter, offset);
-    CenterController.handleGetAll(query, res, requestMeta);
+      const query = CenterController.generateQuery(req.query, limiter, offset);
+      CenterController.handleGetAll(query, res, requestMeta);
+    } else {
+      return res.status(400).json({ message: 'Invalid Request', statusCode: 400 });
+    }
   }
 
   /**
@@ -337,35 +339,37 @@ export default class CenterController {
    * @memberof CenterController
    */
   static get(req, res) {
-    if (isNaN(req.params.centerId)) return res.status(400).json({ message: 'Invalid Center Id', statusCode: 400 });
-    return Centers.findOne({
-      where: {
-        id: req.params.centerId
-      },
-      attributes: ['id', 'stateId', 'name', 'address', 'facilities', 'hallCapacity', 'carParkCapacity', 'price', 'createdBy', 'image'],
-      include: [{
-        model: model.State,
-        required: true,
-        attributes: ['stateName']
-      }, {
-        model: model.User,
-        required: true,
-        attributes: ['username']
-      }, {
-        model: Events,
-        as: 'events',
-        attributes: ['id', 'eventName', 'startDate', 'endDate', 'status']
-      }]
-    })
-      .then((center) => {
-        if (!center) {
-          return res.status(404).json({
-            message: 'Center Not Found',
-            statusCode: 404 // return this when center is not present
-          });
-        }
-        return res.status(200).send({ message: 'Center Retrieved', center, statusCode: 200 }); // return this if center is present
-      });
+    if (validateUrl(req.params.centerId)) {
+      return Centers.findOne({
+        where: {
+          id: req.params.centerId
+        },
+        attributes: ['id', 'stateId', 'name', 'address', 'facilities', 'hallCapacity', 'carParkCapacity', 'price', 'createdBy', 'image'],
+        include: [{
+          model: model.State,
+          required: true,
+          attributes: ['stateName']
+        }, {
+          model: model.User,
+          required: true,
+          attributes: ['username']
+        }, {
+          model: Events,
+          as: 'events',
+          attributes: ['id', 'eventName', 'startDate', 'endDate', 'status']
+        }]
+      })
+        .then((center) => {
+          if (!center) {
+            return res.status(404).json({
+              message: 'Center Not Found',
+              statusCode: 404 // return this when center is not present
+            });
+          }
+          return res.status(200).send({ message: 'Center Retrieved', center, statusCode: 200 }); // return this if center is present
+        });
+    }
+    return res.status(400).json({ message: 'Invalid Request', statusCode: 400 });
   }
 
   /**

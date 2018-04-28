@@ -333,9 +333,9 @@ describe('Testing Api endpoints for centers', () => {
 
   describe('GET /api/v1/centers/:centerId', () => {
     // Testing to get all centers
-    it('Should return 404 if centerId is not found', (done) => {
+    it('Should return 404 if center is not found', (done) => {
       chai.request(app)
-        .get(`/api/v1/centers/${-1}/`)
+        .get('/api/v1/centers/0/')
         .set('x-access-token', token)
         .end((err, res) => {
           res.should.have.status(404);

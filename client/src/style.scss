@@ -217,8 +217,14 @@ nav {
     border: 2px solid white; }
 
 
-.carousel .carousel-item {
+.center-image .image-holdr {
   display: unset !important;
+}
+
+.center-image-self {
+  display: block;
+  width: 100%;
+  max-height: 600px;
 }
 
 .section__hero {
@@ -311,7 +317,7 @@ nav {
 .ui.grid>.column:not(.row), .ui.grid>.row>.column {
   position: relative;
   display: inline-block;
-  width: 20rem;
+  width: 20rem !important;
   padding-left: 1rem;
   padding-right: 1rem;
   vertical-align: top;
@@ -369,6 +375,21 @@ nav {
   color: #032958 !important;
 }
 
+.image-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+.divider {
+  height: 1px;
+  overflow: hidden;
+  background-color: #656060;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  
+}
+
 .input-field input[type=email]:focus + label {
   color: #032958 !important;
 }
@@ -378,7 +399,7 @@ i.icon-grey {
 }
 
 @media only screen and (max-width: 550px) {
-  .carousel {
+  .center-image {
     height: 200px !important;
   }
 }
@@ -412,9 +433,19 @@ i.icon-grey {
 .background {
   min-height: 95vh;
   width: 100%;
-  background-color: rgb(212, 212, 213);
+  background-color: rgb(255, 255, 255);
   padding-top: 55px;
   padding-bottom: 20px;
+}
+
+.ui[class*="two column"].grid>.column:not(.row), .ui[class*="two column"].grid>.row>.column {
+  width: 100%;
+}
+
+.center__details .slider__holdr {
+  margin-top: 20px;
+  width: 100%;
+  max-height: 100%;
 }
 
 
