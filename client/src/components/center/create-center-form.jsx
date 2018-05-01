@@ -1,40 +1,48 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import axios from 'axios';
-import { Input, Row } from 'react-materialize';
+import { Button, Modal, Form } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
 import CenterActions from '../../actions/center-action';
-import Loader from '../reusables/loader';
-import FormValidator from '../../helpers/form-validator';
-import history from '../../helpers/history';
-import Header from '../header';
-import Toast from '../../helpers/toast';
+
 
 const facilities = [
-  'CCTV',
-  'VIP LOUNGE',
-  'PROJECTOR',
-  'MEDIA SUPPORT',
-  'SECURITY',
-  'WIFI'
+  { key: '1', text: 'CCTV', value: 'cctv' },
+  { key: '2', text: 'Vip Lounge', value: 'vip lounge' },
+  { key: '3', text: 'Projector', value: 'projector' },
+  { key: '4', text: 'Security', value: 'security' },
+  { key: '5', text: 'WIFI', value: 'wifi' }
 ];
 
 const propTypes = {
-  stateProps: PropTypes.objectOf(() => null),
-  createCenter: PropTypes.func.isRequired,
+  response: PropTypes.objectOf(() => null), // eslint-disable-line
+  onSubmit: PropTypes.func.isRequired,
+  hideModal: PropTypes.func.isRequired,
+  center: PropTypes.objectOf(() => null),
+  states: PropTypes.arrayOf(() => null),
+  errors: PropTypes.objectOf(() => null).isRequired,
+  open: PropTypes.bool.isRequired,
+  isRequestMade: PropTypes.bool
 };
 
 const defaultProps = {
-  stateProps: {}
+  response: {},
+  center: {},
+  states: [],
+  isRequestMade: false
 };
+
+// const fileValidation = (file) => {
+//   if ((/\.(jpg|jpeg|png)$/i).test(file.name)) {
+//     return true;
+//   }
+//   return false;
+// };
+
 /**
  *component for create center modal
  */
-class CreateCenterForm extends Component {
+class CenterFormModal extends Component {
   /**
    *
    * @param {*} props
@@ -42,38 +50,18 @@ class CreateCenterForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      center: {
-        name: '',
-        price: '',
-        address: '',
-        image: undefined,
-        hallCapacity: '',
-        carParkCapacity: '',
-        stateId: '',
-        facilities: []
-      },
+      center: {},
       states: [],
       errors: {},
       loading: false,
-      message: ''
+      open: false,
+      mode: 'create'
     };
 
     this.onChange = this.onChange.bind(this);
     this.onFileChange = this.onFileChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.onMultiSelect = this.onMultiSelect.bind(this);
-    this.goBack = this.goBack.bind(this);
-  }
-
-  /**
-   *
-   * @returns {*} new props
-   */
-  componentWillMount() {
-    axios.get('/api/v1/states')
-      .then((response) => {
-        this.setState({ states: response.data });
-      });
+    this.hideModal = this.hideModal.bind(this);
   }
 
   /**
@@ -81,43 +69,48 @@ class CreateCenterForm extends Component {
    * @returns {*} new props
    */
   componentWillReceiveProps(nextProps) {
-    const { message } = this.state;
-    if (nextProps.stateProps.response.data !== message) {
-      this.setState({
-        message: nextProps.stateProps.response.data
-      }, () => {
-        if (nextProps.stateProps.response.data) {
-          this.setState({
-            loading: false,
-            center: {
-              name: '',
-              price: '',
-              address: '',
-              image: undefined,
-              hallCapacity: '',
-              carParkCapacity: '',
-              stateId: '',
-              facilities: []
-            }
-          });
-          history.push('/centers');
-        }
+    const {
+      open,
+      states,
+      center,
+      errors,
+      isRequestMade
+    } = nextProps;
+
+    if (open !== this.state.open && states !== this.state.states) {
+      const options = nextProps.states.map((state) => {
+        const newObj = {};
+        newObj.key = state.id;
+        newObj.text = state.stateName;
+        newObj.value = state.id;
+        return newObj;
       });
-    } else if (nextProps.stateProps.response.status === 'failed') {
-      this.setState({
-        loading: false
-      });
+      options.unshift({ key: 'all', text: 'State', value: null });
+      this.setState({ open, states: options, errors, });
+    }
+
+    if (errors !== this.props.errors) {
+      this.setState({ errors });
+    }
+
+    if (center !== this.props.center) {
+      this.setState({ center, mode: 'update' });
+    }
+
+    if (isRequestMade !== this.props.isRequestMade) {
+      this.setState({ loading: isRequestMade });
     }
   }
 
 
   /**
-  *@param {*} event
-  *@returns {*}
+  * @param {object} event
+  * @param {object} data
+  *@returns {void}
   *this handles the event when any property in the state changes
   */
-  onChange(event) {
-    const { name, value } = event.target;
+  onChange(event, data) {
+    const { name, value } = data;
     const { center } = this.state;
     this.setState({
       center: {
@@ -143,97 +136,19 @@ class CreateCenterForm extends Component {
     });
   }
 
+
   /**
-   *
-   * @param {*} event
-   * @param {*} index
-   * @param {*} values
-   * @returns {*} handles selecttion of facilities
+   * @returns {void}
    */
-  onMultiSelect(event, index, values) {
-    const { center } = this.state;
-    this.setState({
-      center: {
-        ...center,
-        facilities: values
-      }
-    });
+  onSubmit() {
+    this.props.onSubmit(this.state.center);
   }
 
   /**
-   *
-   * @param {*} event
-   * @returns {*}
-   * this handles the event when form is submitted
+   * @returns {void}
    */
-  onSubmit(event) {
-    event.preventDefault();
-    this.setState({ loading: true });
-    const fv = new FormValidator();
-    const { createCenter } = this.props;
-    const errors = fv.validateCenterForm(this.state.center);
-    if (errors) {
-      this.setState({
-        errors
-      }, () => {
-        this.setState({ loading: false });
-        const message = Object.values(this.state.errors).join('\n');
-        Toast.error(message);
-      });
-    } else {
-      // Logger.log(createUser);
-      createCenter(this.state.center);
-    }
-    // if (this.isValid() === true) {
-    //   this.setState({
-    //     loading: true
-    //   });
-    //   const { createCenter } = this.props;
-    //   createCenter(this.state.center);
-    // }
-  }
-
-  /**
-   *@returns {*} check if form imputs are valid
-   */
-  isValid() {
-    let validity = true;
-    const formValidator = new FormValidator();
-    const { errors, isValid } = formValidator.validateCenterInput(this.state.center);
-    if (isValid === false) {
-      this.setState({ errors });
-      validity = false;
-      return validity;
-    }
-    return validity;
-  }
-
-  /**
-   *
-   * @param {*} values
-   * @returns {*}
-   * this handles population facilities in a select box
-   */
-  menuItems(values) {
-    return facilities.map(facility => (
-      <MenuItem
-        key={facility}
-        insetChildren
-        checked={values && values.indexOf(facility) > -1}
-        value={facility}
-        primaryText={facility}
-      />
-    ));
-  }
-
-  /**
-  *@param {*} e
-  *@returns {*}
-  *return to previous page
-  */
-  goBack(e) {
-    e.preventDefault();
-    history.goBack();
+  hideModal() {
+    this.props.hideModal();
   }
 
   /**
@@ -244,117 +159,129 @@ class CreateCenterForm extends Component {
       center,
       errors,
       loading,
-      states
+      states,
+      open,
+      mode
     } = this.state;
     return (
       <div>
-        <div style={{
-          backgroundColor: '#f5f5f5',
-          position: 'absolute',
-          top: 0,
-          right: 0,
-          bottom: 0,
-          left: 0,
-          paddingBottom: '20px',
-          overflow: 'auto'
-        }}
-        >
-          <Header />
-          <div className="container">
-            <Row>
-              <div className="card-panel white contain2 animated bounceInRight">
-                <div className="title">Create New Center</div>
-                {loading && <Loader />}
-                <div className={['row'].join(' ')}>
-                  <Input l={6} s={12} m={12} id="image_url" type="text" name="name" value={center.name} onChange={this.onChange} className="validate" label="Center Name" />
-                  <Input l={6} s={12} m={12} name="stateId" value={center.stateId} onChange={this.onChange} type="select" label="States">
-                    <option defaultValue="State" disabled>Select States</option>
-                    {
-                      states.map(state => (
-                        <option
-                          key={state.id}
-                          value={state.id}
-                        >{state.stateName}
-                        </option>
-                      ))
-                    }
-                  </Input>
-                </div>
-                <div className="row">
-                  <Input l={6} s={12} m={12} id="address" type="text" className="validate" name="address" value={center.address} onChange={this.onChange} label="Center Address" />
-                  <Input l={6} s={12} m={12} id="price" name="price" value={center.price} type="number" onChange={this.onChange} className="validate" label="Center Price" />
-                </div>
-                <div className="row">
-                  <Input l={6} s={12} m={12} id="hall" name="hallCapacity" value={center.hallCapacity} type="number" onChange={this.onChange} className="validate" label="Hall Capacity" />
-                  <Input l={6} s={12} m={12} id="carPark" name="carParkCapacity" value={center.carParkCapacity} type="number" onChange={this.onChange} className="validate" label="Carpark Capacity" />
-                </div>
-                <div className="row">
-                  <div className={['input-field', 'col', 's12'].join(' ')}>
-                    <MuiThemeProvider>
-                      <SelectField
-                        multiple
-                        hintText="Select Facilities"
-                        errorText={errors.facilities && <span className="red-text accent-1">{errors.facilities}</span>}
-                        value={center.facilities}
-                        fullWidth
-                        onChange={this.onMultiSelect}
-                      >
-                        {this.menuItems(center.facilities)}
-                      </SelectField>
-                    </MuiThemeProvider>
+        <Modal size="small" open={open} onClose={this.close}>
+          <Modal.Header>
+            {mode === 'create' ? 'Create Center' : 'Update Center' }
+          </Modal.Header>
+          <Modal.Content>
+            <Form>
+              <Form.Group widths="equal">
+                <Form.Input
+                  fluid
+                  error={errors.name ? true : false}
+                  defaultValue={center.name ? center.name : ''}
+                  label={errors.name ? errors.name[0] : 'Center Name'}
+                  placeholder="First name"
+                  onChange={this.onChange}
+                  name="name"
+                />
+                <Form.Select
+                  options={states}
+                  error={errors.stateId ? true : false}
+                  defaultValue={center.stateId ? center.stateId : ''}
+                  label={errors.stateId ? errors.stateId[0] : 'State'}
+                  placeholder="State"
+                  onChange={this.onChange}
+                  name="stateId"
+                />
+              </Form.Group>
+              <Form.Group widths="equal">
+                <Form.Input
+                  fluid
+                  error={errors.address ? true : false}
+                  defaultValue={center.address ? center.address : ''}
+                  label={errors.address ? errors.address[0] : 'Center Address'}
+                  placeholder="Address"
+                  onChange={this.onChange}
+                  name="address"
+                />
+              </Form.Group>
+              <Form.Group widths="equal">
+                <Form.Input
+                  type="number"
+                  fluid
+                  error={errors.hallCapacity ? true : false}
+                  defaultValue={center.hallCapacity ? center.hallCapacity : ''}
+                  label={errors.hallCapacity ? errors.hallCapacity[0] : 'Hall Capacity'}
+                  placeholder="Hall Capacity"
+                  onChange={this.onChange}
+                  name="hallCapacity"
+                />
+                <Form.Input
+                  type="number"
+                  fluid
+                  error={errors.carParkCapacity ? true : false}
+                  defaultValue={center.carParkCapacity ? center.carParkCapacity : ''}
+                  label={errors.carParkCapacity ? errors.carParkCapacity[0] : 'Carpark Capacity'}
+                  placeholder="Carpark Capacity"
+                  onChange={this.onChange}
+                  name="carParkCapacity"
+                />
+              </Form.Group>
+              <Form.Group widths="equal">
+                <Form.Input
+                  type="number"
+                  error={errors.price ? true : false}
+                  label={errors.price ? errors.price[0] : 'Price'}
+                  defaultValue={center.price ? center.price : ''}
+                  fluid
+                  placeholder="Price"
+                  onChange={this.onChange}
+                  name="price"
+                />
+                <div className="field">
+                  <label style={errors.image && { color: '#9f3a38' }}>{errors.image ? errors.image[0] : 'Image'}</label>
+                  <div className="ui field input">
+                    <input type="file" accept="image/*" label="Image" placeholder="Upload an Image" onChange={this.onFileChange} name={center.image ? 'newImage' : 'image'} />
                   </div>
                 </div>
-                <div className={['file-field', 'input-field', 's12'].join(' ')}>
-                  <div className="btn action-button">
-                    <span>Center image</span>
-                    <input type="file" name="image" onChange={this.onFileChange} accept="image/*" />
-                  </div>
-                  <div className="file-path-wrapper">
-                    <input className={['file-path', 'validate'].join(' ')} type="text" placeholder={errors.image || 'upload image'} />
-                  </div>
-                </div>
-                <Row className="center">
-                  <button
-                    className="btn waves-effect waves-light btn-large action-button"
-                    onClick={this.onSubmit}
-                    disabled={
-                      !center.name ||
-                      !center.address ||
-                      !center.carParkCapacity ||
-                      !center.hallCapacity ||
-                      !center.stateId ||
-                      !center.price ||
-                      !center.facilities ||
-                      !center.image
-                    }
-                  >
-                    Create
-                  </button>
-                  <button className="btn waves-effect waves-light red btn-large" onClick={this.goBack} style={{ marginLeft: '5px' }} >Back
-                  </button>
-                </Row>
-              </div>
-            </Row>
-          </div>
-        </div>
+              </Form.Group>
+              <Form.Group widths="equal">
+                <Form.Dropdown
+                  multiple
+                  selection
+                  error={errors.facilities ? true : false}
+                  label={errors.facilities ? errors.facilities[0] : 'Facilities'}
+                  name="facilities"
+                  defaultValue={center.facilities ? center.facilities : ''}
+                  fluid
+                  options={facilities}
+                  placeholder="Choose an option"
+                  renderLabel={this.renderLabel}
+                  onChange={this.onChange}
+                />
+              </Form.Group>
+            </Form>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button negative onClick={this.hideModal}>
+              Cancel
+            </Button>
+            <Button primary icon="checkmark" disabled={loading} loading={loading} labelPosition="right" content={mode === 'create' ? 'create' : 'update'} onClick={this.onSubmit} />
+          </Modal.Actions>
+        </Modal>
       </div>
     );
   }
 }
 
-CreateCenterForm.propTypes = propTypes;
-CreateCenterForm.defaultProps = defaultProps;
+CenterFormModal.propTypes = propTypes;
+CenterFormModal.defaultProps = defaultProps;
 
 const matchStateToProps = state => ({
-  stateProps: {
-    response: state.create,
-    states: state.getAllStates,
+  response: {
+    center: state.create,
   }
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   createCenter: CenterActions.createCenter,
-  getStates: CenterActions.getAllStates
 }, dispatch);
 
-export default connect(matchStateToProps, mapDispatchToProps)(CreateCenterForm);
+export default connect(matchStateToProps, mapDispatchToProps)(CenterFormModal);

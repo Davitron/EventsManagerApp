@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import shortid from 'shortid';
 import PropTypes from 'prop-types';
-import { Image, Icon, Button } from 'semantic-ui-react';
+import { Icon, Button } from 'semantic-ui-react';
 import swal from 'sweetalert2';
 import CenterActions from '../../actions/center-action';
 import CenterTable from './center-table';
+import CenterFormModal from './create-center-form';
+import FormValidator from '../../helpers/form-validator';
 import Header from '../header';
 import history from '../../helpers/history';
+import ImageUpload from '../../helpers/image-upload';
+import Toast from '../../helpers/toast';
 
 const getPendingEventCount = ({ events }) => {
   const pendingEvents = events.filter(event => event.status === 'pending');
@@ -28,22 +31,28 @@ class CenterDetails extends Component {
     this.state = {
       center: null,
       pendingEvents: 0,
-      serverError: null
+      serverError: null,
+      states: [],
+      isRequestMade: false,
+      openModal: false,
+      errors: {}
     };
-    this.renderFacilities = this.renderFacilities.bind(this);
-    this.handleUpdate = this.handleUpdate.bind(this);
+
+    this.showModal = this.showModal.bind(this);
+    this.hideModal = this.hideModal.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
-    this.handleCreate = this.handleCreate.bind(this);
     this.getPendingEvent = this.getPendingEvent.bind(this);
     this.getUpcomingEvent = this.getUpcomingEvent.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   /**
    *@returns {*} fetches all centers
    */
   componentWillMount() {
-    const { getCenter } = this.props;
+    const { getCenter, getStates } = this.props;
     const { centerId } = this.props.match.params;
+    getStates();
     getCenter(centerId);
   }
 
@@ -52,7 +61,12 @@ class CenterDetails extends Component {
    * @returns {*} change state if new prop is recieved
    */
   componentWillReceiveProps(nextProps) {
-    const { singleCenter, deleteState } = nextProps.stateProps;
+    const {
+      singleCenter,
+      deleteState,
+      allStates,
+      updatedCenter
+    } = nextProps.stateProps;
     if (singleCenter.data && singleCenter.status === 'success') {
       const { center } = singleCenter.data;
       this.setState({
@@ -65,8 +79,10 @@ class CenterDetails extends Component {
           carParkCapacity: center.carParkCapacity.toString(),
           price: center.price.toString(),
           image: center.image,
-          facilities: center.facilities.map(f => f.toUpperCase()),
-          events: center.events
+          newImage: center.image,
+          facilities: center.facilities,
+          events: center.events,
+          stateId: center.stateId
         },
         pendingEvents: getPendingEventCount(center)
       });
@@ -74,8 +90,47 @@ class CenterDetails extends Component {
       this.setState({ serverError: singleCenter.data.message });
     }
 
+    if (updatedCenter.status === 'success') {
+      this.setState({ openModal: false, isRequestMade: false });
+      // history.push('/centers');
+    }
+
     if (deleteState.status === 'success') {
       history.push('/centers');
+    }
+
+    if (allStates.status === 'success') {
+      this.setState({ states: allStates.data });
+    }
+  }
+
+  /**
+   *
+   * @param {object} center
+   *
+   * @returns {void}
+   *
+   * this handles the event when form is submitted
+   */
+  onSubmit(center) {
+    this.setState({ isRequestMade: true, serverError: '' });
+    const fv = new FormValidator();
+    const { updateCenter } = this.props;
+    const errors = fv.validateUpdateCenterForm(center);
+    if (errors) {
+      this.setState({ errors, isRequestMade: true });
+      return null;
+    } else if (center.newImage !== center.image) {
+      ImageUpload(center.newImage)
+        .then((imageUrl) => {
+          center.image = imageUrl;
+          updateCenter(center);
+        })
+        .catch((error) => {
+          Toast.error(error);
+        });
+    } else {
+      updateCenter(center);
     }
   }
 
@@ -100,21 +155,19 @@ class CenterDetails extends Component {
   }
 
   /**
-   * @param {*} centerId
-   * @returns {*} update center modal
+   * @returns {void}
    */
-  handleCreate(centerId) {
-    const { id } = this.state.center;
-    history.push(`/create-event/${id}`);
+  showModal() {
+    this.setState({ openModal: true });
   }
 
   /**
-   * @returns {*} update center modal
+   * @returns {void}
    */
-  handleUpdate() {
-    const { id } = this.state.center;
-    history.push(`/update-center/${id}`);
+  hideModal() {
+    this.setState({ openModal: false });
   }
+
 
   /**
    * @returns {*} update center modal
@@ -137,21 +190,12 @@ class CenterDetails extends Component {
     });
   }
 
-  /**
-  * @returns {void}
-  */
-  renderFacilities() {
-    const { facilities } = this.state.center;
-    if (facilities) {
-      return facilities.map(facility => <li key={shortid.generate()} className="collection-item">{facility}</li>);
-    }
-  }
 
   /**
  *@returns {*} event for sortin
  */
   render() {
-    const { center, pendingEvents, serverError } = this.state; // eslint-disable-line
+    const { center, pendingEvents, serverError, openModal, states, isRequestMade, errors } = this.state; // eslint-disable-line
     return (
       <div>
         <Header />
@@ -163,8 +207,11 @@ class CenterDetails extends Component {
               </div>
             }
             { center &&
-              <div className="">
-                <Image fluid src="http://res.cloudinary.com/eventsmanager/image/upload/v1523025087/llrqzelqzeqxfm6kmv3u.jpg" />
+              <div>
+                <div>
+                  {/* <Image fluid src={center.image} /> */}
+                  <img src={center.image} alt="Lights" className="w3-image" />
+                </div>
                 <div style={{ marginTop: '20px' }}>
                   <span style={{ fontSize: '27px' }}>{center.name}</span><br />
                   <br />
@@ -172,13 +219,22 @@ class CenterDetails extends Component {
                 </div>
                 <CenterTable center={center} />
                 <div className="ui grid">
-                  <Button primary size="medium" content="Update Center" />
+                  <Button primary onClick={this.showModal} size="medium" content="Update Center" />
                   <Button negative size="medium" content="Delete Center" />
                   <Button positive size="medium" content="Book an Event Here" />
                 </div>
               </div>
             }
           </div>
+          <CenterFormModal
+            open={openModal}
+            states={states}
+            onSubmit={this.onSubmit}
+            errors={errors}
+            hideModal={this.hideModal}
+            isRequestMade={isRequestMade}
+            center={center}
+          />
         </div>
       </div>
     );
@@ -188,25 +244,33 @@ class CenterDetails extends Component {
 const mapStateToProps = state => ({
   stateProps: {
     singleCenter: state.get,
-    deleteState: state.deleteItem
+    deleteState: state.deleteItem,
+    updatedCenter: state.update,
+    allStates: state.getAllStates
   }
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   getCenter: CenterActions.getCenter,
   deleteCenter: CenterActions.deleteCenter,
+  updateCenter: CenterActions.updateCenter,
+  getStates: CenterActions.getAllStates,
 }, dispatch);
 
 CenterDetails.propTypes = {
   stateProps: PropTypes.objectOf(() => null),
   match: PropTypes.objectOf(() => null).isRequired,
   deleteCenter: PropTypes.func,
+  getStates: PropTypes.func,
+  updateCenter: PropTypes.func,
   getCenter: PropTypes.func.isRequired
 };
 
 CenterDetails.defaultProps = {
   stateProps: {},
-  deleteCenter: CenterActions.deleteCenter
+  deleteCenter: CenterActions.deleteCenter,
+  getStates: CenterActions.getAllStates,
+  updateCenter: CenterActions.updateCenter
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CenterDetails);

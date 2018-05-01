@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 const CenterCard = ({ center }) => (
   <Card>
-    <Image src="http://res.cloudinary.com/eventsmanager/image/upload/v1523025087/llrqzelqzeqxfm6kmv3u.jpg" />
+    <Image src={center.image} />
     <Card.Content>
       <Card.Header>
         {center.name}

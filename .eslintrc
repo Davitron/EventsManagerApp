@@ -37,6 +37,7 @@
           }
       }],
       "import/extensions": "off",
-      "import/no-unresolved": "off"
+      "import/no-unresolved": "off",
+      "no-unneeded-ternary": "off"
     }
   }

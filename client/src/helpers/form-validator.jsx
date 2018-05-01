@@ -9,6 +9,16 @@ const signUpRules = {
   confirmPassword: 'required|min:6',
 };
 
+const centerUpdateRules = {
+  name: 'string|min:3|max:30',
+  stateId: 'integer',
+  address: 'string|min:10',
+  hallCapacity: 'numeric',
+  carParkCapacity: 'numeric',
+  facilities: 'array',
+  price: 'numeric',
+};
+
 const signInRules = {
   email: 'required|email',
   password: 'required|min:6',
@@ -31,6 +41,7 @@ const centerRules = {
   carParkCapacity: 'required|string',
   facilities: 'required',
   price: 'required|string',
+  image: 'required'
 };
 
 const eventRules = {
@@ -132,6 +143,23 @@ export default class FormValidator {
    */
   validateCenterForm(data) {
     const validate = new validator(data, centerRules);
+    if (!validate.passes()) {
+      const { errors } = validate;
+      const err = errors.errors;
+      Logger.log(JSON.stringify(err));
+      return err;
+    }
+    return null;
+  }
+
+  /**
+   *
+   * @param {*} data
+   * @returns {null | object}
+   * To check if given email is a valid format
+   */
+  validateUpdateCenterForm(data) {
+    const validate = new validator(data, centerUpdateRules);
     if (!validate.passes()) {
       const { errors } = validate;
       const err = errors.errors;

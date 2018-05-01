@@ -5,9 +5,8 @@ import PropTypes from 'prop-types';
 const CenterTable = ({ center }) => (
   <Table definition>
     <Table.Header>
-      <Table.Row>
-        <Table.HeaderCell />
-        <Table.HeaderCell>Informations about this center</Table.HeaderCell>
+      <Table.Row className="table-row-header">
+        <Table.HeaderCell colSpan="2">Information about this center</Table.HeaderCell>
       </Table.Row>
     </Table.Header>
 
