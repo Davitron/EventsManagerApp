@@ -14,7 +14,6 @@ import CenterResult from './center/search-result';
 import CreateEventForm from './event/create-event-form';
 import UpdateEventForm from './event/update-event-form';
 import CreateCenterForm from './center/create-center-form';
-import UpdateCenterForm from './center/update-center-form';
 import PendingEvent from './event/pending-events';
 import UpcomingEvent from './event/upcoming-events';
 import Events from './event/events';
@@ -41,7 +40,6 @@ const App = () => (
         <Route exact path="/centers" component={Centers} />
         <UserRoute exact path="/events" component={Events} redirectPath="/login" />
         <AdminRoute exact path="/create-center" component={CreateCenterForm} redirectPath="/login" />
-        <AdminRoute path="/update-center/:centerId" component={UpdateCenterForm} redirectPath="/login" />
         <UserRoute exact path="/create-event/:centerId" component={CreateEventForm} redirectPath="/login" />
         <UserRoute exact path="/update-event/:eventId" component={UpdateEventForm} redirectPath="/login" />
         <AdminRoute path="/pending-events/:centerId" component={PendingEvent} redirectPath="/login" />

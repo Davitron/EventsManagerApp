@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { Icon, Button } from 'semantic-ui-react';
-import swal from 'sweetalert2';
 import CenterActions from '../../actions/center-action';
 import CenterTable from './center-table';
 import CenterFormModal from './create-center-form';
@@ -12,6 +11,7 @@ import Header from '../header';
 import history from '../../helpers/history';
 import ImageUpload from '../../helpers/image-upload';
 import Toast from '../../helpers/toast';
+import Prompt from '../reusables/prompt';
 
 const getPendingEventCount = ({ events }) => {
   const pendingEvents = events.filter(event => event.status === 'pending');
@@ -35,10 +35,13 @@ class CenterDetails extends Component {
       states: [],
       isRequestMade: false,
       openModal: false,
+      openPrompt: false,
       errors: {}
     };
 
     this.showModal = this.showModal.bind(this);
+    this.showPrompt = this.showPrompt.bind(this);
+    this.hidePrompt = this.hidePrompt.bind(this);
     this.hideModal = this.hideModal.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.getPendingEvent = this.getPendingEvent.bind(this);
@@ -164,8 +167,22 @@ class CenterDetails extends Component {
   /**
    * @returns {void}
    */
+  showPrompt() {
+    this.setState({ openPrompt: true, isRequestMade: true });
+  }
+
+  /**
+   * @returns {void}
+   */
   hideModal() {
     this.setState({ openModal: false });
+  }
+
+  /**
+   * @returns {void}
+   */
+  hidePrompt() {
+    this.setState({ openPrompt: false });
   }
 
 
@@ -175,19 +192,7 @@ class CenterDetails extends Component {
   handleDelete() {
     const { id } = this.state.center;
     const { deleteCenter } = this.props;
-    swal({
-      title: 'Are you sure you want to delete this center?',
-      text: "You won't be able to revert this!",
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-      if (result.value) {
-        deleteCenter(id);
-      }
-    });
+    deleteCenter(id);
   }
 
 
@@ -195,7 +200,7 @@ class CenterDetails extends Component {
  *@returns {*} event for sortin
  */
   render() {
-    const { center, pendingEvents, serverError, openModal, states, isRequestMade, errors } = this.state; // eslint-disable-line
+    const { center, pendingEvents, serverError, openModal, states, isRequestMade, errors, openPrompt } = this.state; // eslint-disable-line
     return (
       <div>
         <Header />
@@ -220,7 +225,7 @@ class CenterDetails extends Component {
                 <CenterTable center={center} />
                 <div className="ui grid">
                   <Button primary onClick={this.showModal} size="medium" content="Update Center" />
-                  <Button negative size="medium" content="Delete Center" />
+                  <Button negative onClick={this.showPrompt} size="medium" content="Delete Center" />
                   <Button positive size="medium" content="Book an Event Here" />
                 </div>
               </div>
@@ -234,6 +239,14 @@ class CenterDetails extends Component {
             hideModal={this.hideModal}
             isRequestMade={isRequestMade}
             center={center}
+          />
+          <Prompt
+            open={openPrompt}
+            title="Delete Center"
+            message="Are you sure you want to delete this center"
+            onCancel={this.hidePrompt}
+            onConfirm={this.handleDelete}
+            isRequestMade={isRequestMade}
           />
         </div>
       </div>

@@ -263,7 +263,15 @@ class CenterFormModal extends Component {
             <Button negative onClick={this.hideModal}>
               Cancel
             </Button>
-            <Button primary icon="checkmark" disabled={loading} loading={loading} labelPosition="right" content={mode === 'create' ? 'create' : 'update'} onClick={this.onSubmit} />
+            <Button
+              primary
+              icon="checkmark"
+              disabled={loading}
+              loading={loading}
+              labelPosition="right"
+              content={mode === 'create' ? 'create' : 'update'}
+              onClick={this.onSubmit}
+            />
           </Modal.Actions>
         </Modal>
       </div>
