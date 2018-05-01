@@ -111,7 +111,7 @@ class SearchForm extends Component {
         <Form.Group widths="equal">
           <Form.Input name="search" fluid placeholder="Name or Addres" onChange={this.onChange} />
           <Form.Select options={states} name="state" fluid placeholder="State" onChange={this.onChange} />
-          <Form.Input type="number" name="capacity" fluid placeholder="Capacity" onChange={this.onChange} />
+          <Form.Input type="number" min="50" name="capacity" fluid placeholder="Capacity" onChange={this.onChange} />
           <Form.Dropdown
             multiple
             selection

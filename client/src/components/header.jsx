@@ -153,19 +153,21 @@ class Header extends Component {
     const { navClassName, sideNavStyle } = this.state;
     return (
       <header style={{ zIndex: '1' }}>
-        <div className={navClassName} id="navigator">
-          <NavLink to="/" target="">Evento</NavLink>
-          <div className="nav-menu" style={{ float: 'right' }}>
+        <nav>
+          <div className={navClassName} id="navigator">
+            <NavLink to="/" target="">Evento</NavLink>
+            <div className="nav-menu" style={{ float: 'right' }}>
+              <NavLink to="/login" target="">Login</NavLink>
+              <NavLink to="/register" target="">Register</NavLink>
+            </div>
+            <a className="icon" onClick={this.navCLick}>&#9776;</a>
+          </div>
+          <div id="mySidenav" className="sidenav" style={sideNavStyle}>
+            <a className="closebtn" onClick={this.closeSideNav}>&times;</a>
             <NavLink to="/login" target="">Login</NavLink>
             <NavLink to="/register" target="">Register</NavLink>
           </div>
-          <a className="icon" onClick={this.navCLick}>&#9776;</a>
-        </div>
-        <div id="mySidenav" className="sidenav" style={sideNavStyle}>
-          <a className="closebtn" onClick={this.closeSideNav}>&times;</a>
-          <NavLink to="/login" target="">Login</NavLink>
-          <NavLink to="/register" target="">Register</NavLink>
-        </div>
+        </nav>
         {/* <Navbar fixed className="title white-text" brand="Evento" right>
           {navs}
           {user && <li><a role="link" tabIndex="-1" onClick={this.logOut} target="">logout</a></li>}

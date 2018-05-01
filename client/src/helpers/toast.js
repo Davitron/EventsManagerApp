@@ -1,3 +1,5 @@
+import Toastify from 'toastify-js';
+
 /**
  * A class for Materialize toast
  */
@@ -8,7 +10,14 @@ export default class Toast {
    * @returns {*} toast
    */
   static success(data) {
-    return Materialize.toast(data, 5000, 'green app-toast'); // eslint-disable-line
+    Toastify({
+      text: data,
+      duration: 1000,
+      close: true,
+      gravity: 'buttom',
+      positionLeft: false,
+      backgroundColor: 'linear-gradient(to right, #00b09b, #96c93d)'
+    }).showToast();
   }
 
   /**
@@ -17,23 +26,14 @@ export default class Toast {
    * @returns {*} toast
    */
   static error(data) {
-    return Materialize.toast(data, 5000, 'red app-toast'); // eslint-disable-line
+    Toastify({
+      text: data,
+      duration: 1000,
+      close: true,
+      gravity: 'bottom',
+      positionLeft: false,
+      backgroundColor: 'linear-gradient(to right, #ffa29d, red)'
+    }).showToast();
   }
 
-  /**
-   *
-   * @param {*} data
-   * @returns {*} toast
-   */
-  static info(data) {
-    return Materialize.toast(data, 5000, 'orange app-toast'); // eslint-disable-line
-  }
-
-  /**
-   *
-   * @returns {*} toast
-   */
-  static remove() {
-    return $('.app-toast').fadeOut();
-  }
 }

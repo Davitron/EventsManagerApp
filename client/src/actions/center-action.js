@@ -1,11 +1,12 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import queryString from 'query-string';
+import Toast from '../helpers/toast';
 import mainActionType from './actionTypes/main-action-types';
 import Dispatcher from '../helpers/dispatch';
-import Toast from '../helpers/toast';
 import history from '../helpers/history';
 import imageUpload from '../helpers/image-upload';
+
 
 const CENTER_BASE_URL = '/api/v1/centers';
 
@@ -122,13 +123,11 @@ export default class CenterActions {
    */
   static createCenter(newCenter) {
     const token = cookies.get('jwt-events-manager');
-    const facilitiesString = newCenter.facilities.join();
     return (dispatch) => {
       dispatch(Dispatcher.action(mainActionType.CREATE_REQUEST, newCenter));
       imageUpload(newCenter.image)
         .then((imageUrl) => {
           newCenter.image = imageUrl;
-          newCenter.facilities = facilitiesString;
           axios({
             method: 'POST',
             url: CENTER_BASE_URL,
@@ -138,14 +137,15 @@ export default class CenterActions {
             data: newCenter
           })
             .then((response) => {
-              Toast.remove();
-              Toast.success(response.data.message);
               dispatch(Dispatcher.action(mainActionType.CREATE_SUCCESS, response.data.message));
+              // dispatch(CenterActions.getAll({ page: 1 }));
+              history.push('/centers?page=1');
+            })
+            .then(() => {
+              dispatch(Dispatcher.action(mainActionType.RESET_STATE, null));
             })
             .catch((error) => {
               const { message } = error.response.data;
-              Toast.remove();
-              Toast.error(message);
               dispatch(Dispatcher.action(mainActionType.CREATE_FAILED, message));
             });
         })
@@ -171,14 +171,9 @@ export default class CenterActions {
       },
       data: centerObj
     })
-      .then((response) => {
-        Toast.success(response.data.message);
-        return response.data.message;
-      })
+      .then(response => response)
       .catch((error) => {
-        const { message } = error.response.data;
-        Toast.error(message);
-        return error.response.data;
+        throw (error.data.message);
       });
   }
   /**
@@ -189,64 +184,16 @@ export default class CenterActions {
    * this action is handles updating a center
    */
   static updateCenter(centerObj) {
-    const facilitiesString = centerObj.facilities.join();
-    centerObj.facilities = facilitiesString;
     return (dispatch) => {
       dispatch(Dispatcher.action(mainActionType.UPDATE_REQUEST, centerObj));
-      if (centerObj.image !== centerObj.newImage) {
-        imageUpload(centerObj.newImage)
-          .then((imageUrl) => {
-            centerObj.image = imageUrl;
-            CenterActions.handleCenterUpdate(centerObj)
-              .then((response) => {
-                dispatch(Dispatcher.action(mainActionType.UPDATE_SUCCESS, response));
-              })
-              .then(() => {
-                dispatch(Dispatcher.action(mainActionType.RESET_STATE, null));
-              })
-              .catch((error) => {
-                dispatch(Dispatcher.action(mainActionType.UPDATE_FAILED, error));
-              });
-          })
-          .catch((error) => {
-            Toast.error('Image upload error');
-          });
-      } else {
-        CenterActions.handleCenterUpdate(centerObj)
-          .then((response) => {
-            dispatch(Dispatcher.action(mainActionType.UPDATE_SUCCESS, response));
-          })
-          .then(() => {
-            dispatch(Dispatcher.action(mainActionType.RESET_STATE, null));
-          })
-          .catch((error) => {
-            dispatch(Dispatcher.action(mainActionType.UPDATE_FAILED, error));
-          });
-      }
-    };
-  }
-  /**
-   *
-   * @param {object} param - query
-   *
-   * @returns {void}
-   * this action handles searching for centers
-   */
-  static search(param) {
-    return (dispatch) => {
-      dispatch(Dispatcher.action(mainActionType.SEARCH_REQUEST, param));
-
-      axios({
-        method: 'POST',
-        url: '/api/v1/searchcenter',
-        data: param
-      })
+      CenterActions.handleCenterUpdate(centerObj)
         .then((response) => {
-          const { data, meta } = response.data;
-          dispatch(Dispatcher.action(mainActionType.SEARCH_SUCCESS, { data, meta }));
+          dispatch(Dispatcher.action(mainActionType.UPDATE_SUCCESS, response.data));
+          dispatch(CenterActions.getCenter(centerObj.id));
+          Toast.success(response.data.message);
         })
         .catch((error) => {
-          dispatch(Dispatcher.action(mainActionType.SEARCH_FAILURE, error.response.data));
+          dispatch(Dispatcher.action(mainActionType.UPDATE_FAILED, error));
         });
     };
   }

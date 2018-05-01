@@ -301,6 +301,19 @@ nav {
   min-width: 23rem;
 }
 
+.ui.card>.image, .ui.cards>.card>.image {
+  position: relative;
+  display: block;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  padding: 0;
+  background: rgba(0,0,0,.05);
+  max-height: 120px;
+}
+
+
+
 @media only screen and (min-width: 700px) {
   .App-signup {
     display: inline-block;
@@ -490,6 +503,10 @@ i.icon-grey {
   color: white;
 }
 
+.toastify {
+  z-index: 1200;
+}
+
 
 // .active {
 //   background-color: #032958 !important;
@@ -557,6 +574,10 @@ i.icon-grey {
   color: #f1f1f1;
 }
 
+.table-row-header {
+  background-color: #032958
+}
+
 /* Position and style the close button (top right corner) */
 .sidenav .closebtn {
   position: absolute;
@@ -577,4 +598,109 @@ i.icon-grey {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
 }
+
+.fab {
+  width: 70px;
+  height: 70px;
+  background-color: red;
+  border-radius: 50%;
+  box-shadow: 0 6px 10px 0 #666;
+  
+  font-size: 50px;
+  line-height: 70px;
+  color: white;
+  text-align: center;
+  
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
+  
+ transition: all 0.1s ease-in-out;
+}
+
+.fab:hover {
+  box-shadow: 0 6px 14px 0 #666;
+  transform: scale(1.05);
+}
+
+.pulse {
+  overflow: initial;
+  // position: relative;
+}
+
+.pulse::before {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: inherit;
+  border-radius: inherit;
+  -webkit-transition: opacity .3s, -webkit-transform .3s;
+  transition: opacity .3s, -webkit-transform .3s;
+  transition: opacity .3s, transform .3s;
+  transition: opacity .3s, transform .3s, -webkit-transform .3s;
+  -webkit-animation: pulse-animation 1s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+          animation: pulse-animation 1s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+  z-index: -1;
+}
+
+@-webkit-keyframes pulse-animation {
+  0% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  50% {
+    opacity: 0;
+    -webkit-transform: scale(1.5);
+            transform: scale(1.5);
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform: scale(1.5);
+            transform: scale(1.5);
+  }
+}
+
+@keyframes pulse-animation {
+  0% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  50% {
+    opacity: 0;
+    -webkit-transform: scale(1.5);
+            transform: scale(1.5);
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform: scale(1.5);
+            transform: scale(1.5);
+  }
+}
+
+.ui.definition.table thead:not(.full-width) th:first-child {
+  pointer-events: none;
+  background: 0 0;
+  font-weight: 400;
+  color: rgba(0,0,0,.4);
+  box-shadow: -1px -1px 0 1px #fff;
+  color: white;
+  text-align: center;
+  font-size: 20px;
+}
+
+.w3-image{
+  width:100%;
+  max-height: 550px;
+}
+img{
+  vertical-align:middle
+}
+a{color:inherit}
+
 

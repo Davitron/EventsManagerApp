@@ -112,6 +112,10 @@ export default class AppReducer {
         newState.status = 'failed';
         newState.data = action.data;
         return newState;
+      case mainActionType.RESET_STATE:
+        newState.status = null;
+        newState.data = null;
+        return newState;
       default:
         return state;
     }

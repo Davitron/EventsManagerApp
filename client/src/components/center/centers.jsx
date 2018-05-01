@@ -6,6 +6,8 @@ import queryString from 'query-string';
 import { Grid, Dimmer, Loader } from 'semantic-ui-react';
 import SearchForm from './search-form';
 import CenterActions from '../../actions/center-action';
+import CenterFormModal from './create-center-form';
+import FormValidator from '../../helpers/form-validator';
 import Header from '../header';
 import history from '../../helpers/history';
 import Paginator from '../reusables/pagination';
@@ -27,11 +29,17 @@ class Center extends Component {
       pagingData: {},
       states: [],
       loading: false,
-      serverError: ''
+      serverError: '',
+      openModal: false,
+      isRequestMade: false,
+      errors: {}
     };
     this.onSearch = this.onSearch.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
     this.onChangePage = this.onChangePage.bind(this);
     this.onPageSizeChange = this.onPageSizeChange.bind(this);
+    this.showModal = this.showModal.bind(this);
+    this.hideModal = this.hideModal.bind(this);
   }
 
   /**
@@ -49,24 +57,30 @@ class Center extends Component {
    * @returns {*} change state if new prop is recieved
    */
   componentWillReceiveProps(nextProps) {
-    const { centers: { data, status }, allStates } = nextProps.response;
+    const { centers: { data, status }, allStates, newCenter } = nextProps.response;
+    const query = queryString.parse(window.location.search);
+
+    // run search if URL changes
     if (nextProps.location.search !== this.props.location.search) {
-      const query = queryString.parse(window.location.search);
       this.setState({ loading: true });
       this.props.getAll(query);
     }
-    if (status === 'failed') {
-      this.setState({
-        serverError: data.message,
-        data: [],
-        loading: false
-      });
+
+    if (newCenter.status === 'success') {
+      this.setState({ openModal: false, isRequestMade: false });
+      // history.push('/centers');
     }
+
+    if (status === 'failed') {
+      this.setState({ serverError: data.message, data: [], loading: false });
+    }
+
     if (data && data.data !== this.state.data && status === 'success') {
       const payload = data.data;
       const { pagination } = data.metadata;
       this.setState({ data: payload, pagingData: pagination, loading: false });
     }
+
     if (allStates.status === 'success') {
       this.setState({ states: allStates.data });
     }
@@ -114,11 +128,45 @@ class Center extends Component {
   }
 
   /**
+   *
+   * @param {object} center
+   *
+   * @returns {void}
+   *
+   * this handles the event when form is submitted
+   */
+  onSubmit(center) {
+    this.setState({ isRequestMade: true, serverError: '' });
+    const fv = new FormValidator();
+    const { createCenter } = this.props;
+    const errors = fv.validateCenterForm(center);
+    if (errors) {
+      this.setState({ errors, isRequestMade: false });
+    } else {
+      createCenter(center);
+    }
+  }
+
+  /**
    * @param {*} event
    * @returns {*} triggers when key is pressed
    */
   handleCreate(event) {
     history.push('/create-center');
+  }
+
+  /**
+   * @returns {void}
+   */
+  showModal() {
+    this.setState({ errors: {}, openModal: true });
+  }
+
+  /**
+   * @returns {void}
+   */
+  hideModal() {
+    this.setState({ openModal: false });
   }
 
   /**
@@ -129,7 +177,10 @@ class Center extends Component {
       data,
       states,
       loading,
-      serverError
+      serverError,
+      errors,
+      openModal,
+      isRequestMade
     } = this.state;
 
     return (
@@ -166,6 +217,15 @@ class Center extends Component {
             />
             }
           </div>
+          <CenterFormModal
+            open={openModal}
+            states={states}
+            onSubmit={this.onSubmit}
+            errors={errors}
+            hideModal={this.hideModal}
+            isRequestMade={isRequestMade}
+          />
+          <div className="fab pulse" onClick={this.showModal}> + </div>
         </div>
       </div>
     );
@@ -175,7 +235,7 @@ class Center extends Component {
 const mapStateToProps = state => ({
   response: {
     centers: state.getAll,
-    deleteCenter: state.deleteItem,
+    newCenter: state.create,
     allStates: state.getAllStates
   }
 });
@@ -183,20 +243,23 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => bindActionCreators({
   getAll: CenterActions.getAll,
   deleteCenter: CenterActions.deleteCenter,
-  getStates: CenterActions.getAllStates
+  getStates: CenterActions.getAllStates,
+  createCenter: CenterActions.createCenter,
 }, dispatch);
 
 Center.propTypes = {
   response: PropTypes.objectOf(() => null),
   getAll: PropTypes.func,
   location: PropTypes.objectOf(() => null).isRequired,
-  getStates: PropTypes.func
+  getStates: PropTypes.func,
+  createCenter: PropTypes.func,
 };
 
 Center.defaultProps = {
   response: {},
   getAll: CenterActions.getAll,
-  getStates: CenterActions.getAllStates
+  getStates: CenterActions.getAllStates,
+  createCenter: CenterActions.createCenter
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Center);
