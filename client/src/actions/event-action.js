@@ -1,10 +1,13 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
+import queryString from 'query-string';
 import mainActionType from './actionTypes/main-action-types';
 import Dispatcher from '../helpers/dispatch';
 import Logger from '../helpers/logger';
 import Toast from '../helpers/toast';
 import imageUpload from '../helpers/image-upload';
+
+const EVENT_BASE_URL = '/api/v1/events';
 
 const cookies = new Cookies();
 
@@ -13,24 +16,35 @@ const cookies = new Cookies();
  */
 export default class EventActions {
   /**
+   * @param {object} query
    *@returns {void}
    * this action is handles fetching all events
    */
-  static getAll() {
+  static getAll(query) {
+    let qString;
+    let api;
+    if (query) {
+      query.limit = query.limit || 9;
+      query.page = query.page || 1;
+      qString = queryString.stringify(query);
+      api = `${EVENT_BASE_URL}?${qString}`;
+    } else {
+      api = EVENT_BASE_URL;
+    }
     return (dispatch) => {
       const token = cookies.get('jwt-events-manager');
       dispatch(Dispatcher.action(mainActionType.GETALL_REQUEST, null));
       axios({
         method: 'GET',
-        url: '/api/v1/events',
+        url: api,
         headers: {
           'x-access-token': token
         }
       })
         .then((response) => {
-          const { message, data: { data, meta } } = response;
-          Toast.success(message);
-          dispatch(Dispatcher.action(mainActionType.GETALL_SUCCESS, { data, meta }));
+          const { data } = response;
+          Toast.success(data.message);
+          dispatch(Dispatcher.action(mainActionType.GETALL_SUCCESS, data));
         })
         .catch((error) => {
           // console.log(error.response);
