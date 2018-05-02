@@ -703,4 +703,9 @@ img{
 }
 a{color:inherit}
 
+.ui.card .meta, .ui.cards>.card .meta {
+  font-size: 0.9em;
+  color: rgba(0,0,0,.4);
+}
+
 

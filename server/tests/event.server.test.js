@@ -273,8 +273,8 @@ describe('Test API', () => {
           res.body.should.have.property('message');
           res.body.should.have.property('statusCode').eql(200);
           res.body.should.have.property('data');
-          res.body.should.have.property('metaData');
-          res.body.metaData.should.be.an('object');
+          res.body.should.have.property('metadata');
+          res.body.metadata.should.be.an('object');
           res.body.data.should.be.an('array');
           done();
         });
@@ -305,7 +305,7 @@ describe('Test API', () => {
           res.should.have.status(400);
           res.body.should.be.an('object');
           res.body.should.have.property('message');
-          res.body.message.should.eql('Invalid event Id');
+          res.body.message.should.eql('Invalid Request');
           done();
         });
     });
@@ -421,7 +421,7 @@ describe('PUT /api/v1/events/:id', () => {
         res.body.should.be.an('object');
         res.body.should.have.property('message');
         res.body.should.have.property('statusCode');
-        res.body.message.should.eql('Invalid Event Id');
+        res.body.message.should.eql('Invalid Request');
         res.body.statusCode.should.eql(400);
         done();
       });
@@ -503,7 +503,7 @@ describe('PUT /api/v1/events/approve/:eventId for aproving events', () => {
         res.body.should.be.an('object');
         res.body.should.have.property('message');
         res.body.should.have.property('statusCode');
-        res.body.message.should.eql('Invalid Event Id');
+        res.body.message.should.eql('Invalid Request');
         res.body.statusCode.should.eql(400);
         done();
       });
@@ -614,7 +614,7 @@ describe('PUT /api/v1/events/reject/:eventId for aproving events', () => {
         res.body.should.be.an('object');
         res.body.should.have.property('message');
         res.body.should.have.property('statusCode');
-        res.body.message.should.eql('Invalid Event Id');
+        res.body.message.should.eql('Invalid Request');
         res.body.statusCode.should.eql(400);
         done();
       });
@@ -645,7 +645,7 @@ describe('DELETE /api/v1/events/:id', () => {
         res.body.should.be.an('object');
         res.body.should.have.property('message');
         res.body.should.have.property('statusCode');
-        res.body.message.should.eql('Invalid Event Id');
+        res.body.message.should.eql('Invalid Request');
         res.body.statusCode.should.eql(400);
         done();
       });

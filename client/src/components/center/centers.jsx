@@ -78,7 +78,12 @@ class Center extends Component {
     if (data && data.data !== this.state.data && status === 'success') {
       const payload = data.data;
       const { pagination } = data.metadata;
-      this.setState({ data: payload, pagingData: pagination, loading: false });
+      this.setState({
+        data: payload,
+        pagingData: pagination,
+        loading: false,
+        serverError: null
+      });
     }
 
     if (allStates.status === 'success') {
