@@ -249,7 +249,7 @@ export default class EventController {
    * @returns {object} - JSON response
    */
   static update(req, res) {
-    if (isNaN(req.params.eventId)) return res.status(400).json({ message: 'Invalid Event Id', statusCode: 400 });
+    if (isNaN(req.params.eventId)) return res.status(400).json({ message: 'Invalid Request', statusCode: 400 });
     const validate = new validator(req.body, eventRules);
     if (validate.passes(req.body, eventUpdateRules)) {
       req.body.startDate = new Date(req.body.startDate);
@@ -297,7 +297,7 @@ export default class EventController {
    * @returns {json} returns message object if event is deleted successfully
    */
   static delete(req, res) {
-    if (isNaN(req.params.eventId)) return res.status(400).json({ message: 'Invalid Event Id', statusCode: 400 });
+    if (isNaN(req.params.eventId)) return res.status(400).json({ message: 'Invalid Request', statusCode: 400 });
     return Events.findOne({
       where: {
         id: req.params.eventId,
@@ -324,7 +324,7 @@ export default class EventController {
    * @returns {object} handles approving of events by admin
    */
   static approveEvent(req, res) {
-    if (isNaN(req.params.eventId)) return res.status(400).json({ message: 'Invalid Event Id', statusCode: 400 });
+    if (isNaN(req.params.eventId)) return res.status(400).json({ message: 'Invalid Request', statusCode: 400 });
     if (req.decoded.isAdmin === true) {
       return Events.findOne({
         where: { id: req.params.eventId },
@@ -363,7 +363,7 @@ export default class EventController {
    * @returns {object} handles action for rejecting an event
    */
   static rejectEvent(req, res) {
-    if (isNaN(req.params.eventId)) return res.status(400).json({ message: 'Invalid Event Id', statusCode: 400 });
+    if (isNaN(req.params.eventId)) return res.status(400).json({ message: 'Invalid Request', statusCode: 400 });
     if (req.decoded.isAdmin === true) {
       return Events.findOne({
         where: {

@@ -168,7 +168,7 @@ class CenterDetails extends Component {
    * @returns {void}
    */
   showPrompt() {
-    this.setState({ openPrompt: true, isRequestMade: true });
+    this.setState({ openPrompt: true, isRequestMade: false });
   }
 
   /**
