@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Input, Button } from 'semantic-ui-react';
 import Header from './header';
-import AuthChecker from '../helpers/auth-checker';
 import history from '../helpers/history';
 
 /**
@@ -19,14 +18,6 @@ class Home extends Component {
     };
     this.onChange = this.onChange.bind(this);
     this.onSearch = this.onSearch.bind(this);
-  }
-  /**
-   * @returns {void}
-   */
-  componentWillMount() {
-    if (AuthChecker.checkUserAuth()) {
-      history.push('/center-search');
-    }
   }
 
   /**

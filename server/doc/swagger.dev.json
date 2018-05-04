@@ -1,0 +1,1298 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Events Manager",
+    "description": " API documetation for an event management system"
+  },
+  "host": "localhost:8000",
+  "basePath": "/api/v1",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/events/{eventId}": {
+      "get": {
+        "description": "To fetch all events for a current user",
+        "summary": "Fetch a single event",
+        "tags": [
+          "Manage Events"
+        ],
+        "operationId": "Localhost8000ApiV1Events5Get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "description": "The event to update."
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "//localhost:8000/api/v1/events/5",
+              "headers": {
+                "x-access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaXNBZG1pbiI6dHJ1ZSwidXNlcm5hbWUiOiJkYXZpdHJvbiIsImVtYWlsIjoic2VndW5tYXR0aGV3c0BvdXRsb29rLmNvbSIsImlzVmVyaWZpZWQiOnRydWUsImlhdCI6MTUyNjQyMTMxMiwiZXhwIjoxNTI2NTA3NzEyfQ.BoTlBsQfT8SsJKyeaev9PefMvlr0v7VLwtXSAdOLxAY",
+                "Content-Type": "application/x-www-form-urlencoded"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Fetch a single event",
+            "x-testDescription": "To fetch all events for a current user"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      },
+      "put": {
+        "description": "To fetch all events for a current user",
+        "summary": "Update an event",
+        "tags": [
+          "Manage Events"
+        ],
+        "operationId": "Localhost8000ApiV1Events5Put",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "eventName",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The name of the event"
+          },
+          {
+            "name": "startDate",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The date of the event"
+          },
+          {
+            "name": "days",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "duration of the event"
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Image or poster of the event"
+          },
+          {
+            "name": "centerId",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "PUT",
+              "uri": "//localhost:8000/api/v1/events/5",
+              "headers": {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "x-access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaXNBZG1pbiI6dHJ1ZSwidXNlcm5hbWUiOiJkYXZpdHJvbiIsImVtYWlsIjoic2VndW5tYXR0aGV3c0BvdXRsb29rLmNvbSIsImlzVmVyaWZpZWQiOnRydWUsImlhdCI6MTUyNjQyMTMxMiwiZXhwIjoxNTI2NTA3NzEyfQ.BoTlBsQfT8SsJKyeaev9PefMvlr0v7VLwtXSAdOLxAY"
+              },
+              "body": "eventName=Wedding Party&startDate=2020-10-01&days=1&image=http://res.cloudinary.com/eventsmanager/image/upload/v1526158385/dbw0mohd4lnxs0j17wh0.jpg&centerId=1"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Update an event",
+            "x-testDescription": "To fetch all events for a current user"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      },
+      "delete": {
+        "description": "To fetch all events for a current user",
+        "summary": "Delete an event Copy",
+        "tags": [
+          "Manage Events"
+        ],
+        "operationId": "Localhost8000ApiV1Events5Delete",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "eventName",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The name of the event"
+          },
+          {
+            "name": "startDate",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The date of the event"
+          },
+          {
+            "name": "days",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "duration of the event"
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Image or poster of the event"
+          },
+          {
+            "name": "centerId",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "DELETE",
+              "uri": "//localhost:8000/api/v1/events/5",
+              "headers": {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "x-access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaXNBZG1pbiI6dHJ1ZSwidXNlcm5hbWUiOiJkYXZpdHJvbiIsImVtYWlsIjoic2VndW5tYXR0aGV3c0BvdXRsb29rLmNvbSIsImlzVmVyaWZpZWQiOnRydWUsImlhdCI6MTUyNjQyMTMxMiwiZXhwIjoxNTI2NTA3NzEyfQ.BoTlBsQfT8SsJKyeaev9PefMvlr0v7VLwtXSAdOLxAY"
+              },
+              "body": "eventName=Wedding Party&startDate=2020-10-01&days=1&image=http://res.cloudinary.com/eventsmanager/image/upload/v1526158385/dbw0mohd4lnxs0j17wh0.jpg&centerId=1"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Delete an event Copy",
+            "x-testDescription": "To fetch all events for a current user"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/centers": {
+      "get": {
+        "description": "To fetch all centers in the database",
+        "summary": "Get all centers",
+        "tags": [
+          "Manage Center"
+        ],
+        "operationId": "Localhost8000ApiV1CentersGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "//localhost:8000/api/v1/centers"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Get all centers",
+            "x-testDescription": "To fetch all centers in the database"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      },
+      "post": {
+        "description": "To create a new center",
+        "summary": "Create new center",
+        "tags": [
+          "Manage Center"
+        ],
+        "operationId": "Localhost8000ApiV1CentersPost2",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The name of the center"
+          },
+          {
+            "name": "address",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The address where this center is located"
+          },
+          {
+            "name": "stateId",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The state where center is located"
+          },
+          {
+            "name": "hallCapacity",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The capacity of the hall"
+          },
+          {
+            "name": "carParkCapacity",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The speculative space of the carpark"
+          },
+          {
+            "name": "price",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The price of the center"
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Image of the center"
+          },
+          {
+            "name": "facilities",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The amenities in the facilities"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "POST",
+              "uri": "//localhost:8000/api/v1/centers",
+              "headers": {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "x-access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaXNBZG1pbiI6dHJ1ZSwidXNlcm5hbWUiOiJkYXZpdHJvbiIsImVtYWlsIjoic2VndW5tYXR0aGV3c0BvdXRsb29rLmNvbSIsImlzVmVyaWZpZWQiOnRydWUsImlhdCI6MTUyNjQyMTMxMiwiZXhwIjoxNTI2NTA3NzEyfQ.BoTlBsQfT8SsJKyeaev9PefMvlr0v7VLwtXSAdOLxAY"
+              },
+              "body": "name=Test Center Name&address=This is a test address for this event center&stateId=1&hallCapacity=500&carParkCapacity=200&price=100000&image=http://res.cloudinary.com/eventsmanager/image/upload/v1526158385/dbw0mohd4lnxs0j17wh0.jpg&facilities=cctv"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Create new center",
+            "x-testDescription": "To create a new center"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "description": "This endpoint creates a new user",
+        "summary": "create a user",
+        "tags": [
+          "Creating a User"
+        ],
+        "operationId": "Localhost8000ApiV1UsersLoginPost2",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The email of the new user"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The selected password of the new user"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "POST",
+              "uri": "//localhost:8000/api/v1/users/login",
+              "headers": {
+                "Content-Type": "application/x-www-form-urlencoded"
+              },
+              "body": "email=voltron123@mailinator.com&password=minerva"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "create a user",
+            "x-testDescription": "This endpoint creates a new user"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/events": {
+      "get": {
+        "description": "To fetch all events for a current user",
+        "summary": "Fetch events",
+        "tags": [
+          "Manage Events"
+        ],
+        "operationId": "Localhost8000ApiV1EventsGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "//localhost:8000/api/v1/events",
+              "headers": {
+                "x-access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaXNBZG1pbiI6dHJ1ZSwidXNlcm5hbWUiOiJkYXZpdHJvbiIsImVtYWlsIjoic2VndW5tYXR0aGV3c0BvdXRsb29rLmNvbSIsImlzVmVyaWZpZWQiOnRydWUsImlhdCI6MTUyNjQyMTMxMiwiZXhwIjoxNTI2NTA3NzEyfQ.BoTlBsQfT8SsJKyeaev9PefMvlr0v7VLwtXSAdOLxAY",
+                "Content-Type": "application/x-www-form-urlencoded"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Fetch events",
+            "x-testDescription": "To fetch all events for a current user"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      },
+      "post": {
+        "description": "To fetch all events for a current user",
+        "summary": "Create new event",
+        "tags": [
+          "Manage Events"
+        ],
+        "operationId": "Localhost8000ApiV1EventsPost2",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "eventName",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The name of the event"
+          },
+          {
+            "name": "startDate",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The date of the event"
+          },
+          {
+            "name": "days",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "duration of the event"
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Image or poster of the event"
+          },
+          {
+            "name": "centerId",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The center where the event is created in."
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "POST",
+              "uri": "//localhost:8000/api/v1/events",
+              "headers": {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "x-access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaXNBZG1pbiI6dHJ1ZSwidXNlcm5hbWUiOiJkYXZpdHJvbiIsImVtYWlsIjoic2VndW5tYXR0aGV3c0BvdXRsb29rLmNvbSIsImlzVmVyaWZpZWQiOnRydWUsImlhdCI6MTUyNjQyMTMxMiwiZXhwIjoxNTI2NTA3NzEyfQ.BoTlBsQfT8SsJKyeaev9PefMvlr0v7VLwtXSAdOLxAY"
+              },
+              "body": "eventName=Test event&startDate=2020-10-01&days=1&image=http://res.cloudinary.com/eventsmanager/image/upload/v1526158385/dbw0mohd4lnxs0j17wh0.jpg&centerId=1"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Create new event",
+            "x-testDescription": "To fetch all events for a current user"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/centers/2": {
+      "get": {
+        "description": "To create a new center",
+        "summary": "Get a single center",
+        "tags": [
+          "Manage Center"
+        ],
+        "operationId": "Localhost8000ApiV1Centers2Get2",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "//localhost:8000/api/v1/centers/2",
+              "headers": {
+                "x-access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaXNBZG1pbiI6dHJ1ZSwidXNlcm5hbWUiOiJkYXZpdHJvbiIsImVtYWlsIjoic2VndW5tYXR0aGV3c0BvdXRsb29rLmNvbSIsImlzVmVyaWZpZWQiOnRydWUsImlhdCI6MTUyNjQyMTMxMiwiZXhwIjoxNTI2NTA3NzEyfQ.BoTlBsQfT8SsJKyeaev9PefMvlr0v7VLwtXSAdOLxAY",
+                "Content-Type": "application/x-www-form-urlencoded"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Get a single center",
+            "x-testDescription": "To create a new center"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      },
+      "put": {
+        "description": "To create a new center",
+        "summary": "Update a center",
+        "tags": [
+          "Manage Center"
+        ],
+        "operationId": "Localhost8000ApiV1Centers2Put",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The name of the center"
+          },
+          {
+            "name": "address",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The address where this center is located"
+          },
+          {
+            "name": "stateId",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The state where center is located"
+          },
+          {
+            "name": "hallCapacity",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The capacity of the hall"
+          },
+          {
+            "name": "carParkCapacity",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The speculative space of the carpark"
+          },
+          {
+            "name": "price",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The price of the center"
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Image of the center"
+          },
+          {
+            "name": "facilities",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The amenities in the facilities"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "PUT",
+              "uri": "//localhost:8000/api/v1/centers/2",
+              "headers": {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "x-access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaXNBZG1pbiI6dHJ1ZSwidXNlcm5hbWUiOiJkYXZpdHJvbiIsImVtYWlsIjoic2VndW5tYXR0aGV3c0BvdXRsb29rLmNvbSIsImlzVmVyaWZpZWQiOnRydWUsImlhdCI6MTUyNjQyMTMxMiwiZXhwIjoxNTI2NTA3NzEyfQ.BoTlBsQfT8SsJKyeaev9PefMvlr0v7VLwtXSAdOLxAY"
+              },
+              "body": "name=Nyla House&address=This is a test address for this event center&stateId=1&hallCapacity=500&carParkCapacity=200&price=100000&image=http://res.cloudinary.com/eventsmanager/image/upload/v1526158385/dbw0mohd4lnxs0j17wh0.jpg&facilities=cctv"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Update a center",
+            "x-testDescription": "To create a new center"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      },
+      "delete": {
+        "description": "To create a new center",
+        "summary": "Delete a center",
+        "tags": [
+          "Manage Center"
+        ],
+        "operationId": "Localhost8000ApiV1Centers2Delete",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The name of the center"
+          },
+          {
+            "name": "address",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The address where this center is located"
+          },
+          {
+            "name": "stateId",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The state where center is located"
+          },
+          {
+            "name": "hallCapacity",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The capacity of the hall"
+          },
+          {
+            "name": "carParkCapacity",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The speculative space of the carpark"
+          },
+          {
+            "name": "price",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The price of the center"
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Image of the center"
+          },
+          {
+            "name": "facilities",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The amenities in the facilities"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "DELETE",
+              "uri": "//localhost:8000/api/v1/centers/2",
+              "headers": {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "x-access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaXNBZG1pbiI6dHJ1ZSwidXNlcm5hbWUiOiJkYXZpdHJvbiIsImVtYWlsIjoic2VndW5tYXR0aGV3c0BvdXRsb29rLmNvbSIsImlzVmVyaWZpZWQiOnRydWUsImlhdCI6MTUyNjQyMTMxMiwiZXhwIjoxNTI2NTA3NzEyfQ.BoTlBsQfT8SsJKyeaev9PefMvlr0v7VLwtXSAdOLxAY"
+              },
+              "body": "name=Nyla House&address=This is a test address for this event center&stateId=1&hallCapacity=500&carParkCapacity=200&price=100000&image=http://res.cloudinary.com/eventsmanager/image/upload/v1526158385/dbw0mohd4lnxs0j17wh0.jpg&facilities=cctv"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Delete a center",
+            "x-testDescription": "To create a new center"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/events/null": {
+      "get": {
+        "description": "To fetch all events for a current user",
+        "summary": "Fetch a single event with invalid event Id",
+        "tags": [
+          "Manage Events"
+        ],
+        "operationId": "Localhost8000ApiV1EventsNullGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "//localhost:8000/api/v1/events/null",
+              "headers": {
+                "x-access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaXNBZG1pbiI6dHJ1ZSwidXNlcm5hbWUiOiJkYXZpdHJvbiIsImVtYWlsIjoic2VndW5tYXR0aGV3c0BvdXRsb29rLmNvbSIsImlzVmVyaWZpZWQiOnRydWUsImlhdCI6MTUyNjQyMTMxMiwiZXhwIjoxNTI2NTA3NzEyfQ.BoTlBsQfT8SsJKyeaev9PefMvlr0v7VLwtXSAdOLxAY",
+                "Content-Type": "application/x-www-form-urlencoded"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Fetch a single event with invalid event Id",
+            "x-testDescription": "To fetch all events for a current user"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/centers/": {
+      "post": {
+        "description": "To create a new center",
+        "summary": "Create new center with incomplete details",
+        "tags": [
+          "Manage Center"
+        ],
+        "operationId": "Localhost8000ApiV1CentersPost",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The name of the center"
+          },
+          {
+            "name": "address",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The address where this center is located"
+          },
+          {
+            "name": "stateId",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The state where center is located"
+          },
+          {
+            "name": "hallCapacity",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The capacity of the hall"
+          },
+          {
+            "name": "carParkCapacity",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The speculative space of the carpark"
+          },
+          {
+            "name": "price",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The price of the center"
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Image of the center"
+          },
+          {
+            "name": "facilities",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The amenities in the facilities"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "POST",
+              "uri": "//localhost:8000/api/v1/centers/",
+              "headers": {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "x-access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaXNBZG1pbiI6dHJ1ZSwidXNlcm5hbWUiOiJkYXZpdHJvbiIsImVtYWlsIjoic2VndW5tYXR0aGV3c0BvdXRsb29rLmNvbSIsImlzVmVyaWZpZWQiOnRydWUsImlhdCI6MTUyNjQyMTMxMiwiZXhwIjoxNTI2NTA3NzEyfQ.BoTlBsQfT8SsJKyeaev9PefMvlr0v7VLwtXSAdOLxAY"
+              },
+              "body": "name=Test Center&address=This is a test address for this event center&stateId=1&hallCapacity=500&carParkCapacity=200&price=100000&image=http://res.cloudinary.com/eventsmanager/image/upload/v1526158385/dbw0mohd4lnxs0j17wh0.jpg&facilities=cctv"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Create new center with incomplete details",
+            "x-testDescription": "To create a new center"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/users": {
+      "post": {
+        "description": "The is to show a response sample when tyrying to create a user with invalid data.",
+        "summary": "create user with bad request",
+        "tags": [
+          "Creating a User"
+        ],
+        "operationId": "Localhost8000ApiV1UsersPost2",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "username",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "confirmPassword",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "POST",
+              "uri": "//localhost:8000/api/v1/users",
+              "headers": {
+                "Content-Type": "application/x-www-form-urlencoded"
+              },
+              "body": "email=invalid.email.com&username=anon&password=minerva&confirmPassword=minerva"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "create user with bad request",
+            "x-testDescription": "The is to show a response sample when tyrying to create a user with invalid data."
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    }
+  }
+}

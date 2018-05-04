@@ -9,18 +9,13 @@ import ResetPassword from './authentication/reset-password';
 import Verify from './authentication/verify';
 import Verified from './authentication/verified';
 import Centers from './center/centers';
-import CenterSearch from './center/center-search';
-import CenterResult from './center/search-result';
-import CreateEventForm from './event/create-event-form';
-import UpdateEventForm from './event/update-event-form';
-import CreateCenterForm from './center/create-center-form';
-import PendingEvent from './event/pending-events';
-import UpcomingEvent from './event/upcoming-events';
+import CenterEvent from './event/events-admin';
+// import UpcomingEvent from './event/upcoming-events';
 import Events from './event/events';
 import NotFound from './notFound';
 import CenterDetails from './center/center-details';
 import UserRoute from '../helpers/user-route';
-import AdminRoute from '../helpers/admin-route';
+// import AdminRoute from '../helpers/admin-route';
 import '../style.scss';
 
 const App = () => (
@@ -34,16 +29,10 @@ const App = () => (
         <Route exact path="/reset-password" component={ResetPassword} />
         <Route exact path="/verify" component={Verify} />
         <Route exact path="/verified" component={Verified} />
-        <Route exact path="/center-search" component={CenterSearch} />
-        <Route exact path="/center-result" component={CenterResult} />
         <Route exact path="/centers/:centerId" component={CenterDetails} />
         <Route exact path="/centers" component={Centers} />
         <UserRoute exact path="/events" component={Events} redirectPath="/login" />
-        <AdminRoute exact path="/create-center" component={CreateCenterForm} redirectPath="/login" />
-        <UserRoute exact path="/create-event/:centerId" component={CreateEventForm} redirectPath="/login" />
-        <UserRoute exact path="/update-event/:eventId" component={UpdateEventForm} redirectPath="/login" />
-        <AdminRoute path="/pending-events/:centerId" component={PendingEvent} redirectPath="/login" />
-        <Route path="/upcoming-events/:centerId" component={UpcomingEvent} />
+        <UserRoute exact path="/pending-events" component={CenterEvent} redirectPath="/login" />
         <Route component={NotFound} />
       </Switch>
     </div>

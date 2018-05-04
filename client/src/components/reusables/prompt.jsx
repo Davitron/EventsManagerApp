@@ -10,7 +10,7 @@ const Prompt = ({
   isRequestMade,
   title
 }) => (
-  <Modal open={open} basic size="small">
+  <Modal dimmer="blurring" open={open} basic size="small">
     <Header icon="archive" content={title} />
     <Modal.Content>
       <p>{message}</p>
@@ -19,7 +19,7 @@ const Prompt = ({
       <Button basic color="red" inverted onClick={onCancel}>
         <Icon name="remove" /> No
       </Button>
-      <Button color="facebook" inverted onClick={onConfirm} loading={isRequestMade}>
+      <Button color="blue" inverted onClick={onConfirm} loading={isRequestMade}>
         <Icon name="checkmark" /> Yes
       </Button>
     </Modal.Actions>

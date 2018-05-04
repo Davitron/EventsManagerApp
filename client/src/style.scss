@@ -169,7 +169,7 @@ nav {
 .home {
   background-position: 50% 50%;
   background-size: cover;
-  background-image: url("./assets/image/banner6.jpg");
+  background-image: url("http://res.cloudinary.com/eventsmanager/image/upload/v1525385937/banner6_eidrkn.jpg");
   /* opacity: 0.5;
   filter: alpha(opacity=50); */
   margin: 0 auto;
@@ -180,7 +180,7 @@ nav {
 .App-main {
   background-position: center center;
   background-size: cover;
-  background-image: url("./assets/image/banner6.jpg");
+  background-image: url("http://res.cloudinary.com/eventsmanager/image/upload/v1525385937/banner6_eidrkn.jpg");
   /* opacity: 0.5;
   filter: alpha(opacity=50); */
   height: 100%;
@@ -304,6 +304,7 @@ nav {
 .ui.card>.image, .ui.cards>.card>.image {
   position: relative;
   display: block;
+  box-flex: 0;
   -webkit-box-flex: 0;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
@@ -343,6 +344,8 @@ nav {
 .ui.form .fields {
   display: -webkit-box;
   display: flex;
+  box-orient: horizontal;
+  box-direction: horizontal;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
   flex-direction: row;
@@ -553,7 +556,7 @@ i.icon-grey {
   z-index: 1;
   top: 0;
   left: 0;
-  background-color: rgba(3, 42, 88, 0.8);
+  background-color: rgba(3, 42, 88, 0.96);
   overflow-x: hidden;
   padding-top: 60px; 
   transition: 0.5s; 
@@ -564,7 +567,7 @@ i.icon-grey {
   padding: 8px 8px 8px 32px;
   text-decoration: none;
   font-size: 25px;
-  color: #818181;
+  color: #f3eded;
   display: block;
   transition: 0.3s;
 }

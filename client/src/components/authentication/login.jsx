@@ -40,7 +40,7 @@ class Login extends Component {
   */
   componentWillMount() {
     if (AuthChecker.checkUserAuth()) {
-      history.push('/center-search');
+      history.push('/centers');
     }
   }
 

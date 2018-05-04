@@ -179,18 +179,7 @@ export default class EventActions {
   static createEvent(newEvent) {
     const token = cookies.get('jwt-events-manager');
     return (dispatch) => {
-      if (newEvent.image.name) {
-        imageUpload(newEvent.image)
-          .then((imageUrl) => {
-            newEvent.image = imageUrl;
-            EventActions.handleCreateEvent(newEvent, token, dispatch);
-          })
-          .catch((error) => {
-            Toast.error('Image upload error');
-          });
-      } else {
-        EventActions.handleCreateEvent(newEvent, token, dispatch);
-      }
+      EventActions.handleCreateEvent(newEvent, token, dispatch);
     };
   }
 
@@ -217,9 +206,7 @@ export default class EventActions {
       .then((response) => {
         Toast.success(response.data.message);
         dispatch(Dispatcher.action(mainActionType.UPDATE_SUCCESS, response.data.message));
-      })
-      .then(() => {
-        dispatch(Dispatcher.action(mainActionType.RESET_STATE, null));
+        dispatch(EventActions.getAll());
       })
       .catch((error) => {
         const { message } = error.response.data;
@@ -239,7 +226,7 @@ export default class EventActions {
   static updateEvent(eventObj) {
     const token = cookies.get('jwt-events-manager');
     return (dispatch) => {
-      if (eventObj.image !== eventObj.newImage) {
+      if (eventObj.newImage) {
         imageUpload(eventObj.newImage)
           .then((imageUrl) => {
             eventObj.image = imageUrl;
@@ -253,62 +240,30 @@ export default class EventActions {
 
   /**
    *
-   * @param {number} eventId
+   * @param {object} response
    *
    * @returns {void}
    *
    * this action is handles updating a event
    */
-  static approveEvent(eventId) {
+  static respondToEvent(response) {
     return (dispatch) => {
       const token = cookies.get('jwt-events-manager');
-      dispatch(Dispatcher.action(mainActionType.UPDATE_REQUEST, eventId));
+      dispatch(Dispatcher.action(mainActionType.UPDATE_REQUEST, response.id));
       axios({
         method: 'PUT',
-        url: `/api/v1/events/approve/${eventId}`,
+        url: '/api/v1/events/response/',
         headers: {
           'x-access-token': token
         },
+        data: response
       })
-        .then((response) => {
-          const { message } = response.data;
+        .then((result) => {
+          const { message } = result.data;
           dispatch(Dispatcher.action(mainActionType.UPDATE_SUCCESS, message));
           Toast.success(message);
-        })
-        .then(() => {
-          dispatch(Dispatcher.action(mainActionType.RESET_STATE, null));
-        })
-        .catch((error) => {
-          const { message } = error.response.data;
-          dispatch(Dispatcher.action(mainActionType.UPDATE_FAILED, message));
-          Toast.error(message);
-        });
-    };
-  }
-
-  /**
-   *
-   * @param {number} eventId
-   *
-   * @returns {void}
-   *
-   * this action is handles updating a event
-   */
-  static rejectEvent(eventId) {
-    return (dispatch) => {
-      const token = cookies.get('jwt-events-manager');
-      dispatch(Dispatcher.action(mainActionType.UPDATE_REQUEST, eventId));
-      axios({
-        method: 'PUT',
-        url: `/api/v1/events/reject/${eventId}`,
-        headers: {
-          'x-access-token': token
-        }
-      })
-        .then((response) => {
-          const { message } = response.data;
-          dispatch(Dispatcher.action(mainActionType.UPDATE_SUCCESS, message));
-          Toast.success(message);
+          const query = queryString.parse(window.location.search);
+          dispatch(EventActions.getAll(query));
         })
         .then(() => {
           dispatch(Dispatcher.action(mainActionType.RESET_STATE, null));
@@ -343,6 +298,8 @@ export default class EventActions {
         .then((response) => {
           dispatch(Dispatcher.action(mainActionType.DELETE_SUCCESS, response.data));
           Toast.success(response.data.message);
+          dispatch(EventActions.getAll());
+          dispatch(Dispatcher.action(mainActionType.RESET_STATE, null));
         })
         .catch((error) => {
           const { message } = error.response.data;
