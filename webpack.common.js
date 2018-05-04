@@ -1,26 +1,15 @@
 const path = require('path');
-const webpack = require('webpack');
-const CompressionPlugin = require('compression-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin'); // eslint-disable-line
+const HtmlWebpackPlugin = require('html-webpack-plugin'); // eslint-disable-line 
 
 module.exports = {
-  devtool: 'eval-source-map',
   entry: [
     path.join(__dirname, 'client/src/index.jsx')
   ],
   output: {
-    path: path.join(__dirname, 'client', 'public'),
     filename: 'app.bundle.js',
-    hotUpdateChunkFilename: './hot/hot-update.js',
-    hotUpdateMainFilename: './hot/hot-update.json'
+    path: path.resolve(__dirname, 'client', 'public')
   },
-  // devServer: {
-  //   publicPath: '/',
-  //   contentbase: path.join(__dirname, 'client', 'public'),
-  //   watchContentBase: true,
-  //   hot: true,
-  //   inline: true,
-  //   historyApiFallback: true
-  // },
   module: {
     loaders: [
       {
@@ -59,34 +48,6 @@ module.exports = {
       { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=image/svg+xml' },
     ]
   },
-  plugins: [
-    new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        unused: true,
-        dead_code: true,
-        warnings: false,
-        drop_debugger: true,
-        conditionals: true,
-        evaluate: true,
-        // drop_console: true,
-        sequences: true,
-        booleans: true,
-      },
-      comments: false,
-      sourceMap: true,
-      minimize: false
-    }),
-    new webpack.HotModuleReplacementPlugin(),
-    new CompressionPlugin({
-      asset: '[path].gz[query]',
-      algorithm: 'gzip',
-      test: /\.js$|\.css$|\.html$/,
-      threshold: 10240,
-      minRatio: 0
-    })
-  ],
   resolve: {
     extensions: ['.js', '.jsx'],
   }

@@ -2,22 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import { Icon, Button } from 'semantic-ui-react';
+import { Icon, Button, Label } from 'semantic-ui-react';
 import CenterActions from '../../actions/center-action';
+import EventActions from '../../actions/event-action';
 import CenterTable from './center-table';
 import CenterFormModal from './create-center-form';
+import EventFormModal from '../event/create-event-form';
 import FormValidator from '../../helpers/form-validator';
+import AuthChecker from '../../helpers/auth-checker';
 import Header from '../header';
 import history from '../../helpers/history';
 import ImageUpload from '../../helpers/image-upload';
 import Toast from '../../helpers/toast';
 import Prompt from '../reusables/prompt';
-
-const getPendingEventCount = ({ events }) => {
-  const pendingEvents = events.filter(event => event.status === 'pending');
-  return pendingEvents.length;
-};
-
 
 /**
  * @returns {*} Centers Component
@@ -30,23 +27,26 @@ class CenterDetails extends Component {
     super(props);
     this.state = {
       center: null,
-      pendingEvents: 0,
       serverError: null,
       states: [],
       isRequestMade: false,
       openModal: false,
       openPrompt: false,
+      openEventModal: false,
       errors: {}
     };
 
     this.showModal = this.showModal.bind(this);
+    this.showEventModal = this.showEventModal.bind(this);
     this.showPrompt = this.showPrompt.bind(this);
     this.hidePrompt = this.hidePrompt.bind(this);
     this.hideModal = this.hideModal.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.getPendingEvent = this.getPendingEvent.bind(this);
     this.getUpcomingEvent = this.getUpcomingEvent.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+    this.handleUpdateCenter = this.handleUpdateCenter.bind(this);
+    this.handleEventBooking = this.handleEventBooking.bind(this);
+    this.renderMainView = this.renderMainView.bind(this);
   }
 
   /**
@@ -68,10 +68,11 @@ class CenterDetails extends Component {
       singleCenter,
       deleteState,
       allStates,
-      updatedCenter
+      updatedCenter,
+      newEvent
     } = nextProps.stateProps;
     if (singleCenter.data && singleCenter.status === 'success') {
-      const { center } = singleCenter.data;
+      const { center, metadata } = singleCenter.data;
       this.setState({
         center: {
           id: center.id,
@@ -84,18 +85,16 @@ class CenterDetails extends Component {
           image: center.image,
           newImage: center.image,
           facilities: center.facilities,
-          events: center.events,
+          pendingEvent: metadata.pendingEventCount,
           stateId: center.stateId
-        },
-        pendingEvents: getPendingEventCount(center)
+        }
       });
     } else if (singleCenter.data && singleCenter.status === 'failed') {
       this.setState({ serverError: singleCenter.data.message });
     }
 
-    if (updatedCenter.status === 'success') {
-      this.setState({ openModal: false, isRequestMade: false });
-      // history.push('/centers');
+    if (updatedCenter.status !== 'ongoing' || newEvent.status !== 'ongoing') {
+      this.setState({ openModal: false, openEventModal: false, isRequestMade: false });
     }
 
     if (deleteState.status === 'success') {
@@ -109,42 +108,12 @@ class CenterDetails extends Component {
 
   /**
    *
-   * @param {object} center
-   *
-   * @returns {void}
-   *
-   * this handles the event when form is submitted
-   */
-  onSubmit(center) {
-    this.setState({ isRequestMade: true, serverError: '' });
-    const fv = new FormValidator();
-    const { updateCenter } = this.props;
-    const errors = fv.validateUpdateCenterForm(center);
-    if (errors) {
-      this.setState({ errors, isRequestMade: true });
-      return null;
-    } else if (center.newImage !== center.image) {
-      ImageUpload(center.newImage)
-        .then((imageUrl) => {
-          center.image = imageUrl;
-          updateCenter(center);
-        })
-        .catch((error) => {
-          Toast.error(error);
-        });
-    } else {
-      updateCenter(center);
-    }
-  }
-
-  /**
-   *
    * @param {*} eventId
    * @returns {void}
    */
   getPendingEvent() {
     const { id } = this.state.center;
-    history.push(`/pending-events/${id}`);
+    history.push(`/pending-events?status=pending&centerId=${id}`);
   }
 
   /**
@@ -161,7 +130,14 @@ class CenterDetails extends Component {
    * @returns {void}
    */
   showModal() {
-    this.setState({ openModal: true });
+    this.setState({ errors: {}, openModal: true });
+  }
+
+  /**
+   * @returns {void}
+   */
+  showEventModal() {
+    this.setState({ errors: {}, openEventModal: true });
   }
 
   /**
@@ -175,7 +151,7 @@ class CenterDetails extends Component {
    * @returns {void}
    */
   hideModal() {
-    this.setState({ openModal: false });
+    this.setState({ openModal: false, openEventModal: false });
   }
 
   /**
@@ -195,50 +171,136 @@ class CenterDetails extends Component {
     deleteCenter(id);
   }
 
+  /**
+   *
+   * @param {object} center
+   *
+   * @returns {void}
+   *
+   * this handles the event when form is submitted
+   */
+  handleUpdateCenter(center) {
+    this.setState({ isRequestMade: true, serverError: '' });
+    const fv = new FormValidator();
+    const { updateCenter } = this.props;
+    const errors = fv.validateUpdateCenterForm(center);
+    if (errors) {
+      this.setState({ errors, isRequestMade: false });
+      return null;
+    } else if (center.newImage !== center.image) {
+      ImageUpload(center.newImage)
+        .then((imageUrl) => {
+          center.image = imageUrl;
+          updateCenter(center);
+        })
+        .catch((error) => {
+          Toast.error(error);
+        });
+    } else {
+      updateCenter(center);
+    }
+  }
+
+  /**
+  *
+  * @param {object} event
+  *
+  * @returns {void}
+  *
+  * this handles the event when form is submitted
+  */
+  handleEventBooking(event) {
+    this.setState({ isRequestMade: true, serverError: '' });
+    const fv = new FormValidator();
+    const { createEvent } = this.props;
+    const { center } = this.state;
+    const errors = fv.validateEventForm(event);
+    if (errors) {
+      this.setState({ errors, isRequestMade: false });
+    } else {
+      ImageUpload(event.image)
+        .then((imageUrl) => {
+          event.image = imageUrl;
+          event.centerId = center.id;
+          createEvent(event);
+        })
+        .catch((error) => {
+          Toast.error(error);
+        });
+    }
+  }
+
+  /**
+   *
+   * @returns {void}
+   */
+  renderMainView() {
+    const { serverError, center } = this.state;
+    const role = AuthChecker.defineRole();
+    return (
+      <div className="my-container">
+        { serverError &&
+          <div style={{ textAlign: 'center' }}>
+            <h2 className="animated fadeInUp">{serverError}</h2>
+          </div>
+        }
+        { center &&
+          <div>
+            <div>
+              <img src={center.image} alt="Lights" className=" w3-image" />
+            </div>
+            <div style={{ marginTop: '20px' }}>
+              <span style={{ fontSize: '27px' }}>{center.name}</span>
+              { role === 'admin' && <Label as="a" color="red" onClick={this.getPendingEvent} >{center.pendingEvent} Pending Events</Label>}<br />
+              <br />
+              <span style={{ fontSize: '18px', marginTop: '20px' }}><Icon name="marker" />{center.address} {center.state}</span>
+            </div>
+            <CenterTable center={center} />
+            <div className="ui grid">
+              { role === 'admin' && <Button primary onClick={this.showModal} size="medium" content="Update Center" />}
+              { role === 'admin' && <Button negative onClick={this.showPrompt} size="medium" content="Delete Center" />}
+              { role && <Button positive onClick={this.showEventModal} size="medium" content="Book an Event Here" />}
+            </div>
+          </div>
+        }
+      </div>
+    );
+  }
 
   /**
  *@returns {*} event for sortin
  */
   render() {
-    const { center, pendingEvents, serverError, openModal, states, isRequestMade, errors, openPrompt } = this.state; // eslint-disable-line
+    const {
+      center,
+      pendingEvents, // eslint-disable-line
+      openModal,
+      openEventModal,
+      states,
+      isRequestMade,
+      errors,
+      openPrompt
+    } = this.state;
     return (
       <div>
         <Header />
         <div className="background">
-          <div className="my-container">
-            { serverError &&
-              <div style={{ textAlign: 'center' }}>
-                <h2 className="animated fadeInUp">{serverError}</h2>
-              </div>
-            }
-            { center &&
-              <div>
-                <div>
-                  {/* <Image fluid src={center.image} /> */}
-                  <img src={center.image} alt="Lights" className="w3-image" />
-                </div>
-                <div style={{ marginTop: '20px' }}>
-                  <span style={{ fontSize: '27px' }}>{center.name}</span><br />
-                  <br />
-                  <span style={{ fontSize: '18px', marginTop: '20px' }}><Icon name="marker" />{center.address} {center.state}</span>
-                </div>
-                <CenterTable center={center} />
-                <div className="ui grid">
-                  <Button primary onClick={this.showModal} size="medium" content="Update Center" />
-                  <Button negative onClick={this.showPrompt} size="medium" content="Delete Center" />
-                  <Button positive size="medium" content="Book an Event Here" />
-                </div>
-              </div>
-            }
-          </div>
+          {this.renderMainView()}
           <CenterFormModal
             open={openModal}
             states={states}
-            onSubmit={this.onSubmit}
+            onSubmit={this.handleUpdateCenter}
             errors={errors}
             hideModal={this.hideModal}
             isRequestMade={isRequestMade}
             center={center}
+          />
+          <EventFormModal
+            open={openEventModal}
+            onSubmit={this.handleEventBooking}
+            errors={errors}
+            hideModal={this.hideModal}
+            isRequestMade={isRequestMade}
           />
           <Prompt
             open={openPrompt}
@@ -259,7 +321,8 @@ const mapStateToProps = state => ({
     singleCenter: state.get,
     deleteState: state.deleteItem,
     updatedCenter: state.update,
-    allStates: state.getAllStates
+    allStates: state.getAllStates,
+    newEvent: state.create,
   }
 });
 
@@ -268,6 +331,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   deleteCenter: CenterActions.deleteCenter,
   updateCenter: CenterActions.updateCenter,
   getStates: CenterActions.getAllStates,
+  createEvent: EventActions.createEvent
 }, dispatch);
 
 CenterDetails.propTypes = {
@@ -276,6 +340,7 @@ CenterDetails.propTypes = {
   deleteCenter: PropTypes.func,
   getStates: PropTypes.func,
   updateCenter: PropTypes.func,
+  createEvent: PropTypes.func,
   getCenter: PropTypes.func.isRequired
 };
 
@@ -283,7 +348,8 @@ CenterDetails.defaultProps = {
   stateProps: {},
   deleteCenter: CenterActions.deleteCenter,
   getStates: CenterActions.getAllStates,
-  updateCenter: CenterActions.updateCenter
+  updateCenter: CenterActions.updateCenter,
+  createEvent: EventActions.createEvent
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CenterDetails);

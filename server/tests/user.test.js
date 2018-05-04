@@ -1,6 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import faker from 'faker';
+import '../env.test';
 import app from '../server';
 import model from '../models';
 
@@ -207,7 +208,7 @@ describe('Testing Authentication Routes', () => {
           confirmPassword: 'lolojhjsovh',
         })
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(409);
           res.body.should.be.an('object');
           res.body.should.have.property('message').eql('email or username already taken');
           done();
@@ -248,7 +249,7 @@ describe('Testing Authentication Routes', () => {
       chai.request(app)
         .get(`/api/v1/users/completeRegistration?token=${Token}`)
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(409);
           res.body.should.be.an('object');
           res.body.should.have.property('message');
           done();
@@ -285,7 +286,7 @@ describe('Testing Authentication Routes', () => {
           password: 'minerva'
         })
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(401);
           res.body.should.be.an('object');
           res.body.should.have.property('message').eql('Invalid Login Credentials');
           done();
@@ -300,7 +301,7 @@ describe('Testing Authentication Routes', () => {
           password: 'gojfiepfe'
         })
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(401);
           res.body.should.be.an('object');
           res.body.should.have.property('message').eql('Invalid Login Credentials');
           done();
@@ -494,7 +495,7 @@ describe('Testing Authentication Routes', () => {
         .end((err, res) => {
           res.should.have.status(401);
           res.body.should.be.an('object');
-          res.body.should.have.property('message').eql('Not an admin');
+          res.body.should.have.property('message').eql('This user is not an administrator');
           done();
         });
     });
