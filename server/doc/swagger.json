@@ -3,13 +3,21 @@
     "info": {
       "version": "1.0.0",
       "title": "Events Manager",
-      "description": " API documetationn for an event management system"
+      "description": " API documetation for an event management system"
     },
     "host": "event-manager-andela.herokuapp.com",
     "basePath": "/api/v1",
     "schemes": [
-      "http"
+      "http",
+      "https"
     ],
+    "securityDefinitions": {
+      "UserToken": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-access-token"
+      }
+    },
     "paths": {
       "/users/login": {
         "post": {
@@ -17,12 +25,18 @@
           "summary": "Authenticates a user",
           "description": "Authenticates a new user by cross checking the database",
           "parameters": [{
-            "name": "person",
-            "in": "body",
-            "description": "user to authenticate",
-            "schema": {
-              "$ref": "#/definitions/UserAuthCredentials"
-            }
+            "in": "formData",
+            "name": "email",
+            "type": "string",
+            "format": "email",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "password",
+            "type": "string",
+            "format": "password",
+            "required": true
           }],
           "responses": {
             "200": {
@@ -30,6 +44,9 @@
             },
             "400": {
               "description": "Bad Request"
+            },
+            "401": {
+              "description": "Password Mismatch"
             },
             "500": {
               "description": "Server Error"
@@ -43,12 +60,31 @@
           "summary": "Create new user",
           "description": "Registers a user and stores it to the database.",
           "parameters": [{
-            "name": "person",
-            "in": "body",
-            "description": "The user to Register.",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
+            "in": "formData",
+            "name": "email",
+            "type": "string",
+            "format": "email",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "username",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "password",
+            "type": "string",
+            "format": "password",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "confirmPassword",
+            "type": "string",
+            "format": "password",
+            "required": true
           }],
           "responses": {
             "201": {
@@ -56,6 +92,9 @@
             },
             "400": {
               "description": "Bad Request"
+            },
+            "401": {
+              "description": "Password Mismatch"
             },
             "500": {
               "description": "Server Error"
@@ -68,13 +107,56 @@
           "tags": ["Events"],
           "summary": "Creates a new event",
           "description": "Creates a new events and stores it to the database.",
+          "security": [{
+            "UserToken": []
+          }],
           "parameters": [{
-            "name": "event",
-            "in": "body",
-            "description": "The event to create.",
-            "schema": {
-              "$ref": "#/definitions/Event"
+            "in": "formData",
+            "name": "eventName",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "startDate",
+            "type": "string",
+            "format": "date",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "days",
+            "type": "string",
+            "format": "number",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "image",
+            "type": "string",
+            "required": true
+          }],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "403": {
+              "description": "No Token Provided"
+            },
+            "500": {
+              "description": "Server Error"
             }
+          }
+        },
+        "get": {
+          "tags": ["Events"],
+          "summary": "gets all event",
+          "description": "gets all events the database.",
+          "security": [{
+            "UserToken": []
           }],
           "responses": {
             "200": {
@@ -94,6 +176,9 @@
           "tags": ["Events"],
           "summary": "Update an event",
           "description": "Update an existing event in the database.",
+          "security": [{
+            "UserToken": []
+          }],
           "parameters": [{
             "name": "id",
             "in": "path",
@@ -102,13 +187,38 @@
             "schema": {
               "$ref": "#/definitions/Event"
             }
-          }],
+            },
+            {
+              "in": "formData",
+              "name": "eventName",
+              "type": "string"
+            },
+            {
+              "in": "formData",
+              "name": "startDate",
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "in": "formData",
+              "name": "days",
+              "type": "string",
+              "format": "number"
+            },
+            {
+              "in": "formData",
+              "name": "image",
+              "type": "string"
+            }],
           "responses": {
             "200": {
               "description": "OK"
             },
             "400": {
               "description": "Bad Request"
+            },
+            "403": {
+              "description": "No token provided"
             },
             "500": {
               "description": "Server Error"
@@ -119,6 +229,9 @@
           "tags": ["Events"],
           "summary": "Delete an event",
           "description": "Delete an existing event from the database.",
+          "security": [{
+            "UserToken": []
+          }],
           "parameters": [{
             "name": "id",
             "in": "path",
@@ -132,32 +245,13 @@
             "400": {
               "description": "Bad Request"
             },
+            "403": {
+              "description": "No token provided"
+            },
             "500": {
               "description": "Server Error"
             }
           }
-        },
-        "get": {
-            "tags": ["Events"],
-            "summary": "Update an event",
-            "description": "Get an existing event in the database.",
-            "parameters": [{
-              "name": "id",
-              "in": "path",
-              "type": "integer",
-              "description": "The event to get."
-            }],
-            "responses": {
-              "200": {
-                "description": "OK"
-              },
-              "400": {
-                "description": "Bad Request"
-              },
-              "500": {
-                "description": "Server Error"
-              }
-            }
         }
       },
       "/centers": {
@@ -165,13 +259,63 @@
           "tags": ["Centers"],
           "summary": "Creates a center",
           "description": "Creates a new center and stores to the database.",
+          "security": [{
+            "UserToken": []
+          }],
           "parameters": [{
-            "name": "center",
-            "in": "body",
-            "description": "The center to create.",
-            "schema": {
-              "$ref": "#/definitions/Center"
+            "in": "formData",
+            "name": "name",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "address",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "price",
+            "type": "string",
+            "format": "number",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "stateId",
+            "type": "string",
+            "format": "number",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "hallCapacity",
+            "type": "string",
+            "format": "number",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "carParkCapacity",
+            "type": "string",
+            "format": "number",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "facilities",
+            "type": "array",
+            "required": true,
+            "items": {
+              "type": "string"
             }
+          },
+          {
+            "in": "formData",
+            "name": "image",
+            "type": "string",
+            "required": true
           }],
           "responses": {
             "200": {
@@ -179,6 +323,9 @@
             },
             "400": {
               "description": "Bad Request"
+            },
+            "403": {
+              "description": "No token provided"
             },
             "500": {
               "description": "Server Error"
@@ -189,14 +336,6 @@
           "tags": ["Centers"],
           "summary": "Gets all center",
           "description": "gets all center and adds to the database.",
-          "parameters": [{
-            "name": "centers",
-            "in": "body",
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/Center"
-            }
-          }],
           "responses": {
             "200": {
               "description": "OK"
@@ -204,13 +343,16 @@
             "400": {
               "description": "Bad Request"
             },
+            "403": {
+              "description": "No token provided"
+            },
             "500": {
               "description": "Server Error"
             }
           }
         }
       },
-      "centers/{id}": {
+      "/centers/{id}": {
         "get": {
           "tags": ["Centers"],
           "summary": "gets a single center",
@@ -228,6 +370,9 @@
             "400": {
               "description": "Bad Request"
             },
+            "403": {
+              "description": "No token provided"
+            },
             "500": {
               "description": "Server Error"
             }
@@ -237,11 +382,92 @@
           "tags": ["Centers"],
           "summary": "Modifies a center",
           "description": "modifies a center and saves it to the database.",
+          "security": [{
+            "UserToken": []
+          }],
           "parameters": [{
             "name": "id",
             "in": "path",
             "type": "integer",
             "description": "The center to update.",
+            "schema": {
+              "$ref": "#/definitions/Center"
+            }
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "address",
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "price",
+            "type": "string",
+            "format": "number"
+          },
+          {
+            "in": "formData",
+            "name": "stateId",
+            "type": "string",
+            "format": "number"
+          },
+          {
+            "in": "formData",
+            "name": "hallCapacity",
+            "type": "string",
+            "format": "number"
+          },
+          {
+            "in": "formData",
+            "name": "carParkCapacity",
+            "type": "string",
+            "format": "number"
+          },
+          {
+            "in": "formData",
+            "name": "facilities",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "formData",
+            "name": "image",
+            "type": "string"
+          }],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "403": {
+              "description": "No token provided"
+            },
+            "500": {
+              "description": "Server Error"
+            }
+          }
+        },
+        "delete": {
+          "tags": ["Centers"],
+          "summary": "Deletes a center",
+          "description": "deletes a center from the database",
+          "security": [{
+            "UserToken": []
+          }],
+          "parameters": [{
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "description": "The center to delete.",
             "schema": {
               "$ref": "#/definitions/Center"
             }
@@ -252,6 +478,9 @@
             },
             "400": {
               "description": "Bad Request"
+            },
+            "403": {
+              "description": "No token provided"
             },
             "500": {
               "description": "Server Error"
@@ -312,8 +541,7 @@
         ],
         "properties": {
           "eventName": {
-            "type": "string",
-            "uniqueItems": true
+            "type": "string"
           },
           "centerId": {
             "type": "integer"
@@ -322,15 +550,6 @@
             "type": "string"
           },
           "days": {
-            "type": "integer"
-          },
-          "status": {
-            "type": "string"
-          },
-          "createdBy": {
-            "type": "integer"
-          },
-          "updatedBy": {
             "type": "integer"
           },
           "image": {
@@ -351,8 +570,7 @@
         ],
         "properties": {
           "name": {
-            "type": "string",
-            "uniqueItems": true
+            "type": "string"
           },
           "stateId": {
             "type": "integer"
@@ -361,18 +579,12 @@
             "type": "integer"
           },
           "facilities": {
-            "type": "string"
+            "type": "array"
           },
           "hallCapacity": {
             "type": "integer"
           },
           "carParkCapacity": {
-            "type": "integer"
-          },
-          "createdBy": {
-            "type": "integer"
-          },
-          "updatedBy": {
             "type": "integer"
           },
           "price": {

@@ -1,7 +1,8 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-// import '../env.test';
+import '../env.test';
 import app from '../server';
+import CenterController from '../controllers/v1/event-controller';
 
 
 chai.use(chaiHttp);
@@ -9,6 +10,27 @@ chai.use(chaiHttp);
 let token;
 let notAdminToken;
 let centerID;
+
+const validRequest = {
+  name: 'Test Center',
+  stateId: 1,
+  address: '7, xyz avenue, ikaja',
+  hallCapacity: '600',
+  carParkCapacity: '200',
+  facilities: ['swimming pool', 'projectors', 'cctv', 'vip lounges'],
+  price: '1200000',
+  image: 'test/image/link'
+};
+
+const validRequestForUpdate = {
+  name: 'The power space',
+  stateId: 1,
+  address: '7, abc avenue, ikeja',
+  hallCapacity: 600,
+  carParkCapacity: 200,
+  facilities: ['swimming pool', 'projectors', 'cctv', 'vip lounges'],
+  price: 1200000
+};
 
 describe('Testing Api endpoints for centers', () => {
   describe('POST /api/v1/centers', () => {
@@ -162,29 +184,6 @@ describe('Testing Api endpoints for centers', () => {
           done();
         });
     });
-    it('Should return HTTP status 400 and message for post without center facilities', (done) => {
-      chai.request(app)
-        .post('/api/v1/centers/')
-        .set('x-access-token', token)
-        .send({
-          name: 'The centers Place',
-          stateId: 1,
-          address: '7, xyz avenue, ikaja',
-          hallCapacity: 600,
-          carParkCapacity: 200,
-          price: 1200000,
-          image: 'test/image/link'
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.be.an('object');
-          res.body.should.have.property('message');
-          res.body.message.errors.should.have.property('facilities');
-          res.body.message.errors.facilities.should.be.an('array');
-          res.body.message.errors.facilities[0].should.eql('The facilities field is required.');
-          done();
-        });
-    });
     it('Should return HTTP status 400 and message for post without center price', (done) => {
       chai.request(app)
         .post('/api/v1/centers/')
@@ -264,16 +263,7 @@ describe('Testing Api endpoints for centers', () => {
       chai.request(app)
         .post('/api/v1/centers/')
         .set('x-access-token', notAdminToken)
-        .send({
-          name: 'The power spot',
-          stateId: 1,
-          address: '7, xyz avenue, ikaja',
-          hallCapacity: '600',
-          carParkCapacity: '200',
-          facilities: ['swimming pool, projectors, cctv, vip lounges'],
-          price: '1200000',
-          image: 'test/image/link'
-        })
+        .send(validRequest)
         .end((err, res) => {
           res.should.have.status(401);
           res.body.should.be.an('object');
@@ -286,16 +276,7 @@ describe('Testing Api endpoints for centers', () => {
       chai.request(app)
         .post('/api/v1/centers/')
         .set('x-access-token', token)
-        .send({
-          name: 'The power spot',
-          stateId: 1,
-          address: '7, xyz avenue, ikaja',
-          hallCapacity: '600',
-          carParkCapacity: '200',
-          facilities: ['swimming pool, projectors, cctv, vip lounges'],
-          price: '1200000',
-          image: 'test/image/link'
-        })
+        .send(validRequest)
         .end((err, res) => {
           centerID = res.body.centerId;
           res.should.have.status(201);
@@ -329,13 +310,51 @@ describe('Testing Api endpoints for centers', () => {
           done();
         });
     });
+
+    // Testing  to get all centers with query
+    it('Should return 200 with an array of all centers that match query', (done) => {
+      chai.request(app)
+        .get('/api/v1/centers?state=1&search=test&capacity=600&facilities[]=cctv')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('message');
+          res.body.should.have.property('statusCode');
+          res.body.should.have.property('data');
+          res.body.should.have.property('metadata');
+          res.body.message.should.eql('Centers Retrieved');
+          res.body.statusCode.should.eql(200);
+          res.body.data.should.an('array');
+          res.body.metadata.should.be.an('object');
+          res.body.metadata.should.have.property('pagination');
+          // res.body.mataData.pagination.should.be.an('object');
+          done();
+        });
+    });
+
+    it('Should return 404 with an array of all centers that match query', (done) => {
+      chai.request(app)
+        .get('/api/v1/centers?state=1&search=test&capacity=200000&facilities[]=cctv')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(404);
+          res.body.should.have.property('message');
+          res.body.should.have.property('statusCode');
+          res.body.should.have.property('data');
+          res.body.should.have.property('metadata');
+          res.body.message.should.eql('No centers found');
+          res.body.statusCode.should.eql(404);
+          res.body.data.should.an('array');
+          done();
+        });
+    });
   });
 
   describe('GET /api/v1/centers/:centerId', () => {
     // Testing to get all centers
     it('Should return 404 if center is not found', (done) => {
       chai.request(app)
-        .get('/api/v1/centers/0/')
+        .get(`/api/v1/centers/${-1}`)
         .set('x-access-token', token)
         .end((err, res) => {
           res.should.have.status(404);
@@ -413,10 +432,10 @@ describe('Testing Api endpoints for centers', () => {
           name: 'The power space',
           stateId: 1,
           address: '7, abc avenue, ikeja',
-          hallCapacity: '600',
-          carParkCapacity: '200',
+          hallCapacity: 600,
+          carParkCapacity: 200,
           facilities: ['swimming pool, projectors, cctv, vip lounges'],
-          price: '1200000'
+          price: 1200000
         })
         .end((err, res) => {
           res.should.have.status(404);
@@ -444,7 +463,7 @@ describe('Testing Api endpoints for centers', () => {
           res.should.have.status(400);
           res.body.should.be.an('object');
           res.body.should.have.property('message');
-          res.body.message.should.eql('Invalid CenterId');
+          res.body.message.should.eql('Invalid centerId');
           done();
         });
     });
@@ -453,19 +472,18 @@ describe('Testing Api endpoints for centers', () => {
       chai.request(app)
         .put(`/api/v1/centers/${centerID}/`)
         .set('x-access-token', token)
-        .send({
-          name: 'The power space',
-          stateId: 1,
-          address: '7, abc avenue, ikeja',
-          hallCapacity: '600',
-          carParkCapacity: '200',
-          facilities: ['swimming pool, projectors, cctv, vip lounges'],
-          price: '1200000'
-        })
+        .send(validRequestForUpdate)
         .end((err, res) => {
+          const response = res.body.updatedCenter;
           res.should.have.status(200);
           res.body.should.be.an('object');
           res.body.should.have.property('message');
+          response.name.should.equal(validRequestForUpdate.name);
+          response.address.should.equal(validRequestForUpdate.address);
+          response.stateId.should.equal(validRequestForUpdate.stateId);
+          response.carParkCapacity.should.equal(validRequestForUpdate.carParkCapacity);
+          response.hallCapacity.should.equal(validRequestForUpdate.hallCapacity);
+          response.price.should.equal(validRequestForUpdate.price.toString());
           done();
         });
     });
@@ -486,6 +504,7 @@ describe('Testing Api endpoints for centers', () => {
           res.should.have.status(200);
           res.body.should.be.an('object');
           res.body.should.have.property('message');
+          res.body.should.have.property('updatedCenter');
           done();
         });
     });
@@ -526,7 +545,7 @@ describe('Testing Api endpoints for centers', () => {
           res.body.should.be.an('object');
           res.body.should.have.property('message');
           res.body.should.have.property('statusCode');
-          res.body.message.should.eql('Invalid CenterId');
+          res.body.message.should.eql('Invalid centerId');
           res.body.statusCode.should.eql(400);
           done();
         });

@@ -10,8 +10,6 @@ import history from '../../helpers/history';
 import Header from '../header';
 import AuthChecker from '../../helpers/auth-checker';
 import EventCard from './event-card';
-import FormValidator from '../../helpers/form-validator';
-import EventFormModal from '../../components/event/create-event-form';
 import Prompt from '../reusables/prompt';
 
 
@@ -22,7 +20,7 @@ import Prompt from '../reusables/prompt';
  * @class
  * @extends Component
  */
-class Event extends Component {
+class CenterEvent extends Component {
   /**
    *@param {*} props
    */
@@ -33,20 +31,17 @@ class Event extends Component {
       pagingData: {},
       loading: false,
       serverError: '',
-      openModal: false,
       openPrompt: false,
       isRequestMade: false,
-      errors: {}
+      errors: {},
+      mode: 'ACCEPT'
     };
-    this.onSearch = this.onSearch.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
     this.onChangePage = this.onChangePage.bind(this);
     this.onPageSizeChange = this.onPageSizeChange.bind(this);
-    this.showModal = this.showModal.bind(this);
-    this.hideModal = this.hideModal.bind(this);
-    this.showPrompt = this.showPrompt.bind(this);
+    this.showApprovePrompt = this.showApprovePrompt.bind(this);
+    this.showDeclinePrompt = this.showDeclinePrompt.bind(this);
     this.hidePrompt = this.hidePrompt.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
+    this.handleResponse = this.handleResponse.bind(this);
   }
 
   /**
@@ -67,7 +62,7 @@ class Event extends Component {
    * @returns {*} change state if new prop is recieved
    */
   componentWillReceiveProps(nextProps) {
-    const { events: { data, status }, newEvent, deleteStatus } = nextProps.response;
+    const { events: { data, status }, newEvent } = nextProps.response;
     const query = queryString.parse(window.location.search);
 
     // run search if URL changes
@@ -77,10 +72,6 @@ class Event extends Component {
     }
 
     if (newEvent.status === 'success' || newEvent.status === 'failed') {
-      this.setState({ openModal: false, isRequestMade: false });
-    }
-
-    if (deleteStatus.status === 'success' || deleteStatus.status === 'failed') {
       this.setState({ openPrompt: false, isRequestMade: false });
     }
 
@@ -126,59 +117,29 @@ class Event extends Component {
   }
 
   /**
-   *
-   * @param {object} query
-   *
-   * @returns {void}
-   */
-  onSearch(query) {
-    const qString = queryString.stringify(query, { arrayFormat: 'bracket' });
-    history.push(`/events?${qString}`);
-  }
-
-  /**
-   *
    * @param {object} event
-   *
    * @returns {void}
-   *
-   * this handles the event when form is submitted
    */
-  onSubmit(event) {
-    delete event.Center;
-    this.setState({ isRequestMade: true, serverError: '' });
-    const fv = new FormValidator();
-    const { updateEvent } = this.props;
-    const errors = fv.validateUpdateEventForm(event);
-    if (errors) {
-      this.setState({ errors, isRequestMade: false });
-    } else {
-      updateEvent(event);
-    }
+  showApprovePrompt(event) {
+    this.setState({
+      openPrompt: true,
+      selectedEvent: event,
+      isRequestMade: false,
+      mode: 'ACCEPT'
+    });
   }
 
   /**
    * @param {object} event
    * @returns {void}
    */
-  showModal(event) {
-    this.setState({ errors: {}, selectedEvent: event, openModal: true });
-  }
-
-  /**
-   * @param {number} id
-   * @returns {void}
-   */
-  hideModal() {
-    this.setState({ openModal: false });
-  }
-
-  /**
-   * @param {object} event
-   * @returns {void}
-   */
-  showPrompt(event) {
-    this.setState({ openPrompt: true, selectedEvent: event, isRequestMade: false });
+  showDeclinePrompt(event) {
+    this.setState({
+      openPrompt: true,
+      selectedEvent: event,
+      isRequestMade: false,
+      mode: 'REJECT'
+    });
   }
 
 
@@ -192,10 +153,18 @@ class Event extends Component {
   /**
    * @returns {*} update center modal
    */
-  handleDelete() {
-    const { id } = this.state.selectedEvent;
-    const { deleteEvent } = this.props;
-    deleteEvent(id);
+  handleResponse() {
+    this.setState({ isRequestMade: true });
+    const { id, centerId } = this.state.selectedEvent;
+    const { respondToEvent } = this.props;
+    const { mode } = this.state;
+    let response;
+    if (mode === 'ACCEPT') {
+      response = { id, status: 'accepted', centerId };
+    } else {
+      response = { id, status: 'cancelled' };
+    }
+    respondToEvent(response);
   }
 
   /**
@@ -208,8 +177,8 @@ class Event extends Component {
       serverError, // eslint-disable-line
       errors, // eslint-disable-line
       pagingData,
-      selectedEvent,
       openPrompt,
+      mode,
       openModal, // eslint-disable-line
       isRequestMade // eslint-disable-line
     } = this.state;
@@ -220,7 +189,7 @@ class Event extends Component {
         <div className="background">
           <div className="my-container">
             <div style={{ textAlign: 'event' }}>
-              <span style={{ fontSize: '45px' }}>Events </span>
+              <span style={{ fontSize: '45px' }}> Pending Events </span>
             </div>
             <Grid>
               <Grid.Row colunms={3}>
@@ -230,15 +199,16 @@ class Event extends Component {
                   </Dimmer>
                 }
                 { data.length === 0 &&
-                  <h2 className="animated fadeInUp">No Events Retrieved</h2>
+                  <h2 className="animated fadeInUp">No Pending Event Currently</h2>
                 }
                 { data &&
                   data.map(item => (
                     <Grid.Column key={item.id}>
                       <EventCard
                         event={item}
-                        onPositive={() => { this.showModal(item); }}
-                        onNegative={() => { this.showPrompt(item); }}
+                        mode={mode}
+                        onPositive={() => { this.showApprovePrompt(item); }}
+                        onNegative={() => { this.showDeclinePrompt(item); }}
                       />
                     </Grid.Column>
                   ))
@@ -253,20 +223,12 @@ class Event extends Component {
             />
             }
           </div>
-          <EventFormModal
-            open={openModal}
-            onSubmit={this.onSubmit}
-            errors={errors}
-            hideModal={this.hideModal}
-            isRequestMade={isRequestMade}
-            event={selectedEvent}
-          />
           <Prompt
             open={openPrompt}
-            title="Delete Event"
-            message="Are you sure you want to delete this Event"
+            title={mode === 'ACCEPT' ? 'Accept Event' : 'Reject Event'}
+            message="Are you sure you want to respond to this Event?"
             onCancel={this.hidePrompt}
-            onConfirm={this.handleDelete}
+            onConfirm={this.handleResponse}
             isRequestMade={isRequestMade}
           />
         </div>
@@ -279,29 +241,25 @@ const mapStateToProps = state => ({
   response: {
     events: state.getAll,
     newEvent: state.update,
-    deleteStatus: state.deleteItem
   }
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   getAll: EventActions.getAll,
-  deleteEvent: EventActions.deleteEvent,
-  updateEvent: EventActions.updateEvent,
+  respondToEvent: EventActions.respondToEvent,
 }, dispatch);
 
-Event.propTypes = {
+CenterEvent.propTypes = {
   response: PropTypes.objectOf(() => null),
   getAll: PropTypes.func,
   location: PropTypes.objectOf(() => null).isRequired,
-  updateEvent: PropTypes.func,
-  deleteEvent: PropTypes.func,
+  respondToEvent: PropTypes.func,
 };
 
-Event.defaultProps = {
+CenterEvent.defaultProps = {
   response: {},
   getAll: EventActions.getAll,
-  updateEvent: EventActions.updateEvent,
-  deleteEvent: EventActions.deleteEvent,
+  respondToEvent: EventActions.respondToEvent,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Event);
+export default connect(mapStateToProps, mapDispatchToProps)(CenterEvent);
