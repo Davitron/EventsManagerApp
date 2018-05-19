@@ -8,6 +8,7 @@ import SearchForm from './search-form';
 import CenterActions from '../../actions/center-action';
 import CenterFormModal from './create-center-form';
 import FormValidator from '../../helpers/form-validator';
+import AuthChecker from '../../helpers/auth-checker';
 import Header from '../header';
 import history from '../../helpers/history';
 import Paginator from '../reusables/pagination';
@@ -187,7 +188,7 @@ class Center extends Component {
       openModal,
       isRequestMade
     } = this.state;
-
+    const role = AuthChecker.defineRole();
     return (
       <div>
         <Header />
@@ -230,7 +231,7 @@ class Center extends Component {
             hideModal={this.hideModal}
             isRequestMade={isRequestMade}
           />
-          <div className="fab pulse" onClick={this.showModal}> + </div>
+          { role === 'admin' && <div className="fab pulse" onClick={this.showModal}> + </div> }
         </div>
       </div>
     );

@@ -35,5 +35,4 @@ export default class Toast {
       backgroundColor: 'linear-gradient(to right, #ffa29d, red)'
     }).showToast();
   }
-
 }

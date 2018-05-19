@@ -46,11 +46,6 @@ module.exports = {
     createdBy: {
       allowNull: false,
       type: Sequelize.INTEGER,
-      references: {
-        model: 'Users',
-        key: 'id',
-        as: 'createdBy'
-      }
     },
     updatedBy: {
       allowNull: false,

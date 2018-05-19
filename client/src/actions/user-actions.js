@@ -80,7 +80,7 @@ export default class UserActions {
         .then((response) => {
           dispatch(Dispatcher.action(userActionsType.SIGNIN_SUCCESS, response.data.userDetails));
           cookies.set('jwt-events-manager', response.data.Token, { path: '/' });
-          history.push('/center-search');
+          history.push('/');
         })
         .catch((error) => {
           const { message } = error.response.data;

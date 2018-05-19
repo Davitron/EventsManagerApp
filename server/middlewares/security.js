@@ -8,10 +8,10 @@ const Users = model.User;
 export default class Security {
   /**
    *
-   * @param {*} req
-   * @param {*} res
-   * @param {*} next
-   * @returns {*} moves to callback function if token is provided
+   * @param {object} req - HTTP request object
+   * @param {object} res - HTTP request object
+   * @param {function} next - To call the next rout function
+   * @returns {object|next} moves to callback function if token is provided
    * or send an error message if otherwise
    *
    */

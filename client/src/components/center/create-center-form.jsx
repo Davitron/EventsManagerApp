@@ -148,6 +148,10 @@ class CenterFormModal extends Component {
    * @returns {void}
    */
   hideModal() {
+    const { mode } = this.state;
+    if (mode !== 'update') {
+      this.setState({ center: {} });
+    }
     this.props.hideModal();
   }
 
@@ -165,7 +169,7 @@ class CenterFormModal extends Component {
     } = this.state;
     return (
       <div>
-        <Modal size="small" open={open} onClose={this.close}>
+        <Modal dimmer="blurring" size="small" open={open} onClose={this.close}>
           <Modal.Header>
             {mode === 'create' ? 'Create Center' : 'Update Center' }
           </Modal.Header>

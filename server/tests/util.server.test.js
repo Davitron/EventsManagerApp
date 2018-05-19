@@ -2,13 +2,6 @@ import moment from 'moment';
 import '../env.test';
 import * as mailTemplate from '../config/mail-template';
 
-describe('Node Environment', () => {
-  it('should return current node environment host url as  specified in the env file', () => {
-    const url = mailTemplate.getHostname();
-    url.should.be.a('string').eql('http://localhost:8002');
-  });
-});
-
 describe('Mail Message Template', () => {
   it('should generate a message for new user accout', (done) => {
     const body = `<p>Welcome user.</p><br/><p>Click the link below to complete your registration</p><br />

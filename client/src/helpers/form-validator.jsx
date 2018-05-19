@@ -47,7 +47,15 @@ const centerRules = {
 const eventRules = {
   eventName: 'required|string|min:3|max:30',
   startDate: 'required|string',
-  days: 'required|string'
+  days: 'required|string',
+  image: 'required'
+};
+
+const eventUpdateRules = {
+  eventName: 'string|min:3|max:20',
+  startDate: 'date',
+  days: 'numeric',
+  centerId: 'integer'
 };
 
 /**
@@ -177,6 +185,23 @@ export default class FormValidator {
    */
   validateEventForm(data) {
     const validate = new validator(data, eventRules);
+    if (!validate.passes()) {
+      const { errors } = validate;
+      const err = errors.errors;
+      Logger.log(JSON.stringify(err));
+      return err;
+    }
+    return null;
+  }
+
+  /**
+   *
+   * @param {*} data
+   * @returns {null | object}
+   * To check if given email is a valid format
+   */
+  validateUpdateEventForm(data) {
+    const validate = new validator(data, eventUpdateRules);
     if (!validate.passes()) {
       const { errors } = validate;
       const err = errors.errors;
