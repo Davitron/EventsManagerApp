@@ -102,7 +102,7 @@ $ npm run test
 This project is licensed under MIT.
 
 ## Contribution
-When contributing to this repository, please reach out to me or other contributors via email, issue or any other means to discuss the changes you wish to make.
+When contributing to this repository, please reach out to me or other contributors via email, issue or any other means to discuss the changes you wish to make. Do checkout the style guide and conventions of this project in the wiki section.
 
 
 ## Author
