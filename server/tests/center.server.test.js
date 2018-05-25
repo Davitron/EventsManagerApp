@@ -2,8 +2,6 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import '../env.test';
 import app from '../server';
-import CenterController from '../controllers/v1/event-controller';
-
 
 chai.use(chaiHttp);
 
@@ -483,7 +481,7 @@ describe('Testing Api endpoints for centers', () => {
           response.stateId.should.equal(validRequestForUpdate.stateId);
           response.carParkCapacity.should.equal(validRequestForUpdate.carParkCapacity);
           response.hallCapacity.should.equal(validRequestForUpdate.hallCapacity);
-          response.price.should.equal(validRequestForUpdate.price.toString());
+          response.price.should.equal(validRequestForUpdate.price);
           done();
         });
     });

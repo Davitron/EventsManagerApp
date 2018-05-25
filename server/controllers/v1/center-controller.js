@@ -29,13 +29,24 @@ export default class CenterController {
     let query = {};
 
     const defaultQuery = {
+      attributes: [
+        'id',
+        'name',
+        'address',
+        'price',
+        'hallCapacity',
+        'carParkCapacity',
+        'image',
+        [Sequelize.col('User.username'), 'user'],
+        [Sequelize.col('State.stateName'), 'state']
+      ],
       include: [
         { model: model.State, required: true, attributes: ['stateName'] },
         { model: model.User, required: true, attributes: ['username'] },
       ],
       limit: req.meta.limit,
       offset: req.meta.offset,
-      order: [['id']]
+      order: [['name']]
     };
 
     if (Object.keys(req.query).length === 0) {
@@ -187,9 +198,9 @@ export default class CenterController {
       carParkCapacity: parseInt(req.body.carParkCapacity, 10) ||
       center.carParkCapacity,
       facilities: req.body.facilities || center.facilities,
-      image: req.image || center.image,
-      updatedBy: parseInt(req.admin, 10) || center.updatedBy,
-      price: parseFloat(req.price) || center.price
+      image: req.body.image || center.image,
+      updatedBy: parseInt(req.body.admin, 10) || center.updatedBy,
+      price: parseFloat(req.body.price) || center.price
     })
       .then(updatedCenter => res.status(200).json({
         message: 'Center update successful',
@@ -214,16 +225,12 @@ export default class CenterController {
       where: {
         id: req.params.centerId
       },
-      attributes: ['id', 'stateId', 'name', 'address', 'facilities', 'hallCapacity', 'carParkCapacity', 'price', 'createdBy', 'image'],
-      include: [{
-        model: model.State,
-        required: true,
-        attributes: ['stateName']
-      }, {
-        model: model.User,
-        required: true,
-        attributes: ['username']
-      }]
+      attributes: [
+        'id', 'stateId', 'name', 'address', 'facilities', 'hallCapacity', 'carParkCapacity', 'price', 'createdBy', 'image'
+      ],
+      include: [
+        { model: model.State, required: true, attributes: ['stateName'] },
+        { model: model.User, required: true, attributes: ['username'] }]
     })
       .then((center) => {
         if (!center) {
@@ -289,7 +296,6 @@ export default class CenterController {
         req.currentCenter = center;
         req.validateName = false;
         next();
-        // return CenterController.handleCenterUpdate(center, req.body, res);
       });
   }
 
@@ -329,6 +335,14 @@ export default class CenterController {
    */
   static getAllStates(req, res) {
     return States.findAll({ limit: 37 })
-      .then((states) => { res.status(200).json({ message: 'States Retrieved', states, statusCode: 200 }); });
+      .then((states) => {
+        if (states.length === 0) {
+          return res.status(404).json({
+            message: 'States Not Found',
+            statusCode: 404
+          });
+        }
+        return res.status(200).json({ message: 'States Retrieved', states, statusCode: 200 });
+      });
   }
 }

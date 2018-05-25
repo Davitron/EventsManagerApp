@@ -30,7 +30,7 @@ export default class Toast {
       text: data,
       duration: 1000,
       close: true,
-      gravity: 'bottom',
+      gravity: 'buttom',
       positionLeft: false,
       backgroundColor: 'linear-gradient(to right, #ffa29d, red)'
     }).showToast();

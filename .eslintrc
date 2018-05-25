@@ -18,6 +18,8 @@
       "class-methods-use-this": ["off"],
       "curly": ["error", "multi-line"],
       "no-shadow": ["error", { "allow": ["req", "res", "err"] }],
+      "import/no-extraneous-dependencies": "off",
+      "import/no-named-as-default": 0,
       "jsx-a11y/label-has-for": [0],
       "jsx-a11y/anchor-is-valid": "off",
       "jsx-a11y/href-no-hash": "off",

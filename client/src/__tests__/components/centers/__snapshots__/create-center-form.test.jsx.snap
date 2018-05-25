@@ -1,0 +1,2513 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Center Component component successfully rendered 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <CenterFormModal
+    center={Object {}}
+    errors={Object {}}
+    hideModal={[MockFunction]}
+    isRequestMade={false}
+    onSubmit={[MockFunction]}
+    open={false}
+    response={
+      Object {
+        "data": null,
+        "status": null,
+      }
+    }
+    states={Array []}
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": <Modal
+        closeOnDimmerClick={true}
+        closeOnDocumentClick={false}
+        dimmer="blurring"
+        eventPool="Modal"
+        onClose={undefined}
+        open={false}
+        size="small"
+      >
+        <ModalHeader>
+          Create Center
+        </ModalHeader>
+        <ModalContent>
+          <Form
+            as="form"
+          >
+            <FormGroup
+              widths="equal"
+            >
+              <FormInput
+                as={[Function]}
+                control={[Function]}
+                defaultValue=""
+                error={false}
+                fluid={true}
+                label="Center Name"
+                name="name"
+                onChange={[Function]}
+                placeholder="First name"
+              />
+              <FormSelect
+                as={[Function]}
+                control={[Function]}
+                defaultValue=""
+                error={false}
+                label="State"
+                name="stateId"
+                onChange={[Function]}
+                options={Array []}
+                placeholder="State"
+              />
+            </FormGroup>
+            <FormGroup
+              widths="equal"
+            >
+              <FormInput
+                as={[Function]}
+                control={[Function]}
+                defaultValue=""
+                error={false}
+                fluid={true}
+                label="Center Address"
+                name="address"
+                onChange={[Function]}
+                placeholder="Address"
+              />
+            </FormGroup>
+            <FormGroup
+              widths="equal"
+            >
+              <FormInput
+                as={[Function]}
+                control={[Function]}
+                defaultValue=""
+                error={false}
+                fluid={true}
+                label="Hall Capacity"
+                name="hallCapacity"
+                onChange={[Function]}
+                placeholder="Hall Capacity"
+                type="number"
+              />
+              <FormInput
+                as={[Function]}
+                control={[Function]}
+                defaultValue=""
+                error={false}
+                fluid={true}
+                label="Carpark Capacity"
+                name="carParkCapacity"
+                onChange={[Function]}
+                placeholder="Carpark Capacity"
+                type="number"
+              />
+            </FormGroup>
+            <FormGroup
+              widths="equal"
+            >
+              <FormInput
+                as={[Function]}
+                control={[Function]}
+                defaultValue=""
+                error={false}
+                fluid={true}
+                label="Price"
+                name="price"
+                onChange={[Function]}
+                placeholder="Price"
+                type="number"
+              />
+              <div
+                className="field"
+              >
+                <label
+                  style={undefined}
+                >
+                  Image
+                </label>
+                <div
+                  className="ui field input"
+                >
+                  <input
+                    accept="image/*"
+                    label="Image"
+                    name="image"
+                    onChange={[Function]}
+                    placeholder="Upload an Image"
+                    type="file"
+                  />
+                </div>
+              </div>
+            </FormGroup>
+            <FormGroup
+              widths="equal"
+            >
+              <FormDropdown
+                as={[Function]}
+                control={[Function]}
+                defaultValue=""
+                error={false}
+                fluid={true}
+                label="Facilities"
+                multiple={true}
+                name="facilities"
+                onChange={[Function]}
+                options={
+                  Array [
+                    Object {
+                      "key": "1",
+                      "text": "CCTV",
+                      "value": "cctv",
+                    },
+                    Object {
+                      "key": "2",
+                      "text": "Vip Lounge",
+                      "value": "vip lounge",
+                    },
+                    Object {
+                      "key": "3",
+                      "text": "Projector",
+                      "value": "projector",
+                    },
+                    Object {
+                      "key": "4",
+                      "text": "Security",
+                      "value": "security",
+                    },
+                    Object {
+                      "key": "5",
+                      "text": "WIFI",
+                      "value": "wifi",
+                    },
+                  ]
+                }
+                placeholder="Choose an option"
+                renderLabel={undefined}
+                selection={true}
+              />
+            </FormGroup>
+          </Form>
+        </ModalContent>
+        <ModalActions>
+          <Button
+            as="button"
+            negative={true}
+            onClick={[Function]}
+          >
+            Cancel
+          </Button>
+          <Button
+            as="button"
+            content="create"
+            disabled={false}
+            loading={false}
+            onClick={[Function]}
+            primary={true}
+          />
+        </ModalActions>
+      </Modal>,
+    },
+    "ref": null,
+    "rendered": Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "class",
+      "props": Object {
+        "children": Array [
+          <ModalHeader>
+            Create Center
+          </ModalHeader>,
+          <ModalContent>
+            <Form
+              as="form"
+            >
+              <FormGroup
+                widths="equal"
+              >
+                <FormInput
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="Center Name"
+                  name="name"
+                  onChange={[Function]}
+                  placeholder="First name"
+                />
+                <FormSelect
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  label="State"
+                  name="stateId"
+                  onChange={[Function]}
+                  options={Array []}
+                  placeholder="State"
+                />
+              </FormGroup>
+              <FormGroup
+                widths="equal"
+              >
+                <FormInput
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="Center Address"
+                  name="address"
+                  onChange={[Function]}
+                  placeholder="Address"
+                />
+              </FormGroup>
+              <FormGroup
+                widths="equal"
+              >
+                <FormInput
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="Hall Capacity"
+                  name="hallCapacity"
+                  onChange={[Function]}
+                  placeholder="Hall Capacity"
+                  type="number"
+                />
+                <FormInput
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="Carpark Capacity"
+                  name="carParkCapacity"
+                  onChange={[Function]}
+                  placeholder="Carpark Capacity"
+                  type="number"
+                />
+              </FormGroup>
+              <FormGroup
+                widths="equal"
+              >
+                <FormInput
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="Price"
+                  name="price"
+                  onChange={[Function]}
+                  placeholder="Price"
+                  type="number"
+                />
+                <div
+                  className="field"
+                >
+                  <label
+                    style={undefined}
+                  >
+                    Image
+                  </label>
+                  <div
+                    className="ui field input"
+                  >
+                    <input
+                      accept="image/*"
+                      label="Image"
+                      name="image"
+                      onChange={[Function]}
+                      placeholder="Upload an Image"
+                      type="file"
+                    />
+                  </div>
+                </div>
+              </FormGroup>
+              <FormGroup
+                widths="equal"
+              >
+                <FormDropdown
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="Facilities"
+                  multiple={true}
+                  name="facilities"
+                  onChange={[Function]}
+                  options={
+                    Array [
+                      Object {
+                        "key": "1",
+                        "text": "CCTV",
+                        "value": "cctv",
+                      },
+                      Object {
+                        "key": "2",
+                        "text": "Vip Lounge",
+                        "value": "vip lounge",
+                      },
+                      Object {
+                        "key": "3",
+                        "text": "Projector",
+                        "value": "projector",
+                      },
+                      Object {
+                        "key": "4",
+                        "text": "Security",
+                        "value": "security",
+                      },
+                      Object {
+                        "key": "5",
+                        "text": "WIFI",
+                        "value": "wifi",
+                      },
+                    ]
+                  }
+                  placeholder="Choose an option"
+                  renderLabel={undefined}
+                  selection={true}
+                />
+              </FormGroup>
+            </Form>
+          </ModalContent>,
+          <ModalActions>
+            <Button
+              as="button"
+              negative={true}
+              onClick={[Function]}
+            >
+              Cancel
+            </Button>
+            <Button
+              as="button"
+              content="create"
+              disabled={false}
+              loading={false}
+              onClick={[Function]}
+              primary={true}
+            />
+          </ModalActions>,
+        ],
+        "closeOnDimmerClick": true,
+        "closeOnDocumentClick": false,
+        "dimmer": "blurring",
+        "eventPool": "Modal",
+        "onClose": undefined,
+        "open": false,
+        "size": "small",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "children": "Create Center",
+          },
+          "ref": null,
+          "rendered": "Create Center",
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "children": <Form
+              as="form"
+            >
+              <FormGroup
+                widths="equal"
+              >
+                <FormInput
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="Center Name"
+                  name="name"
+                  onChange={[Function]}
+                  placeholder="First name"
+                />
+                <FormSelect
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  label="State"
+                  name="stateId"
+                  onChange={[Function]}
+                  options={Array []}
+                  placeholder="State"
+                />
+              </FormGroup>
+              <FormGroup
+                widths="equal"
+              >
+                <FormInput
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="Center Address"
+                  name="address"
+                  onChange={[Function]}
+                  placeholder="Address"
+                />
+              </FormGroup>
+              <FormGroup
+                widths="equal"
+              >
+                <FormInput
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="Hall Capacity"
+                  name="hallCapacity"
+                  onChange={[Function]}
+                  placeholder="Hall Capacity"
+                  type="number"
+                />
+                <FormInput
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="Carpark Capacity"
+                  name="carParkCapacity"
+                  onChange={[Function]}
+                  placeholder="Carpark Capacity"
+                  type="number"
+                />
+              </FormGroup>
+              <FormGroup
+                widths="equal"
+              >
+                <FormInput
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="Price"
+                  name="price"
+                  onChange={[Function]}
+                  placeholder="Price"
+                  type="number"
+                />
+                <div
+                  className="field"
+                >
+                  <label
+                    style={undefined}
+                  >
+                    Image
+                  </label>
+                  <div
+                    className="ui field input"
+                  >
+                    <input
+                      accept="image/*"
+                      label="Image"
+                      name="image"
+                      onChange={[Function]}
+                      placeholder="Upload an Image"
+                      type="file"
+                    />
+                  </div>
+                </div>
+              </FormGroup>
+              <FormGroup
+                widths="equal"
+              >
+                <FormDropdown
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="Facilities"
+                  multiple={true}
+                  name="facilities"
+                  onChange={[Function]}
+                  options={
+                    Array [
+                      Object {
+                        "key": "1",
+                        "text": "CCTV",
+                        "value": "cctv",
+                      },
+                      Object {
+                        "key": "2",
+                        "text": "Vip Lounge",
+                        "value": "vip lounge",
+                      },
+                      Object {
+                        "key": "3",
+                        "text": "Projector",
+                        "value": "projector",
+                      },
+                      Object {
+                        "key": "4",
+                        "text": "Security",
+                        "value": "security",
+                      },
+                      Object {
+                        "key": "5",
+                        "text": "WIFI",
+                        "value": "wifi",
+                      },
+                    ]
+                  }
+                  placeholder="Choose an option"
+                  renderLabel={undefined}
+                  selection={true}
+                />
+              </FormGroup>
+            </Form>,
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "as": "form",
+              "children": Array [
+                <FormGroup
+                  widths="equal"
+                >
+                  <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Center Name"
+                    name="name"
+                    onChange={[Function]}
+                    placeholder="First name"
+                  />
+                  <FormSelect
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    label="State"
+                    name="stateId"
+                    onChange={[Function]}
+                    options={Array []}
+                    placeholder="State"
+                  />
+                </FormGroup>,
+                <FormGroup
+                  widths="equal"
+                >
+                  <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Center Address"
+                    name="address"
+                    onChange={[Function]}
+                    placeholder="Address"
+                  />
+                </FormGroup>,
+                <FormGroup
+                  widths="equal"
+                >
+                  <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Hall Capacity"
+                    name="hallCapacity"
+                    onChange={[Function]}
+                    placeholder="Hall Capacity"
+                    type="number"
+                  />
+                  <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Carpark Capacity"
+                    name="carParkCapacity"
+                    onChange={[Function]}
+                    placeholder="Carpark Capacity"
+                    type="number"
+                  />
+                </FormGroup>,
+                <FormGroup
+                  widths="equal"
+                >
+                  <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Price"
+                    name="price"
+                    onChange={[Function]}
+                    placeholder="Price"
+                    type="number"
+                  />
+                  <div
+                    className="field"
+                  >
+                    <label
+                      style={undefined}
+                    >
+                      Image
+                    </label>
+                    <div
+                      className="ui field input"
+                    >
+                      <input
+                        accept="image/*"
+                        label="Image"
+                        name="image"
+                        onChange={[Function]}
+                        placeholder="Upload an Image"
+                        type="file"
+                      />
+                    </div>
+                  </div>
+                </FormGroup>,
+                <FormGroup
+                  widths="equal"
+                >
+                  <FormDropdown
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Facilities"
+                    multiple={true}
+                    name="facilities"
+                    onChange={[Function]}
+                    options={
+                      Array [
+                        Object {
+                          "key": "1",
+                          "text": "CCTV",
+                          "value": "cctv",
+                        },
+                        Object {
+                          "key": "2",
+                          "text": "Vip Lounge",
+                          "value": "vip lounge",
+                        },
+                        Object {
+                          "key": "3",
+                          "text": "Projector",
+                          "value": "projector",
+                        },
+                        Object {
+                          "key": "4",
+                          "text": "Security",
+                          "value": "security",
+                        },
+                        Object {
+                          "key": "5",
+                          "text": "WIFI",
+                          "value": "wifi",
+                        },
+                      ]
+                    }
+                    placeholder="Choose an option"
+                    renderLabel={undefined}
+                    selection={true}
+                  />
+                </FormGroup>,
+              ],
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "children": Array [
+                    <FormInput
+                      as={[Function]}
+                      control={[Function]}
+                      defaultValue=""
+                      error={false}
+                      fluid={true}
+                      label="Center Name"
+                      name="name"
+                      onChange={[Function]}
+                      placeholder="First name"
+                    />,
+                    <FormSelect
+                      as={[Function]}
+                      control={[Function]}
+                      defaultValue=""
+                      error={false}
+                      label="State"
+                      name="stateId"
+                      onChange={[Function]}
+                      options={Array []}
+                      placeholder="State"
+                    />,
+                  ],
+                  "widths": "equal",
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "as": [Function],
+                      "control": [Function],
+                      "defaultValue": "",
+                      "error": false,
+                      "fluid": true,
+                      "label": "Center Name",
+                      "name": "name",
+                      "onChange": [Function],
+                      "placeholder": "First name",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "as": [Function],
+                      "control": [Function],
+                      "defaultValue": "",
+                      "error": false,
+                      "label": "State",
+                      "name": "stateId",
+                      "onChange": [Function],
+                      "options": Array [],
+                      "placeholder": "State",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                ],
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "children": <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Center Address"
+                    name="address"
+                    onChange={[Function]}
+                    placeholder="Address"
+                  />,
+                  "widths": "equal",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "as": [Function],
+                    "control": [Function],
+                    "defaultValue": "",
+                    "error": false,
+                    "fluid": true,
+                    "label": "Center Address",
+                    "name": "address",
+                    "onChange": [Function],
+                    "placeholder": "Address",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "children": Array [
+                    <FormInput
+                      as={[Function]}
+                      control={[Function]}
+                      defaultValue=""
+                      error={false}
+                      fluid={true}
+                      label="Hall Capacity"
+                      name="hallCapacity"
+                      onChange={[Function]}
+                      placeholder="Hall Capacity"
+                      type="number"
+                    />,
+                    <FormInput
+                      as={[Function]}
+                      control={[Function]}
+                      defaultValue=""
+                      error={false}
+                      fluid={true}
+                      label="Carpark Capacity"
+                      name="carParkCapacity"
+                      onChange={[Function]}
+                      placeholder="Carpark Capacity"
+                      type="number"
+                    />,
+                  ],
+                  "widths": "equal",
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "as": [Function],
+                      "control": [Function],
+                      "defaultValue": "",
+                      "error": false,
+                      "fluid": true,
+                      "label": "Hall Capacity",
+                      "name": "hallCapacity",
+                      "onChange": [Function],
+                      "placeholder": "Hall Capacity",
+                      "type": "number",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "as": [Function],
+                      "control": [Function],
+                      "defaultValue": "",
+                      "error": false,
+                      "fluid": true,
+                      "label": "Carpark Capacity",
+                      "name": "carParkCapacity",
+                      "onChange": [Function],
+                      "placeholder": "Carpark Capacity",
+                      "type": "number",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                ],
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "children": Array [
+                    <FormInput
+                      as={[Function]}
+                      control={[Function]}
+                      defaultValue=""
+                      error={false}
+                      fluid={true}
+                      label="Price"
+                      name="price"
+                      onChange={[Function]}
+                      placeholder="Price"
+                      type="number"
+                    />,
+                    <div
+                      className="field"
+                    >
+                      <label
+                        style={undefined}
+                      >
+                        Image
+                      </label>
+                      <div
+                        className="ui field input"
+                      >
+                        <input
+                          accept="image/*"
+                          label="Image"
+                          name="image"
+                          onChange={[Function]}
+                          placeholder="Upload an Image"
+                          type="file"
+                        />
+                      </div>
+                    </div>,
+                  ],
+                  "widths": "equal",
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "as": [Function],
+                      "control": [Function],
+                      "defaultValue": "",
+                      "error": false,
+                      "fluid": true,
+                      "label": "Price",
+                      "name": "price",
+                      "onChange": [Function],
+                      "placeholder": "Price",
+                      "type": "number",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": Array [
+                        <label
+                          style={undefined}
+                        >
+                          Image
+                        </label>,
+                        <div
+                          className="ui field input"
+                        >
+                          <input
+                            accept="image/*"
+                            label="Image"
+                            name="image"
+                            onChange={[Function]}
+                            placeholder="Upload an Image"
+                            type="file"
+                          />
+                        </div>,
+                      ],
+                      "className": "field",
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "children": "Image",
+                          "style": undefined,
+                        },
+                        "ref": null,
+                        "rendered": "Image",
+                        "type": "label",
+                      },
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "children": <input
+                            accept="image/*"
+                            label="Image"
+                            name="image"
+                            onChange={[Function]}
+                            placeholder="Upload an Image"
+                            type="file"
+                          />,
+                          "className": "ui field input",
+                        },
+                        "ref": null,
+                        "rendered": Object {
+                          "instance": null,
+                          "key": undefined,
+                          "nodeType": "host",
+                          "props": Object {
+                            "accept": "image/*",
+                            "label": "Image",
+                            "name": "image",
+                            "onChange": [Function],
+                            "placeholder": "Upload an Image",
+                            "type": "file",
+                          },
+                          "ref": null,
+                          "rendered": null,
+                          "type": "input",
+                        },
+                        "type": "div",
+                      },
+                    ],
+                    "type": "div",
+                  },
+                ],
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "children": <FormDropdown
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Facilities"
+                    multiple={true}
+                    name="facilities"
+                    onChange={[Function]}
+                    options={
+                      Array [
+                        Object {
+                          "key": "1",
+                          "text": "CCTV",
+                          "value": "cctv",
+                        },
+                        Object {
+                          "key": "2",
+                          "text": "Vip Lounge",
+                          "value": "vip lounge",
+                        },
+                        Object {
+                          "key": "3",
+                          "text": "Projector",
+                          "value": "projector",
+                        },
+                        Object {
+                          "key": "4",
+                          "text": "Security",
+                          "value": "security",
+                        },
+                        Object {
+                          "key": "5",
+                          "text": "WIFI",
+                          "value": "wifi",
+                        },
+                      ]
+                    }
+                    placeholder="Choose an option"
+                    renderLabel={undefined}
+                    selection={true}
+                  />,
+                  "widths": "equal",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "as": [Function],
+                    "control": [Function],
+                    "defaultValue": "",
+                    "error": false,
+                    "fluid": true,
+                    "label": "Facilities",
+                    "multiple": true,
+                    "name": "facilities",
+                    "onChange": [Function],
+                    "options": Array [
+                      Object {
+                        "key": "1",
+                        "text": "CCTV",
+                        "value": "cctv",
+                      },
+                      Object {
+                        "key": "2",
+                        "text": "Vip Lounge",
+                        "value": "vip lounge",
+                      },
+                      Object {
+                        "key": "3",
+                        "text": "Projector",
+                        "value": "projector",
+                      },
+                      Object {
+                        "key": "4",
+                        "text": "Security",
+                        "value": "security",
+                      },
+                      Object {
+                        "key": "5",
+                        "text": "WIFI",
+                        "value": "wifi",
+                      },
+                    ],
+                    "placeholder": "Choose an option",
+                    "renderLabel": undefined,
+                    "selection": true,
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                "type": [Function],
+              },
+            ],
+            "type": [Function],
+          },
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "children": Array [
+              <Button
+                as="button"
+                negative={true}
+                onClick={[Function]}
+              >
+                Cancel
+              </Button>,
+              <Button
+                as="button"
+                content="create"
+                disabled={false}
+                loading={false}
+                onClick={[Function]}
+                primary={true}
+              />,
+            ],
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "as": "button",
+                "children": "Cancel",
+                "negative": true,
+                "onClick": [Function],
+              },
+              "ref": null,
+              "rendered": "Cancel",
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "as": "button",
+                "content": "create",
+                "disabled": false,
+                "loading": false,
+                "onClick": [Function],
+                "primary": true,
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+          ],
+          "type": [Function],
+        },
+      ],
+      "type": [Function],
+    },
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": <Modal
+          closeOnDimmerClick={true}
+          closeOnDocumentClick={false}
+          dimmer="blurring"
+          eventPool="Modal"
+          onClose={undefined}
+          open={false}
+          size="small"
+        >
+          <ModalHeader>
+            Create Center
+          </ModalHeader>
+          <ModalContent>
+            <Form
+              as="form"
+            >
+              <FormGroup
+                widths="equal"
+              >
+                <FormInput
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="Center Name"
+                  name="name"
+                  onChange={[Function]}
+                  placeholder="First name"
+                />
+                <FormSelect
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  label="State"
+                  name="stateId"
+                  onChange={[Function]}
+                  options={Array []}
+                  placeholder="State"
+                />
+              </FormGroup>
+              <FormGroup
+                widths="equal"
+              >
+                <FormInput
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="Center Address"
+                  name="address"
+                  onChange={[Function]}
+                  placeholder="Address"
+                />
+              </FormGroup>
+              <FormGroup
+                widths="equal"
+              >
+                <FormInput
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="Hall Capacity"
+                  name="hallCapacity"
+                  onChange={[Function]}
+                  placeholder="Hall Capacity"
+                  type="number"
+                />
+                <FormInput
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="Carpark Capacity"
+                  name="carParkCapacity"
+                  onChange={[Function]}
+                  placeholder="Carpark Capacity"
+                  type="number"
+                />
+              </FormGroup>
+              <FormGroup
+                widths="equal"
+              >
+                <FormInput
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="Price"
+                  name="price"
+                  onChange={[Function]}
+                  placeholder="Price"
+                  type="number"
+                />
+                <div
+                  className="field"
+                >
+                  <label
+                    style={undefined}
+                  >
+                    Image
+                  </label>
+                  <div
+                    className="ui field input"
+                  >
+                    <input
+                      accept="image/*"
+                      label="Image"
+                      name="image"
+                      onChange={[Function]}
+                      placeholder="Upload an Image"
+                      type="file"
+                    />
+                  </div>
+                </div>
+              </FormGroup>
+              <FormGroup
+                widths="equal"
+              >
+                <FormDropdown
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="Facilities"
+                  multiple={true}
+                  name="facilities"
+                  onChange={[Function]}
+                  options={
+                    Array [
+                      Object {
+                        "key": "1",
+                        "text": "CCTV",
+                        "value": "cctv",
+                      },
+                      Object {
+                        "key": "2",
+                        "text": "Vip Lounge",
+                        "value": "vip lounge",
+                      },
+                      Object {
+                        "key": "3",
+                        "text": "Projector",
+                        "value": "projector",
+                      },
+                      Object {
+                        "key": "4",
+                        "text": "Security",
+                        "value": "security",
+                      },
+                      Object {
+                        "key": "5",
+                        "text": "WIFI",
+                        "value": "wifi",
+                      },
+                    ]
+                  }
+                  placeholder="Choose an option"
+                  renderLabel={undefined}
+                  selection={true}
+                />
+              </FormGroup>
+            </Form>
+          </ModalContent>
+          <ModalActions>
+            <Button
+              as="button"
+              negative={true}
+              onClick={[Function]}
+            >
+              Cancel
+            </Button>
+            <Button
+              as="button"
+              content="create"
+              disabled={false}
+              loading={false}
+              onClick={[Function]}
+              primary={true}
+            />
+          </ModalActions>
+        </Modal>,
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "children": Array [
+            <ModalHeader>
+              Create Center
+            </ModalHeader>,
+            <ModalContent>
+              <Form
+                as="form"
+              >
+                <FormGroup
+                  widths="equal"
+                >
+                  <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Center Name"
+                    name="name"
+                    onChange={[Function]}
+                    placeholder="First name"
+                  />
+                  <FormSelect
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    label="State"
+                    name="stateId"
+                    onChange={[Function]}
+                    options={Array []}
+                    placeholder="State"
+                  />
+                </FormGroup>
+                <FormGroup
+                  widths="equal"
+                >
+                  <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Center Address"
+                    name="address"
+                    onChange={[Function]}
+                    placeholder="Address"
+                  />
+                </FormGroup>
+                <FormGroup
+                  widths="equal"
+                >
+                  <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Hall Capacity"
+                    name="hallCapacity"
+                    onChange={[Function]}
+                    placeholder="Hall Capacity"
+                    type="number"
+                  />
+                  <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Carpark Capacity"
+                    name="carParkCapacity"
+                    onChange={[Function]}
+                    placeholder="Carpark Capacity"
+                    type="number"
+                  />
+                </FormGroup>
+                <FormGroup
+                  widths="equal"
+                >
+                  <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Price"
+                    name="price"
+                    onChange={[Function]}
+                    placeholder="Price"
+                    type="number"
+                  />
+                  <div
+                    className="field"
+                  >
+                    <label
+                      style={undefined}
+                    >
+                      Image
+                    </label>
+                    <div
+                      className="ui field input"
+                    >
+                      <input
+                        accept="image/*"
+                        label="Image"
+                        name="image"
+                        onChange={[Function]}
+                        placeholder="Upload an Image"
+                        type="file"
+                      />
+                    </div>
+                  </div>
+                </FormGroup>
+                <FormGroup
+                  widths="equal"
+                >
+                  <FormDropdown
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Facilities"
+                    multiple={true}
+                    name="facilities"
+                    onChange={[Function]}
+                    options={
+                      Array [
+                        Object {
+                          "key": "1",
+                          "text": "CCTV",
+                          "value": "cctv",
+                        },
+                        Object {
+                          "key": "2",
+                          "text": "Vip Lounge",
+                          "value": "vip lounge",
+                        },
+                        Object {
+                          "key": "3",
+                          "text": "Projector",
+                          "value": "projector",
+                        },
+                        Object {
+                          "key": "4",
+                          "text": "Security",
+                          "value": "security",
+                        },
+                        Object {
+                          "key": "5",
+                          "text": "WIFI",
+                          "value": "wifi",
+                        },
+                      ]
+                    }
+                    placeholder="Choose an option"
+                    renderLabel={undefined}
+                    selection={true}
+                  />
+                </FormGroup>
+              </Form>
+            </ModalContent>,
+            <ModalActions>
+              <Button
+                as="button"
+                negative={true}
+                onClick={[Function]}
+              >
+                Cancel
+              </Button>
+              <Button
+                as="button"
+                content="create"
+                disabled={false}
+                loading={false}
+                onClick={[Function]}
+                primary={true}
+              />
+            </ModalActions>,
+          ],
+          "closeOnDimmerClick": true,
+          "closeOnDocumentClick": false,
+          "dimmer": "blurring",
+          "eventPool": "Modal",
+          "onClose": undefined,
+          "open": false,
+          "size": "small",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "children": "Create Center",
+            },
+            "ref": null,
+            "rendered": "Create Center",
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "children": <Form
+                as="form"
+              >
+                <FormGroup
+                  widths="equal"
+                >
+                  <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Center Name"
+                    name="name"
+                    onChange={[Function]}
+                    placeholder="First name"
+                  />
+                  <FormSelect
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    label="State"
+                    name="stateId"
+                    onChange={[Function]}
+                    options={Array []}
+                    placeholder="State"
+                  />
+                </FormGroup>
+                <FormGroup
+                  widths="equal"
+                >
+                  <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Center Address"
+                    name="address"
+                    onChange={[Function]}
+                    placeholder="Address"
+                  />
+                </FormGroup>
+                <FormGroup
+                  widths="equal"
+                >
+                  <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Hall Capacity"
+                    name="hallCapacity"
+                    onChange={[Function]}
+                    placeholder="Hall Capacity"
+                    type="number"
+                  />
+                  <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Carpark Capacity"
+                    name="carParkCapacity"
+                    onChange={[Function]}
+                    placeholder="Carpark Capacity"
+                    type="number"
+                  />
+                </FormGroup>
+                <FormGroup
+                  widths="equal"
+                >
+                  <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Price"
+                    name="price"
+                    onChange={[Function]}
+                    placeholder="Price"
+                    type="number"
+                  />
+                  <div
+                    className="field"
+                  >
+                    <label
+                      style={undefined}
+                    >
+                      Image
+                    </label>
+                    <div
+                      className="ui field input"
+                    >
+                      <input
+                        accept="image/*"
+                        label="Image"
+                        name="image"
+                        onChange={[Function]}
+                        placeholder="Upload an Image"
+                        type="file"
+                      />
+                    </div>
+                  </div>
+                </FormGroup>
+                <FormGroup
+                  widths="equal"
+                >
+                  <FormDropdown
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Facilities"
+                    multiple={true}
+                    name="facilities"
+                    onChange={[Function]}
+                    options={
+                      Array [
+                        Object {
+                          "key": "1",
+                          "text": "CCTV",
+                          "value": "cctv",
+                        },
+                        Object {
+                          "key": "2",
+                          "text": "Vip Lounge",
+                          "value": "vip lounge",
+                        },
+                        Object {
+                          "key": "3",
+                          "text": "Projector",
+                          "value": "projector",
+                        },
+                        Object {
+                          "key": "4",
+                          "text": "Security",
+                          "value": "security",
+                        },
+                        Object {
+                          "key": "5",
+                          "text": "WIFI",
+                          "value": "wifi",
+                        },
+                      ]
+                    }
+                    placeholder="Choose an option"
+                    renderLabel={undefined}
+                    selection={true}
+                  />
+                </FormGroup>
+              </Form>,
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "as": "form",
+                "children": Array [
+                  <FormGroup
+                    widths="equal"
+                  >
+                    <FormInput
+                      as={[Function]}
+                      control={[Function]}
+                      defaultValue=""
+                      error={false}
+                      fluid={true}
+                      label="Center Name"
+                      name="name"
+                      onChange={[Function]}
+                      placeholder="First name"
+                    />
+                    <FormSelect
+                      as={[Function]}
+                      control={[Function]}
+                      defaultValue=""
+                      error={false}
+                      label="State"
+                      name="stateId"
+                      onChange={[Function]}
+                      options={Array []}
+                      placeholder="State"
+                    />
+                  </FormGroup>,
+                  <FormGroup
+                    widths="equal"
+                  >
+                    <FormInput
+                      as={[Function]}
+                      control={[Function]}
+                      defaultValue=""
+                      error={false}
+                      fluid={true}
+                      label="Center Address"
+                      name="address"
+                      onChange={[Function]}
+                      placeholder="Address"
+                    />
+                  </FormGroup>,
+                  <FormGroup
+                    widths="equal"
+                  >
+                    <FormInput
+                      as={[Function]}
+                      control={[Function]}
+                      defaultValue=""
+                      error={false}
+                      fluid={true}
+                      label="Hall Capacity"
+                      name="hallCapacity"
+                      onChange={[Function]}
+                      placeholder="Hall Capacity"
+                      type="number"
+                    />
+                    <FormInput
+                      as={[Function]}
+                      control={[Function]}
+                      defaultValue=""
+                      error={false}
+                      fluid={true}
+                      label="Carpark Capacity"
+                      name="carParkCapacity"
+                      onChange={[Function]}
+                      placeholder="Carpark Capacity"
+                      type="number"
+                    />
+                  </FormGroup>,
+                  <FormGroup
+                    widths="equal"
+                  >
+                    <FormInput
+                      as={[Function]}
+                      control={[Function]}
+                      defaultValue=""
+                      error={false}
+                      fluid={true}
+                      label="Price"
+                      name="price"
+                      onChange={[Function]}
+                      placeholder="Price"
+                      type="number"
+                    />
+                    <div
+                      className="field"
+                    >
+                      <label
+                        style={undefined}
+                      >
+                        Image
+                      </label>
+                      <div
+                        className="ui field input"
+                      >
+                        <input
+                          accept="image/*"
+                          label="Image"
+                          name="image"
+                          onChange={[Function]}
+                          placeholder="Upload an Image"
+                          type="file"
+                        />
+                      </div>
+                    </div>
+                  </FormGroup>,
+                  <FormGroup
+                    widths="equal"
+                  >
+                    <FormDropdown
+                      as={[Function]}
+                      control={[Function]}
+                      defaultValue=""
+                      error={false}
+                      fluid={true}
+                      label="Facilities"
+                      multiple={true}
+                      name="facilities"
+                      onChange={[Function]}
+                      options={
+                        Array [
+                          Object {
+                            "key": "1",
+                            "text": "CCTV",
+                            "value": "cctv",
+                          },
+                          Object {
+                            "key": "2",
+                            "text": "Vip Lounge",
+                            "value": "vip lounge",
+                          },
+                          Object {
+                            "key": "3",
+                            "text": "Projector",
+                            "value": "projector",
+                          },
+                          Object {
+                            "key": "4",
+                            "text": "Security",
+                            "value": "security",
+                          },
+                          Object {
+                            "key": "5",
+                            "text": "WIFI",
+                            "value": "wifi",
+                          },
+                        ]
+                      }
+                      placeholder="Choose an option"
+                      renderLabel={undefined}
+                      selection={true}
+                    />
+                  </FormGroup>,
+                ],
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "children": Array [
+                      <FormInput
+                        as={[Function]}
+                        control={[Function]}
+                        defaultValue=""
+                        error={false}
+                        fluid={true}
+                        label="Center Name"
+                        name="name"
+                        onChange={[Function]}
+                        placeholder="First name"
+                      />,
+                      <FormSelect
+                        as={[Function]}
+                        control={[Function]}
+                        defaultValue=""
+                        error={false}
+                        label="State"
+                        name="stateId"
+                        onChange={[Function]}
+                        options={Array []}
+                        placeholder="State"
+                      />,
+                    ],
+                    "widths": "equal",
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "function",
+                      "props": Object {
+                        "as": [Function],
+                        "control": [Function],
+                        "defaultValue": "",
+                        "error": false,
+                        "fluid": true,
+                        "label": "Center Name",
+                        "name": "name",
+                        "onChange": [Function],
+                        "placeholder": "First name",
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "function",
+                      "props": Object {
+                        "as": [Function],
+                        "control": [Function],
+                        "defaultValue": "",
+                        "error": false,
+                        "label": "State",
+                        "name": "stateId",
+                        "onChange": [Function],
+                        "options": Array [],
+                        "placeholder": "State",
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                  ],
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "children": <FormInput
+                      as={[Function]}
+                      control={[Function]}
+                      defaultValue=""
+                      error={false}
+                      fluid={true}
+                      label="Center Address"
+                      name="address"
+                      onChange={[Function]}
+                      placeholder="Address"
+                    />,
+                    "widths": "equal",
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "as": [Function],
+                      "control": [Function],
+                      "defaultValue": "",
+                      "error": false,
+                      "fluid": true,
+                      "label": "Center Address",
+                      "name": "address",
+                      "onChange": [Function],
+                      "placeholder": "Address",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "children": Array [
+                      <FormInput
+                        as={[Function]}
+                        control={[Function]}
+                        defaultValue=""
+                        error={false}
+                        fluid={true}
+                        label="Hall Capacity"
+                        name="hallCapacity"
+                        onChange={[Function]}
+                        placeholder="Hall Capacity"
+                        type="number"
+                      />,
+                      <FormInput
+                        as={[Function]}
+                        control={[Function]}
+                        defaultValue=""
+                        error={false}
+                        fluid={true}
+                        label="Carpark Capacity"
+                        name="carParkCapacity"
+                        onChange={[Function]}
+                        placeholder="Carpark Capacity"
+                        type="number"
+                      />,
+                    ],
+                    "widths": "equal",
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "function",
+                      "props": Object {
+                        "as": [Function],
+                        "control": [Function],
+                        "defaultValue": "",
+                        "error": false,
+                        "fluid": true,
+                        "label": "Hall Capacity",
+                        "name": "hallCapacity",
+                        "onChange": [Function],
+                        "placeholder": "Hall Capacity",
+                        "type": "number",
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "function",
+                      "props": Object {
+                        "as": [Function],
+                        "control": [Function],
+                        "defaultValue": "",
+                        "error": false,
+                        "fluid": true,
+                        "label": "Carpark Capacity",
+                        "name": "carParkCapacity",
+                        "onChange": [Function],
+                        "placeholder": "Carpark Capacity",
+                        "type": "number",
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                  ],
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "children": Array [
+                      <FormInput
+                        as={[Function]}
+                        control={[Function]}
+                        defaultValue=""
+                        error={false}
+                        fluid={true}
+                        label="Price"
+                        name="price"
+                        onChange={[Function]}
+                        placeholder="Price"
+                        type="number"
+                      />,
+                      <div
+                        className="field"
+                      >
+                        <label
+                          style={undefined}
+                        >
+                          Image
+                        </label>
+                        <div
+                          className="ui field input"
+                        >
+                          <input
+                            accept="image/*"
+                            label="Image"
+                            name="image"
+                            onChange={[Function]}
+                            placeholder="Upload an Image"
+                            type="file"
+                          />
+                        </div>
+                      </div>,
+                    ],
+                    "widths": "equal",
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "function",
+                      "props": Object {
+                        "as": [Function],
+                        "control": [Function],
+                        "defaultValue": "",
+                        "error": false,
+                        "fluid": true,
+                        "label": "Price",
+                        "name": "price",
+                        "onChange": [Function],
+                        "placeholder": "Price",
+                        "type": "number",
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": Array [
+                          <label
+                            style={undefined}
+                          >
+                            Image
+                          </label>,
+                          <div
+                            className="ui field input"
+                          >
+                            <input
+                              accept="image/*"
+                              label="Image"
+                              name="image"
+                              onChange={[Function]}
+                              placeholder="Upload an Image"
+                              type="file"
+                            />
+                          </div>,
+                        ],
+                        "className": "field",
+                      },
+                      "ref": null,
+                      "rendered": Array [
+                        Object {
+                          "instance": null,
+                          "key": undefined,
+                          "nodeType": "host",
+                          "props": Object {
+                            "children": "Image",
+                            "style": undefined,
+                          },
+                          "ref": null,
+                          "rendered": "Image",
+                          "type": "label",
+                        },
+                        Object {
+                          "instance": null,
+                          "key": undefined,
+                          "nodeType": "host",
+                          "props": Object {
+                            "children": <input
+                              accept="image/*"
+                              label="Image"
+                              name="image"
+                              onChange={[Function]}
+                              placeholder="Upload an Image"
+                              type="file"
+                            />,
+                            "className": "ui field input",
+                          },
+                          "ref": null,
+                          "rendered": Object {
+                            "instance": null,
+                            "key": undefined,
+                            "nodeType": "host",
+                            "props": Object {
+                              "accept": "image/*",
+                              "label": "Image",
+                              "name": "image",
+                              "onChange": [Function],
+                              "placeholder": "Upload an Image",
+                              "type": "file",
+                            },
+                            "ref": null,
+                            "rendered": null,
+                            "type": "input",
+                          },
+                          "type": "div",
+                        },
+                      ],
+                      "type": "div",
+                    },
+                  ],
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "children": <FormDropdown
+                      as={[Function]}
+                      control={[Function]}
+                      defaultValue=""
+                      error={false}
+                      fluid={true}
+                      label="Facilities"
+                      multiple={true}
+                      name="facilities"
+                      onChange={[Function]}
+                      options={
+                        Array [
+                          Object {
+                            "key": "1",
+                            "text": "CCTV",
+                            "value": "cctv",
+                          },
+                          Object {
+                            "key": "2",
+                            "text": "Vip Lounge",
+                            "value": "vip lounge",
+                          },
+                          Object {
+                            "key": "3",
+                            "text": "Projector",
+                            "value": "projector",
+                          },
+                          Object {
+                            "key": "4",
+                            "text": "Security",
+                            "value": "security",
+                          },
+                          Object {
+                            "key": "5",
+                            "text": "WIFI",
+                            "value": "wifi",
+                          },
+                        ]
+                      }
+                      placeholder="Choose an option"
+                      renderLabel={undefined}
+                      selection={true}
+                    />,
+                    "widths": "equal",
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "as": [Function],
+                      "control": [Function],
+                      "defaultValue": "",
+                      "error": false,
+                      "fluid": true,
+                      "label": "Facilities",
+                      "multiple": true,
+                      "name": "facilities",
+                      "onChange": [Function],
+                      "options": Array [
+                        Object {
+                          "key": "1",
+                          "text": "CCTV",
+                          "value": "cctv",
+                        },
+                        Object {
+                          "key": "2",
+                          "text": "Vip Lounge",
+                          "value": "vip lounge",
+                        },
+                        Object {
+                          "key": "3",
+                          "text": "Projector",
+                          "value": "projector",
+                        },
+                        Object {
+                          "key": "4",
+                          "text": "Security",
+                          "value": "security",
+                        },
+                        Object {
+                          "key": "5",
+                          "text": "WIFI",
+                          "value": "wifi",
+                        },
+                      ],
+                      "placeholder": "Choose an option",
+                      "renderLabel": undefined,
+                      "selection": true,
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  "type": [Function],
+                },
+              ],
+              "type": [Function],
+            },
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "children": Array [
+                <Button
+                  as="button"
+                  negative={true}
+                  onClick={[Function]}
+                >
+                  Cancel
+                </Button>,
+                <Button
+                  as="button"
+                  content="create"
+                  disabled={false}
+                  loading={false}
+                  onClick={[Function]}
+                  primary={true}
+                />,
+              ],
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "as": "button",
+                  "children": "Cancel",
+                  "negative": true,
+                  "onClick": [Function],
+                },
+                "ref": null,
+                "rendered": "Cancel",
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "as": "button",
+                  "content": "create",
+                  "disabled": false,
+                  "loading": false,
+                  "onClick": [Function],
+                  "primary": true,
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+            ],
+            "type": [Function],
+          },
+        ],
+        "type": [Function],
+      },
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;

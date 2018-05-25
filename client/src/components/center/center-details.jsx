@@ -10,8 +10,6 @@ import CenterFormModal from './create-center-form';
 import EventFormModal from '../event/create-event-form';
 import FormValidator from '../../helpers/form-validator';
 import AuthChecker from '../../helpers/auth-checker';
-import Header from '../header';
-import history from '../../helpers/history';
 import ImageUpload from '../../helpers/image-upload';
 import Toast from '../../helpers/toast';
 import Prompt from '../reusables/prompt';
@@ -19,13 +17,14 @@ import Prompt from '../reusables/prompt';
 /**
  * @returns {*} Centers Component
  */
-class CenterDetails extends Component {
+export class CenterDetails extends Component {
   /**
    *@param {*} props
    */
   constructor(props) {
     super(props);
     this.state = {
+      userRole: undefined,
       center: null,
       serverError: null,
       states: [],
@@ -53,10 +52,14 @@ class CenterDetails extends Component {
    *@returns {*} fetches all centers
    */
   componentWillMount() {
+    const role = AuthChecker.defineRole();
     const { getCenter, getStates } = this.props;
     const { centerId } = this.props.match.params;
     getStates();
     getCenter(centerId);
+    this.setState({
+      userRole: role
+    });
   }
 
   /**
@@ -66,11 +69,11 @@ class CenterDetails extends Component {
   componentWillReceiveProps(nextProps) {
     const {
       singleCenter,
-      deleteState,
       allStates,
       updatedCenter,
       newEvent
-    } = nextProps.stateProps;
+    } = nextProps.response;
+
     if (singleCenter.data && singleCenter.status === 'success') {
       const { center, metadata } = singleCenter.data;
       this.setState({
@@ -97,9 +100,9 @@ class CenterDetails extends Component {
       this.setState({ openModal: false, openEventModal: false, isRequestMade: false });
     }
 
-    if (deleteState.status === 'success') {
-      history.push('/centers');
-    }
+    // if (deleteState.status === 'success') {
+    //   this.props.history.push('/centers');
+    // }
 
     if (allStates.status === 'success') {
       this.setState({ states: allStates.data });
@@ -113,7 +116,7 @@ class CenterDetails extends Component {
    */
   getPendingEvent() {
     const { id } = this.state.center;
-    history.push(`/pending-events?status=pending&centerId=${id}`);
+    this.props.history.push(`/pending-events?status=pending&centerId=${id}`);
   }
 
   /**
@@ -123,7 +126,7 @@ class CenterDetails extends Component {
    */
   getUpcomingEvent() {
     const { id } = this.state.center;
-    history.push(`/upcoming-events/${id}`);
+    this.props.history.push(`/upcoming-events/${id}`);
   }
 
   /**
@@ -168,7 +171,7 @@ class CenterDetails extends Component {
   handleDelete() {
     const { id } = this.state.center;
     const { deleteCenter } = this.props;
-    deleteCenter(id);
+    deleteCenter(id, this.props.history);
   }
 
   /**
@@ -235,8 +238,7 @@ class CenterDetails extends Component {
    * @returns {void}
    */
   renderMainView() {
-    const { serverError, center } = this.state;
-    const role = AuthChecker.defineRole();
+    const { serverError, center, userRole } = this.state;
     return (
       <div className="my-container">
         { serverError &&
@@ -251,15 +253,15 @@ class CenterDetails extends Component {
             </div>
             <div style={{ marginTop: '20px' }}>
               <span style={{ fontSize: '27px' }}>{center.name}</span>
-              { role === 'admin' && <Label as="a" color="red" onClick={this.getPendingEvent} >{center.pendingEvent} Pending Events</Label>}<br />
+              { userRole === 'admin' && <Label as="a" color="red" onClick={this.getPendingEvent} >{center.pendingEvent} Pending Events</Label>}<br />
               <br />
               <span style={{ fontSize: '18px', marginTop: '20px' }}><Icon name="marker" />{center.address} {center.state}</span>
             </div>
             <CenterTable center={center} />
             <div className="ui grid">
-              { role === 'admin' && <Button primary onClick={this.showModal} size="medium" content="Update Center" />}
-              { role === 'admin' && <Button negative onClick={this.showPrompt} size="medium" content="Delete Center" />}
-              { role && <Button positive onClick={this.showEventModal} size="medium" content="Book an Event Here" />}
+              { userRole === 'admin' && <Button primary onClick={this.showModal} size="medium" content="Update Center" />}
+              { userRole === 'admin' && <Button negative onClick={this.showPrompt} size="medium" content="Delete Center" />}
+              { userRole && <Button positive onClick={this.showEventModal} size="medium" content="Book an Event Here" />}
             </div>
           </div>
         }
@@ -283,7 +285,7 @@ class CenterDetails extends Component {
     } = this.state;
     return (
       <div>
-        <Header />
+        {/* <Header /> */}
         <div className="background">
           {this.renderMainView()}
           <CenterFormModal
@@ -317,7 +319,7 @@ class CenterDetails extends Component {
 }
 
 const mapStateToProps = state => ({
-  stateProps: {
+  response: {
     singleCenter: state.get,
     deleteState: state.deleteItem,
     updatedCenter: state.update,
@@ -335,17 +337,18 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 }, dispatch);
 
 CenterDetails.propTypes = {
-  stateProps: PropTypes.objectOf(() => null),
+  response: PropTypes.objectOf(() => null),
   match: PropTypes.objectOf(() => null).isRequired,
   deleteCenter: PropTypes.func,
   getStates: PropTypes.func,
   updateCenter: PropTypes.func,
+  history: PropTypes.objectOf(() => null).isRequired,
   createEvent: PropTypes.func,
   getCenter: PropTypes.func.isRequired
 };
 
 CenterDetails.defaultProps = {
-  stateProps: {},
+  response: {},
   deleteCenter: CenterActions.deleteCenter,
   getStates: CenterActions.getAllStates,
   updateCenter: CenterActions.updateCenter,

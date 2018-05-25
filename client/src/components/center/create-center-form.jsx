@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Button, Modal, Form } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import CenterActions from '../../actions/center-action';
-
 
 const facilities = [
   { key: '1', text: 'CCTV', value: 'cctv' },
@@ -32,17 +29,10 @@ const defaultProps = {
   isRequestMade: false
 };
 
-// const fileValidation = (file) => {
-//   if ((/\.(jpg|jpeg|png)$/i).test(file.name)) {
-//     return true;
-//   }
-//   return false;
-// };
-
 /**
  *component for create center modal
  */
-class CenterFormModal extends Component {
+export class CenterFormModal extends Component {
   /**
    *
    * @param {*} props
@@ -269,10 +259,8 @@ class CenterFormModal extends Component {
             </Button>
             <Button
               primary
-              icon="checkmark"
               disabled={loading}
               loading={loading}
-              labelPosition="right"
               content={mode === 'create' ? 'create' : 'update'}
               onClick={this.onSubmit}
             />
@@ -292,8 +280,4 @@ const matchStateToProps = state => ({
   }
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  createCenter: CenterActions.createCenter,
-}, dispatch);
-
-export default connect(matchStateToProps, mapDispatchToProps)(CenterFormModal);
+export default connect(matchStateToProps)(CenterFormModal);

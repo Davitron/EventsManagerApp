@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table } from 'semantic-ui-react';
+import accounting from 'accounting-js';
 import PropTypes from 'prop-types';
 
 const CenterTable = ({ center }) => (
@@ -21,7 +22,7 @@ const CenterTable = ({ center }) => (
       </Table.Row>
       <Table.Row>
         <Table.Cell>Price</Table.Cell>
-        <Table.Cell>&#8358; {center.price} Per Event</Table.Cell>
+        <Table.Cell> {accounting.formatMoney(center.price, { symbol: '₦', format: '%s%v', decimal: '.' })} Per Event</Table.Cell>
       </Table.Row>
       <Table.Row>
         <Table.Cell>Facilities</Table.Cell>

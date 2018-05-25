@@ -4,17 +4,15 @@ import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Header from '../header';
 import FormValidator from '../../helpers/form-validator';
 import UserActions from '../../actions/user-actions';
 import AuthChecker from '../../helpers/auth-checker';
-import history from '../../helpers/history';
 
 
 /**
  * @returns {*} Component for SignUp
  */
-class Login extends Component {
+export class Login extends Component {
 /**
  *
  * @param {*} props
@@ -40,7 +38,7 @@ class Login extends Component {
   */
   componentWillMount() {
     if (AuthChecker.checkUserAuth()) {
-      history.push('/centers');
+      this.props.history.push('/centers');
     }
   }
 
@@ -51,10 +49,11 @@ class Login extends Component {
    * @returns {void}
    */
   componentWillReceiveProps(nextProps) {
-    const { serverError } = this.state;
-    const { data } = nextProps.response;
-    if (serverError !== data) {
+    const { data, status } = nextProps.response;
+    if (status === 'failed') {
       this.setState({ serverError: data, isLoading: false, isDisabled: false });
+    } else if (status === 'authenticated') {
+      this.props.history.push('/');
     }
   }
 
@@ -107,7 +106,7 @@ class Login extends Component {
     const { user, isLoading, errors, isDisabled, serverError } = this.state; // eslint-disable-line
     return (
       <div>
-        <Header />
+        {/* <Header /> */}
         <div className="home">
           <main className="section__hero" id="index-banner">
             <div className="my-container">
@@ -147,6 +146,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 Login.propTypes = {
   response: PropTypes.objectOf(() => null),
+  history: PropTypes.objectOf(() => null).isRequired,
   authUser: PropTypes.func
 };
 

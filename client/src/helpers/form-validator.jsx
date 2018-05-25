@@ -154,7 +154,6 @@ export default class FormValidator {
     if (!validate.passes()) {
       const { errors } = validate;
       const err = errors.errors;
-      Logger.log(JSON.stringify(err));
       return err;
     }
     return null;

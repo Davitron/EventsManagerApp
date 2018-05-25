@@ -1,9 +1,8 @@
 import Cookies from 'universal-cookie';
 import axios from 'axios';
 import userActionsType from './actionTypes/user-action-types';
-import history from '../helpers/history';
+import mainActionsType from './actionTypes/main-action-types';
 import Dispatcher from '../helpers/dispatch';
-import Logger from '../helpers/logger';
 import Toast from '../helpers/toast';
 
 
@@ -23,12 +22,9 @@ export default class UserActions {
   static register(data) {
     return (dispatch) => {
       dispatch(Dispatcher.action(userActionsType.SIGNUP_REQUEST, data));
-      axios.post('/api/v1/users', data)
-        .then((response) => {
-          dispatch(Dispatcher.action(userActionsType.SIGNUP_SUCCESS, response.data.message));
-          history.push('/verify', {
-            state: { message: response.data.message }
-          });
+      return axios.post('/api/v1/users', data)
+        .then((res) => {
+          dispatch(Dispatcher.action(userActionsType.SIGNUP_SUCCESS, res.data.message));
         })
         .catch((error) => {
           const { message } = error.response.data;
@@ -47,13 +43,12 @@ export default class UserActions {
   static completeRegistration(token) {
     return (dispatch) => {
       dispatch(Dispatcher.action(userActionsType.VERIFY_REQUEST, token));
-      axios.get(`/api/v1/users/completeRegistration?token=${token}`)
+      return axios.get(`/api/v1/users/completeRegistration?token=${token}`)
         .then((response) => {
           dispatch(Dispatcher.action(userActionsType.VERIFY_SUCCESS, response.data.message));
-          cookies.set('jwt-events-manager', response.data.Token, { path: '/' });
+          // cookies.set('jwt-events-manager', response.data.Token, { path: '/' });
         })
         .catch((error) => {
-          Logger.log(error.response);
           if (error.response.status === 403) {
             const message = 'Token Expired';
             dispatch(Dispatcher.action(userActionsType.VERIFY_FAILURE, message));
@@ -76,15 +71,13 @@ export default class UserActions {
   static login(user) {
     return (dispatch) => {
       dispatch(Dispatcher.action(userActionsType.SIGNIN_REQUEST, user));
-      axios.post('/api/v1/users/login', user)
+      return axios.post('/api/v1/users/login', user)
         .then((response) => {
           dispatch(Dispatcher.action(userActionsType.SIGNIN_SUCCESS, response.data.userDetails));
           cookies.set('jwt-events-manager', response.data.Token, { path: '/' });
-          history.push('/');
         })
         .catch((error) => {
           const { message } = error.response.data;
-
           dispatch(Dispatcher.action(userActionsType.SIGNIN_FAILURE, message));
         });
     };
@@ -100,17 +93,15 @@ export default class UserActions {
    */
   static resetRequest(email) {
     return (dispatch) => {
-      dispatch(Dispatcher.action(userActionsType.RESET_REQUEST, email));
-      axios.post('/api/v1/users/reset', email)
+      dispatch(Dispatcher.action(userActionsType.FORGOT_PASSWORD_REQUEST, email));
+      return axios.post('/api/v1/users/reset', email)
         .then((response) => {
-          Logger.log(response);
           const { message } = response.data;
-          dispatch(Dispatcher.action(userActionsType.RESET_SUCCESS, message));
+          dispatch(Dispatcher.action(userActionsType.FORGOT_PASSWORD_SUCCESS, message));
         })
         .catch((error) => {
-          Logger.log(error.response);
           const err = error.response.data.message;
-          dispatch(Dispatcher.action(userActionsType.RESET_FAILURE, err));
+          dispatch(Dispatcher.action(userActionsType.FORGET_PASSWORD_FAILURE, err));
         });
     };
   }
@@ -126,12 +117,10 @@ export default class UserActions {
   static resetPassword(password) {
     return (dispatch) => {
       dispatch(Dispatcher.action(userActionsType.RESET_REQUEST, password));
-      axios.post(`/api/v1/users/password?token=${password.token}`, password)
+      return axios.post(`/api/v1/users/password?token=${password.token}`, password)
         .then((response) => {
-          Logger.log(response);
           const { message } = response.data;
           dispatch(Dispatcher.action(userActionsType.RESET_SUCCESS, message));
-          // setTimeout(() => { history.push('/login'); }, 5000);
         })
         .catch((error) => {
           const err = error.response.data.message;
@@ -148,7 +137,12 @@ export default class UserActions {
    * this action handles password reset
    */
   static logout() {
-    cookies.remove('jwt-events-manager');
-    document.location.href = '/login';
+    return (dispatch) => {
+      cookies.remove('jwt-events-manager');
+      dispatch(Dispatcher.action(userActionsType.SIGNOUT, null));
+      dispatch(Dispatcher.action(mainActionsType.RESET_STATE, null));
+      localStorage.removeItem('app');
+      // window.location.reload();
+    };
   }
 }
