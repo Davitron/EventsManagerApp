@@ -1,0 +1,1450 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Center Component component successfully rendered 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <EventFormModal
+    errors={Object {}}
+    event={Object {}}
+    hideModal={[MockFunction]}
+    isRequestMade={false}
+    onSubmit={[MockFunction]}
+    open={false}
+    response={
+      Object {
+        "eventUpdate": Object {
+          "data": null,
+          "status": null,
+        },
+      }
+    }
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": <Modal
+        closeOnDimmerClick={true}
+        closeOnDocumentClick={false}
+        dimmer="blurring"
+        eventPool="Modal"
+        onClose={undefined}
+        open={false}
+        size="mini"
+      >
+        <ModalHeader>
+          Create Event
+        </ModalHeader>
+        <ModalContent>
+          <Form
+            as="form"
+          >
+            <FormGroup
+              widths="equal"
+            >
+              <FormInput
+                as={[Function]}
+                control={[Function]}
+                defaultValue=""
+                error={false}
+                fluid={true}
+                label="Event Name"
+                name="eventName"
+                onChange={[Function]}
+                placeholder="Event name"
+              />
+            </FormGroup>
+            <FormGroup
+              widths="equal"
+            >
+              <FormInput
+                as={[Function]}
+                control={[Function]}
+                defaultValue=""
+                error={false}
+                fluid={true}
+                label="days"
+                name="days"
+                onChange={[Function]}
+                placeholder="Amount of days"
+                type="number"
+              />
+            </FormGroup>
+            <FormGroup
+              widths="equal"
+            >
+              <FormInput
+                as={[Function]}
+                control={[Function]}
+                defaultValue=""
+                error={false}
+                fluid={true}
+                label="Date"
+                name="startDate"
+                onChange={[Function]}
+                type="date"
+              />
+            </FormGroup>
+            <FormGroup
+              widths="equal"
+            >
+              <div
+                className="field"
+              >
+                <label
+                  style={undefined}
+                >
+                  Image
+                </label>
+                <div
+                  className="ui field input"
+                >
+                  <input
+                    accept="image/*"
+                    label="Image"
+                    name="image"
+                    onChange={[Function]}
+                    placeholder="Upload an Image"
+                    type="file"
+                  />
+                </div>
+              </div>
+            </FormGroup>
+          </Form>
+        </ModalContent>
+        <ModalActions>
+          <Button
+            as="button"
+            negative={true}
+            onClick={[Function]}
+          >
+            Cancel
+          </Button>
+          <Button
+            as="button"
+            className="submit"
+            content="create"
+            disabled={false}
+            loading={false}
+            onClick={[Function]}
+            primary={true}
+          />
+        </ModalActions>
+      </Modal>,
+    },
+    "ref": null,
+    "rendered": Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "class",
+      "props": Object {
+        "children": Array [
+          <ModalHeader>
+            Create Event
+          </ModalHeader>,
+          <ModalContent>
+            <Form
+              as="form"
+            >
+              <FormGroup
+                widths="equal"
+              >
+                <FormInput
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="Event Name"
+                  name="eventName"
+                  onChange={[Function]}
+                  placeholder="Event name"
+                />
+              </FormGroup>
+              <FormGroup
+                widths="equal"
+              >
+                <FormInput
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="days"
+                  name="days"
+                  onChange={[Function]}
+                  placeholder="Amount of days"
+                  type="number"
+                />
+              </FormGroup>
+              <FormGroup
+                widths="equal"
+              >
+                <FormInput
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="Date"
+                  name="startDate"
+                  onChange={[Function]}
+                  type="date"
+                />
+              </FormGroup>
+              <FormGroup
+                widths="equal"
+              >
+                <div
+                  className="field"
+                >
+                  <label
+                    style={undefined}
+                  >
+                    Image
+                  </label>
+                  <div
+                    className="ui field input"
+                  >
+                    <input
+                      accept="image/*"
+                      label="Image"
+                      name="image"
+                      onChange={[Function]}
+                      placeholder="Upload an Image"
+                      type="file"
+                    />
+                  </div>
+                </div>
+              </FormGroup>
+            </Form>
+          </ModalContent>,
+          <ModalActions>
+            <Button
+              as="button"
+              negative={true}
+              onClick={[Function]}
+            >
+              Cancel
+            </Button>
+            <Button
+              as="button"
+              className="submit"
+              content="create"
+              disabled={false}
+              loading={false}
+              onClick={[Function]}
+              primary={true}
+            />
+          </ModalActions>,
+        ],
+        "closeOnDimmerClick": true,
+        "closeOnDocumentClick": false,
+        "dimmer": "blurring",
+        "eventPool": "Modal",
+        "onClose": undefined,
+        "open": false,
+        "size": "mini",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "children": "Create Event",
+          },
+          "ref": null,
+          "rendered": "Create Event",
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "children": <Form
+              as="form"
+            >
+              <FormGroup
+                widths="equal"
+              >
+                <FormInput
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="Event Name"
+                  name="eventName"
+                  onChange={[Function]}
+                  placeholder="Event name"
+                />
+              </FormGroup>
+              <FormGroup
+                widths="equal"
+              >
+                <FormInput
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="days"
+                  name="days"
+                  onChange={[Function]}
+                  placeholder="Amount of days"
+                  type="number"
+                />
+              </FormGroup>
+              <FormGroup
+                widths="equal"
+              >
+                <FormInput
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="Date"
+                  name="startDate"
+                  onChange={[Function]}
+                  type="date"
+                />
+              </FormGroup>
+              <FormGroup
+                widths="equal"
+              >
+                <div
+                  className="field"
+                >
+                  <label
+                    style={undefined}
+                  >
+                    Image
+                  </label>
+                  <div
+                    className="ui field input"
+                  >
+                    <input
+                      accept="image/*"
+                      label="Image"
+                      name="image"
+                      onChange={[Function]}
+                      placeholder="Upload an Image"
+                      type="file"
+                    />
+                  </div>
+                </div>
+              </FormGroup>
+            </Form>,
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "as": "form",
+              "children": Array [
+                <FormGroup
+                  widths="equal"
+                >
+                  <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Event Name"
+                    name="eventName"
+                    onChange={[Function]}
+                    placeholder="Event name"
+                  />
+                </FormGroup>,
+                <FormGroup
+                  widths="equal"
+                >
+                  <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="days"
+                    name="days"
+                    onChange={[Function]}
+                    placeholder="Amount of days"
+                    type="number"
+                  />
+                </FormGroup>,
+                <FormGroup
+                  widths="equal"
+                >
+                  <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Date"
+                    name="startDate"
+                    onChange={[Function]}
+                    type="date"
+                  />
+                </FormGroup>,
+                <FormGroup
+                  widths="equal"
+                >
+                  <div
+                    className="field"
+                  >
+                    <label
+                      style={undefined}
+                    >
+                      Image
+                    </label>
+                    <div
+                      className="ui field input"
+                    >
+                      <input
+                        accept="image/*"
+                        label="Image"
+                        name="image"
+                        onChange={[Function]}
+                        placeholder="Upload an Image"
+                        type="file"
+                      />
+                    </div>
+                  </div>
+                </FormGroup>,
+              ],
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "children": <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Event Name"
+                    name="eventName"
+                    onChange={[Function]}
+                    placeholder="Event name"
+                  />,
+                  "widths": "equal",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "as": [Function],
+                    "control": [Function],
+                    "defaultValue": "",
+                    "error": false,
+                    "fluid": true,
+                    "label": "Event Name",
+                    "name": "eventName",
+                    "onChange": [Function],
+                    "placeholder": "Event name",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "children": <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="days"
+                    name="days"
+                    onChange={[Function]}
+                    placeholder="Amount of days"
+                    type="number"
+                  />,
+                  "widths": "equal",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "as": [Function],
+                    "control": [Function],
+                    "defaultValue": "",
+                    "error": false,
+                    "fluid": true,
+                    "label": "days",
+                    "name": "days",
+                    "onChange": [Function],
+                    "placeholder": "Amount of days",
+                    "type": "number",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "children": <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Date"
+                    name="startDate"
+                    onChange={[Function]}
+                    type="date"
+                  />,
+                  "widths": "equal",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "as": [Function],
+                    "control": [Function],
+                    "defaultValue": "",
+                    "error": false,
+                    "fluid": true,
+                    "label": "Date",
+                    "name": "startDate",
+                    "onChange": [Function],
+                    "type": "date",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "children": <div
+                    className="field"
+                  >
+                    <label
+                      style={undefined}
+                    >
+                      Image
+                    </label>
+                    <div
+                      className="ui field input"
+                    >
+                      <input
+                        accept="image/*"
+                        label="Image"
+                        name="image"
+                        onChange={[Function]}
+                        placeholder="Upload an Image"
+                        type="file"
+                      />
+                    </div>
+                  </div>,
+                  "widths": "equal",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": Array [
+                      <label
+                        style={undefined}
+                      >
+                        Image
+                      </label>,
+                      <div
+                        className="ui field input"
+                      >
+                        <input
+                          accept="image/*"
+                          label="Image"
+                          name="image"
+                          onChange={[Function]}
+                          placeholder="Upload an Image"
+                          type="file"
+                        />
+                      </div>,
+                    ],
+                    "className": "field",
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": "Image",
+                        "style": undefined,
+                      },
+                      "ref": null,
+                      "rendered": "Image",
+                      "type": "label",
+                    },
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": <input
+                          accept="image/*"
+                          label="Image"
+                          name="image"
+                          onChange={[Function]}
+                          placeholder="Upload an Image"
+                          type="file"
+                        />,
+                        "className": "ui field input",
+                      },
+                      "ref": null,
+                      "rendered": Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "accept": "image/*",
+                          "label": "Image",
+                          "name": "image",
+                          "onChange": [Function],
+                          "placeholder": "Upload an Image",
+                          "type": "file",
+                        },
+                        "ref": null,
+                        "rendered": null,
+                        "type": "input",
+                      },
+                      "type": "div",
+                    },
+                  ],
+                  "type": "div",
+                },
+                "type": [Function],
+              },
+            ],
+            "type": [Function],
+          },
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "children": Array [
+              <Button
+                as="button"
+                negative={true}
+                onClick={[Function]}
+              >
+                Cancel
+              </Button>,
+              <Button
+                as="button"
+                className="submit"
+                content="create"
+                disabled={false}
+                loading={false}
+                onClick={[Function]}
+                primary={true}
+              />,
+            ],
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "as": "button",
+                "children": "Cancel",
+                "negative": true,
+                "onClick": [Function],
+              },
+              "ref": null,
+              "rendered": "Cancel",
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "as": "button",
+                "className": "submit",
+                "content": "create",
+                "disabled": false,
+                "loading": false,
+                "onClick": [Function],
+                "primary": true,
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+          ],
+          "type": [Function],
+        },
+      ],
+      "type": [Function],
+    },
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": <Modal
+          closeOnDimmerClick={true}
+          closeOnDocumentClick={false}
+          dimmer="blurring"
+          eventPool="Modal"
+          onClose={undefined}
+          open={false}
+          size="mini"
+        >
+          <ModalHeader>
+            Create Event
+          </ModalHeader>
+          <ModalContent>
+            <Form
+              as="form"
+            >
+              <FormGroup
+                widths="equal"
+              >
+                <FormInput
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="Event Name"
+                  name="eventName"
+                  onChange={[Function]}
+                  placeholder="Event name"
+                />
+              </FormGroup>
+              <FormGroup
+                widths="equal"
+              >
+                <FormInput
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="days"
+                  name="days"
+                  onChange={[Function]}
+                  placeholder="Amount of days"
+                  type="number"
+                />
+              </FormGroup>
+              <FormGroup
+                widths="equal"
+              >
+                <FormInput
+                  as={[Function]}
+                  control={[Function]}
+                  defaultValue=""
+                  error={false}
+                  fluid={true}
+                  label="Date"
+                  name="startDate"
+                  onChange={[Function]}
+                  type="date"
+                />
+              </FormGroup>
+              <FormGroup
+                widths="equal"
+              >
+                <div
+                  className="field"
+                >
+                  <label
+                    style={undefined}
+                  >
+                    Image
+                  </label>
+                  <div
+                    className="ui field input"
+                  >
+                    <input
+                      accept="image/*"
+                      label="Image"
+                      name="image"
+                      onChange={[Function]}
+                      placeholder="Upload an Image"
+                      type="file"
+                    />
+                  </div>
+                </div>
+              </FormGroup>
+            </Form>
+          </ModalContent>
+          <ModalActions>
+            <Button
+              as="button"
+              negative={true}
+              onClick={[Function]}
+            >
+              Cancel
+            </Button>
+            <Button
+              as="button"
+              className="submit"
+              content="create"
+              disabled={false}
+              loading={false}
+              onClick={[Function]}
+              primary={true}
+            />
+          </ModalActions>
+        </Modal>,
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "children": Array [
+            <ModalHeader>
+              Create Event
+            </ModalHeader>,
+            <ModalContent>
+              <Form
+                as="form"
+              >
+                <FormGroup
+                  widths="equal"
+                >
+                  <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Event Name"
+                    name="eventName"
+                    onChange={[Function]}
+                    placeholder="Event name"
+                  />
+                </FormGroup>
+                <FormGroup
+                  widths="equal"
+                >
+                  <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="days"
+                    name="days"
+                    onChange={[Function]}
+                    placeholder="Amount of days"
+                    type="number"
+                  />
+                </FormGroup>
+                <FormGroup
+                  widths="equal"
+                >
+                  <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Date"
+                    name="startDate"
+                    onChange={[Function]}
+                    type="date"
+                  />
+                </FormGroup>
+                <FormGroup
+                  widths="equal"
+                >
+                  <div
+                    className="field"
+                  >
+                    <label
+                      style={undefined}
+                    >
+                      Image
+                    </label>
+                    <div
+                      className="ui field input"
+                    >
+                      <input
+                        accept="image/*"
+                        label="Image"
+                        name="image"
+                        onChange={[Function]}
+                        placeholder="Upload an Image"
+                        type="file"
+                      />
+                    </div>
+                  </div>
+                </FormGroup>
+              </Form>
+            </ModalContent>,
+            <ModalActions>
+              <Button
+                as="button"
+                negative={true}
+                onClick={[Function]}
+              >
+                Cancel
+              </Button>
+              <Button
+                as="button"
+                className="submit"
+                content="create"
+                disabled={false}
+                loading={false}
+                onClick={[Function]}
+                primary={true}
+              />
+            </ModalActions>,
+          ],
+          "closeOnDimmerClick": true,
+          "closeOnDocumentClick": false,
+          "dimmer": "blurring",
+          "eventPool": "Modal",
+          "onClose": undefined,
+          "open": false,
+          "size": "mini",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "children": "Create Event",
+            },
+            "ref": null,
+            "rendered": "Create Event",
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "children": <Form
+                as="form"
+              >
+                <FormGroup
+                  widths="equal"
+                >
+                  <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Event Name"
+                    name="eventName"
+                    onChange={[Function]}
+                    placeholder="Event name"
+                  />
+                </FormGroup>
+                <FormGroup
+                  widths="equal"
+                >
+                  <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="days"
+                    name="days"
+                    onChange={[Function]}
+                    placeholder="Amount of days"
+                    type="number"
+                  />
+                </FormGroup>
+                <FormGroup
+                  widths="equal"
+                >
+                  <FormInput
+                    as={[Function]}
+                    control={[Function]}
+                    defaultValue=""
+                    error={false}
+                    fluid={true}
+                    label="Date"
+                    name="startDate"
+                    onChange={[Function]}
+                    type="date"
+                  />
+                </FormGroup>
+                <FormGroup
+                  widths="equal"
+                >
+                  <div
+                    className="field"
+                  >
+                    <label
+                      style={undefined}
+                    >
+                      Image
+                    </label>
+                    <div
+                      className="ui field input"
+                    >
+                      <input
+                        accept="image/*"
+                        label="Image"
+                        name="image"
+                        onChange={[Function]}
+                        placeholder="Upload an Image"
+                        type="file"
+                      />
+                    </div>
+                  </div>
+                </FormGroup>
+              </Form>,
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "as": "form",
+                "children": Array [
+                  <FormGroup
+                    widths="equal"
+                  >
+                    <FormInput
+                      as={[Function]}
+                      control={[Function]}
+                      defaultValue=""
+                      error={false}
+                      fluid={true}
+                      label="Event Name"
+                      name="eventName"
+                      onChange={[Function]}
+                      placeholder="Event name"
+                    />
+                  </FormGroup>,
+                  <FormGroup
+                    widths="equal"
+                  >
+                    <FormInput
+                      as={[Function]}
+                      control={[Function]}
+                      defaultValue=""
+                      error={false}
+                      fluid={true}
+                      label="days"
+                      name="days"
+                      onChange={[Function]}
+                      placeholder="Amount of days"
+                      type="number"
+                    />
+                  </FormGroup>,
+                  <FormGroup
+                    widths="equal"
+                  >
+                    <FormInput
+                      as={[Function]}
+                      control={[Function]}
+                      defaultValue=""
+                      error={false}
+                      fluid={true}
+                      label="Date"
+                      name="startDate"
+                      onChange={[Function]}
+                      type="date"
+                    />
+                  </FormGroup>,
+                  <FormGroup
+                    widths="equal"
+                  >
+                    <div
+                      className="field"
+                    >
+                      <label
+                        style={undefined}
+                      >
+                        Image
+                      </label>
+                      <div
+                        className="ui field input"
+                      >
+                        <input
+                          accept="image/*"
+                          label="Image"
+                          name="image"
+                          onChange={[Function]}
+                          placeholder="Upload an Image"
+                          type="file"
+                        />
+                      </div>
+                    </div>
+                  </FormGroup>,
+                ],
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "children": <FormInput
+                      as={[Function]}
+                      control={[Function]}
+                      defaultValue=""
+                      error={false}
+                      fluid={true}
+                      label="Event Name"
+                      name="eventName"
+                      onChange={[Function]}
+                      placeholder="Event name"
+                    />,
+                    "widths": "equal",
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "as": [Function],
+                      "control": [Function],
+                      "defaultValue": "",
+                      "error": false,
+                      "fluid": true,
+                      "label": "Event Name",
+                      "name": "eventName",
+                      "onChange": [Function],
+                      "placeholder": "Event name",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "children": <FormInput
+                      as={[Function]}
+                      control={[Function]}
+                      defaultValue=""
+                      error={false}
+                      fluid={true}
+                      label="days"
+                      name="days"
+                      onChange={[Function]}
+                      placeholder="Amount of days"
+                      type="number"
+                    />,
+                    "widths": "equal",
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "as": [Function],
+                      "control": [Function],
+                      "defaultValue": "",
+                      "error": false,
+                      "fluid": true,
+                      "label": "days",
+                      "name": "days",
+                      "onChange": [Function],
+                      "placeholder": "Amount of days",
+                      "type": "number",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "children": <FormInput
+                      as={[Function]}
+                      control={[Function]}
+                      defaultValue=""
+                      error={false}
+                      fluid={true}
+                      label="Date"
+                      name="startDate"
+                      onChange={[Function]}
+                      type="date"
+                    />,
+                    "widths": "equal",
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "as": [Function],
+                      "control": [Function],
+                      "defaultValue": "",
+                      "error": false,
+                      "fluid": true,
+                      "label": "Date",
+                      "name": "startDate",
+                      "onChange": [Function],
+                      "type": "date",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "children": <div
+                      className="field"
+                    >
+                      <label
+                        style={undefined}
+                      >
+                        Image
+                      </label>
+                      <div
+                        className="ui field input"
+                      >
+                        <input
+                          accept="image/*"
+                          label="Image"
+                          name="image"
+                          onChange={[Function]}
+                          placeholder="Upload an Image"
+                          type="file"
+                        />
+                      </div>
+                    </div>,
+                    "widths": "equal",
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": Array [
+                        <label
+                          style={undefined}
+                        >
+                          Image
+                        </label>,
+                        <div
+                          className="ui field input"
+                        >
+                          <input
+                            accept="image/*"
+                            label="Image"
+                            name="image"
+                            onChange={[Function]}
+                            placeholder="Upload an Image"
+                            type="file"
+                          />
+                        </div>,
+                      ],
+                      "className": "field",
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "children": "Image",
+                          "style": undefined,
+                        },
+                        "ref": null,
+                        "rendered": "Image",
+                        "type": "label",
+                      },
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "children": <input
+                            accept="image/*"
+                            label="Image"
+                            name="image"
+                            onChange={[Function]}
+                            placeholder="Upload an Image"
+                            type="file"
+                          />,
+                          "className": "ui field input",
+                        },
+                        "ref": null,
+                        "rendered": Object {
+                          "instance": null,
+                          "key": undefined,
+                          "nodeType": "host",
+                          "props": Object {
+                            "accept": "image/*",
+                            "label": "Image",
+                            "name": "image",
+                            "onChange": [Function],
+                            "placeholder": "Upload an Image",
+                            "type": "file",
+                          },
+                          "ref": null,
+                          "rendered": null,
+                          "type": "input",
+                        },
+                        "type": "div",
+                      },
+                    ],
+                    "type": "div",
+                  },
+                  "type": [Function],
+                },
+              ],
+              "type": [Function],
+            },
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "children": Array [
+                <Button
+                  as="button"
+                  negative={true}
+                  onClick={[Function]}
+                >
+                  Cancel
+                </Button>,
+                <Button
+                  as="button"
+                  className="submit"
+                  content="create"
+                  disabled={false}
+                  loading={false}
+                  onClick={[Function]}
+                  primary={true}
+                />,
+              ],
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "as": "button",
+                  "children": "Cancel",
+                  "negative": true,
+                  "onClick": [Function],
+                },
+                "ref": null,
+                "rendered": "Cancel",
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "as": "button",
+                  "className": "submit",
+                  "content": "create",
+                  "disabled": false,
+                  "loading": false,
+                  "onClick": [Function],
+                  "primary": true,
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+            ],
+            "type": [Function],
+          },
+        ],
+        "type": [Function],
+      },
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;

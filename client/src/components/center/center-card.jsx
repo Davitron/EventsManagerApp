@@ -7,7 +7,7 @@ const CenterCard = ({ center }) => (
   <Card>
     <Image src={center.image} />
     <Card.Content>
-      <Card.Header>
+      <Card.Header className="modal-header">
         {center.name}
       </Card.Header>
       <Card.Meta>

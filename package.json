@@ -7,20 +7,23 @@
     "lint": "./node_modules/.bin/eslint --ext .jsx --ext .js **",
     "lint-fix": "./node_modules/.bin/eslint --fix .jsx --ext .js **",
     "clean": "rm -rf build && mkdir build",
+    "build:client": "webpack --config webpack.prod.js",
     "build:server": "babel ./server --out-dir build -s",
     "load-config": "cp ./server/config/config.json ./build/config/config.json",
     "load-swagger": "mkdir ./build/doc && cp ./server/doc/swagger.json ./build/doc/swagger.json",
-    "build": "npm run clean && npm run build:server && npm run build:client && npm run load-config && npm run load-swagger",
+    "full-build": "npm run build:server && npm run build:client && npm run load-config && npm run load-swagger",
+    "heroku-postbuild": "npm run full-build",
     "db:migration": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
-    "test": "NODE_ENV=test npm run db:migration && nyc --reporter=html --reporter=text mocha --timeout 10000 ./server/tests/* --exit --require babel-register --reporter spec",
-    "babel-node": "babel-node --preset=es2015",
-    "start": "nodemon --exec npm run babel-node -- ./server/server.js",
-    "build:client": "webpack --config webpack.prod.js",
-    "start:dev": "npm run webpack & nodemon --exec npm run babel-node -- ./server/server.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test",
-    "test:dev": "NODE_ENV=test npm run db:migration && nyc --reporter=html --reporter=text mocha --timeout 10000 ./server/tests/* --exit --require babel-register --reporter spec",
-    "postinstall": "npm run build",
+    "test:server": "NODE_ENV=test npm run db:migration && nyc --reporter=html --reporter=text mocha --timeout 10000 ./server/tests/* --exit --require babel-register --reporter spec",
+    "test:client": "jest /client/src && codecov",
+    "full-test": "npm run test:client && npm run test:server",
+    "server:e2e": "NODE_ENV=test npm run db:migration && npm run build:client && NODE_ENV=test nodemon --exec npm run babel-node -- ./server/server.js",
+    "test:e2e": "NODE_ENV=test ./node_modules/.bin/nightwatch",
+    "babel-node": "babel-node --preset=es2015",
+    "start": "node ./build/server.js",
+    "start:dev": "npm run webpack & nodemon --exec npm run babel-node -- ./server/server.js",
     "webpack": "webpack --config webpack.dev.js --watch"
   },
   "repository": {
@@ -35,7 +38,8 @@
   "homepage": "https://github.com/Davitron/EventsManagerApp#readme",
   "nodemonConfig": {
     "ignore": [
-      "client/*"
+      "client/*",
+      "e2etests/*"
     ]
   },
   "devDependencies": {
@@ -52,18 +56,25 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.5.1",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^22.4.3",
     "jest-enzyme": "^4.2.0",
     "mocha": "^3.5.2",
     "mocha-lcov-reporter": "^1.3.0",
+    "moxios": "^0.4.0",
+    "nightwatch": "^0.9.21",
     "nyc": "^11.3.0",
     "react-test-renderer": "^16.2.0",
     "redux-logger": "^3.0.6",
+    "redux-mock-store": "^1.5.1",
+    "selenium-standalone": "^6.15.0",
+    "sinon": "^5.0.7",
     "webpack-merge": "^4.1.2"
   },
   "dependencies": {
     "@sendgrid/mail": "^6.2.1",
     "accounting-js": "^1.1.1",
+    "animate.css": "^3.6.1",
     "append-query": "^2.0.1",
     "await": "^0.2.6",
     "axios": "^0.17.1",
@@ -92,6 +103,7 @@
     "css-loader": "^0.28.9",
     "deep-equal": "^1.0.1",
     "dotenv": "^4.0.0",
+    "expect": "^22.4.3",
     "express": "^4.16.2",
     "faker": "^4.1.0",
     "file-loader": "^1.1.6",
@@ -105,6 +117,7 @@
     "jsonwebtoken": "^8.1.0",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.4",
+    "mini-css-extract-plugin": "^0.4.0",
     "moment": "^2.19.3",
     "morgan": "^1.9.0",
     "node-mailer": "^0.1.1",
@@ -130,13 +143,19 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "next",
-    "react-select": "^1.1.0",
+    "react-select": "^1.2.1",
     "react-test-renderer": "^16.2.0",
+    "react-tooltip": "^3.6.0",
     "react-trigger-change": "^1.0.2",
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.2",
+    "redux-persist": "^5.9.1",
+    "redux-persist-cookie-storage": "^1.0.0-beta",
+    "redux-storage": "^4.1.2",
+    "redux-storage-engine-localstorage": "^1.1.4",
     "redux-thunk": "^2.2.0",
     "sass-loader": "^6.0.7",
+    "semantic-ui-css": "^2.3.1",
     "semantic-ui-react": "^0.79.1",
     "sequelize": "^4.23.1",
     "sequelize-cli": "^3.0.0",
@@ -150,8 +169,35 @@
     "url-loader": "^0.6.2",
     "uuid": "^3.1.0",
     "validatorjs": "^3.13.5",
-    "webpack": "^3.7.1",
+    "webpack": "^4.3.0",
+    "webpack-cli": "^3.0.2",
     "webpack-dev-middleware": "^1.12.2",
     "webpack-hot-middleware": "^2.19.1"
+  },
+  "jest": {
+    "verbose": true,
+    "coverageDirectory": "./coverage/client/",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "client/src/**/*.{js,jsx}"
+    ],
+    "testEnvironment": "jsdom",
+    "globals": {
+      "window": true
+    },
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/client/__mocks__/mock-data/fileMock.js",
+      "\\.(css|scss)$": "identity-obj-proxy"
+    },
+    "moduleFileExtensions": [
+      "jsx",
+      "js"
+    ],
+    "unmockedModulePathPatterns": [
+      "react"
+    ],
+    "setupFiles": [
+      "<rootDir>/client/src/setups/setupTests.js"
+    ]
   }
 }

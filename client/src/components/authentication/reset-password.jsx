@@ -5,14 +5,12 @@ import { connect } from 'react-redux';
 import { Input, Button, Modal } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import FormValidator from '../../helpers/form-validator';
-import history from '../../helpers/history';
-import Header from '../header';
 import UserActions from '../../actions/user-actions';
 
 /**
  * @returns {*} Component for SignUp
  */
-class ResetPassword extends Component {
+export class ResetPassword extends Component {
 /**
  *
  * @param {*} props
@@ -111,7 +109,7 @@ class ResetPassword extends Component {
    */
   closeAlert() {
     this.setState({ showAlert: false });
-    history.push('/login');
+    this.props.history.push('/login');
   }
 
 
@@ -122,7 +120,7 @@ class ResetPassword extends Component {
     const { user, isLoading, errors, isDisabled, serverError, showAlert, serverSuccess } = this.state; // eslint-disable-line
     return (
       <div>
-        <Header />
+        {/* <Header /> */}
         <div className="home">
           <main className="section__hero" id="index-banner">
             <div className="my-container">
@@ -173,6 +171,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 ResetPassword.propTypes = {
   response: PropTypes.objectOf(() => null),
+  history: PropTypes.objectOf(() => null).isRequired,
   resetPassword: PropTypes.func
 };
 

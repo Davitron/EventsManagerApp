@@ -6,23 +6,20 @@ import queryString from 'query-string';
 import PropTypes from 'prop-types';
 import Paginator from '../reusables/pagination';
 import EventActions from '../../actions/event-action';
-import history from '../../helpers/history';
-import Header from '../header';
 import AuthChecker from '../../helpers/auth-checker';
 import EventCard from './event-card';
 import FormValidator from '../../helpers/form-validator';
 import EventFormModal from '../../components/event/create-event-form';
 import Prompt from '../reusables/prompt';
-
-
-// window.jQuery = window.$ = jQuery;
+import Toast from '../../helpers/toast';
+import imageUpload from '../../helpers/image-upload';
 
 /**
  * Event Component
  * @class
  * @extends Component
  */
-class Event extends Component {
+export class Event extends Component {
   /**
    *@param {*} props
    */
@@ -58,7 +55,7 @@ class Event extends Component {
       const query = queryString.parse(window.location.search);
       getAll(query);
     } else {
-      history.push('/centers');
+      this.props.history.push('/centers');
     }
   }
 
@@ -105,7 +102,7 @@ class Event extends Component {
     const query = queryString.parse(this.props.location.search);
     query.page = newPage;
     const qString = queryString.stringify(query, { arrayFormat: 'bracket' });
-    history.push(`/events?${qString}`);
+    this.props.history.push(`/events?${qString}`);
   }
 
 
@@ -122,7 +119,7 @@ class Event extends Component {
     query.limit = pageSize;
     query.page = currentPage;
     const qString = queryString.stringify(query, { arrayFormat: 'bracket' });
-    history.push(`/events?${qString}`);
+    this.props.history.push(`/events?${qString}`);
   }
 
   /**
@@ -133,7 +130,7 @@ class Event extends Component {
    */
   onSearch(query) {
     const qString = queryString.stringify(query, { arrayFormat: 'bracket' });
-    history.push(`/events?${qString}`);
+    this.props.history.push(`/events?${qString}`);
   }
 
   /**
@@ -152,6 +149,15 @@ class Event extends Component {
     const errors = fv.validateUpdateEventForm(event);
     if (errors) {
       this.setState({ errors, isRequestMade: false });
+    } else if (event.newImage !== event.image) {
+      imageUpload(event.newImage)
+        .then((imageUrl) => {
+          event.image = imageUrl;
+          updateEvent(event);
+        })
+        .catch((error) => {
+          Toast.error('Image Upload Error');
+        });
     } else {
       updateEvent(event);
     }
@@ -216,11 +222,11 @@ class Event extends Component {
 
     return (
       <div>
-        <Header />
+        {/* <Header /> */}
         <div className="background">
           <div className="my-container">
-            <div style={{ textAlign: 'event' }}>
-              <span style={{ fontSize: '45px' }}>Events </span>
+            <div style={{ textAlign: 'center' }}>
+              <span style={{ fontSize: '45px' }}>Events</span>
             </div>
             <Grid>
               <Grid.Row colunms={3}>
@@ -293,6 +299,7 @@ Event.propTypes = {
   response: PropTypes.objectOf(() => null),
   getAll: PropTypes.func,
   location: PropTypes.objectOf(() => null).isRequired,
+  history: PropTypes.objectOf(() => null).isRequired,
   updateEvent: PropTypes.func,
   deleteEvent: PropTypes.func,
 };

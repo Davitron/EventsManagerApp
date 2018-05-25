@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Button, Modal, Form } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import CenterActions from '../../actions/center-action';
 
+const cleanError = (errorText, badWord, cleanWord) => errorText.replace(badWord, cleanWord);
 
 const facilities = [
   { key: '1', text: 'CCTV', value: 'cctv' },
@@ -32,17 +31,10 @@ const defaultProps = {
   isRequestMade: false
 };
 
-// const fileValidation = (file) => {
-//   if ((/\.(jpg|jpeg|png)$/i).test(file.name)) {
-//     return true;
-//   }
-//   return false;
-// };
-
 /**
  *component for create center modal
  */
-class CenterFormModal extends Component {
+export class CenterFormModal extends Component {
   /**
    *
    * @param {*} props
@@ -111,11 +103,15 @@ class CenterFormModal extends Component {
   */
   onChange(event, data) {
     const { name, value } = data;
-    const { center } = this.state;
+    const { center, errors } = this.state;
     this.setState({
       center: {
         ...center,
         [name]: value
+      },
+      errors: {
+        ...errors,
+        [name]: null
       }
     });
   }
@@ -127,11 +123,15 @@ class CenterFormModal extends Component {
   */
   onFileChange(event) {
     const { name, files } = event.target;
-    const { center } = this.state;
+    const { center, errors } = this.state;
     this.setState({
       center: {
         ...center,
         [name]: files[0]
+      },
+      errors: {
+        ...errors,
+        [name]: null
       }
     });
   }
@@ -189,7 +189,11 @@ class CenterFormModal extends Component {
                   options={states}
                   error={errors.stateId ? true : false}
                   defaultValue={center.stateId ? center.stateId : ''}
-                  label={errors.stateId ? errors.stateId[0] : 'State'}
+                  label={
+                    errors.stateId ?
+                    cleanError(errors.stateId[0], 'stateId', 'state') :
+                    'State'
+                  }
                   placeholder="State"
                   onChange={this.onChange}
                   name="stateId"
@@ -212,7 +216,10 @@ class CenterFormModal extends Component {
                   fluid
                   error={errors.hallCapacity ? true : false}
                   defaultValue={center.hallCapacity ? center.hallCapacity : ''}
-                  label={errors.hallCapacity ? errors.hallCapacity[0] : 'Hall Capacity'}
+                  label={
+                    errors.hallCapacity ?
+                    cleanError(errors.hallCapacity[0], 'hallCapacity', 'hall capacity') :
+                    'Hall Capacity'}
                   placeholder="Hall Capacity"
                   onChange={this.onChange}
                   name="hallCapacity"
@@ -222,7 +229,11 @@ class CenterFormModal extends Component {
                   fluid
                   error={errors.carParkCapacity ? true : false}
                   defaultValue={center.carParkCapacity ? center.carParkCapacity : ''}
-                  label={errors.carParkCapacity ? errors.carParkCapacity[0] : 'Carpark Capacity'}
+                  label={
+                    errors.carParkCapacity ?
+                    cleanError(errors.carParkCapacity[0], 'carParkCapacity', 'carpark capacity') :
+                    'Carpark Capacity'
+                  }
                   placeholder="Carpark Capacity"
                   onChange={this.onChange}
                   name="carParkCapacity"
@@ -269,10 +280,8 @@ class CenterFormModal extends Component {
             </Button>
             <Button
               primary
-              icon="checkmark"
               disabled={loading}
               loading={loading}
-              labelPosition="right"
               content={mode === 'create' ? 'create' : 'update'}
               onClick={this.onSubmit}
             />
@@ -292,8 +301,4 @@ const matchStateToProps = state => ({
   }
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  createCenter: CenterActions.createCenter,
-}, dispatch);
-
-export default connect(matchStateToProps, mapDispatchToProps)(CenterFormModal);
+export default connect(matchStateToProps)(CenterFormModal);

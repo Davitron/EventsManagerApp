@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import FormValidator from '../../helpers/form-validator';
-import Header from '../header';
 import UserActions from '../../actions/user-actions';
 
 
@@ -13,7 +12,7 @@ import UserActions from '../../actions/user-actions';
  * @class
  *
  */
-class ForgotPassword extends Component {
+export class ForgotPassword extends Component {
 /**
  *
  * @param {*} props
@@ -111,7 +110,7 @@ class ForgotPassword extends Component {
     const { user, isLoading, errors, isDisabled, serverError, showAlert, serverSuccess } = this.state; // eslint-disable-line
     return (
       <div>
-        <Header />
+        {/* <Header /> */}
         <div className="home">
           <main className="section__hero" id="index-banner">
             <div className="my-container">
@@ -150,7 +149,7 @@ class ForgotPassword extends Component {
   }
 }
 
-const mapStateToProps = state => ({ response: state.resetPassword });
+const mapStateToProps = state => ({ response: state.forgotPassword });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   requestReset: UserActions.resetRequest

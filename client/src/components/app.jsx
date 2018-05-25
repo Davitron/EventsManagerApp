@@ -1,6 +1,7 @@
 import React from 'react';
 import { Router, Route, Switch } from 'react-router';
 import history from '../helpers/history';
+import Header from './header';
 import Home from './home';
 import Register from './authentication/register';
 import Login from './authentication/login';
@@ -10,17 +11,16 @@ import Verify from './authentication/verify';
 import Verified from './authentication/verified';
 import Centers from './center/centers';
 import CenterEvent from './event/events-admin';
-// import UpcomingEvent from './event/upcoming-events';
 import Events from './event/events';
 import NotFound from './notFound';
 import CenterDetails from './center/center-details';
 import UserRoute from '../helpers/user-route';
-// import AdminRoute from '../helpers/admin-route';
 import '../style.scss';
 
 const App = () => (
   <Router history={history}>
     <div>
+      <Header />
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/register" component={Register} />

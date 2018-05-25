@@ -1,4 +1,6 @@
 const path = require('path');
+const webpack = require('webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin'); // eslint-disable-line
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // eslint-disable-line 
 
@@ -11,7 +13,7 @@ module.exports = {
     path: path.resolve(__dirname, 'client', 'public')
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.(js|jsx|es6)$/,
         loader: 'babel-loader',
@@ -22,7 +24,11 @@ module.exports = {
       },
       {
         test: /\.(scss|css)$/,
-        loaders: ['style-loader', 'css-loader', 'sass-loader'],
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader'
+        ]
       },
       {
         test: /\.html$/,
@@ -48,6 +54,18 @@ module.exports = {
       { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=image/svg+xml' },
     ]
   },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+    }),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery',
+      Popper: ['popper.js', 'default'],
+    }),
+  ],
   resolve: {
     extensions: ['.js', '.jsx'],
   }

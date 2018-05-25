@@ -12,7 +12,7 @@ export default class Toast {
   static success(data) {
     Toastify({
       text: data,
-      duration: 1000,
+      duration: 3000,
       close: true,
       gravity: 'buttom',
       positionLeft: false,
@@ -28,9 +28,9 @@ export default class Toast {
   static error(data) {
     Toastify({
       text: data,
-      duration: 1000,
+      duration: 3000,
       close: true,
-      gravity: 'bottom',
+      gravity: 'buttom',
       positionLeft: false,
       backgroundColor: 'linear-gradient(to right, #ffa29d, red)'
     }).showToast();
