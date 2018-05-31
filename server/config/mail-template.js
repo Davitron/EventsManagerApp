@@ -5,16 +5,23 @@ export const getHostname = () => {
   return process.env.TEST_HOSTURL;
 };
 
+let hostLink;
+let link;
+
 export const messageBody = {
-  accountCreated: (username, token) => {
+  accountCreated: (username, token, host) => {
+    hostLink = host || process.env.TEST_HOSTURL;
+    link = `${hostLink}/verified?token=${token}`;
     const body = `<p>Welcome ${username}.</p><br/><p>Click the link below to complete your registration</p><br />
-                  <a href="${getHostname()}/verified?token=${token}">Complete Registration</a><br/>`;
+                  <a href="${link}">Complete Registration</a><br/>`;
     return body;
   },
 
-  resetPassword: (username, token) => {
+  resetPassword: (username, token, host) => {
+    hostLink = host || process.env.TEST_HOSTURL;
+    link = `${hostLink}/reset-password?token=${token}`;
     const body = `<p>Welcome ${username}.</p><br/><p>Click the link below to reset your password</p><br />
-                  <a href="${getHostname()}/reset-password?token=${token}">Reset Password</a><br/>
+                  <a href="${link}">Reset Password</a><br/>
                   This link expires in 15 mins`;
     return body;
   },

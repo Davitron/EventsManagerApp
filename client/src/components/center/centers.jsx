@@ -9,17 +9,17 @@ import CenterActions from '../../actions/center-action';
 import CenterFormModal from './create-center-form';
 import FormValidator from '../../helpers/form-validator';
 import AuthChecker from '../../helpers/auth-checker';
-import Header from '../header';
-import history from '../../helpers/history';
+import ImageUpload from '../../helpers/image-upload';
 import Paginator from '../reusables/pagination';
 import CenterCard from './center-card';
+import Toast from '../../helpers/toast';
 
 /**
  * Center Component
  * @class
  * @extends Component
  */
-class Center extends Component {
+export class Center extends Component {
   /**
    *@param {*} props
    */
@@ -69,7 +69,6 @@ class Center extends Component {
 
     if (newCenter.status === 'success') {
       this.setState({ openModal: false, isRequestMade: false });
-      // history.push('/centers');
     }
 
     if (status === 'failed') {
@@ -102,7 +101,7 @@ class Center extends Component {
     const query = queryString.parse(this.props.location.search);
     query.page = newPage;
     const qString = queryString.stringify(query, { arrayFormat: 'bracket' });
-    history.push(`/centers?${qString}`);
+    this.props.history.push(`/centers?${qString}`);
   }
 
 
@@ -119,7 +118,7 @@ class Center extends Component {
     query.limit = pageSize;
     query.page = currentPage;
     const qString = queryString.stringify(query, { arrayFormat: 'bracket' });
-    history.push(`/centers?${qString}`);
+    this.props.history.push(`/centers?${qString}`);
   }
 
   /**
@@ -130,7 +129,7 @@ class Center extends Component {
    */
   onSearch(query) {
     const qString = queryString.stringify(query, { arrayFormat: 'bracket' });
-    history.push(`/centers?${qString}`);
+    this.props.history.push(`/centers?${qString}`);
   }
 
   /**
@@ -149,16 +148,15 @@ class Center extends Component {
     if (errors) {
       this.setState({ errors, isRequestMade: false });
     } else {
-      createCenter(center);
+      ImageUpload(center.image)
+        .then((imageUrl) => {
+          center.image = imageUrl;
+          createCenter(center);
+        })
+        .catch(() => {
+          Toast.error('Image Upload Error');
+        });
     }
-  }
-
-  /**
-   * @param {*} event
-   * @returns {*} triggers when key is pressed
-   */
-  handleCreate(event) {
-    history.push('/create-center');
   }
 
   /**
@@ -191,7 +189,7 @@ class Center extends Component {
     const role = AuthChecker.defineRole();
     return (
       <div>
-        <Header />
+        {/* <Header /> */}
         <div className="background">
           <div className="my-container">
             <div style={{ textAlign: 'center' }}>
@@ -259,6 +257,7 @@ Center.propTypes = {
   location: PropTypes.objectOf(() => null).isRequired,
   getStates: PropTypes.func,
   createCenter: PropTypes.func,
+  history: PropTypes.objectOf(() => null).isRequired
 };
 
 Center.defaultProps = {

@@ -4,8 +4,6 @@ import queryString from 'query-string';
 import Toast from '../helpers/toast';
 import mainActionType from './actionTypes/main-action-types';
 import Dispatcher from '../helpers/dispatch';
-import history from '../helpers/history';
-import imageUpload from '../helpers/image-upload';
 
 
 const CENTER_BASE_URL = '/api/v1/centers';
@@ -45,7 +43,7 @@ export default class CenterActions {
 
     return (dispatch) => {
       dispatch(Dispatcher.action(mainActionType.GETALL_REQUEST, null));
-      axios({
+      return axios({
         method: 'GET',
         url: api,
         headers: {
@@ -72,7 +70,7 @@ export default class CenterActions {
     const token = cookies.get('jwt-events-manager');
     return (dispatch) => {
       dispatch(Dispatcher.action(mainActionType.GET_REQUEST, null));
-      axios({
+      return axios({
         method: 'GET',
         url: `${CENTER_BASE_URL}/${centerId}`,
         headers: {
@@ -97,7 +95,7 @@ export default class CenterActions {
     const token = cookies.get('jwt-events-manager');
     return (dispatch) => {
       dispatch(Dispatcher.action(mainActionType.GETSTATES_REQUEST, []));
-      axios({
+      return axios({
         method: 'GET',
         url: '/api/v1/states',
         headers: {
@@ -114,6 +112,7 @@ export default class CenterActions {
     };
   }
 
+  // TODO: find a way to remove or mock history.push
   /**
    *
    * @param {object} newCenter
@@ -125,32 +124,25 @@ export default class CenterActions {
     const token = cookies.get('jwt-events-manager');
     return (dispatch) => {
       dispatch(Dispatcher.action(mainActionType.CREATE_REQUEST, newCenter));
-      imageUpload(newCenter.image)
-        .then((imageUrl) => {
-          newCenter.image = imageUrl;
-          axios({
-            method: 'POST',
-            url: CENTER_BASE_URL,
-            headers: {
-              'x-access-token': token
-            },
-            data: newCenter
-          })
-            .then((response) => {
-              dispatch(Dispatcher.action(mainActionType.CREATE_SUCCESS, response.data.message));
-              // dispatch(CenterActions.getAll({ page: 1 }));
-              history.push('/centers?page=1');
-            })
-            .then(() => {
-              dispatch(Dispatcher.action(mainActionType.RESET_STATE, null));
-            })
-            .catch((error) => {
-              const { message } = error.response.data;
-              dispatch(Dispatcher.action(mainActionType.CREATE_FAILED, message));
-            });
+      return axios({
+        method: 'POST',
+        url: CENTER_BASE_URL,
+        headers: {
+          'x-access-token': token
+        },
+        data: newCenter
+      })
+        .then((response) => {
+          dispatch(Dispatcher.action(mainActionType.CREATE_SUCCESS, response.data.message));
+          dispatch(CenterActions.getAll({ page: 1 }));
+          // history.push('/centers?page=1');
+        })
+        .then(() => {
+          dispatch(Dispatcher.action(mainActionType.RESET_STATE, null));
         })
         .catch((error) => {
-          Toast.error('Image upload error');
+          const { message } = error.response.data;
+          dispatch(Dispatcher.action(mainActionType.CREATE_FAILED, message));
         });
     };
   }
@@ -173,7 +165,8 @@ export default class CenterActions {
     })
       .then(response => response)
       .catch((error) => {
-        throw (error.data.message);
+        const { data: { message } } = error.response;
+        throw (message);
       });
   }
   /**
@@ -186,7 +179,7 @@ export default class CenterActions {
   static updateCenter(centerObj) {
     return (dispatch) => {
       dispatch(Dispatcher.action(mainActionType.UPDATE_REQUEST, centerObj));
-      CenterActions.handleCenterUpdate(centerObj)
+      return CenterActions.handleCenterUpdate(centerObj)
         .then((response) => {
           dispatch(Dispatcher.action(mainActionType.UPDATE_SUCCESS, response.data));
           dispatch(CenterActions.getCenter(centerObj.id));
@@ -202,14 +195,16 @@ export default class CenterActions {
    *
    * @param {number} id
    *
+   * @param {function} history
+   *
    * @returns {void}
    * this action is handles deleting a center
   */
-  static deleteCenter(id) {
+  static deleteCenter(id, history) {
     const token = cookies.get('jwt-events-manager');
     return (dispatch) => {
       dispatch(Dispatcher.action(mainActionType.DELETE_REQUEST, id));
-      axios({
+      return axios({
         method: 'DELETE',
         url: `${CENTER_BASE_URL}/${id}`,
         headers: {
@@ -219,10 +214,8 @@ export default class CenterActions {
         .then((response) => {
           dispatch(Dispatcher.action(mainActionType.DELETE_SUCCESS, response.data.message));
           Toast.success(response.data.message);
-          history.push('/centers');
-        })
-        .then(() => {
           dispatch(Dispatcher.action(mainActionType.RESET_STATE, null));
+          history.push('/centers');
         })
         .catch((error) => {
           const { message } = error.response.data;

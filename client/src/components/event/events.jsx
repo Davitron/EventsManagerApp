@@ -7,12 +7,13 @@ import PropTypes from 'prop-types';
 import Paginator from '../reusables/pagination';
 import EventActions from '../../actions/event-action';
 import history from '../../helpers/history';
-import Header from '../header';
 import AuthChecker from '../../helpers/auth-checker';
 import EventCard from './event-card';
 import FormValidator from '../../helpers/form-validator';
 import EventFormModal from '../../components/event/create-event-form';
 import Prompt from '../reusables/prompt';
+import Toast from '../../helpers/toast';
+import imageUpload from '../../helpers/image-upload';
 
 
 // window.jQuery = window.$ = jQuery;
@@ -152,6 +153,15 @@ class Event extends Component {
     const errors = fv.validateUpdateEventForm(event);
     if (errors) {
       this.setState({ errors, isRequestMade: false });
+    } else if (event.newImage !== event.image) {
+      imageUpload(event.newImage)
+        .then((imageUrl) => {
+          event.image = imageUrl;
+          updateEvent(event);
+        })
+        .catch((error) => {
+          Toast.error('Image Upload Error');
+        });
     } else {
       updateEvent(event);
     }
@@ -216,7 +226,7 @@ class Event extends Component {
 
     return (
       <div>
-        <Header />
+        {/* <Header /> */}
         <div className="background">
           <div className="my-container">
             <div style={{ textAlign: 'event' }}>

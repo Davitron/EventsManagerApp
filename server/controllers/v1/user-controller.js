@@ -1,4 +1,3 @@
-import validator from 'validatorjs';
 import Sequelize from 'sequelize';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -38,8 +37,9 @@ export default class UserController {
       isAdmin: Boolean(req.body.isAdmin) || false
     })
       .then((user) => {
+        const host = `${req.protocol}://${req.get('host')}`;
         const token = jwt.sign({ id: user.id, email: user.email }, process.env.SECRET_KEY, { expiresIn: '7d' });
-        const message = mailTemplate.messageBody.accountCreated(user.username, token);
+        const message = mailTemplate.messageBody.accountCreated(user.username, token, host);
         mailer.sendMail(user.email, message, 'Welcome to EventsManager');
         const userDetails = {
           username: user.username,
@@ -151,15 +151,10 @@ export default class UserController {
       }
       return user.update({
         isVerified: true
-      }).then(() => {
-        const token = jwt.sign({ id: user.id, isAdmin: user.isAdmin }, process.env.SECRET_KEY, { expiresIn: '1d' });
-        return res.status(200).json({
-          message: 'Welcome to Event Manager',
-          user: user.username,
-          Token: token,
-          statusCode: 200
-        });
-      });
+      }).then(() => res.status(200).json({
+        message: 'Welcome to Event Manager',
+        statusCode: 200
+      }));
     }).catch(err => res.status(500).json({
       message: 'Oops!, an error has occured',
       error: err.name,
@@ -239,6 +234,7 @@ export default class UserController {
    * @returns {json} returns message object id deletion is successful
    */
   static resetPasswordRequest(req, res) {
+    const host = `${req.protocol}://${req.get('host')}`;
     return Users.findOne({
       where: {
         email: req.body.email
@@ -247,7 +243,7 @@ export default class UserController {
       .then((user) => {
         if (user) {
           const token = jwt.sign({ id: user.id, email: user.email }, process.env.SECRET_KEY, { expiresIn: '15m' });
-          const message = mailTemplate.messageBody.resetPassword(user.username, token);
+          const message = mailTemplate.messageBody.resetPassword(user.username, token, host);
           mailer.sendMail(user.email, message, 'Password Reset Link');
           return res.status(200).json({ message: 'Password reset link is sent', statusCode: 200, token });
         }
@@ -262,7 +258,7 @@ export default class UserController {
    *
    * @param {object} res - HTTP response object
    *
-   * @returns {json} returns message object id deletion is successful
+   * @returns {json} returns message object with status code
    */
   static resetPassword(req, res) {
     if (req.body.password !== req.body.confirmPassword) {

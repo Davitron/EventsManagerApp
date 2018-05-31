@@ -1,8 +1,9 @@
 import React from 'react';
 import { Router, Route, Switch } from 'react-router';
 import history from '../helpers/history';
+import Header from './header';
 import Home from './home';
-import Register from './authentication/register';
+import { Register } from './authentication/register';
 import Login from './authentication/login';
 import ForgotPassword from './authentication/forgot-password';
 import ResetPassword from './authentication/reset-password';
@@ -21,6 +22,7 @@ import '../style.scss';
 const App = () => (
   <Router history={history}>
     <div>
+      <Header />
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/register" component={Register} />

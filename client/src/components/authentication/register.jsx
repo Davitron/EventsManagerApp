@@ -4,7 +4,8 @@ import { Input, Button } from 'semantic-ui-react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Header from '../header';
+// import history from '../../helpers/history';
+// import Header from '../header';
 import FormValidator from '../../helpers/form-validator';
 import UserActions from '../../actions/user-actions';
 
@@ -13,7 +14,7 @@ import UserActions from '../../actions/user-actions';
  * @class
  *
  */
-class Register extends Component {
+export class Register extends Component {
 /**
  *
  * @param {*} props
@@ -43,10 +44,11 @@ class Register extends Component {
    * @returns {void}
    */
   componentWillReceiveProps(nextProps) {
-    const { serverError } = this.state;
-    const { data } = nextProps.response;
-    if (serverError !== data) {
+    const { data, status } = nextProps.response;
+    if (status === 'failed') {
       this.setState({ serverError: data, isLoading: false, isDisabled: false });
+    } else if (status === 'created') {
+      this.props.history.push('/verify');
     }
   }
 
@@ -100,7 +102,7 @@ class Register extends Component {
 
     return (
       <div>
-        <Header />
+        {/* <Header /> */}
         <div className="home">
           <main className="section__hero" id="index-banner">
             <div className="my-container">
@@ -143,6 +145,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 Register.propTypes = {
   response: PropTypes.objectOf(() => null),
+  history: PropTypes.objectOf(() => null).isRequired,
   createUser: PropTypes.func
 };
 

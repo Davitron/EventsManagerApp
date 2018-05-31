@@ -213,10 +213,8 @@ class EventFormModal extends Component {
             </Button>
             <Button
               primary
-              icon="checkmark"
               disabled={loading}
               loading={loading}
-              labelPosition="right"
               content={mode === 'create' ? 'create' : 'update'}
               onClick={this.onSubmit}
             />

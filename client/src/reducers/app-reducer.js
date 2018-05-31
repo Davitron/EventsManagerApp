@@ -14,20 +14,15 @@ export default class AppReducer {
    * it returns a new state if an action is dispatched
    */
   static getAll(state = initialState.app, action) {
-    const newState = {};
     switch (action.type) {
       case mainActionType.GETALL_REQUEST:
-        newState.status = 'fetching';
-        newState.data = null;
-        return newState;
+        return { ...state, status: 'fetching', data: null };
       case mainActionType.GETALL_SUCCESS:
-        newState.status = 'success';
-        newState.data = action.data;
-        return newState;
+        return { ...state, status: 'success', data: action.data };
       case mainActionType.GETALL_FAILED:
-        newState.status = 'failed';
-        newState.data = action.data;
-        return newState;
+        return { ...state, status: 'failed', data: action.data };
+      case mainActionType.RESET_STATE:
+        return state;
       default:
         return state;
     }
@@ -38,24 +33,19 @@ export default class AppReducer {
    * @param {*} state
    * @param {*} action
    * @returns {object}
-   * This is reducer is for creating an event or center
+   * This is reducer is for getting an event or center
    * it returns a new state if an action is dispatched
    */
   static get(state = initialState.app, action) {
-    const newState = {};
     switch (action.type) {
       case mainActionType.GET_REQUEST:
-        newState.status = 'fetching';
-        newState.data = null;
-        return newState;
+        return { ...state, status: 'fetching', data: null };
       case mainActionType.GET_SUCCESS:
-        newState.status = 'success';
-        newState.data = action.data;
-        return newState;
+        return { ...state, status: 'success', data: action.data };
       case mainActionType.GET_FAILED:
-        newState.status = 'failed';
-        newState.data = action.data;
-        return newState;
+        return { ...state, status: 'failed', data: action.data };
+      case mainActionType.RESET_STATE:
+        return state;
       default:
         return state;
     }
@@ -70,20 +60,15 @@ export default class AppReducer {
    * it returns a new state if an action is dispatched
    */
   static getAllStates(state = initialState.app, action) {
-    const newState = {};
     switch (action.type) {
       case mainActionType.GETSTATES_REQUEST:
-        newState.status = 'fetching';
-        newState.data = action.data;
-        return newState;
+        return { ...state, status: 'fetching', data: action.data };
       case mainActionType.GETSTATES_SUCCESS:
-        newState.status = 'success';
-        newState.data = action.data;
-        return newState;
+        return { ...state, status: 'success', data: action.data };
       case mainActionType.GETSTATES_FAILED:
-        newState.status = 'failed';
-        newState.data = action.data;
-        return newState;
+        return { ...state, status: 'failed', data: action.data };
+      case mainActionType.RESET_STATE:
+        return state;
       default:
         return state;
     }
@@ -98,24 +83,16 @@ export default class AppReducer {
    * it returns a new state if an action is dispatched
    */
   static create(state = initialState.app, action) {
-    const newState = {};
+    // const newState = {};
     switch (action.type) {
       case mainActionType.CREATE_REQUEST:
-        newState.data = null;
-        newState.status = 'ongoing';
-        return newState;
+        return { ...state, status: 'ongoing', data: null };
       case mainActionType.CREATE_SUCCESS:
-        newState.data = action.data;
-        newState.status = 'success';
-        return newState;
+        return { ...state, status: 'success', data: action.data };
       case mainActionType.CREATE_FAILED:
-        newState.status = 'failed';
-        newState.data = action.data;
-        return newState;
+        return { ...state, status: 'failed', data: action.data };
       case mainActionType.RESET_STATE:
-        newState.status = null;
-        newState.data = null;
-        return newState;
+        return state;
       default:
         return state;
     }
@@ -130,24 +107,16 @@ export default class AppReducer {
    * it returns a new state if an action is dispatched
    */
   static update(state = initialState.app, action) {
-    const newState = {};
+    // const newState = {};
     switch (action.type) {
       case mainActionType.UPDATE_REQUEST:
-        newState.data = null;
-        newState.status = 'ongoing';
-        return newState;
+        return { ...state, status: 'ongoing', data: null };
       case mainActionType.UPDATE_SUCCESS:
-        newState.data = action.data;
-        newState.status = 'success';
-        return newState;
+        return { ...state, status: 'success', data: action.data };
       case mainActionType.UPDATE_FAILED:
-        newState.status = 'failed';
-        newState.data = action.data;
-        return newState;
+        return { ...state, status: 'failed', data: action.data };
       case mainActionType.RESET_STATE:
-        newState.status = null;
-        newState.data = null;
-        return newState;
+        return state;
       default:
         return state;
     }
@@ -162,52 +131,15 @@ export default class AppReducer {
    * it returns a new state if an action is dispatched
    */
   static deleteItem(state = initialState.app, action) {
-    const newState = {};
     switch (action.type) {
       case mainActionType.DELETE_REQUEST:
-        newState.data = null;
-        newState.status = 'ongoing';
-        return newState;
+        return { ...state, status: 'ongoing', data: null };
       case mainActionType.DELETE_SUCCESS:
-        newState.data = action.data;
-        newState.status = 'success';
-        return newState;
+        return { ...state, status: 'success', data: action.data };
       case mainActionType.DELETE_FAILED:
-        newState.status = 'failed';
-        newState.data = action.data;
-        return newState;
+        return { ...state, status: 'failed', data: action.data };
       case mainActionType.RESET_STATE:
-        newState.status = null;
-        newState.data = null;
-        return newState;
-      default:
         return state;
-    }
-  }
-
-  /**
-   *
-   * @param {*} state
-   * @param {*} action
-  * @returns {object}
-   * This reducer handles creating a center
-   * it returns a new state if an action is dispatched
-   */
-  static search(state = initialState.app, action) {
-    const newState = {};
-    switch (action.type) {
-      case mainActionType.SEARCH_REQUEST:
-        newState.data = null;
-        newState.status = 'ongoing';
-        return newState;
-      case mainActionType.SEARCH_SUCCESS:
-        newState.data = action.data;
-        newState.status = 'success';
-        return newState;
-      case mainActionType.SEARCH_FAILURE:
-        newState.data = action.data;
-        newState.status = 'failed';
-        return newState;
       default:
         return state;
     }

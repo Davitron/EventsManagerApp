@@ -7,13 +7,9 @@ import PropTypes from 'prop-types';
 import Paginator from '../reusables/pagination';
 import EventActions from '../../actions/event-action';
 import history from '../../helpers/history';
-import Header from '../header';
 import AuthChecker from '../../helpers/auth-checker';
 import EventCard from './event-card';
 import Prompt from '../reusables/prompt';
-
-
-// window.jQuery = window.$ = jQuery;
 
 /**
  * Event Component
@@ -185,7 +181,7 @@ class CenterEvent extends Component {
 
     return (
       <div>
-        <Header />
+        {/* <Header /> */}
         <div className="background">
           <div className="my-container">
             <div style={{ textAlign: 'event' }}>

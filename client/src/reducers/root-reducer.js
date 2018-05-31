@@ -7,7 +7,8 @@ const {
   register,
   completeRegistration,
   login,
-  resetPassword
+  resetPassword,
+  forgotPassword
 } = UserReducer;
 
 const {
@@ -16,8 +17,7 @@ const {
   getAllStates,
   create,
   update,
-  deleteItem,
-  search
+  deleteItem
 } = AppReducer;
 
 const rootReducer = combineReducers({
@@ -25,13 +25,13 @@ const rootReducer = combineReducers({
   completeRegistration,
   login,
   resetPassword,
+  forgotPassword,
   getAll,
   get,
   getAllStates,
   create,
   update,
-  deleteItem,
-  search
+  deleteItem
 });
 
 export default rootReducer;
