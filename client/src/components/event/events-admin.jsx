@@ -6,21 +6,16 @@ import queryString from 'query-string';
 import PropTypes from 'prop-types';
 import Paginator from '../reusables/pagination';
 import EventActions from '../../actions/event-action';
-import history from '../../helpers/history';
-import Header from '../header';
 import AuthChecker from '../../helpers/auth-checker';
 import EventCard from './event-card';
 import Prompt from '../reusables/prompt';
-
-
-// window.jQuery = window.$ = jQuery;
 
 /**
  * Event Component
  * @class
  * @extends Component
  */
-class CenterEvent extends Component {
+export class CenterEvent extends Component {
   /**
    *@param {*} props
    */
@@ -30,10 +25,8 @@ class CenterEvent extends Component {
       data: [],
       pagingData: {},
       loading: false,
-      serverError: '',
       openPrompt: false,
       isRequestMade: false,
-      errors: {},
       mode: 'ACCEPT'
     };
     this.onChangePage = this.onChangePage.bind(this);
@@ -48,12 +41,13 @@ class CenterEvent extends Component {
    *@returns {object} fetches all events
    */
   componentDidMount() {
-    if (AuthChecker.defineRole()) {
+    const locationSearch = window.location.search;
+    const query = queryString.parse(locationSearch);
+    if (AuthChecker.defineRole() && query.centerId) {
       const { getAll } = this.props;
-      const query = queryString.parse(window.location.search);
       getAll(query);
     } else {
-      history.push('/centers');
+      this.props.history.push('/centers');
     }
   }
 
@@ -76,7 +70,7 @@ class CenterEvent extends Component {
     }
 
     if (status === 'failed') {
-      this.setState({ serverError: data.message, data: [], loading: false });
+      this.setState({ data: [], loading: false });
     }
 
     if (data && data.data !== this.state.data && status === 'success') {
@@ -90,13 +84,13 @@ class CenterEvent extends Component {
    *
    * @param {number} newPage
    *
-   * @returns {void} -
+   * @returns {void}
    */
   onChangePage(newPage) {
     const query = queryString.parse(this.props.location.search);
     query.page = newPage;
     const qString = queryString.stringify(query, { arrayFormat: 'bracket' });
-    history.push(`/events?${qString}`);
+    this.props.history.push(`/events?${qString}`);
   }
 
 
@@ -113,7 +107,7 @@ class CenterEvent extends Component {
     query.limit = pageSize;
     query.page = currentPage;
     const qString = queryString.stringify(query, { arrayFormat: 'bracket' });
-    history.push(`/events?${qString}`);
+    this.props.history.push(`/events?${qString}`);
   }
 
   /**
@@ -174,21 +168,17 @@ class CenterEvent extends Component {
     const {
       data,
       loading,
-      serverError, // eslint-disable-line
-      errors, // eslint-disable-line
       pagingData,
       openPrompt,
       mode,
-      openModal, // eslint-disable-line
-      isRequestMade // eslint-disable-line
+      isRequestMade
     } = this.state;
 
     return (
       <div>
-        <Header />
         <div className="background">
           <div className="my-container">
-            <div style={{ textAlign: 'event' }}>
+            <div style={{ textAlign: 'center' }}>
               <span style={{ fontSize: '45px' }}> Pending Events </span>
             </div>
             <Grid>
@@ -253,6 +243,7 @@ CenterEvent.propTypes = {
   response: PropTypes.objectOf(() => null),
   getAll: PropTypes.func,
   location: PropTypes.objectOf(() => null).isRequired,
+  history: PropTypes.objectOf(() => null).isRequired,
   respondToEvent: PropTypes.func,
 };
 

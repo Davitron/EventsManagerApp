@@ -62,10 +62,22 @@ export default class EventController {
     let query;
     const defaultQuery = {
       centerId: req.body.centerId,
-      [Sequelize.Op.or]: {
-        startDate: { [Sequelize.Op.between]: [req.body.startDate, req.body.endDate] },
-        endDate: { [Sequelize.Op.between]: [req.body.startDate, req.body.endDate] }
-      },
+      [Sequelize.Op.or]: [
+        {
+          startDate: { [Sequelize.Op.between]: [req.body.startDate, req.body.endDate] }
+        }, {
+          endDate: {
+            [Sequelize.Op.between]: [req.body.startDate, req.body.endDate]
+          }
+        }, {
+          startDate: {
+            [Sequelize.Op.lte]: req.body.startDate
+          },
+          endDate: {
+            [Sequelize.Op.gte]: req.body.endDate
+          }
+        }
+      ]
     };
 
     if (req.params.eventId) {
@@ -188,7 +200,8 @@ export default class EventController {
       where: DBQuery,
       include: [{ model: Centers, attributes: ['name'] }],
       limit,
-      offset
+      offset,
+      order: [['createdAt', 'DESC']]
     }).then((events) => {
       if (events.rows < 1) {
         return res.status(200).json({

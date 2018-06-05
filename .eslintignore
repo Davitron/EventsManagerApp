@@ -4,3 +4,8 @@ coverage
 package.json
 package-lock.json
 README.md
+LICENSE
+Procfile
+selenium-debug.log
+client/src/__tests__
+nightwatch.json

@@ -35,7 +35,7 @@ const formatDate = (date) => {
 /**
  *component for create event modal
  */
-class EventFormModal extends Component {
+export class EventFormModal extends Component {
   /**
    *
    * @param {*} props
@@ -77,7 +77,8 @@ class EventFormModal extends Component {
       this.setState({ open });
     }
 
-    if (event !== this.props.event) {
+    if (Object.keys(event).length > 0) {
+      event.newImage = event.image;
       this.setState({ event, mode: 'update' });
     }
 
@@ -98,11 +99,15 @@ class EventFormModal extends Component {
   */
   onChange(e, data) {
     const { name, value } = data;
-    const { event } = this.state;
+    const { event, errors } = this.state;
     this.setState({
       event: {
         ...event,
         [name]: value
+      },
+      errors: {
+        ...errors,
+        [name]: null
       }
     });
   }
@@ -115,12 +120,15 @@ class EventFormModal extends Component {
   */
   onFileChange(e) {
     const { name, files } = e.target;
-
-    const { event } = this.state;
+    const { event, errors } = this.state;
     this.setState({
       event: {
         ...event,
         [name]: files[0]
+      },
+      errors: {
+        ...errors,
+        [name]: null
       }
     });
   }
@@ -130,7 +138,11 @@ class EventFormModal extends Component {
    * @returns {void}
    */
   onSubmit() {
-    this.props.onSubmit(this.state.event);
+    const newEvent = { ...this.state.event };
+    this.setState({
+      event: {}
+    });
+    this.props.onSubmit(newEvent);
   }
 
   /**
@@ -201,7 +213,7 @@ class EventFormModal extends Component {
                 <div className="field">
                   <label style={errors.image && { color: '#9f3a38' }}>{errors.image ? errors.image[0] : 'Image'}</label>
                   <div className="ui field input">
-                    <input type="file" accept="image/*" label="Image" placeholder="Upload an Image" onChange={this.onFileChange} name={event.image ? 'newImage' : 'image'} />
+                    <input type="file" accept="image/*" label="Image" placeholder="Upload an Image" onChange={this.onFileChange} name={mode === 'create' ? 'image' : 'newImage'} />
                   </div>
                 </div>
               </Form.Group>
@@ -212,11 +224,10 @@ class EventFormModal extends Component {
               Cancel
             </Button>
             <Button
+              className="submit"
               primary
-              icon="checkmark"
               disabled={loading}
               loading={loading}
-              labelPosition="right"
               content={mode === 'create' ? 'create' : 'update'}
               onClick={this.onSubmit}
             />
@@ -232,7 +243,7 @@ EventFormModal.defaultProps = defaultProps;
 
 const matchStateToProps = state => ({
   response: {
-    eventUpate: state.upate,
+    eventUpdate: state.update,
   }
 });
 

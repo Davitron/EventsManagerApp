@@ -9,21 +9,25 @@ const Paginator = ({
   pagingData,
   onChange,
   onShowSizeChange
-}) => (
-  <Pagination
-    locale={{ items_per_page: 'Items' }}
-    showSizeChanger
-    selectComponentClass={Select}
-    onChange={onChange}
-    onShowSizeChange={onShowSizeChange}
-    current={pagingData.page}
-    pageSize={pagingData.limit}
-    total={pagingData.count}
-    className="pagination"
-    pageSizeOptions={['9', '12', '18']}
-  />
-);
-
+}) => {
+  if (pagingData.pages > 1) {
+    return (
+      <Pagination
+        locale={{ items_per_page: 'Items' }}
+        showSizeChanger
+        selectComponentClass={Select}
+        onChange={onChange}
+        onShowSizeChange={onShowSizeChange}
+        current={pagingData.page}
+        pageSize={pagingData.limit}
+        total={pagingData.count}
+        className="pagination"
+        pageSizeOptions={['9', '12', '18']}
+      />
+    );
+  }
+  return (<div />);
+};
 
 Paginator.propTypes = {
   pagingData: PropTypes.shape().isRequired,

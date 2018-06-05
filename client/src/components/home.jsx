@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Input, Button } from 'semantic-ui-react';
-import Header from './header';
-import history from '../helpers/history';
+import Proptypes from 'prop-types';
 
 /**
  *
@@ -14,7 +13,7 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: ''
+      search: '',
     };
     this.onChange = this.onChange.bind(this);
     this.onSearch = this.onSearch.bind(this);
@@ -39,9 +38,7 @@ class Home extends Component {
    */
   onSearch() {
     const { search } = this.state;
-    if (search.length > 0) {
-      history.push(`/centers?search=${search}`, { search });
-    }
+    this.props.history.push(`/centers?search=${search}`);
   }
 
   /**
@@ -49,8 +46,7 @@ class Home extends Component {
    */
   render() {
     return (
-      <div>
-        <Header />
+      <div id="home">
         <div className="home">
           <div className="section section__hero" style={{ color: 'white' }}>
             <div className="my-container" style={{ paddingTop: '8em' }}>
@@ -59,7 +55,7 @@ class Home extends Component {
               <div className="landing-input">
                 <Input fluid size="huge" type="text" onChange={this.onChange} placeholder="Search by name or address" action>
                   <input />
-                  <Button onClick={this.onSearch} type="submit">Search</Button>
+                  <Button disabled={this.state.search.length === 0} onClick={this.onSearch} type="submit">Search</Button>
                 </Input>
               </div>
             </div>
@@ -69,5 +65,9 @@ class Home extends Component {
     );
   }
 }
+
+Home.propTypes = {
+  history: Proptypes.objectOf(() => null).isRequired
+};
 
 export default Home;

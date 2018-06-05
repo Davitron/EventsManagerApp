@@ -1,0 +1,632 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Search Component component successfully rendered 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <SearchForm
+    onSearch={[MockFunction]}
+    states={Array []}
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "class",
+    "props": Object {
+      "as": "form",
+      "children": <FormGroup
+        widths="equal"
+      >
+        <FormInput
+          as={[Function]}
+          control={[Function]}
+          fluid={true}
+          name="search"
+          onChange={[Function]}
+          placeholder="Name or Addres"
+        />
+        <FormSelect
+          as={[Function]}
+          className="states"
+          control={[Function]}
+          fluid={true}
+          name="state"
+          onChange={[Function]}
+          options={Array []}
+          placeholder="State"
+          search={true}
+        />
+        <FormInput
+          as={[Function]}
+          control={[Function]}
+          fluid={true}
+          min="50"
+          name="capacity"
+          onChange={[Function]}
+          placeholder="Capacity"
+          type="number"
+        />
+        <FormDropdown
+          as={[Function]}
+          control={[Function]}
+          fluid={true}
+          multiple={true}
+          name="facilities"
+          onChange={[Function]}
+          options={
+            Array [
+              Object {
+                "key": "1",
+                "text": "CCTV",
+                "value": "cctv",
+              },
+              Object {
+                "key": "2",
+                "text": "Vip Lounge",
+                "value": "vip lounge",
+              },
+              Object {
+                "key": "3",
+                "text": "Projector",
+                "value": "projector",
+              },
+              Object {
+                "key": "4",
+                "text": "Security",
+                "value": "security",
+              },
+              Object {
+                "key": "5",
+                "text": "WIFI",
+                "value": "wifi",
+              },
+            ]
+          }
+          placeholder="Choose Facilities"
+          renderLabel={[Function]}
+          search={true}
+          selection={true}
+        />
+        <FormButton
+          as={[Function]}
+          control={[Function]}
+          fluid={true}
+          onClick={[Function]}
+          primary={true}
+        >
+          Search
+        </FormButton>
+      </FormGroup>,
+    },
+    "ref": null,
+    "rendered": Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "function",
+      "props": Object {
+        "children": Array [
+          <FormInput
+            as={[Function]}
+            control={[Function]}
+            fluid={true}
+            name="search"
+            onChange={[Function]}
+            placeholder="Name or Addres"
+          />,
+          <FormSelect
+            as={[Function]}
+            className="states"
+            control={[Function]}
+            fluid={true}
+            name="state"
+            onChange={[Function]}
+            options={Array []}
+            placeholder="State"
+            search={true}
+          />,
+          <FormInput
+            as={[Function]}
+            control={[Function]}
+            fluid={true}
+            min="50"
+            name="capacity"
+            onChange={[Function]}
+            placeholder="Capacity"
+            type="number"
+          />,
+          <FormDropdown
+            as={[Function]}
+            control={[Function]}
+            fluid={true}
+            multiple={true}
+            name="facilities"
+            onChange={[Function]}
+            options={
+              Array [
+                Object {
+                  "key": "1",
+                  "text": "CCTV",
+                  "value": "cctv",
+                },
+                Object {
+                  "key": "2",
+                  "text": "Vip Lounge",
+                  "value": "vip lounge",
+                },
+                Object {
+                  "key": "3",
+                  "text": "Projector",
+                  "value": "projector",
+                },
+                Object {
+                  "key": "4",
+                  "text": "Security",
+                  "value": "security",
+                },
+                Object {
+                  "key": "5",
+                  "text": "WIFI",
+                  "value": "wifi",
+                },
+              ]
+            }
+            placeholder="Choose Facilities"
+            renderLabel={[Function]}
+            search={true}
+            selection={true}
+          />,
+          <FormButton
+            as={[Function]}
+            control={[Function]}
+            fluid={true}
+            onClick={[Function]}
+            primary={true}
+          >
+            Search
+          </FormButton>,
+        ],
+        "widths": "equal",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "as": [Function],
+            "control": [Function],
+            "fluid": true,
+            "name": "search",
+            "onChange": [Function],
+            "placeholder": "Name or Addres",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "as": [Function],
+            "className": "states",
+            "control": [Function],
+            "fluid": true,
+            "name": "state",
+            "onChange": [Function],
+            "options": Array [],
+            "placeholder": "State",
+            "search": true,
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "as": [Function],
+            "control": [Function],
+            "fluid": true,
+            "min": "50",
+            "name": "capacity",
+            "onChange": [Function],
+            "placeholder": "Capacity",
+            "type": "number",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "as": [Function],
+            "control": [Function],
+            "fluid": true,
+            "multiple": true,
+            "name": "facilities",
+            "onChange": [Function],
+            "options": Array [
+              Object {
+                "key": "1",
+                "text": "CCTV",
+                "value": "cctv",
+              },
+              Object {
+                "key": "2",
+                "text": "Vip Lounge",
+                "value": "vip lounge",
+              },
+              Object {
+                "key": "3",
+                "text": "Projector",
+                "value": "projector",
+              },
+              Object {
+                "key": "4",
+                "text": "Security",
+                "value": "security",
+              },
+              Object {
+                "key": "5",
+                "text": "WIFI",
+                "value": "wifi",
+              },
+            ],
+            "placeholder": "Choose Facilities",
+            "renderLabel": [Function],
+            "search": true,
+            "selection": true,
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "as": [Function],
+            "children": "Search",
+            "control": [Function],
+            "fluid": true,
+            "onClick": [Function],
+            "primary": true,
+          },
+          "ref": null,
+          "rendered": "Search",
+          "type": [Function],
+        },
+      ],
+      "type": [Function],
+    },
+    "type": [Function],
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "class",
+      "props": Object {
+        "as": "form",
+        "children": <FormGroup
+          widths="equal"
+        >
+          <FormInput
+            as={[Function]}
+            control={[Function]}
+            fluid={true}
+            name="search"
+            onChange={[Function]}
+            placeholder="Name or Addres"
+          />
+          <FormSelect
+            as={[Function]}
+            className="states"
+            control={[Function]}
+            fluid={true}
+            name="state"
+            onChange={[Function]}
+            options={Array []}
+            placeholder="State"
+            search={true}
+          />
+          <FormInput
+            as={[Function]}
+            control={[Function]}
+            fluid={true}
+            min="50"
+            name="capacity"
+            onChange={[Function]}
+            placeholder="Capacity"
+            type="number"
+          />
+          <FormDropdown
+            as={[Function]}
+            control={[Function]}
+            fluid={true}
+            multiple={true}
+            name="facilities"
+            onChange={[Function]}
+            options={
+              Array [
+                Object {
+                  "key": "1",
+                  "text": "CCTV",
+                  "value": "cctv",
+                },
+                Object {
+                  "key": "2",
+                  "text": "Vip Lounge",
+                  "value": "vip lounge",
+                },
+                Object {
+                  "key": "3",
+                  "text": "Projector",
+                  "value": "projector",
+                },
+                Object {
+                  "key": "4",
+                  "text": "Security",
+                  "value": "security",
+                },
+                Object {
+                  "key": "5",
+                  "text": "WIFI",
+                  "value": "wifi",
+                },
+              ]
+            }
+            placeholder="Choose Facilities"
+            renderLabel={[Function]}
+            search={true}
+            selection={true}
+          />
+          <FormButton
+            as={[Function]}
+            control={[Function]}
+            fluid={true}
+            onClick={[Function]}
+            primary={true}
+          >
+            Search
+          </FormButton>
+        </FormGroup>,
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {
+          "children": Array [
+            <FormInput
+              as={[Function]}
+              control={[Function]}
+              fluid={true}
+              name="search"
+              onChange={[Function]}
+              placeholder="Name or Addres"
+            />,
+            <FormSelect
+              as={[Function]}
+              className="states"
+              control={[Function]}
+              fluid={true}
+              name="state"
+              onChange={[Function]}
+              options={Array []}
+              placeholder="State"
+              search={true}
+            />,
+            <FormInput
+              as={[Function]}
+              control={[Function]}
+              fluid={true}
+              min="50"
+              name="capacity"
+              onChange={[Function]}
+              placeholder="Capacity"
+              type="number"
+            />,
+            <FormDropdown
+              as={[Function]}
+              control={[Function]}
+              fluid={true}
+              multiple={true}
+              name="facilities"
+              onChange={[Function]}
+              options={
+                Array [
+                  Object {
+                    "key": "1",
+                    "text": "CCTV",
+                    "value": "cctv",
+                  },
+                  Object {
+                    "key": "2",
+                    "text": "Vip Lounge",
+                    "value": "vip lounge",
+                  },
+                  Object {
+                    "key": "3",
+                    "text": "Projector",
+                    "value": "projector",
+                  },
+                  Object {
+                    "key": "4",
+                    "text": "Security",
+                    "value": "security",
+                  },
+                  Object {
+                    "key": "5",
+                    "text": "WIFI",
+                    "value": "wifi",
+                  },
+                ]
+              }
+              placeholder="Choose Facilities"
+              renderLabel={[Function]}
+              search={true}
+              selection={true}
+            />,
+            <FormButton
+              as={[Function]}
+              control={[Function]}
+              fluid={true}
+              onClick={[Function]}
+              primary={true}
+            >
+              Search
+            </FormButton>,
+          ],
+          "widths": "equal",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "as": [Function],
+              "control": [Function],
+              "fluid": true,
+              "name": "search",
+              "onChange": [Function],
+              "placeholder": "Name or Addres",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "as": [Function],
+              "className": "states",
+              "control": [Function],
+              "fluid": true,
+              "name": "state",
+              "onChange": [Function],
+              "options": Array [],
+              "placeholder": "State",
+              "search": true,
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "as": [Function],
+              "control": [Function],
+              "fluid": true,
+              "min": "50",
+              "name": "capacity",
+              "onChange": [Function],
+              "placeholder": "Capacity",
+              "type": "number",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "as": [Function],
+              "control": [Function],
+              "fluid": true,
+              "multiple": true,
+              "name": "facilities",
+              "onChange": [Function],
+              "options": Array [
+                Object {
+                  "key": "1",
+                  "text": "CCTV",
+                  "value": "cctv",
+                },
+                Object {
+                  "key": "2",
+                  "text": "Vip Lounge",
+                  "value": "vip lounge",
+                },
+                Object {
+                  "key": "3",
+                  "text": "Projector",
+                  "value": "projector",
+                },
+                Object {
+                  "key": "4",
+                  "text": "Security",
+                  "value": "security",
+                },
+                Object {
+                  "key": "5",
+                  "text": "WIFI",
+                  "value": "wifi",
+                },
+              ],
+              "placeholder": "Choose Facilities",
+              "renderLabel": [Function],
+              "search": true,
+              "selection": true,
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "as": [Function],
+              "children": "Search",
+              "control": [Function],
+              "fluid": true,
+              "onClick": [Function],
+              "primary": true,
+            },
+            "ref": null,
+            "rendered": "Search",
+            "type": [Function],
+          },
+        ],
+        "type": [Function],
+      },
+      "type": [Function],
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;

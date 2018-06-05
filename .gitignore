@@ -4,3 +4,4 @@ coverage
 .nvm-node
 .env
 build
+bin

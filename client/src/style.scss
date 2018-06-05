@@ -1,12 +1,10 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.12/semantic.min.css');
 
 html {
   zoom: 100%;
 }
 .App {
   text-align: center; }
-
-
-@import url('https://fonts.googleapis.com/css?family=Ubuntu"');
 
 nav {
   background-color: #032958 !important;
@@ -17,9 +15,6 @@ nav {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  // form{
-
-  // }
 }
 
 .home-search-input {
@@ -67,22 +62,11 @@ nav {
   padding-right: 30px;
 }
 
-// .cards-container {
-//   -webkit-column-break-inside: avoid;
-//   page-break-inside: avoid;
-//   break-inside: avoid;
-
-//   .card {
-//     display: inline-block;
-//     overflow: visible;
-//     width: 100%;
-//   }
-// }
-
 .my-container {
   margin: 0 auto;
   max-width: 1280px;
   width: 90%;
+  margin-top: 50px;
 }
 
 @media only screen and (min-width: 601px) {
@@ -231,7 +215,6 @@ nav {
   height: 100vh;
   padding-top: 5%;
   padding-bottom: 5%;
-  position: relative;
   background-size: cover;
   background-color: rgba(5, 5, 5, 0.64);
 }
@@ -284,12 +267,6 @@ nav {
 
 .App-intro {
   font-size: large; }
-
-// @keyframes App-logo-spin {
-//   from {
-//     transform: rotate(0deg); }
-//   to {
-//     transform: rotate(360deg); } }
 
 .App-signup {
   padding: 32px 48px 0px 48px;
@@ -451,7 +428,7 @@ i.icon-grey {
   width: 100%;
   background-color: rgb(255, 255, 255);
   padding-top: 55px;
-  padding-bottom: 20px;
+  padding-bottom: 70px;
 }
 
 .ui[class*="two column"].grid>.column:not(.row), .ui[class*="two column"].grid>.row>.column {
@@ -479,15 +456,12 @@ i.icon-grey {
   color: #032958 !important;
 }
 
-// .card .card-title {
-//   font-size: 28px !important;
-//   font-weight: 400 !important;
-// }
-
-
 .navigator {
   background-color: #032958 !important;
   overflow: hidden;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
 }
 
 .navigator a {
@@ -509,12 +483,6 @@ i.icon-grey {
 .toastify {
   z-index: 1200;
 }
-
-
-// .active {
-//   background-color: #032958 !important;
-//   color: white;
-// }
 
 
 .navigator .icon {
@@ -590,13 +558,11 @@ i.icon-grey {
   margin-left: 50px;
 }
 
-/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
   transition: margin-left .5s;
   padding: 20px;
 }
 
-/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
@@ -605,7 +571,7 @@ i.icon-grey {
 .fab {
   width: 70px;
   height: 70px;
-  background-color: red;
+  background-color: #db4437;
   border-radius: 50%;
   box-shadow: 0 6px 10px 0 #666;
   

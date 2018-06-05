@@ -3,9 +3,7 @@ import Cookies from 'universal-cookie';
 import queryString from 'query-string';
 import mainActionType from './actionTypes/main-action-types';
 import Dispatcher from '../helpers/dispatch';
-import Logger from '../helpers/logger';
 import Toast from '../helpers/toast';
-import imageUpload from '../helpers/image-upload';
 
 const EVENT_BASE_URL = '/api/v1/events';
 
@@ -34,7 +32,7 @@ export default class EventActions {
     return (dispatch) => {
       const token = cookies.get('jwt-events-manager');
       dispatch(Dispatcher.action(mainActionType.GETALL_REQUEST, null));
-      axios({
+      return axios({
         method: 'GET',
         url: api,
         headers: {
@@ -43,11 +41,9 @@ export default class EventActions {
       })
         .then((response) => {
           const { data } = response;
-          Toast.success(data.message);
           dispatch(Dispatcher.action(mainActionType.GETALL_SUCCESS, data));
         })
         .catch((error) => {
-          // console.log(error.response);
           dispatch(Dispatcher.action(mainActionType.GETALL_FAILED, error.response.data));
         });
     };
@@ -63,7 +59,7 @@ export default class EventActions {
     const token = cookies.get('jwt-events-manager');
     return (dispatch) => {
       dispatch(Dispatcher.action(mainActionType.GET_REQUEST, null));
-      axios({
+      return axios({
         method: 'GET',
         url: `/api/v1/events/${eventId}`,
         headers: {
@@ -81,36 +77,6 @@ export default class EventActions {
   }
 
   /**
-   *@param {number} centerId
-   *
-   *@returns {void}
-   *
-   */
-  static getPendingEvent(centerId) {
-    return (dispatch) => {
-      const token = cookies.get('jwt-events-manager');
-      dispatch(Dispatcher.action(mainActionType.GETALL_REQUEST, null));
-      axios({
-        method: 'GET',
-        url: `/api/v1/events/pending/${centerId}`,
-        headers: {
-          'x-access-token': token
-        }
-      })
-        .then((response) => {
-          Logger.log(response.data);
-          dispatch(Dispatcher.action(mainActionType.GETALL_SUCCESS, response.data));
-          if (response.data.pendingEvents.length === 0) {
-            Toast.info('There are no pending events for this center.');
-          }
-        })
-        .catch((error) => {
-          dispatch(Dispatcher.action(mainActionType.GETALL_FAILED, error.response.data));
-        });
-    };
-  }
-
-  /**
    * @param {number} centerId
    *
    * @returns {void}
@@ -119,7 +85,7 @@ export default class EventActions {
     const token = cookies.get('jwt-events-manager');
     return (dispatch) => {
       dispatch(Dispatcher.action(mainActionType.GETALL_REQUEST, null));
-      axios({
+      return axios({
         method: 'GET',
         url: `/api/v1/events/upcoming/${centerId}`,
         headers: {
@@ -127,7 +93,6 @@ export default class EventActions {
         }
       })
         .then((response) => {
-          Logger.log(response.data);
           dispatch(Dispatcher.action(mainActionType.GETALL_SUCCESS, response.data));
         })
         .catch((error) => {
@@ -148,7 +113,7 @@ export default class EventActions {
    */
   static handleCreateEvent(event, token, dispatch) {
     dispatch(Dispatcher.action(mainActionType.CREATE_REQUEST, event));
-    axios({
+    return axios({
       method: 'POST',
       url: '/api/v1/events',
       headers: {
@@ -178,9 +143,7 @@ export default class EventActions {
    */
   static createEvent(newEvent) {
     const token = cookies.get('jwt-events-manager');
-    return (dispatch) => {
-      EventActions.handleCreateEvent(newEvent, token, dispatch);
-    };
+    return dispatch => EventActions.handleCreateEvent(newEvent, token, dispatch);
   }
 
   /**
@@ -225,17 +188,7 @@ export default class EventActions {
    */
   static updateEvent(eventObj) {
     const token = cookies.get('jwt-events-manager');
-    return (dispatch) => {
-      if (eventObj.newImage) {
-        imageUpload(eventObj.newImage)
-          .then((imageUrl) => {
-            eventObj.image = imageUrl;
-            EventActions.handleEventUpdate(eventObj, token, dispatch);
-          });
-      } else {
-        EventActions.handleEventUpdate(eventObj, token, dispatch);
-      }
-    };
+    return dispatch => EventActions.handleEventUpdate(eventObj, token, dispatch);
   }
 
   /**
@@ -250,7 +203,7 @@ export default class EventActions {
     return (dispatch) => {
       const token = cookies.get('jwt-events-manager');
       dispatch(Dispatcher.action(mainActionType.UPDATE_REQUEST, response.id));
-      axios({
+      return axios({
         method: 'PUT',
         url: '/api/v1/events/response/',
         headers: {
@@ -288,7 +241,7 @@ export default class EventActions {
     return (dispatch) => {
       const token = cookies.get('jwt-events-manager');
       dispatch(Dispatcher.action(mainActionType.DELETE_REQUEST, id));
-      axios({
+      return axios({
         method: 'DELETE',
         url: `/api/v1/events/${id}`,
         headers: {

@@ -27,6 +27,7 @@ class SearchForm extends Component {
 
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
+    // this.onSelectChange = this.onSelectChange.bind(this);
     this.renderLabel = this.renderLabel.bind(this);
   }
 
@@ -46,7 +47,7 @@ class SearchForm extends Component {
         newObj.value = state.id;
         return newObj;
       });
-      options.unshift({ key: 'all', text: 'State', value: null });
+      options.unshift({ key: 'all', text: 'States', value: null });
       this.setState({ states: options });
     }
   }
@@ -110,15 +111,16 @@ class SearchForm extends Component {
       <Form>
         <Form.Group widths="equal">
           <Form.Input name="search" fluid placeholder="Name or Addres" onChange={this.onChange} />
-          <Form.Select options={states} name="state" fluid placeholder="State" onChange={this.onChange} />
+          <Form.Select className="states" options={states} search name="state" fluid placeholder="State" onChange={this.onChange} />
           <Form.Input type="number" min="50" name="capacity" fluid placeholder="Capacity" onChange={this.onChange} />
           <Form.Dropdown
             multiple
+            search
             selection
             name="facilities"
             fluid
             options={facilities}
-            placeholder="Choose an option"
+            placeholder="Choose Facilities"
             renderLabel={this.renderLabel}
             onChange={this.onChange}
           />

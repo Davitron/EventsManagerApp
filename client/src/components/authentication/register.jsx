@@ -4,16 +4,15 @@ import { Input, Button } from 'semantic-ui-react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Header from '../header';
 import FormValidator from '../../helpers/form-validator';
 import UserActions from '../../actions/user-actions';
 
-
+const cleanError = (errorText, badWord, cleanWord) => errorText.replace(badWord, cleanWord);
 /**
  * @class
  *
  */
-class Register extends Component {
+export class Register extends Component {
 /**
  *
  * @param {*} props
@@ -43,10 +42,11 @@ class Register extends Component {
    * @returns {void}
    */
   componentWillReceiveProps(nextProps) {
-    const { serverError } = this.state;
-    const { data } = nextProps.response;
-    if (serverError !== data) {
+    const { data, status } = nextProps.response;
+    if (status === 'failed') {
       this.setState({ serverError: data, isLoading: false, isDisabled: false });
+    } else if (status === 'created') {
+      this.props.history.push('/verify');
     }
   }
 
@@ -100,7 +100,7 @@ class Register extends Component {
 
     return (
       <div>
-        <Header />
+        {/* <Header /> */}
         <div className="home">
           <main className="section__hero" id="index-banner">
             <div className="my-container">
@@ -109,21 +109,23 @@ class Register extends Component {
                   <h3>Register</h3>
                   <div className="App-signup animated bounceInRight" style={{ padding: '12px', paddingTop: '30px', paddingBottom: '20px' }} >
                     <div style={{ textAlign: 'center' }}><span style={{ color: 'red' }}>{ serverError && serverError }</span></div>
-                    <span style={{ color: 'red' }}>{ errors.email && errors.email[0] }</span>
+                    <span id="email" style={{ color: 'red' }}>{ errors.email && errors.email[0] }</span>
                     <Input fluid icon="at" placeholder="email" onChange={this.onChange} name="email" />
                     <br />
-                    <span style={{ color: 'red' }}>{ errors.username && errors.username[0] }</span>
+                    <span id="username" style={{ color: 'red' }}>{ errors.username && errors.username[0] }</span>
                     <Input fluid icon="user" placeholder="username" onChange={this.onChange} name="username" />
                     <br />
-                    <span style={{ color: 'red' }}>{ errors.password && errors.password[0] }</span>
+                    <span id="password" style={{ color: 'red' }}>{ errors.password && errors.password[0] }</span>
                     <Input fluid icon="lock" placeholder="password" type="password" onChange={this.onChange} name="password" />
                     <br />
-                    <span style={{ color: 'red', textAlign: 'left !important' }}>{ errors.confirmPassword && errors.confirmPassword[0] }</span>
+                    <span id="confirmPassword" style={{ color: 'red', textAlign: 'left !important' }}>
+                      { errors.confirmPassword && cleanError(errors.confirmPassword[0], 'confirmPassword', 'confirm password')}
+                    </span>
                     <Input fluid icon="lock" placeholder="confirm password" type="password" onChange={this.onChange} name="confirmPassword" />
                     <br />
                     <Button color="facebook" loading={isLoading} disabled={isDisabled} fluid>Register</Button>
                     <br />
-                    <span>Already have an account? <Link style={{ color: 'white !important' }} to="/login">Login</Link></span>
+                    <span id="to-login">Already have an account? <Link style={{ color: 'white !important' }} to="/login">Login</Link></span>
                   </div>
                 </form>
               </div>
@@ -143,6 +145,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 Register.propTypes = {
   response: PropTypes.objectOf(() => null),
+  history: PropTypes.objectOf(() => null).isRequired,
   createUser: PropTypes.func
 };
 
