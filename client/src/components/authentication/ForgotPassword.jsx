@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import FormValidator from '../../helpers/form-validator';
-import UserActions from '../../actions/user-actions';
+import UserActions from '../../actions/UserActions';
 
 
 /**

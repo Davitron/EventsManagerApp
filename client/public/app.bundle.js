@@ -71,103 +71,9 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./client/src/actions/actionTypes/main-action-types.js":
-/*!*************************************************************!*\
-  !*** ./client/src/actions/actionTypes/main-action-types.js ***!
-  \*************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var mainActionType = {
-  CREATE_REQUEST: 'CREATE_REQUEST',
-  CREATE_SUCCESS: 'CREATE_SUCCESS',
-  CREATE_FAILED: 'CREATE_FAILED',
-
-  GETALL_REQUEST: 'GETALL_REQUEST',
-  GETALL_SUCCESS: 'GETALL_SUCCESS',
-  GETALL_FAILED: 'GETALL_FAILED',
-
-  GET_REQUEST: 'GET_REQUEST',
-  GET_SUCCESS: 'GET_SUCCESS',
-  GET_FAILED: 'GET_FAILED',
-
-  GETSTATES_REQUEST: 'STATES_GET_REQUEST',
-  GETSTATES_SUCCESS: 'STATES_GET_SUCCESS',
-  GETSTATES_FAILED: 'STATES_GET_FAILED',
-
-  UPDATE_REQUEST: 'UPDATE_REQUEST',
-  UPDATE_SUCCESS: 'UPDATE_SUCCESS',
-  UPDATE_FAILED: 'UPDATE_FAILED',
-
-  DELETE_REQUEST: 'DELETE_REQUEST',
-  DELETE_SUCCESS: 'DELETE_SUCCESS',
-  DELETE_FAILED: 'DELETE_FAILED',
-
-  SEARCH_REQUEST: 'SEARCH_REQUEST',
-  SEARCH_SUCCESS: 'SEARCH_SUCCESS',
-  SEARCH_FAILURE: 'SEARCH_FAILURE',
-
-  IMAGE_UPLOAD_REQUEST: 'UPLOAD_REQUEST',
-  IMAGE_UPLOAD_SUCCESS: 'UPLOAD_SUCCESS',
-  IMAGE_ULPOAD_FAILURE: 'ULPOAD_FAILURE',
-
-  RESET_STATE: 'RESET_STATE'
-};
-
-exports.default = mainActionType;
-
-/***/ }),
-
-/***/ "./client/src/actions/actionTypes/user-action-types.js":
-/*!*************************************************************!*\
-  !*** ./client/src/actions/actionTypes/user-action-types.js ***!
-  \*************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var userActionType = {
-  SIGNUP_REQUEST: 'USERS_SIGNUP_REQUEST',
-  SIGNUP_SUCCESS: 'USERS_SIGNUP_SUCCESS',
-  SIGNUP_FAILURE: 'USERS_SIGNUP_FAILURE',
-
-  SIGNIN_REQUEST: 'USERS_SIGNIN_REQUEST',
-  SIGNIN_SUCCESS: 'USERS_SIGNIN_SUCCESS',
-  SIGNIN_FAILURE: 'USERS_SIGNIN_FAILURE',
-
-  VERIFY_REQUEST: 'USERS_VERIFY_REQUEST',
-  VERIFY_SUCCESS: 'USERS_VERIFY_SUCCESS',
-  VERIFY_FAILURE: 'USERS_VERIFY_FAILURE',
-
-  FORGOT_PASSWORD_REQUEST: 'FORGOT_PASSWORD_REQUEST',
-  FORGOT_PASSWORD_SUCCESS: 'FORGOT_PASSWORD_SUCCESS',
-  FORGET_PASSWORD_FAILURE: 'FORGET_PASSWORD_FAILURE',
-
-  RESET_REQUEST: 'RESET_REQUEST',
-  RESET_SUCCESS: 'RESET_SUCCESS',
-  RESET_FAILURE: 'RESET_FAILURE',
-
-  SIGNOUT: 'USERS_SIGNOUT'
-};
-
-exports.default = userActionType;
-
-/***/ }),
-
-/***/ "./client/src/actions/center-action.js":
+/***/ "./client/src/actions/CenterActions.js":
 /*!*********************************************!*\
-  !*** ./client/src/actions/center-action.js ***!
+  !*** ./client/src/actions/CenterActions.js ***!
   \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -205,9 +111,9 @@ var _toast = __webpack_require__(/*! ../helpers/toast */ "./client/src/helpers/t
 
 var _toast2 = _interopRequireDefault(_toast);
 
-var _mainActionTypes = __webpack_require__(/*! ./actionTypes/main-action-types */ "./client/src/actions/actionTypes/main-action-types.js");
+var _mainActionType = __webpack_require__(/*! ./actionTypes/mainActionType */ "./client/src/actions/actionTypes/mainActionType.js");
 
-var _mainActionTypes2 = _interopRequireDefault(_mainActionTypes);
+var _mainActionType2 = _interopRequireDefault(_mainActionType);
 
 var _dispatch = __webpack_require__(/*! ../helpers/dispatch */ "./client/src/helpers/dispatch.js");
 
@@ -265,7 +171,7 @@ var CenterActions = function () {
       }
 
       return function (dispatch) {
-        dispatch(_dispatch2.default.action(_mainActionTypes2.default.GETALL_REQUEST, null));
+        dispatch(_dispatch2.default.action(_mainActionType2.default.GETALL_REQUEST, null));
         return (0, _axios2.default)({
           method: 'GET',
           url: api,
@@ -273,10 +179,10 @@ var CenterActions = function () {
             'x-access-token': token
           }
         }).then(function (response) {
-          dispatch(_dispatch2.default.action(_mainActionTypes2.default.GETALL_SUCCESS, response.data));
+          dispatch(_dispatch2.default.action(_mainActionType2.default.GETALL_SUCCESS, response.data));
         }).catch(function (error) {
           var err = error.response.data;
-          dispatch(_dispatch2.default.action(_mainActionTypes2.default.GETALL_FAILED, err));
+          dispatch(_dispatch2.default.action(_mainActionType2.default.GETALL_FAILED, err));
         });
       };
     }
@@ -293,7 +199,7 @@ var CenterActions = function () {
     value: function getCenter(centerId) {
       var token = cookies.get('jwt-events-manager');
       return function (dispatch) {
-        dispatch(_dispatch2.default.action(_mainActionTypes2.default.GET_REQUEST, null));
+        dispatch(_dispatch2.default.action(_mainActionType2.default.GET_REQUEST, null));
         return (0, _axios2.default)({
           method: 'GET',
           url: CENTER_BASE_URL + '/' + centerId,
@@ -301,10 +207,10 @@ var CenterActions = function () {
             'x-access-token': token
           }
         }).then(function (response) {
-          dispatch(_dispatch2.default.action(_mainActionTypes2.default.GET_SUCCESS, response.data));
+          dispatch(_dispatch2.default.action(_mainActionType2.default.GET_SUCCESS, response.data));
         }).catch(function (error) {
           var err = error.response.data;
-          dispatch(_dispatch2.default.action(_mainActionTypes2.default.GET_FAILED, err));
+          dispatch(_dispatch2.default.action(_mainActionType2.default.GET_FAILED, err));
         });
       };
     }
@@ -319,7 +225,7 @@ var CenterActions = function () {
     value: function getAllStates() {
       var token = cookies.get('jwt-events-manager');
       return function (dispatch) {
-        dispatch(_dispatch2.default.action(_mainActionTypes2.default.GETSTATES_REQUEST, []));
+        dispatch(_dispatch2.default.action(_mainActionType2.default.GETSTATES_REQUEST, []));
         return (0, _axios2.default)({
           method: 'GET',
           url: '/api/v1/states',
@@ -329,9 +235,9 @@ var CenterActions = function () {
         }).then(function (response) {
           var states = response.data.states;
 
-          dispatch(_dispatch2.default.action(_mainActionTypes2.default.GETSTATES_SUCCESS, states));
+          dispatch(_dispatch2.default.action(_mainActionType2.default.GETSTATES_SUCCESS, states));
         }).catch(function (error) {
-          dispatch(_dispatch2.default.action(_mainActionTypes2.default.GETSTATES_FAILED, error.response.data));
+          dispatch(_dispatch2.default.action(_mainActionType2.default.GETSTATES_FAILED, error.response.data));
         });
       };
     }
@@ -350,7 +256,7 @@ var CenterActions = function () {
     value: function createCenter(newCenter) {
       var token = cookies.get('jwt-events-manager');
       return function (dispatch) {
-        dispatch(_dispatch2.default.action(_mainActionTypes2.default.CREATE_REQUEST, newCenter));
+        dispatch(_dispatch2.default.action(_mainActionType2.default.CREATE_REQUEST, newCenter));
         return (0, _axios2.default)({
           method: 'POST',
           url: CENTER_BASE_URL,
@@ -359,16 +265,16 @@ var CenterActions = function () {
           },
           data: newCenter
         }).then(function (response) {
-          dispatch(_dispatch2.default.action(_mainActionTypes2.default.CREATE_SUCCESS, response.data.message));
+          dispatch(_dispatch2.default.action(_mainActionType2.default.CREATE_SUCCESS, response.data.message));
           dispatch(CenterActions.getAll({ page: 1 }));
           _toast2.default.success('New Center Added');
           // history.push('/centers?page=1');
         }).then(function () {
-          dispatch(_dispatch2.default.action(_mainActionTypes2.default.RESET_STATE, null));
+          dispatch(_dispatch2.default.action(_mainActionType2.default.RESET_STATE, null));
         }).catch(function (error) {
           var message = error.response.data.message;
 
-          dispatch(_dispatch2.default.action(_mainActionTypes2.default.CREATE_FAILED, message));
+          dispatch(_dispatch2.default.action(_mainActionType2.default.CREATE_FAILED, message));
         });
       };
     }
@@ -411,13 +317,13 @@ var CenterActions = function () {
     key: 'updateCenter',
     value: function updateCenter(centerObj) {
       return function (dispatch) {
-        dispatch(_dispatch2.default.action(_mainActionTypes2.default.UPDATE_REQUEST, centerObj));
+        dispatch(_dispatch2.default.action(_mainActionType2.default.UPDATE_REQUEST, centerObj));
         return CenterActions.handleCenterUpdate(centerObj).then(function (response) {
-          dispatch(_dispatch2.default.action(_mainActionTypes2.default.UPDATE_SUCCESS, response.data));
+          dispatch(_dispatch2.default.action(_mainActionType2.default.UPDATE_SUCCESS, response.data));
           dispatch(CenterActions.getCenter(centerObj.id));
           _toast2.default.success(response.data.message);
         }).catch(function (error) {
-          dispatch(_dispatch2.default.action(_mainActionTypes2.default.UPDATE_FAILED, error));
+          dispatch(_dispatch2.default.action(_mainActionType2.default.UPDATE_FAILED, error));
         });
       };
     }
@@ -437,7 +343,7 @@ var CenterActions = function () {
     value: function deleteCenter(id, history) {
       var token = cookies.get('jwt-events-manager');
       return function (dispatch) {
-        dispatch(_dispatch2.default.action(_mainActionTypes2.default.DELETE_REQUEST, id));
+        dispatch(_dispatch2.default.action(_mainActionType2.default.DELETE_REQUEST, id));
         return (0, _axios2.default)({
           method: 'DELETE',
           url: CENTER_BASE_URL + '/' + id,
@@ -445,14 +351,14 @@ var CenterActions = function () {
             'x-access-token': token
           }
         }).then(function (response) {
-          dispatch(_dispatch2.default.action(_mainActionTypes2.default.DELETE_SUCCESS, response.data.message));
+          dispatch(_dispatch2.default.action(_mainActionType2.default.DELETE_SUCCESS, response.data.message));
           _toast2.default.success(response.data.message);
-          dispatch(_dispatch2.default.action(_mainActionTypes2.default.RESET_STATE, null));
+          dispatch(_dispatch2.default.action(_mainActionType2.default.RESET_STATE, null));
           history.push('/centers');
         }).catch(function (error) {
           var message = error.response.data.message;
 
-          dispatch(_dispatch2.default.action(_mainActionTypes2.default.DELETE_FAILED, message));
+          dispatch(_dispatch2.default.action(_mainActionType2.default.DELETE_FAILED, message));
           _toast2.default.error(message);
         });
       };
@@ -466,9 +372,9 @@ exports.default = CenterActions;
 
 /***/ }),
 
-/***/ "./client/src/actions/event-action.js":
+/***/ "./client/src/actions/EventActions.js":
 /*!********************************************!*\
-  !*** ./client/src/actions/event-action.js ***!
+  !*** ./client/src/actions/EventActions.js ***!
   \********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -502,9 +408,9 @@ var _queryString = __webpack_require__(/*! query-string */ "./node_modules/query
 
 var _queryString2 = _interopRequireDefault(_queryString);
 
-var _mainActionTypes = __webpack_require__(/*! ./actionTypes/main-action-types */ "./client/src/actions/actionTypes/main-action-types.js");
+var _mainActionType = __webpack_require__(/*! ./actionTypes/mainActionType */ "./client/src/actions/actionTypes/mainActionType.js");
 
-var _mainActionTypes2 = _interopRequireDefault(_mainActionTypes);
+var _mainActionType2 = _interopRequireDefault(_mainActionType);
 
 var _dispatch = __webpack_require__(/*! ../helpers/dispatch */ "./client/src/helpers/dispatch.js");
 
@@ -558,7 +464,7 @@ var EventActions = function () {
       }
       return function (dispatch) {
         var token = cookies.get('jwt-events-manager');
-        dispatch(_dispatch2.default.action(_mainActionTypes2.default.GETALL_REQUEST, null));
+        dispatch(_dispatch2.default.action(_mainActionType2.default.GETALL_REQUEST, null));
         return (0, _axios2.default)({
           method: 'GET',
           url: api,
@@ -568,9 +474,9 @@ var EventActions = function () {
         }).then(function (response) {
           var data = response.data;
 
-          dispatch(_dispatch2.default.action(_mainActionTypes2.default.GETALL_SUCCESS, data));
+          dispatch(_dispatch2.default.action(_mainActionType2.default.GETALL_SUCCESS, data));
         }).catch(function (error) {
-          dispatch(_dispatch2.default.action(_mainActionTypes2.default.GETALL_FAILED, error.response.data));
+          dispatch(_dispatch2.default.action(_mainActionType2.default.GETALL_FAILED, error.response.data));
         });
       };
     }
@@ -587,7 +493,7 @@ var EventActions = function () {
     value: function getEvent(eventId) {
       var token = cookies.get('jwt-events-manager');
       return function (dispatch) {
-        dispatch(_dispatch2.default.action(_mainActionTypes2.default.GET_REQUEST, null));
+        dispatch(_dispatch2.default.action(_mainActionType2.default.GET_REQUEST, null));
         return (0, _axios2.default)({
           method: 'GET',
           url: '/api/v1/events/' + eventId,
@@ -595,10 +501,10 @@ var EventActions = function () {
             'x-access-token': token
           }
         }).then(function (response) {
-          dispatch(_dispatch2.default.action(_mainActionTypes2.default.GET_SUCCESS, response.data));
+          dispatch(_dispatch2.default.action(_mainActionType2.default.GET_SUCCESS, response.data));
         }).catch(function (error) {
           var err = error.response.data;
-          dispatch(_dispatch2.default.action(_mainActionTypes2.default.GET_FAILED, err));
+          dispatch(_dispatch2.default.action(_mainActionType2.default.GET_FAILED, err));
         });
       };
     }
@@ -614,7 +520,7 @@ var EventActions = function () {
     value: function getUpcomingEvent(centerId) {
       var token = cookies.get('jwt-events-manager');
       return function (dispatch) {
-        dispatch(_dispatch2.default.action(_mainActionTypes2.default.GETALL_REQUEST, null));
+        dispatch(_dispatch2.default.action(_mainActionType2.default.GETALL_REQUEST, null));
         return (0, _axios2.default)({
           method: 'GET',
           url: '/api/v1/events/upcoming/' + centerId,
@@ -622,9 +528,9 @@ var EventActions = function () {
             'x-access-token': token
           }
         }).then(function (response) {
-          dispatch(_dispatch2.default.action(_mainActionTypes2.default.GETALL_SUCCESS, response.data));
+          dispatch(_dispatch2.default.action(_mainActionType2.default.GETALL_SUCCESS, response.data));
         }).catch(function (error) {
-          dispatch(_dispatch2.default.action(_mainActionTypes2.default.GETALL_FAILED, error.response.data));
+          dispatch(_dispatch2.default.action(_mainActionType2.default.GETALL_FAILED, error.response.data));
         });
       };
     }
@@ -643,7 +549,7 @@ var EventActions = function () {
   }, {
     key: 'handleCreateEvent',
     value: function handleCreateEvent(event, token, dispatch) {
-      dispatch(_dispatch2.default.action(_mainActionTypes2.default.CREATE_REQUEST, event));
+      dispatch(_dispatch2.default.action(_mainActionType2.default.CREATE_REQUEST, event));
       return (0, _axios2.default)({
         method: 'POST',
         url: '/api/v1/events',
@@ -654,12 +560,12 @@ var EventActions = function () {
       }).then(function (response) {
         var message = response.data.message;
 
-        dispatch(_dispatch2.default.action(_mainActionTypes2.default.CREATE_SUCCESS, message));
+        dispatch(_dispatch2.default.action(_mainActionType2.default.CREATE_SUCCESS, message));
         _toast2.default.success(message);
       }).catch(function (error) {
         var message = error.response.data.message;
 
-        dispatch(_dispatch2.default.action(_mainActionTypes2.default.CREATE_FAILED, message));
+        dispatch(_dispatch2.default.action(_mainActionType2.default.CREATE_FAILED, message));
         _toast2.default.error(message);
       });
     }
@@ -695,7 +601,7 @@ var EventActions = function () {
   }, {
     key: 'handleEventUpdate',
     value: function handleEventUpdate(eventObj, token, dispatch) {
-      dispatch(_dispatch2.default.action(_mainActionTypes2.default.UPDATE_REQUEST, eventObj));
+      dispatch(_dispatch2.default.action(_mainActionType2.default.UPDATE_REQUEST, eventObj));
       return (0, _axios2.default)({
         method: 'PUT',
         url: '/api/v1/events/' + eventObj.id,
@@ -705,13 +611,13 @@ var EventActions = function () {
         data: eventObj
       }).then(function (response) {
         _toast2.default.success(response.data.message);
-        dispatch(_dispatch2.default.action(_mainActionTypes2.default.UPDATE_SUCCESS, response.data.message));
+        dispatch(_dispatch2.default.action(_mainActionType2.default.UPDATE_SUCCESS, response.data.message));
         dispatch(EventActions.getAll());
       }).catch(function (error) {
         var message = error.response.data.message;
 
         _toast2.default.error(message);
-        dispatch(_dispatch2.default.action(_mainActionTypes2.default.UPDATE_FAILED, message));
+        dispatch(_dispatch2.default.action(_mainActionType2.default.UPDATE_FAILED, message));
       });
     }
 
@@ -747,7 +653,7 @@ var EventActions = function () {
     value: function respondToEvent(response) {
       return function (dispatch) {
         var token = cookies.get('jwt-events-manager');
-        dispatch(_dispatch2.default.action(_mainActionTypes2.default.UPDATE_REQUEST, response.id));
+        dispatch(_dispatch2.default.action(_mainActionType2.default.UPDATE_REQUEST, response.id));
         return (0, _axios2.default)({
           method: 'PUT',
           url: '/api/v1/events/response/',
@@ -758,16 +664,16 @@ var EventActions = function () {
         }).then(function (result) {
           var message = result.data.message;
 
-          dispatch(_dispatch2.default.action(_mainActionTypes2.default.UPDATE_SUCCESS, message));
+          dispatch(_dispatch2.default.action(_mainActionType2.default.UPDATE_SUCCESS, message));
           _toast2.default.success(message);
           var query = _queryString2.default.parse(window.location.search);
           dispatch(EventActions.getAll(query));
         }).then(function () {
-          dispatch(_dispatch2.default.action(_mainActionTypes2.default.RESET_STATE, null));
+          dispatch(_dispatch2.default.action(_mainActionType2.default.RESET_STATE, null));
         }).catch(function (error) {
           var message = error.response.data.message;
 
-          dispatch(_dispatch2.default.action(_mainActionTypes2.default.UPDATE_FAILED, message));
+          dispatch(_dispatch2.default.action(_mainActionType2.default.UPDATE_FAILED, message));
           _toast2.default.error(message);
         });
       };
@@ -787,7 +693,7 @@ var EventActions = function () {
     value: function deleteEvent(id) {
       return function (dispatch) {
         var token = cookies.get('jwt-events-manager');
-        dispatch(_dispatch2.default.action(_mainActionTypes2.default.DELETE_REQUEST, id));
+        dispatch(_dispatch2.default.action(_mainActionType2.default.DELETE_REQUEST, id));
         return (0, _axios2.default)({
           method: 'DELETE',
           url: '/api/v1/events/' + id,
@@ -795,14 +701,14 @@ var EventActions = function () {
             'x-access-token': token
           }
         }).then(function (response) {
-          dispatch(_dispatch2.default.action(_mainActionTypes2.default.DELETE_SUCCESS, response.data));
+          dispatch(_dispatch2.default.action(_mainActionType2.default.DELETE_SUCCESS, response.data));
           _toast2.default.success(response.data.message);
           dispatch(EventActions.getAll());
-          dispatch(_dispatch2.default.action(_mainActionTypes2.default.RESET_STATE, null));
+          dispatch(_dispatch2.default.action(_mainActionType2.default.RESET_STATE, null));
         }).catch(function (error) {
           var message = error.response.data.message;
 
-          dispatch(_dispatch2.default.action(_mainActionTypes2.default.DELETE_FAILED, message));
+          dispatch(_dispatch2.default.action(_mainActionType2.default.DELETE_FAILED, message));
           _toast2.default.error(message);
         });
       };
@@ -816,10 +722,10 @@ exports.default = EventActions;
 
 /***/ }),
 
-/***/ "./client/src/actions/user-actions.js":
-/*!********************************************!*\
-  !*** ./client/src/actions/user-actions.js ***!
-  \********************************************/
+/***/ "./client/src/actions/UserActions.js":
+/*!*******************************************!*\
+  !*** ./client/src/actions/UserActions.js ***!
+  \*******************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -848,13 +754,13 @@ var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _userActionTypes = __webpack_require__(/*! ./actionTypes/user-action-types */ "./client/src/actions/actionTypes/user-action-types.js");
+var _userActionType = __webpack_require__(/*! ./actionTypes/userActionType */ "./client/src/actions/actionTypes/userActionType.js");
 
-var _userActionTypes2 = _interopRequireDefault(_userActionTypes);
+var _userActionType2 = _interopRequireDefault(_userActionType);
 
-var _mainActionTypes = __webpack_require__(/*! ./actionTypes/main-action-types */ "./client/src/actions/actionTypes/main-action-types.js");
+var _mainActionType = __webpack_require__(/*! ./actionTypes/mainActionType */ "./client/src/actions/actionTypes/mainActionType.js");
 
-var _mainActionTypes2 = _interopRequireDefault(_mainActionTypes);
+var _mainActionType2 = _interopRequireDefault(_mainActionType);
 
 var _dispatch = __webpack_require__(/*! ../helpers/dispatch */ "./client/src/helpers/dispatch.js");
 
@@ -897,13 +803,13 @@ var UserActions = function () {
      */
     value: function register(data) {
       return function (dispatch) {
-        dispatch(_dispatch2.default.action(_userActionTypes2.default.SIGNUP_REQUEST, data));
+        dispatch(_dispatch2.default.action(_userActionType2.default.SIGNUP_REQUEST, data));
         return _axios2.default.post('/api/v1/users', data).then(function (res) {
-          dispatch(_dispatch2.default.action(_userActionTypes2.default.SIGNUP_SUCCESS, res.data.message));
+          dispatch(_dispatch2.default.action(_userActionType2.default.SIGNUP_SUCCESS, res.data.message));
         }).catch(function (error) {
           var message = error.response.data.message;
 
-          dispatch(_dispatch2.default.action(_userActionTypes2.default.SIGNUP_FAILURE, message));
+          dispatch(_dispatch2.default.action(_userActionType2.default.SIGNUP_FAILURE, message));
         });
       };
     }
@@ -920,18 +826,18 @@ var UserActions = function () {
     key: 'completeRegistration',
     value: function completeRegistration(token) {
       return function (dispatch) {
-        dispatch(_dispatch2.default.action(_userActionTypes2.default.VERIFY_REQUEST, token));
+        dispatch(_dispatch2.default.action(_userActionType2.default.VERIFY_REQUEST, token));
         return _axios2.default.get('/api/v1/users/completeRegistration?token=' + token).then(function (response) {
-          dispatch(_dispatch2.default.action(_userActionTypes2.default.VERIFY_SUCCESS, response.data.message));
+          dispatch(_dispatch2.default.action(_userActionType2.default.VERIFY_SUCCESS, response.data.message));
           // cookies.set('jwt-events-manager', response.data.Token, { path: '/' });
         }).catch(function (error) {
           if (error.response.status === 403) {
             var message = 'Token Expired';
-            dispatch(_dispatch2.default.action(_userActionTypes2.default.VERIFY_FAILURE, message));
+            dispatch(_dispatch2.default.action(_userActionType2.default.VERIFY_FAILURE, message));
           } else {
             var _message = error.response.data.message;
 
-            dispatch(_dispatch2.default.action(_userActionTypes2.default.VERIFY_FAILURE, _message));
+            dispatch(_dispatch2.default.action(_userActionType2.default.VERIFY_FAILURE, _message));
           }
         });
       };
@@ -950,14 +856,14 @@ var UserActions = function () {
     key: 'login',
     value: function login(user) {
       return function (dispatch) {
-        dispatch(_dispatch2.default.action(_userActionTypes2.default.SIGNIN_REQUEST, user));
+        dispatch(_dispatch2.default.action(_userActionType2.default.SIGNIN_REQUEST, user));
         return _axios2.default.post('/api/v1/users/login', user).then(function (response) {
-          dispatch(_dispatch2.default.action(_userActionTypes2.default.SIGNIN_SUCCESS, response.data.userDetails));
+          dispatch(_dispatch2.default.action(_userActionType2.default.SIGNIN_SUCCESS, response.data.userDetails));
           cookies.set('jwt-events-manager', response.data.Token, { path: '/' });
         }).catch(function (error) {
           var message = error.response.data.message;
 
-          dispatch(_dispatch2.default.action(_userActionTypes2.default.SIGNIN_FAILURE, message));
+          dispatch(_dispatch2.default.action(_userActionType2.default.SIGNIN_FAILURE, message));
         });
       };
     }
@@ -975,14 +881,14 @@ var UserActions = function () {
     key: 'resetRequest',
     value: function resetRequest(email) {
       return function (dispatch) {
-        dispatch(_dispatch2.default.action(_userActionTypes2.default.FORGOT_PASSWORD_REQUEST, email));
+        dispatch(_dispatch2.default.action(_userActionType2.default.FORGOT_PASSWORD_REQUEST, email));
         return _axios2.default.post('/api/v1/users/reset', email).then(function (response) {
           var message = response.data.message;
 
-          dispatch(_dispatch2.default.action(_userActionTypes2.default.FORGOT_PASSWORD_SUCCESS, message));
+          dispatch(_dispatch2.default.action(_userActionType2.default.FORGOT_PASSWORD_SUCCESS, message));
         }).catch(function (error) {
           var err = error.response.data.message;
-          dispatch(_dispatch2.default.action(_userActionTypes2.default.FORGET_PASSWORD_FAILURE, err));
+          dispatch(_dispatch2.default.action(_userActionType2.default.FORGET_PASSWORD_FAILURE, err));
         });
       };
     }
@@ -1000,14 +906,14 @@ var UserActions = function () {
     key: 'resetPassword',
     value: function resetPassword(password) {
       return function (dispatch) {
-        dispatch(_dispatch2.default.action(_userActionTypes2.default.RESET_REQUEST, password));
+        dispatch(_dispatch2.default.action(_userActionType2.default.RESET_REQUEST, password));
         return _axios2.default.post('/api/v1/users/password?token=' + password.token, password).then(function (response) {
           var message = response.data.message;
 
-          dispatch(_dispatch2.default.action(_userActionTypes2.default.RESET_SUCCESS, message));
+          dispatch(_dispatch2.default.action(_userActionType2.default.RESET_SUCCESS, message));
         }).catch(function (error) {
           var err = error.response.data.message;
-          dispatch(_dispatch2.default.action(_userActionTypes2.default.RESET_FAILURE, err));
+          dispatch(_dispatch2.default.action(_userActionType2.default.RESET_FAILURE, err));
           _toast2.default.error(err);
         });
       };
@@ -1025,8 +931,8 @@ var UserActions = function () {
     value: function logout() {
       return function (dispatch) {
         cookies.remove('jwt-events-manager');
-        dispatch(_dispatch2.default.action(_userActionTypes2.default.SIGNOUT, null));
-        dispatch(_dispatch2.default.action(_mainActionTypes2.default.RESET_STATE, null));
+        dispatch(_dispatch2.default.action(_userActionType2.default.SIGNOUT, null));
+        dispatch(_dispatch2.default.action(_mainActionType2.default.RESET_STATE, null));
         localStorage.removeItem('app');
         // window.location.reload();
       };
@@ -1037,6 +943,100 @@ var UserActions = function () {
 }();
 
 exports.default = UserActions;
+
+/***/ }),
+
+/***/ "./client/src/actions/actionTypes/mainActionType.js":
+/*!**********************************************************!*\
+  !*** ./client/src/actions/actionTypes/mainActionType.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var mainActionType = {
+  CREATE_REQUEST: 'CREATE_REQUEST',
+  CREATE_SUCCESS: 'CREATE_SUCCESS',
+  CREATE_FAILED: 'CREATE_FAILED',
+
+  GETALL_REQUEST: 'GETALL_REQUEST',
+  GETALL_SUCCESS: 'GETALL_SUCCESS',
+  GETALL_FAILED: 'GETALL_FAILED',
+
+  GET_REQUEST: 'GET_REQUEST',
+  GET_SUCCESS: 'GET_SUCCESS',
+  GET_FAILED: 'GET_FAILED',
+
+  GETSTATES_REQUEST: 'STATES_GET_REQUEST',
+  GETSTATES_SUCCESS: 'STATES_GET_SUCCESS',
+  GETSTATES_FAILED: 'STATES_GET_FAILED',
+
+  UPDATE_REQUEST: 'UPDATE_REQUEST',
+  UPDATE_SUCCESS: 'UPDATE_SUCCESS',
+  UPDATE_FAILED: 'UPDATE_FAILED',
+
+  DELETE_REQUEST: 'DELETE_REQUEST',
+  DELETE_SUCCESS: 'DELETE_SUCCESS',
+  DELETE_FAILED: 'DELETE_FAILED',
+
+  SEARCH_REQUEST: 'SEARCH_REQUEST',
+  SEARCH_SUCCESS: 'SEARCH_SUCCESS',
+  SEARCH_FAILURE: 'SEARCH_FAILURE',
+
+  IMAGE_UPLOAD_REQUEST: 'UPLOAD_REQUEST',
+  IMAGE_UPLOAD_SUCCESS: 'UPLOAD_SUCCESS',
+  IMAGE_ULPOAD_FAILURE: 'ULPOAD_FAILURE',
+
+  RESET_STATE: 'RESET_STATE'
+};
+
+exports.default = mainActionType;
+
+/***/ }),
+
+/***/ "./client/src/actions/actionTypes/userActionType.js":
+/*!**********************************************************!*\
+  !*** ./client/src/actions/actionTypes/userActionType.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var userActionType = {
+  SIGNUP_REQUEST: 'USERS_SIGNUP_REQUEST',
+  SIGNUP_SUCCESS: 'USERS_SIGNUP_SUCCESS',
+  SIGNUP_FAILURE: 'USERS_SIGNUP_FAILURE',
+
+  SIGNIN_REQUEST: 'USERS_SIGNIN_REQUEST',
+  SIGNIN_SUCCESS: 'USERS_SIGNIN_SUCCESS',
+  SIGNIN_FAILURE: 'USERS_SIGNIN_FAILURE',
+
+  VERIFY_REQUEST: 'USERS_VERIFY_REQUEST',
+  VERIFY_SUCCESS: 'USERS_VERIFY_SUCCESS',
+  VERIFY_FAILURE: 'USERS_VERIFY_FAILURE',
+
+  FORGOT_PASSWORD_REQUEST: 'FORGOT_PASSWORD_REQUEST',
+  FORGOT_PASSWORD_SUCCESS: 'FORGOT_PASSWORD_SUCCESS',
+  FORGET_PASSWORD_FAILURE: 'FORGET_PASSWORD_FAILURE',
+
+  RESET_REQUEST: 'RESET_REQUEST',
+  RESET_SUCCESS: 'RESET_SUCCESS',
+  RESET_FAILURE: 'RESET_FAILURE',
+
+  SIGNOUT: 'USERS_SIGNOUT'
+};
+
+exports.default = userActionType;
 
 /***/ }),
 
@@ -1187,9 +1187,9 @@ var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-type
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _userActions = __webpack_require__(/*! ../actions/user-actions */ "./client/src/actions/user-actions.js");
+var _UserActions = __webpack_require__(/*! ../actions/UserActions */ "./client/src/actions/UserActions.js");
 
-var _userActions2 = _interopRequireDefault(_userActions);
+var _UserActions2 = _interopRequireDefault(_UserActions);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1405,7 +1405,7 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return (0, _redux.bindActionCreators)({
-    logout: _userActions2.default.logout
+    logout: _UserActions2.default.logout
   }, dispatch);
 };
 
@@ -1417,7 +1417,7 @@ Header.propTypes = {
 };
 
 Header.defaultProps = {
-  logout: _userActions2.default.logout
+  logout: _UserActions2.default.logout
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Header);
@@ -1666,9 +1666,9 @@ var _formValidator = __webpack_require__(/*! ../../helpers/form-validator */ "./
 
 var _formValidator2 = _interopRequireDefault(_formValidator);
 
-var _userActions = __webpack_require__(/*! ../../actions/user-actions */ "./client/src/actions/user-actions.js");
+var _UserActions = __webpack_require__(/*! ../../actions/UserActions */ "./client/src/actions/UserActions.js");
 
-var _userActions2 = _interopRequireDefault(_userActions);
+var _UserActions2 = _interopRequireDefault(_UserActions);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1914,7 +1914,7 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return (0, _redux.bindActionCreators)({
-    requestReset: _userActions2.default.resetRequest
+    requestReset: _UserActions2.default.resetRequest
   }, dispatch);
 };
 
@@ -1927,7 +1927,7 @@ ForgotPassword.propTypes = {
 
 ForgotPassword.defaultProps = {
   response: {},
-  requestReset: _userActions2.default.resetRequest
+  requestReset: _UserActions2.default.resetRequest
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ForgotPassword);
@@ -1973,9 +1973,9 @@ var _formValidator = __webpack_require__(/*! ../../helpers/form-validator */ "./
 
 var _formValidator2 = _interopRequireDefault(_formValidator);
 
-var _userActions = __webpack_require__(/*! ../../actions/user-actions */ "./client/src/actions/user-actions.js");
+var _UserActions = __webpack_require__(/*! ../../actions/UserActions */ "./client/src/actions/UserActions.js");
 
-var _userActions2 = _interopRequireDefault(_userActions);
+var _UserActions2 = _interopRequireDefault(_UserActions);
 
 var _authChecker = __webpack_require__(/*! ../../helpers/auth-checker */ "./client/src/helpers/auth-checker.js");
 
@@ -2213,7 +2213,7 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return (0, _redux.bindActionCreators)({
-    authUser: _userActions2.default.login
+    authUser: _UserActions2.default.login
   }, dispatch);
 };
 
@@ -2229,7 +2229,7 @@ Login.propTypes = {
 
 Login.defaultProps = {
   response: {},
-  authUser: _userActions2.default.login
+  authUser: _UserActions2.default.login
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Login);
@@ -2275,9 +2275,9 @@ var _formValidator = __webpack_require__(/*! ../../helpers/form-validator */ "./
 
 var _formValidator2 = _interopRequireDefault(_formValidator);
 
-var _userActions = __webpack_require__(/*! ../../actions/user-actions */ "./client/src/actions/user-actions.js");
+var _UserActions = __webpack_require__(/*! ../../actions/UserActions */ "./client/src/actions/UserActions.js");
 
-var _userActions2 = _interopRequireDefault(_userActions);
+var _UserActions2 = _interopRequireDefault(_UserActions);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2503,7 +2503,7 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return (0, _redux.bindActionCreators)({
-    createUser: _userActions2.default.register
+    createUser: _UserActions2.default.register
   }, dispatch);
 };
 
@@ -2519,7 +2519,7 @@ Register.propTypes = {
 
 Register.defaultProps = {
   response: {},
-  createUser: _userActions2.default.register
+  createUser: _UserActions2.default.register
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Register);
@@ -2565,9 +2565,9 @@ var _formValidator = __webpack_require__(/*! ../../helpers/form-validator */ "./
 
 var _formValidator2 = _interopRequireDefault(_formValidator);
 
-var _userActions = __webpack_require__(/*! ../../actions/user-actions */ "./client/src/actions/user-actions.js");
+var _UserActions = __webpack_require__(/*! ../../actions/UserActions */ "./client/src/actions/UserActions.js");
 
-var _userActions2 = _interopRequireDefault(_userActions);
+var _UserActions2 = _interopRequireDefault(_UserActions);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2841,7 +2841,7 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return (0, _redux.bindActionCreators)({
-    resetPassword: _userActions2.default.resetPassword
+    resetPassword: _UserActions2.default.resetPassword
   }, dispatch);
 };
 
@@ -2857,7 +2857,7 @@ ResetPassword.propTypes = {
 
 ResetPassword.defaultProps = {
   response: {},
-  resetPassword: _userActions2.default.resetPassword
+  resetPassword: _UserActions2.default.resetPassword
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ResetPassword);
@@ -2893,9 +2893,9 @@ var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-type
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _userActions = __webpack_require__(/*! ../../actions/user-actions */ "./client/src/actions/user-actions.js");
+var _UserActions = __webpack_require__(/*! ../../actions/UserActions */ "./client/src/actions/UserActions.js");
 
-var _userActions2 = _interopRequireDefault(_userActions);
+var _UserActions2 = _interopRequireDefault(_UserActions);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2936,7 +2936,7 @@ var VerifiedEmail = exports.VerifiedEmail = function (_Component) {
       var url = new URL(window.location.href);
       var param = new URLSearchParams(url.search);
       var token = param.get('token');
-      this.props.dispatch(_userActions2.default.completeRegistration(token));
+      this.props.dispatch(_UserActions2.default.completeRegistration(token));
     }
 
     /**
@@ -3110,9 +3110,9 @@ var _SearchForm = __webpack_require__(/*! ./SearchForm */ "./client/src/componen
 
 var _SearchForm2 = _interopRequireDefault(_SearchForm);
 
-var _centerAction = __webpack_require__(/*! ../../actions/center-action */ "./client/src/actions/center-action.js");
+var _CenterActions = __webpack_require__(/*! ../../actions/CenterActions */ "./client/src/actions/CenterActions.js");
 
-var _centerAction2 = _interopRequireDefault(_centerAction);
+var _CenterActions2 = _interopRequireDefault(_CenterActions);
 
 var _CenterFormModal = __webpack_require__(/*! ./CenterFormModal */ "./client/src/components/center/CenterFormModal.jsx");
 
@@ -3448,10 +3448,10 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return (0, _redux.bindActionCreators)({
-    getAll: _centerAction2.default.getAll,
-    deleteCenter: _centerAction2.default.deleteCenter,
-    getStates: _centerAction2.default.getAllStates,
-    createCenter: _centerAction2.default.createCenter
+    getAll: _CenterActions2.default.getAll,
+    deleteCenter: _CenterActions2.default.deleteCenter,
+    getStates: _CenterActions2.default.getAllStates,
+    createCenter: _CenterActions2.default.createCenter
   }, dispatch);
 };
 
@@ -3472,9 +3472,9 @@ Center.propTypes = {
 
 Center.defaultProps = {
   response: {},
-  getAll: _centerAction2.default.getAll,
-  getStates: _centerAction2.default.getAllStates,
-  createCenter: _centerAction2.default.createCenter
+  getAll: _CenterActions2.default.getAll,
+  getStates: _CenterActions2.default.getAllStates,
+  createCenter: _CenterActions2.default.createCenter
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Center);
@@ -3599,13 +3599,13 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _semanticUiReact = __webpack_require__(/*! semantic-ui-react */ "./node_modules/semantic-ui-react/dist/es/index.js");
 
-var _centerAction = __webpack_require__(/*! ../../actions/center-action */ "./client/src/actions/center-action.js");
+var _CenterActions = __webpack_require__(/*! ../../actions/CenterActions */ "./client/src/actions/CenterActions.js");
 
-var _centerAction2 = _interopRequireDefault(_centerAction);
+var _CenterActions2 = _interopRequireDefault(_CenterActions);
 
-var _eventAction = __webpack_require__(/*! ../../actions/event-action */ "./client/src/actions/event-action.js");
+var _EventActions = __webpack_require__(/*! ../../actions/EventActions */ "./client/src/actions/EventActions.js");
 
-var _eventAction2 = _interopRequireDefault(_eventAction);
+var _EventActions2 = _interopRequireDefault(_EventActions);
 
 var _CenterTable = __webpack_require__(/*! ./CenterTable */ "./client/src/components/center/CenterTable.jsx");
 
@@ -4067,11 +4067,11 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return (0, _redux.bindActionCreators)({
-    getCenter: _centerAction2.default.getCenter,
-    deleteCenter: _centerAction2.default.deleteCenter,
-    updateCenter: _centerAction2.default.updateCenter,
-    getStates: _centerAction2.default.getAllStates,
-    createEvent: _eventAction2.default.createEvent
+    getCenter: _CenterActions2.default.getCenter,
+    deleteCenter: _CenterActions2.default.deleteCenter,
+    updateCenter: _CenterActions2.default.updateCenter,
+    getStates: _CenterActions2.default.getAllStates,
+    createEvent: _EventActions2.default.createEvent
   }, dispatch);
 };
 
@@ -4094,10 +4094,10 @@ CenterDetails.propTypes = {
 
 CenterDetails.defaultProps = {
   response: {},
-  deleteCenter: _centerAction2.default.deleteCenter,
-  getStates: _centerAction2.default.getAllStates,
-  updateCenter: _centerAction2.default.updateCenter,
-  createEvent: _eventAction2.default.createEvent
+  deleteCenter: _CenterActions2.default.deleteCenter,
+  getStates: _CenterActions2.default.getAllStates,
+  updateCenter: _CenterActions2.default.updateCenter,
+  createEvent: _EventActions2.default.createEvent
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(CenterDetails);
@@ -4873,9 +4873,9 @@ var _Paginator = __webpack_require__(/*! ../reusables/Paginator */ "./client/src
 
 var _Paginator2 = _interopRequireDefault(_Paginator);
 
-var _eventAction = __webpack_require__(/*! ../../actions/event-action */ "./client/src/actions/event-action.js");
+var _EventActions = __webpack_require__(/*! ../../actions/EventActions */ "./client/src/actions/EventActions.js");
 
-var _eventAction2 = _interopRequireDefault(_eventAction);
+var _EventActions2 = _interopRequireDefault(_EventActions);
 
 var _authChecker = __webpack_require__(/*! ../../helpers/auth-checker */ "./client/src/helpers/auth-checker.js");
 
@@ -5194,8 +5194,8 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return (0, _redux.bindActionCreators)({
-    getAll: _eventAction2.default.getAll,
-    respondToEvent: _eventAction2.default.respondToEvent
+    getAll: _EventActions2.default.getAll,
+    respondToEvent: _EventActions2.default.respondToEvent
   }, dispatch);
 };
 
@@ -5215,8 +5215,8 @@ CenterEvent.propTypes = {
 
 CenterEvent.defaultProps = {
   response: {},
-  getAll: _eventAction2.default.getAll,
-  respondToEvent: _eventAction2.default.respondToEvent
+  getAll: _EventActions2.default.getAll,
+  respondToEvent: _EventActions2.default.respondToEvent
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(CenterEvent);
@@ -5262,9 +5262,9 @@ var _Paginator = __webpack_require__(/*! ../reusables/Paginator */ "./client/src
 
 var _Paginator2 = _interopRequireDefault(_Paginator);
 
-var _eventAction = __webpack_require__(/*! ../../actions/event-action */ "./client/src/actions/event-action.js");
+var _EventActions = __webpack_require__(/*! ../../actions/EventActions */ "./client/src/actions/EventActions.js");
 
-var _eventAction2 = _interopRequireDefault(_eventAction);
+var _EventActions2 = _interopRequireDefault(_EventActions);
 
 var _authChecker = __webpack_require__(/*! ../../helpers/auth-checker */ "./client/src/helpers/auth-checker.js");
 
@@ -5656,9 +5656,9 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return (0, _redux.bindActionCreators)({
-    getAll: _eventAction2.default.getAll,
-    deleteEvent: _eventAction2.default.deleteEvent,
-    updateEvent: _eventAction2.default.updateEvent
+    getAll: _EventActions2.default.getAll,
+    deleteEvent: _EventActions2.default.deleteEvent,
+    updateEvent: _EventActions2.default.updateEvent
   }, dispatch);
 };
 
@@ -5679,9 +5679,9 @@ Event.propTypes = {
 
 Event.defaultProps = {
   response: {},
-  getAll: _eventAction2.default.getAll,
-  updateEvent: _eventAction2.default.updateEvent,
-  deleteEvent: _eventAction2.default.deleteEvent
+  getAll: _EventActions2.default.getAll,
+  updateEvent: _EventActions2.default.updateEvent,
+  deleteEvent: _EventActions2.default.deleteEvent
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Event);
@@ -5838,9 +5838,9 @@ var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-type
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _eventAction = __webpack_require__(/*! ../../actions/event-action */ "./client/src/actions/event-action.js");
+var _EventActions = __webpack_require__(/*! ../../actions/EventActions */ "./client/src/actions/EventActions.js");
 
-var _eventAction2 = _interopRequireDefault(_eventAction);
+var _EventActions2 = _interopRequireDefault(_EventActions);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6155,7 +6155,7 @@ var matchStateToProps = function matchStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return (0, _redux.bindActionCreators)({
-    updateEvent: _eventAction2.default.updateEvent
+    updateEvent: _EventActions2.default.updateEvent
   }, dispatch);
 };
 
@@ -7188,9 +7188,9 @@ var _createClass = function () {
   };
 }();
 
-var _mainActionTypes = __webpack_require__(/*! ../actions/actionTypes/main-action-types */ "./client/src/actions/actionTypes/main-action-types.js");
+var _mainActionType = __webpack_require__(/*! ../actions/actionTypes/mainActionType */ "./client/src/actions/actionTypes/mainActionType.js");
 
-var _mainActionTypes2 = _interopRequireDefault(_mainActionTypes);
+var _mainActionType2 = _interopRequireDefault(_mainActionType);
 
 var _initialState = __webpack_require__(/*! ../initial-state */ "./client/src/initial-state.js");
 
@@ -7230,13 +7230,13 @@ var AppReducer = function () {
       var action = arguments[1];
 
       switch (action.type) {
-        case _mainActionTypes2.default.GETALL_REQUEST:
+        case _mainActionType2.default.GETALL_REQUEST:
           return _extends({}, state, { status: 'fetching', data: null });
-        case _mainActionTypes2.default.GETALL_SUCCESS:
+        case _mainActionType2.default.GETALL_SUCCESS:
           return _extends({}, state, { status: 'success', data: action.data });
-        case _mainActionTypes2.default.GETALL_FAILED:
+        case _mainActionType2.default.GETALL_FAILED:
           return _extends({}, state, { status: 'failed', data: action.data });
-        case _mainActionTypes2.default.RESET_STATE:
+        case _mainActionType2.default.RESET_STATE:
           return state;
         default:
           return state;
@@ -7259,13 +7259,13 @@ var AppReducer = function () {
       var action = arguments[1];
 
       switch (action.type) {
-        case _mainActionTypes2.default.GET_REQUEST:
+        case _mainActionType2.default.GET_REQUEST:
           return _extends({}, state, { status: 'fetching', data: null });
-        case _mainActionTypes2.default.GET_SUCCESS:
+        case _mainActionType2.default.GET_SUCCESS:
           return _extends({}, state, { status: 'success', data: action.data });
-        case _mainActionTypes2.default.GET_FAILED:
+        case _mainActionType2.default.GET_FAILED:
           return _extends({}, state, { status: 'failed', data: action.data });
-        case _mainActionTypes2.default.RESET_STATE:
+        case _mainActionType2.default.RESET_STATE:
           return state;
         default:
           return state;
@@ -7288,13 +7288,13 @@ var AppReducer = function () {
       var action = arguments[1];
 
       switch (action.type) {
-        case _mainActionTypes2.default.GETSTATES_REQUEST:
+        case _mainActionType2.default.GETSTATES_REQUEST:
           return _extends({}, state, { status: 'fetching', data: action.data });
-        case _mainActionTypes2.default.GETSTATES_SUCCESS:
+        case _mainActionType2.default.GETSTATES_SUCCESS:
           return _extends({}, state, { status: 'success', data: action.data });
-        case _mainActionTypes2.default.GETSTATES_FAILED:
+        case _mainActionType2.default.GETSTATES_FAILED:
           return _extends({}, state, { status: 'failed', data: action.data });
-        case _mainActionTypes2.default.RESET_STATE:
+        case _mainActionType2.default.RESET_STATE:
           return state;
         default:
           return state;
@@ -7318,13 +7318,13 @@ var AppReducer = function () {
 
       // const newState = {};
       switch (action.type) {
-        case _mainActionTypes2.default.CREATE_REQUEST:
+        case _mainActionType2.default.CREATE_REQUEST:
           return _extends({}, state, { status: 'ongoing', data: null });
-        case _mainActionTypes2.default.CREATE_SUCCESS:
+        case _mainActionType2.default.CREATE_SUCCESS:
           return _extends({}, state, { status: 'success', data: action.data });
-        case _mainActionTypes2.default.CREATE_FAILED:
+        case _mainActionType2.default.CREATE_FAILED:
           return _extends({}, state, { status: 'failed', data: action.data });
-        case _mainActionTypes2.default.RESET_STATE:
+        case _mainActionType2.default.RESET_STATE:
           return state;
         default:
           return state;
@@ -7348,13 +7348,13 @@ var AppReducer = function () {
 
       // const newState = {};
       switch (action.type) {
-        case _mainActionTypes2.default.UPDATE_REQUEST:
+        case _mainActionType2.default.UPDATE_REQUEST:
           return _extends({}, state, { status: 'ongoing', data: null });
-        case _mainActionTypes2.default.UPDATE_SUCCESS:
+        case _mainActionType2.default.UPDATE_SUCCESS:
           return _extends({}, state, { status: 'success', data: action.data });
-        case _mainActionTypes2.default.UPDATE_FAILED:
+        case _mainActionType2.default.UPDATE_FAILED:
           return _extends({}, state, { status: 'failed', data: action.data });
-        case _mainActionTypes2.default.RESET_STATE:
+        case _mainActionType2.default.RESET_STATE:
           return state;
         default:
           return state;
@@ -7377,13 +7377,13 @@ var AppReducer = function () {
       var action = arguments[1];
 
       switch (action.type) {
-        case _mainActionTypes2.default.DELETE_REQUEST:
+        case _mainActionType2.default.DELETE_REQUEST:
           return _extends({}, state, { status: 'ongoing', data: null });
-        case _mainActionTypes2.default.DELETE_SUCCESS:
+        case _mainActionType2.default.DELETE_SUCCESS:
           return _extends({}, state, { status: 'success', data: action.data });
-        case _mainActionTypes2.default.DELETE_FAILED:
+        case _mainActionType2.default.DELETE_FAILED:
           return _extends({}, state, { status: 'failed', data: action.data });
-        case _mainActionTypes2.default.RESET_STATE:
+        case _mainActionType2.default.RESET_STATE:
           return state;
         default:
           return state;
@@ -7490,9 +7490,9 @@ var _createClass = function () {
   };
 }();
 
-var _userActionTypes = __webpack_require__(/*! ../actions/actionTypes/user-action-types */ "./client/src/actions/actionTypes/user-action-types.js");
+var _userActionType = __webpack_require__(/*! ../actions/actionTypes/userActionType */ "./client/src/actions/actionTypes/userActionType.js");
 
-var _userActionTypes2 = _interopRequireDefault(_userActionTypes);
+var _userActionType2 = _interopRequireDefault(_userActionType);
 
 var _initialState = __webpack_require__(/*! ../initial-state */ "./client/src/initial-state.js");
 
@@ -7532,11 +7532,11 @@ var UserReducer = function () {
       var action = arguments[1];
 
       switch (action.type) {
-        case _userActionTypes2.default.SIGNUP_REQUEST:
+        case _userActionType2.default.SIGNUP_REQUEST:
           return _extends({}, state, { status: 'creating', data: null });
-        case _userActionTypes2.default.SIGNUP_SUCCESS:
+        case _userActionType2.default.SIGNUP_SUCCESS:
           return _extends({}, state, { status: 'created', data: action.data });
-        case _userActionTypes2.default.SIGNUP_FAILURE:
+        case _userActionType2.default.SIGNUP_FAILURE:
           return _extends({}, state, { status: 'failed', data: action.data });
         default:
           return state;
@@ -7559,21 +7559,21 @@ var UserReducer = function () {
       var action = arguments[1];
 
       switch (action.type) {
-        case _userActionTypes2.default.SIGNIN_REQUEST:
+        case _userActionType2.default.SIGNIN_REQUEST:
           return _extends({}, state, {
             isAuthenticated: false,
             data: null,
             status: 'authenticating'
           });
-        case _userActionTypes2.default.SIGNIN_SUCCESS:
+        case _userActionType2.default.SIGNIN_SUCCESS:
           return _extends({}, state, {
             isAuthenticated: true,
             data: action.data,
             status: 'authenticated'
           });
-        case _userActionTypes2.default.SIGNOUT:
+        case _userActionType2.default.SIGNOUT:
           return _initialState2.default.user;
-        case _userActionTypes2.default.SIGNIN_FAILURE:
+        case _userActionType2.default.SIGNIN_FAILURE:
           return _extends({}, state, {
             isAuthenticated: false,
             data: action.data,
@@ -7600,11 +7600,11 @@ var UserReducer = function () {
       var action = arguments[1];
 
       switch (action.type) {
-        case _userActionTypes2.default.VERIFY_REQUEST:
+        case _userActionType2.default.VERIFY_REQUEST:
           return _extends({}, state, { status: 'ongoing', data: null });
-        case _userActionTypes2.default.VERIFY_SUCCESS:
+        case _userActionType2.default.VERIFY_SUCCESS:
           return _extends({}, state, { status: 'success', data: action.data });
-        case _userActionTypes2.default.VERIFY_FAILURE:
+        case _userActionType2.default.VERIFY_FAILURE:
           return _extends({}, state, { status: 'failed', data: action.data });
         default:
           return state;
@@ -7627,11 +7627,11 @@ var UserReducer = function () {
       var action = arguments[1];
 
       switch (action.type) {
-        case _userActionTypes2.default.FORGOT_PASSWORD_REQUEST:
+        case _userActionType2.default.FORGOT_PASSWORD_REQUEST:
           return _extends({}, state, { status: 'ongoing', data: null });
-        case _userActionTypes2.default.FORGOT_PASSWORD_SUCCESS:
+        case _userActionType2.default.FORGOT_PASSWORD_SUCCESS:
           return _extends({}, state, { status: 'success', data: action.data });
-        case _userActionTypes2.default.FORGET_PASSWORD_FAILURE:
+        case _userActionType2.default.FORGET_PASSWORD_FAILURE:
           return _extends({}, state, { status: 'failed', data: action.data });
         default:
           return state;
@@ -7654,11 +7654,11 @@ var UserReducer = function () {
       var action = arguments[1];
 
       switch (action.type) {
-        case _userActionTypes2.default.RESET_REQUEST:
+        case _userActionType2.default.RESET_REQUEST:
           return _extends({}, state, { status: 'ongoing', data: null });
-        case _userActionTypes2.default.RESET_SUCCESS:
+        case _userActionType2.default.RESET_SUCCESS:
           return _extends({}, state, { status: 'success', data: action.data });
-        case _userActionTypes2.default.RESET_FAILURE:
+        case _userActionType2.default.RESET_FAILURE:
           return _extends({}, state, { status: 'failed', data: action.data });
         default:
           return state;

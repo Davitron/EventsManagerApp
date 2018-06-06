@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import UserActions from '../../actions/user-actions';
+import UserActions from '../../actions/UserActions';
 
 /**
  *

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import { Grid, Dimmer, Loader } from 'semantic-ui-react';
 import SearchForm from './SearchForm';
-import CenterActions from '../../actions/center-action';
+import CenterActions from '../../actions/CenterActions';
 import CenterFormModal from './CenterFormModal';
 import FormValidator from '../../helpers/form-validator';
 import AuthChecker from '../../helpers/auth-checker';

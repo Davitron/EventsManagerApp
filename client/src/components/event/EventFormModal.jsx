@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button, Modal, Form } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import EventActions from '../../actions/event-action';
+import EventActions from '../../actions/EventActions';
 
 const propTypes = {
   response: PropTypes.objectOf(() => null), // eslint-disable-line

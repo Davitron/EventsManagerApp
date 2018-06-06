@@ -1,4 +1,4 @@
-import mainActionType from '../actions/actionTypes/main-action-types';
+import mainActionType from '../actions/actionTypes/mainActionType';
 import initialState from '../initial-state';
 
 /**

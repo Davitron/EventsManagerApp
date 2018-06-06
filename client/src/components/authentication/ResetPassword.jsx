@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Input, Button, Modal } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import FormValidator from '../../helpers/form-validator';
-import UserActions from '../../actions/user-actions';
+import UserActions from '../../actions/UserActions';
 
 /**
  * @returns {*} Component for SignUp

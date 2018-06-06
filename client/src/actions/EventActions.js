@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import queryString from 'query-string';
-import mainActionType from './actionTypes/main-action-types';
+import mainActionType from './actionTypes/mainActionType';
 import Dispatcher from '../helpers/dispatch';
 import Toast from '../helpers/toast';
 

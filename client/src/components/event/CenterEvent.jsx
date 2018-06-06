@@ -5,7 +5,7 @@ import { Grid, Dimmer, Loader } from 'semantic-ui-react';
 import queryString from 'query-string';
 import PropTypes from 'prop-types';
 import Paginator from '../reusables/Paginator';
-import EventActions from '../../actions/event-action';
+import EventActions from '../../actions/EventActions';
 import AuthChecker from '../../helpers/auth-checker';
 import EventCard from './EventCard';
 import Prompt from '../reusables/Confirm';

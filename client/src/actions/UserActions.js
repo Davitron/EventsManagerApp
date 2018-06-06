@@ -1,7 +1,7 @@
 import Cookies from 'universal-cookie';
 import axios from 'axios';
-import userActionsType from './actionTypes/user-action-types';
-import mainActionsType from './actionTypes/main-action-types';
+import userActionsType from './actionTypes/userActionType';
+import mainActionsType from './actionTypes/mainActionType';
 import Dispatcher from '../helpers/dispatch';
 import Toast from '../helpers/toast';
 

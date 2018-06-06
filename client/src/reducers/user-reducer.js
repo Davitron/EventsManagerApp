@@ -1,4 +1,4 @@
-import userActionType from '../actions/actionTypes/user-action-types';
+import userActionType from '../actions/actionTypes/userActionType';
 import initialState from '../initial-state';
 
 /**

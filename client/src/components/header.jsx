@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import UserActions from '../actions/user-actions';
+import UserActions from '../actions/UserActions';
 
 
 /**
