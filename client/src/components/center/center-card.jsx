@@ -17,7 +17,7 @@ const CenterCard = ({ center }) => (
         </span>
       </Card.Meta>
       <Card.Description>
-        {center.address} {center.State.stateName}
+        {center.address} {center.state}
       </Card.Description>
     </Card.Content>
     <Card.Content extra>

@@ -1,12 +1,23 @@
 import Sequelize from 'sequelize';
 import model from '../../models';
-import Pagination from '../../services/pagingService';
+import Pagination from '../../services/Pagination';
 
 const Centers = model.Center;
 const Events = model.Event;
 const States = model.State;
 
 const { Op } = Sequelize;
+
+const centerAtributes = [
+  'id',
+  'name',
+  'address',
+  'price',
+  'hallCapacity',
+  'carParkCapacity',
+  'image',
+  'price'
+];
 
 /**
  * @export
@@ -30,13 +41,7 @@ export default class CenterController {
 
     const defaultQuery = {
       attributes: [
-        'id',
-        'name',
-        'address',
-        'price',
-        'hallCapacity',
-        'carParkCapacity',
-        'image',
+        ...centerAtributes,
         [Sequelize.col('User.username'), 'user'],
         [Sequelize.col('State.stateName'), 'state']
       ],
@@ -226,7 +231,12 @@ export default class CenterController {
         id: req.params.centerId
       },
       attributes: [
-        'id', 'stateId', 'name', 'address', 'facilities', 'hallCapacity', 'carParkCapacity', 'price', 'createdBy', 'image'
+        ...centerAtributes,
+        'stateId',
+        'facilities',
+        'createdBy',
+        [Sequelize.col('User.username'), 'user'],
+        [Sequelize.col('State.stateName'), 'state']
       ],
       include: [
         { model: model.State, required: true, attributes: ['stateName'] },

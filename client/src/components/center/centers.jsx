@@ -188,49 +188,46 @@ export class Center extends Component {
     } = this.state;
     const role = AuthChecker.defineRole();
     return (
-      <div>
-        {/* <Header /> */}
-        <div className="background">
-          <div className="my-container">
-            <div style={{ textAlign: 'center' }}>
-              <span style={{ fontSize: '45px' }}>Centers</span>
-            </div>
-            <SearchForm states={states} onSearch={this.onSearch} />
-            <Grid>
-              <Grid.Row colunms={3}>
-                { loading === true &&
-                  <Dimmer active inverted>
-                    <Loader size="large">Loading</Loader>
-                  </Dimmer>
-                }
-                { serverError && <h2 className="animated fadeInUp">{serverError}</h2> }
-                { data &&
-                  data.map(item => (
-                    <Grid.Column key={item.id}>
-                      <CenterCard center={item} />
-                    </Grid.Column>
-                  ))
-                }
-              </Grid.Row>
-            </Grid>
-            { this.state.data.length > 0 &&
-            <Paginator
-              pagingData={this.state.pagingData}
-              onChange={this.onChangePage}
-              onShowSizeChange={this.onPageSizeChange}
-            />
-            }
+      <div className="background">
+        <div className="my-container">
+          <div style={{ textAlign: 'center' }}>
+            <span style={{ fontSize: '45px' }}>Centers</span>
           </div>
-          <CenterFormModal
-            open={openModal}
-            states={states}
-            onSubmit={this.onSubmit}
-            errors={errors}
-            hideModal={this.hideModal}
-            isRequestMade={isRequestMade}
+          <SearchForm states={states} onSearch={this.onSearch} />
+          <Grid>
+            <Grid.Row colunms={3}>
+              { loading === true &&
+                <Dimmer active inverted>
+                  <Loader size="large">Loading</Loader>
+                </Dimmer>
+              }
+              { serverError && <h2 className="animated fadeInUp">{serverError}</h2> }
+              { data &&
+                data.map(item => (
+                  <Grid.Column key={item.id}>
+                    <CenterCard center={item} />
+                  </Grid.Column>
+                ))
+              }
+            </Grid.Row>
+          </Grid>
+          { this.state.data.length > 0 &&
+          <Paginator
+            pagingData={this.state.pagingData}
+            onChange={this.onChangePage}
+            onShowSizeChange={this.onPageSizeChange}
           />
-          { role === 'admin' && <div className="fab pulse" onClick={this.showModal}> + </div> }
+          }
         </div>
+        <CenterFormModal
+          open={openModal}
+          states={states}
+          onSubmit={this.onSubmit}
+          errors={errors}
+          hideModal={this.hideModal}
+          isRequestMade={isRequestMade}
+        />
+        { role === 'admin' && <div className="fab pulse" onClick={this.showModal}> + </div> }
       </div>
     );
   }

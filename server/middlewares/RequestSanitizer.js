@@ -1,11 +1,11 @@
 import validator from 'validatorjs';
 import queryString from 'query-string';
-import validatonRules from './validation-rules';
+import validatonRules from './validatonRules';
 
 /**
  * @class
  */
-class ValidateRequest {
+class RequestSanitizer {
   /**
    * Check user role
    * @param {object} req - HTTP request object
@@ -250,4 +250,4 @@ class ValidateRequest {
   }
 }
 
-export default ValidateRequest;
+export default RequestSanitizer;

@@ -1,6 +1,6 @@
 import moment from 'moment';
 import '../env.test';
-import * as mailTemplate from '../config/mail-template';
+import * as mailTemplate from '../config/mailTemplate';
 
 describe('Mail Message Template', () => {
   it('should generate a message for new user accout', (done) => {

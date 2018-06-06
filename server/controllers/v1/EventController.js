@@ -1,9 +1,9 @@
 import moment from 'moment';
 import Sequelize from 'sequelize';
 import model from '../../models';
-import * as mailTemplate from '../../config/mail-template';
-import Mailer from '../../services/mail-service';
-import Pagination from '../../services/pagingService';
+import * as mailTemplate from '../../config/mailTemplate';
+import Mailer from '../../services/Mailer';
+import Pagination from '../../services/Pagination';
 
 
 const Events = model.Event;
@@ -198,6 +198,16 @@ export default class EventController {
     const { limit, offset, DBQuery } = req.meta;
     return Events.findAndCountAll({
       where: DBQuery,
+      attributes: [
+        'id',
+        'eventName',
+        'startDate',
+        'endDate',
+        'image',
+        'status',
+        'centerId',
+        [Sequelize.col('Center.name'), 'venue']
+      ],
       include: [{ model: Centers, attributes: ['name'] }],
       limit,
       offset,

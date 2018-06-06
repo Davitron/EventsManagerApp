@@ -22,7 +22,7 @@ const EventCard = ({
       <Label color={getColor(event.status)} ribbon="right">{event.status}</Label>
       <Card.Header>{event.eventName}</Card.Header>
       <Card.Meta>{moment(event.startDate).format('MMMM Do YYYY')} - {moment(event.endDate).format('MMMM Do YYYY')}</Card.Meta>
-      <Card.Description><Link to={`/centers/${event.centerId}`}>{event.Center.name}</Link></Card.Description>
+      <Card.Description><Link to={`/centers/${event.centerId}`}>{event.venue}</Link></Card.Description>
     </Card.Content>
     <Card.Content extra>
       {

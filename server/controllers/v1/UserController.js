@@ -3,9 +3,9 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import model from '../../models';
-import Mailer from '../../services/mail-service';
-import * as mailTemplate from '../../config/mail-template';
-import Pagination from '../../services/pagingService';
+import Mailer from '../../services/Mailer';
+import * as mailTemplate from '../../config/mailTemplate';
+import Pagination from '../../services/Pagination';
 
 dotenv.load();
 const Users = model.User;
@@ -85,7 +85,7 @@ export default class UserController {
 
   /**
    *
-   * @memberOf UserController
+   * @memberof UserController
    *
    * @param {object} req - HTTP request object
    *
@@ -104,6 +104,12 @@ export default class UserController {
       }
       if (!bcrypt.compareSync(req.body.password, user.password)) {
         return res.status(401).json({ message: 'Invalid Login Credentials', statusCode: 401 });
+      }
+      if (!user.isVerified) {
+        return res.status(401).json({
+          message: 'Registration incomplete. Proceed to your mail to complete registration',
+          statusCode: 401
+        });
       }
       const token =
       jwt.sign({

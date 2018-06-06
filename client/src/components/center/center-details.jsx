@@ -53,10 +53,7 @@ export class CenterDetails extends Component {
    */
   componentWillMount() {
     const role = AuthChecker.defineRole();
-    // const { centerId } = this.props.match.params;
-    this.setState({
-      userRole: role
-    });
+    this.setState({ userRole: role });
   }
 
   /**
@@ -105,17 +102,12 @@ export class CenterDetails extends Component {
         serverError: ''
       });
     } else if (singleCenter.data && singleCenter.status === 'failed') {
-      // this.setState({ serverError: singleCenter.data.message, center: null });
       this.props.history.push('/notFound');
     }
 
     if (updatedCenter.status !== 'ongoing' || newEvent.status !== 'ongoing') {
       this.setState({ openModal: false, openEventModal: false, isRequestMade: false });
     }
-
-    // if (deleteState.status === 'success') {
-    //   this.props.history.push('/centers');
-    // }
 
     if (allStates.status === 'success') {
       this.setState({ states: allStates.data });
@@ -261,11 +253,13 @@ export class CenterDetails extends Component {
         }
         { center &&
           <div>
-            <div>
+            <div style={{ textAlign: 'center' }}>
+              <span style={{ fontSize: '45px' }}>{center.name}</span>
+            </div>
+            <div style={{ marginTop: '20px' }}>
               <img src={center.image} alt="Lights" className=" w3-image" />
             </div>
             <div style={{ marginTop: '20px' }}>
-              <span className="center-name" style={{ fontSize: '27px' }}>{center.name}</span>
               { userRole === 'admin' && <Label as="a" color="red" onClick={this.getPendingEvent} >{center.pendingEvent} Pending Events</Label>}<br />
               <br />
               <span className="center-address" style={{ fontSize: '18px', marginTop: '20px' }}><Icon name="marker" />{center.address} {center.state}</span>
@@ -298,7 +292,6 @@ export class CenterDetails extends Component {
     } = this.state;
     return (
       <div>
-        {/* <Header /> */}
         <div className="background">
           {this.renderMainView()}
           <CenterFormModal
