@@ -10,6 +10,15 @@ const getColor = (status) => {
   if (status === 'accepted') return 'teal';
 };
 
+const handleDuration = (sDate, eDate) => {
+  sDate = moment(sDate).format('MMMM Do YYYY');
+  eDate = moment(eDate).format('MMMM Do YYYY');
+  if (sDate === eDate) {
+    return sDate;
+  }
+  return `${sDate} - ${eDate}`;
+};
+
 const EventCard = ({
   event,
   mode,
@@ -21,7 +30,7 @@ const EventCard = ({
     <Card.Content>
       <Label color={getColor(event.status)} ribbon="right">{event.status}</Label>
       <Card.Header>{event.eventName}</Card.Header>
-      <Card.Meta>{moment(event.startDate).format('MMMM Do YYYY')} - {moment(event.endDate).format('MMMM Do YYYY')}</Card.Meta>
+      <Card.Meta>{handleDuration(event.startDate, event.endDate)}</Card.Meta>
       <Card.Description><Link to={`/centers/${event.centerId}`}>{event.venue}</Link></Card.Description>
     </Card.Content>
     <Card.Content extra>

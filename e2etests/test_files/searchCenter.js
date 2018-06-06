@@ -41,7 +41,6 @@ const searchCenterTest = () => {
         .url('http://localhost:8000/centers/1')
         .waitForElementVisible('body', 2000)
         .pause(1000)
-        .assert.visible('.navigator')
         .assert.visible('.background')
         .assert.visible('.my-container')
         .pause(2000)

@@ -1,6 +1,7 @@
 import validator from 'validatorjs';
 import queryString from 'query-string';
 import validatonRules from './validatonRules';
+import model from '../models';
 
 /**
  * @class
@@ -247,6 +248,29 @@ class RequestSanitizer {
   static passwordRequestPreValidation(req, res, next) {
     req.validatonRule = validatonRules.passwordReset;
     next();
+  }
+
+  /**
+   * Check user role
+   * @param {object} req - HTTP request object
+   * @param {object} res - HTTP response object
+   * @param {function} next - call next function
+   * @returns {void}
+   * append the validation rule to request object
+   *
+   */
+  static completeCenterAddress(req, res, next) {
+    const States = model.State;
+
+    const address = req.body.address || req.currentCenter.address;
+    const stateId = req.body.stateId || req.currentCenter.stateId;
+
+    const setFullAddress = (_address, stateName) => `${_address}, ${stateName}`;
+    States.findOne({ where: { id: stateId } })
+      .then((state) => {
+        req.body.fullAddress = setFullAddress(address, state.stateName);
+        next();
+      });
   }
 }
 

@@ -17,6 +17,7 @@ class Home extends Component {
     };
     this.onChange = this.onChange.bind(this);
     this.onSearch = this.onSearch.bind(this);
+    this.onKeyPress = this.onKeyPress.bind(this);
   }
 
   /**
@@ -29,6 +30,18 @@ class Home extends Component {
     this.setState({
       search: value
     });
+  }
+
+  /**
+   *
+   * @param {*} event
+   * @return {void}
+   */
+  onKeyPress(event) {
+    const { search } = this.state;
+    if (event.key === 'Enter' && search.trim().length !== 0) {
+      this.onSearch();
+    }
   }
 
   /**
@@ -53,7 +66,7 @@ class Home extends Component {
               <h2 className="animated fadeInUp">Welcome to Evento.</h2>
               <h3 style={{ paddingBottom: '60px' }} className="animated fadeInUp">The perfect place to find and book event centres</h3>
               <div className="landing-input">
-                <Input fluid size="huge" type="text" onChange={this.onChange} placeholder="Search by name or address" action>
+                <Input fluid size="huge" type="text" onKeyPress={this.onKeyPress} onChange={this.onChange} placeholder="Search by name or address" action>
                   <input />
                   <Button disabled={this.state.search.length === 0} onClick={this.onSearch} type="submit">Search</Button>
                 </Input>
@@ -67,7 +80,7 @@ class Home extends Component {
 }
 
 Home.propTypes = {
-  history: Proptypes.objectOf(() => null).isRequired
+  history: Proptypes.objectOf(Proptypes.any).isRequired
 };
 
 export default Home;

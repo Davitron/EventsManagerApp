@@ -15,8 +15,6 @@ class AuthChecker {
     const token = cookies.get('jwt-events-manager');
     if (token) {
       const decoded = jwtDecode(token);
-      const expiryDate = new Date(0);
-      expiryDate.setUTCSeconds(decoded.exp);
       if (decoded.isAdmin === true) {
         return 'admin';
       }
@@ -43,25 +41,25 @@ class AuthChecker {
     return result;
   }
 
-  /**
-   *@returns {boolean}
-   * checks if user is admin and authenticated
-   * also if email is verified
-   */
-  static checkAdminAuth() {
-    let result = false;
-    const cookies = new Cookies();
-    const token = cookies.get('jwt-events-manager');
-    if (token) {
-      const decoded = jwtDecode(token);
-      const expiryDate = new Date(0);
-      expiryDate.setUTCSeconds(decoded.exp);
-      if (expiryDate > Date.now() && decoded.isVerified === true && decoded.isAdmin === true) {
-        result = true;
-      }
-    }
-    return result;
-  }
+  // /**
+  //  *@returns {boolean}
+  //  * checks if user is admin and authenticated
+  //  * also if email is verified
+  //  */
+  // static checkAdminAuth() {
+  //   let result = false;
+  //   const cookies = new Cookies();
+  //   const token = cookies.get('jwt-events-manager');
+  //   if (token) {
+  //     const decoded = jwtDecode(token);
+  //     const expiryDate = new Date(0);
+  //     expiryDate.setUTCSeconds(decoded.exp);
+  //     if (expiryDate > Date.now() && decoded.isVerified === true && decoded.isAdmin === true) {
+  //       result = true;
+  //     }
+  //   }
+  //   return result;
+  // }
 
   /**
    *@returns {object}

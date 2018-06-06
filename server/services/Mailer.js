@@ -24,13 +24,16 @@ export default class Mailer {
    * @returns {boolean} returns a boolean value indicating if mail was sent successfully or not
    */
   useNodemailer(mail) {
-    return mailTransport.sendMail(mail, (err, info) => {
-      if (err) {
-        throw err;
-      }
-      console.log('Message Sent'); // eslint-disable-line
-      return 'Message Sent';
-    });
+    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
+      return mailTransport.sendMail(mail, (err, info) => {
+        if (err) {
+          throw err;
+        }
+        console.log('Message Sent'); // eslint-disable-line
+        return 'Message Sent';
+      });
+    }
+    return null;
   }
 
   /**

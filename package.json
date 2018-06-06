@@ -197,7 +197,8 @@
       "react"
     ],
     "setupFiles": [
-      "<rootDir>/client/src/setups/setupTests.js"
+      "<rootDir>/client/src/setups/setupTests.js",
+      "<rootDir>/client/src/setups/browserMock.js"
     ]
   }
 }

@@ -10,6 +10,7 @@ ShallowWrapper {
       Object {
         "currentUser": Object {
           "data": null,
+          "isAuthenticated": false,
           "status": null,
         },
       }
@@ -35,6 +36,11 @@ ShallowWrapper {
           <NavLink
             activeClassName="active"
             ariaCurrent="true"
+            style={
+              Object {
+                "fontSize": "30px",
+              }
+            }
             target=""
             to="/"
           >
@@ -125,6 +131,11 @@ ShallowWrapper {
             <NavLink
               activeClassName="active"
               ariaCurrent="true"
+              style={
+                Object {
+                  "fontSize": "30px",
+                }
+              }
               target=""
               to="/"
             >
@@ -209,6 +220,11 @@ ShallowWrapper {
               <NavLink
                 activeClassName="active"
                 ariaCurrent="true"
+                style={
+                  Object {
+                    "fontSize": "30px",
+                  }
+                }
                 target=""
                 to="/"
               >
@@ -261,6 +277,9 @@ ShallowWrapper {
                 "activeClassName": "active",
                 "ariaCurrent": "true",
                 "children": "Evento",
+                "style": Object {
+                  "fontSize": "30px",
+                },
                 "target": "",
                 "to": "/",
               },
@@ -379,9 +398,9 @@ ShallowWrapper {
               >
                 Register
               </NavLink>,
-              undefined,
-              undefined,
-              undefined,
+              false,
+              false,
+              false,
             ],
             "className": "sidenav",
             "id": "mySidenav",
@@ -434,9 +453,9 @@ ShallowWrapper {
               "rendered": "Register",
               "type": [Function],
             },
-            undefined,
-            undefined,
-            undefined,
+            false,
+            false,
+            false,
           ],
           "type": "div",
         },
@@ -459,6 +478,11 @@ ShallowWrapper {
             <NavLink
               activeClassName="active"
               ariaCurrent="true"
+              style={
+                Object {
+                  "fontSize": "30px",
+                }
+              }
               target=""
               to="/"
             >
@@ -549,6 +573,11 @@ ShallowWrapper {
               <NavLink
                 activeClassName="active"
                 ariaCurrent="true"
+                style={
+                  Object {
+                    "fontSize": "30px",
+                  }
+                }
                 target=""
                 to="/"
               >
@@ -633,6 +662,11 @@ ShallowWrapper {
                 <NavLink
                   activeClassName="active"
                   ariaCurrent="true"
+                  style={
+                    Object {
+                      "fontSize": "30px",
+                    }
+                  }
                   target=""
                   to="/"
                 >
@@ -685,6 +719,9 @@ ShallowWrapper {
                   "activeClassName": "active",
                   "ariaCurrent": "true",
                   "children": "Evento",
+                  "style": Object {
+                    "fontSize": "30px",
+                  },
                   "target": "",
                   "to": "/",
                 },
@@ -803,9 +840,9 @@ ShallowWrapper {
                 >
                   Register
                 </NavLink>,
-                undefined,
-                undefined,
-                undefined,
+                false,
+                false,
+                false,
               ],
               "className": "sidenav",
               "id": "mySidenav",
@@ -858,9 +895,926 @@ ShallowWrapper {
                 "rendered": "Register",
                 "type": [Function],
               },
-              undefined,
-              undefined,
-              undefined,
+              false,
+              false,
+              false,
+            ],
+            "type": "div",
+          },
+        ],
+        "type": "nav",
+      },
+      "type": "header",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;
+
+exports[`Event Component component successfully rendered 2`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <Header
+    logout={[Function]}
+    response={
+      Object {
+        "currentUser": Object {
+          "data": null,
+          "isAuthenticated": false,
+          "status": null,
+        },
+      }
+    }
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": <nav>
+        <div
+          className="navigator"
+          id="navigator"
+        >
+          <NavLink
+            activeClassName="active"
+            ariaCurrent="true"
+            style={
+              Object {
+                "fontSize": "30px",
+              }
+            }
+            target=""
+            to="/"
+          >
+            Evento
+          </NavLink>
+          <div
+            className="nav-menu"
+            style={
+              Object {
+                "float": "right",
+              }
+            }
+          >
+            <NavLink
+              activeClassName="active"
+              ariaCurrent="true"
+              className="login"
+              target=""
+              to="/login"
+            >
+              Login
+            </NavLink>
+            <NavLink
+              activeClassName="active"
+              ariaCurrent="true"
+              className="register"
+              target=""
+              to="/register"
+            >
+              Register
+            </NavLink>
+          </div>
+          <a
+            className="icon"
+            onClick={[Function]}
+          >
+            ☰
+          </a>
+        </div>
+        <div
+          className="sidenav"
+          id="mySidenav"
+          style={
+            Object {
+              "width": "0px",
+            }
+          }
+        >
+          <a
+            className="closebtn"
+            onClick={[Function]}
+          >
+            ×
+          </a>
+          <NavLink
+            activeClassName="active"
+            ariaCurrent="true"
+            target=""
+            to="/login"
+          >
+            Login
+          </NavLink>
+          <NavLink
+            activeClassName="active"
+            ariaCurrent="true"
+            target=""
+            to="/register"
+          >
+            Register
+          </NavLink>
+        </div>
+      </nav>,
+      "style": Object {
+        "zIndex": "1",
+      },
+    },
+    "ref": null,
+    "rendered": Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="navigator"
+            id="navigator"
+          >
+            <NavLink
+              activeClassName="active"
+              ariaCurrent="true"
+              style={
+                Object {
+                  "fontSize": "30px",
+                }
+              }
+              target=""
+              to="/"
+            >
+              Evento
+            </NavLink>
+            <div
+              className="nav-menu"
+              style={
+                Object {
+                  "float": "right",
+                }
+              }
+            >
+              <NavLink
+                activeClassName="active"
+                ariaCurrent="true"
+                className="login"
+                target=""
+                to="/login"
+              >
+                Login
+              </NavLink>
+              <NavLink
+                activeClassName="active"
+                ariaCurrent="true"
+                className="register"
+                target=""
+                to="/register"
+              >
+                Register
+              </NavLink>
+            </div>
+            <a
+              className="icon"
+              onClick={[Function]}
+            >
+              ☰
+            </a>
+          </div>,
+          <div
+            className="sidenav"
+            id="mySidenav"
+            style={
+              Object {
+                "width": "0px",
+              }
+            }
+          >
+            <a
+              className="closebtn"
+              onClick={[Function]}
+            >
+              ×
+            </a>
+            <NavLink
+              activeClassName="active"
+              ariaCurrent="true"
+              target=""
+              to="/login"
+            >
+              Login
+            </NavLink>
+            <NavLink
+              activeClassName="active"
+              ariaCurrent="true"
+              target=""
+              to="/register"
+            >
+              Register
+            </NavLink>
+          </div>,
+        ],
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <NavLink
+                activeClassName="active"
+                ariaCurrent="true"
+                style={
+                  Object {
+                    "fontSize": "30px",
+                  }
+                }
+                target=""
+                to="/"
+              >
+                Evento
+              </NavLink>,
+              <div
+                className="nav-menu"
+                style={
+                  Object {
+                    "float": "right",
+                  }
+                }
+              >
+                <NavLink
+                  activeClassName="active"
+                  ariaCurrent="true"
+                  className="login"
+                  target=""
+                  to="/login"
+                >
+                  Login
+                </NavLink>
+                <NavLink
+                  activeClassName="active"
+                  ariaCurrent="true"
+                  className="register"
+                  target=""
+                  to="/register"
+                >
+                  Register
+                </NavLink>
+              </div>,
+              <a
+                className="icon"
+                onClick={[Function]}
+              >
+                ☰
+              </a>,
+            ],
+            "className": "navigator",
+            "id": "navigator",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "activeClassName": "active",
+                "ariaCurrent": "true",
+                "children": "Evento",
+                "style": Object {
+                  "fontSize": "30px",
+                },
+                "target": "",
+                "to": "/",
+              },
+              "ref": null,
+              "rendered": "Evento",
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <NavLink
+                    activeClassName="active"
+                    ariaCurrent="true"
+                    className="login"
+                    target=""
+                    to="/login"
+                  >
+                    Login
+                  </NavLink>,
+                  <NavLink
+                    activeClassName="active"
+                    ariaCurrent="true"
+                    className="register"
+                    target=""
+                    to="/register"
+                  >
+                    Register
+                  </NavLink>,
+                ],
+                "className": "nav-menu",
+                "style": Object {
+                  "float": "right",
+                },
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "activeClassName": "active",
+                    "ariaCurrent": "true",
+                    "children": "Login",
+                    "className": "login",
+                    "target": "",
+                    "to": "/login",
+                  },
+                  "ref": null,
+                  "rendered": "Login",
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "activeClassName": "active",
+                    "ariaCurrent": "true",
+                    "children": "Register",
+                    "className": "register",
+                    "target": "",
+                    "to": "/register",
+                  },
+                  "ref": null,
+                  "rendered": "Register",
+                  "type": [Function],
+                },
+              ],
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "☰",
+                "className": "icon",
+                "onClick": [Function],
+              },
+              "ref": null,
+              "rendered": "☰",
+              "type": "a",
+            },
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <a
+                className="closebtn"
+                onClick={[Function]}
+              >
+                ×
+              </a>,
+              <NavLink
+                activeClassName="active"
+                ariaCurrent="true"
+                target=""
+                to="/login"
+              >
+                Login
+              </NavLink>,
+              <NavLink
+                activeClassName="active"
+                ariaCurrent="true"
+                target=""
+                to="/register"
+              >
+                Register
+              </NavLink>,
+              false,
+              false,
+              false,
+            ],
+            "className": "sidenav",
+            "id": "mySidenav",
+            "style": Object {
+              "width": "0px",
+            },
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "×",
+                "className": "closebtn",
+                "onClick": [Function],
+              },
+              "ref": null,
+              "rendered": "×",
+              "type": "a",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "activeClassName": "active",
+                "ariaCurrent": "true",
+                "children": "Login",
+                "target": "",
+                "to": "/login",
+              },
+              "ref": null,
+              "rendered": "Login",
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "activeClassName": "active",
+                "ariaCurrent": "true",
+                "children": "Register",
+                "target": "",
+                "to": "/register",
+              },
+              "ref": null,
+              "rendered": "Register",
+              "type": [Function],
+            },
+            false,
+            false,
+            false,
+          ],
+          "type": "div",
+        },
+      ],
+      "type": "nav",
+    },
+    "type": "header",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": <nav>
+          <div
+            className="navigator"
+            id="navigator"
+          >
+            <NavLink
+              activeClassName="active"
+              ariaCurrent="true"
+              style={
+                Object {
+                  "fontSize": "30px",
+                }
+              }
+              target=""
+              to="/"
+            >
+              Evento
+            </NavLink>
+            <div
+              className="nav-menu"
+              style={
+                Object {
+                  "float": "right",
+                }
+              }
+            >
+              <NavLink
+                activeClassName="active"
+                ariaCurrent="true"
+                className="login"
+                target=""
+                to="/login"
+              >
+                Login
+              </NavLink>
+              <NavLink
+                activeClassName="active"
+                ariaCurrent="true"
+                className="register"
+                target=""
+                to="/register"
+              >
+                Register
+              </NavLink>
+            </div>
+            <a
+              className="icon"
+              onClick={[Function]}
+            >
+              ☰
+            </a>
+          </div>
+          <div
+            className="sidenav"
+            id="mySidenav"
+            style={
+              Object {
+                "width": "0px",
+              }
+            }
+          >
+            <a
+              className="closebtn"
+              onClick={[Function]}
+            >
+              ×
+            </a>
+            <NavLink
+              activeClassName="active"
+              ariaCurrent="true"
+              target=""
+              to="/login"
+            >
+              Login
+            </NavLink>
+            <NavLink
+              activeClassName="active"
+              ariaCurrent="true"
+              target=""
+              to="/register"
+            >
+              Register
+            </NavLink>
+          </div>
+        </nav>,
+        "style": Object {
+          "zIndex": "1",
+        },
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <div
+              className="navigator"
+              id="navigator"
+            >
+              <NavLink
+                activeClassName="active"
+                ariaCurrent="true"
+                style={
+                  Object {
+                    "fontSize": "30px",
+                  }
+                }
+                target=""
+                to="/"
+              >
+                Evento
+              </NavLink>
+              <div
+                className="nav-menu"
+                style={
+                  Object {
+                    "float": "right",
+                  }
+                }
+              >
+                <NavLink
+                  activeClassName="active"
+                  ariaCurrent="true"
+                  className="login"
+                  target=""
+                  to="/login"
+                >
+                  Login
+                </NavLink>
+                <NavLink
+                  activeClassName="active"
+                  ariaCurrent="true"
+                  className="register"
+                  target=""
+                  to="/register"
+                >
+                  Register
+                </NavLink>
+              </div>
+              <a
+                className="icon"
+                onClick={[Function]}
+              >
+                ☰
+              </a>
+            </div>,
+            <div
+              className="sidenav"
+              id="mySidenav"
+              style={
+                Object {
+                  "width": "0px",
+                }
+              }
+            >
+              <a
+                className="closebtn"
+                onClick={[Function]}
+              >
+                ×
+              </a>
+              <NavLink
+                activeClassName="active"
+                ariaCurrent="true"
+                target=""
+                to="/login"
+              >
+                Login
+              </NavLink>
+              <NavLink
+                activeClassName="active"
+                ariaCurrent="true"
+                target=""
+                to="/register"
+              >
+                Register
+              </NavLink>
+            </div>,
+          ],
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <NavLink
+                  activeClassName="active"
+                  ariaCurrent="true"
+                  style={
+                    Object {
+                      "fontSize": "30px",
+                    }
+                  }
+                  target=""
+                  to="/"
+                >
+                  Evento
+                </NavLink>,
+                <div
+                  className="nav-menu"
+                  style={
+                    Object {
+                      "float": "right",
+                    }
+                  }
+                >
+                  <NavLink
+                    activeClassName="active"
+                    ariaCurrent="true"
+                    className="login"
+                    target=""
+                    to="/login"
+                  >
+                    Login
+                  </NavLink>
+                  <NavLink
+                    activeClassName="active"
+                    ariaCurrent="true"
+                    className="register"
+                    target=""
+                    to="/register"
+                  >
+                    Register
+                  </NavLink>
+                </div>,
+                <a
+                  className="icon"
+                  onClick={[Function]}
+                >
+                  ☰
+                </a>,
+              ],
+              "className": "navigator",
+              "id": "navigator",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "activeClassName": "active",
+                  "ariaCurrent": "true",
+                  "children": "Evento",
+                  "style": Object {
+                    "fontSize": "30px",
+                  },
+                  "target": "",
+                  "to": "/",
+                },
+                "ref": null,
+                "rendered": "Evento",
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    <NavLink
+                      activeClassName="active"
+                      ariaCurrent="true"
+                      className="login"
+                      target=""
+                      to="/login"
+                    >
+                      Login
+                    </NavLink>,
+                    <NavLink
+                      activeClassName="active"
+                      ariaCurrent="true"
+                      className="register"
+                      target=""
+                      to="/register"
+                    >
+                      Register
+                    </NavLink>,
+                  ],
+                  "className": "nav-menu",
+                  "style": Object {
+                    "float": "right",
+                  },
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "activeClassName": "active",
+                      "ariaCurrent": "true",
+                      "children": "Login",
+                      "className": "login",
+                      "target": "",
+                      "to": "/login",
+                    },
+                    "ref": null,
+                    "rendered": "Login",
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "activeClassName": "active",
+                      "ariaCurrent": "true",
+                      "children": "Register",
+                      "className": "register",
+                      "target": "",
+                      "to": "/register",
+                    },
+                    "ref": null,
+                    "rendered": "Register",
+                    "type": [Function],
+                  },
+                ],
+                "type": "div",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "☰",
+                  "className": "icon",
+                  "onClick": [Function],
+                },
+                "ref": null,
+                "rendered": "☰",
+                "type": "a",
+              },
+            ],
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <a
+                  className="closebtn"
+                  onClick={[Function]}
+                >
+                  ×
+                </a>,
+                <NavLink
+                  activeClassName="active"
+                  ariaCurrent="true"
+                  target=""
+                  to="/login"
+                >
+                  Login
+                </NavLink>,
+                <NavLink
+                  activeClassName="active"
+                  ariaCurrent="true"
+                  target=""
+                  to="/register"
+                >
+                  Register
+                </NavLink>,
+                false,
+                false,
+                false,
+              ],
+              "className": "sidenav",
+              "id": "mySidenav",
+              "style": Object {
+                "width": "0px",
+              },
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "×",
+                  "className": "closebtn",
+                  "onClick": [Function],
+                },
+                "ref": null,
+                "rendered": "×",
+                "type": "a",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "activeClassName": "active",
+                  "ariaCurrent": "true",
+                  "children": "Login",
+                  "target": "",
+                  "to": "/login",
+                },
+                "ref": null,
+                "rendered": "Login",
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "activeClassName": "active",
+                  "ariaCurrent": "true",
+                  "children": "Register",
+                  "target": "",
+                  "to": "/register",
+                },
+                "ref": null,
+                "rendered": "Register",
+                "type": [Function],
+              },
+              false,
+              false,
+              false,
             ],
             "type": "div",
           },

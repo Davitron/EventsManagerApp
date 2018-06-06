@@ -46,7 +46,6 @@ export default class UserActions {
       return axios.get(`/api/v1/users/completeRegistration?token=${token}`)
         .then((response) => {
           dispatch(Dispatcher.action(userActionsType.VERIFY_SUCCESS, response.data.message));
-          // cookies.set('jwt-events-manager', response.data.Token, { path: '/' });
         })
         .catch((error) => {
           if (error.response.status === 403) {
@@ -142,7 +141,7 @@ export default class UserActions {
       dispatch(Dispatcher.action(userActionsType.SIGNOUT, null));
       dispatch(Dispatcher.action(mainActionsType.RESET_STATE, null));
       localStorage.removeItem('app');
-      // window.location.reload();
+      window.location.reload();
     };
   }
 }

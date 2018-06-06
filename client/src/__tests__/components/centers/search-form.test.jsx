@@ -11,6 +11,10 @@ let props;
 let onSearch = event => event;
 onSearch = jest.fn();
 
+// const document = {
+//   getElementById: (id) => { id, focus: jest.fn() }
+// };
+
 
 const getComponent = () => {
   if (!mountedComponent) {

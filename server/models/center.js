@@ -12,6 +12,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
+    fullAddress: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     image: {
       type: DataTypes.STRING,
       allowNull: true
@@ -49,10 +53,12 @@ module.exports = (sequelize, DataTypes) => {
     });
     Center.belongsTo(models.User, {
       foreignKey: 'createdBy',
+      as: 'user',
       onDelete: 'CASCADE'
     });
     Center.belongsTo(models.State, {
-      foreignKey: 'stateId'
+      foreignKey: 'stateId',
+      as: 'state'
     });
   };
   return Center;

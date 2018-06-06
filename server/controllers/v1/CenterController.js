@@ -12,11 +12,27 @@ const centerAtributes = [
   'id',
   'name',
   'address',
+  'fullAddress',
   'price',
   'hallCapacity',
   'carParkCapacity',
   'image',
   'price'
+];
+
+const dbInclude = [
+  {
+    model: model.State,
+    required: true,
+    as: 'state',
+    attributes: ['stateName']
+  },
+  {
+    model: model.User,
+    required: true,
+    as: 'user',
+    attributes: ['username']
+  },
 ];
 
 /**
@@ -42,13 +58,8 @@ export default class CenterController {
     const defaultQuery = {
       attributes: [
         ...centerAtributes,
-        [Sequelize.col('User.username'), 'user'],
-        [Sequelize.col('State.stateName'), 'state']
       ],
-      include: [
-        { model: model.State, required: true, attributes: ['stateName'] },
-        { model: model.User, required: true, attributes: ['username'] },
-      ],
+      include: dbInclude,
       limit: req.meta.limit,
       offset: req.meta.offset,
       order: [['name']]
@@ -63,7 +74,7 @@ export default class CenterController {
       query = {
         [Op.or]: [
           { name: { ilike: `%${req.query.search}%` } },
-          { address: { ilike: `%${req.query.search}%` } }
+          { fullAddress: { ilike: `%${req.query.search}%` } }
         ]
       };
     }
@@ -139,6 +150,7 @@ export default class CenterController {
       name: req.body.name,
       stateId: parseInt(req.body.stateId, 10),
       address: req.body.address,
+      fullAddress: req.body.fullAddress,
       hallCapacity: parseInt(req.body.hallCapacity, 10),
       carParkCapacity: parseInt(req.body.carParkCapacity, 10),
       facilities: req.body.facilities,
@@ -199,6 +211,7 @@ export default class CenterController {
       name: req.body.name || center.name,
       stateId: parseInt(req.body.stateId, 10) || center.stateId,
       address: req.body.address || center.address,
+      fullAddress: req.body.fullAddress || center.fullAddress,
       hallCapacity: parseInt(req.body.hallCapacity, 10) || center.hallCapacity,
       carParkCapacity: parseInt(req.body.carParkCapacity, 10) ||
       center.carParkCapacity,
@@ -235,12 +248,8 @@ export default class CenterController {
         'stateId',
         'facilities',
         'createdBy',
-        [Sequelize.col('User.username'), 'user'],
-        [Sequelize.col('State.stateName'), 'state']
       ],
-      include: [
-        { model: model.State, required: true, attributes: ['stateName'] },
-        { model: model.User, required: true, attributes: ['username'] }]
+      include: dbInclude
     })
       .then((center) => {
         if (!center) {

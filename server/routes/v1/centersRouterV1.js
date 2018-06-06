@@ -11,6 +11,7 @@ centersRouterV1.post(
   RequestSanitizer.checkIfAdmin,
   RequestSanitizer.newCenterPreValidation,
   RequestSanitizer.handleValidation,
+  RequestSanitizer.completeCenterAddress,
   CenterController.validateCenterName,
   CenterController.handleCenterInsert
 );
@@ -39,6 +40,7 @@ centersRouterV1.put(
   RequestSanitizer.updateCenterPreValidation,
   RequestSanitizer.handleValidation,
   CenterController.fetchCenterforUpdate,
+  RequestSanitizer.completeCenterAddress,
   CenterController.validateCenterName,
   CenterController.handleCenterUpdate
 );

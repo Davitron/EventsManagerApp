@@ -27,7 +27,6 @@ class SearchForm extends Component {
 
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
-    // this.onSelectChange = this.onSelectChange.bind(this);
     this.renderLabel = this.renderLabel.bind(this);
   }
 
@@ -71,6 +70,8 @@ class SearchForm extends Component {
         ...query,
         [name]: value
       }
+    }, () => {
+      document.getElementById('search').focus();
     });
   }
 
@@ -108,10 +109,18 @@ class SearchForm extends Component {
   render() {
     const { states } = this.state;
     return (
-      <Form>
+      <Form onSubmit={this.onSubmit}>
         <Form.Group widths="equal">
-          <Form.Input name="search" fluid placeholder="Name or Addres" onChange={this.onChange} />
-          <Form.Select className="states" options={states} search name="state" fluid placeholder="State" onChange={this.onChange} />
+          <Form.Input id="search" name="search" fluid placeholder="Name or Addres" onChange={this.onChange} />
+          <Form.Select
+            className="states"
+            options={states}
+            search
+            name="state"
+            fluid
+            placeholder="State"
+            onChange={this.onChange}
+          />
           <Form.Input type="number" min="50" name="capacity" fluid placeholder="Capacity" onChange={this.onChange} />
           <Form.Dropdown
             multiple

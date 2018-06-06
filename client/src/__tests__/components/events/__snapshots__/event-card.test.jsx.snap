@@ -64,9 +64,7 @@ ShallowWrapper {
             Test Arena
           </CardHeader>
           <CardMeta>
-            December 12th 2018
-             - 
-            June 6th 2018
+            December 12th 2018 - June 8th 2018
           </CardMeta>
           <CardDescription>
             <Link
@@ -134,9 +132,7 @@ ShallowWrapper {
               Test Arena
             </CardHeader>,
             <CardMeta>
-              December 12th 2018
-               - 
-              June 6th 2018
+              December 12th 2018 - June 8th 2018
             </CardMeta>,
             <CardDescription>
               <Link
@@ -177,18 +173,10 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "function",
             "props": Object {
-              "children": Array [
-                "December 12th 2018",
-                " - ",
-                "June 6th 2018",
-              ],
+              "children": "December 12th 2018 - June 8th 2018",
             },
             "ref": null,
-            "rendered": Array [
-              "December 12th 2018",
-              " - ",
-              "June 6th 2018",
-            ],
+            "rendered": "December 12th 2018 - June 8th 2018",
             "type": [Function],
           },
           Object {
@@ -340,9 +328,7 @@ ShallowWrapper {
               Test Arena
             </CardHeader>
             <CardMeta>
-              December 12th 2018
-               - 
-              June 6th 2018
+              December 12th 2018 - June 8th 2018
             </CardMeta>
             <CardDescription>
               <Link
@@ -410,9 +396,7 @@ ShallowWrapper {
                 Test Arena
               </CardHeader>,
               <CardMeta>
-                December 12th 2018
-                 - 
-                June 6th 2018
+                December 12th 2018 - June 8th 2018
               </CardMeta>,
               <CardDescription>
                 <Link
@@ -453,18 +437,10 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "function",
               "props": Object {
-                "children": Array [
-                  "December 12th 2018",
-                  " - ",
-                  "June 6th 2018",
-                ],
+                "children": "December 12th 2018 - June 8th 2018",
               },
               "ref": null,
-              "rendered": Array [
-                "December 12th 2018",
-                " - ",
-                "June 6th 2018",
-              ],
+              "rendered": "December 12th 2018 - June 8th 2018",
               "type": [Function],
             },
             Object {

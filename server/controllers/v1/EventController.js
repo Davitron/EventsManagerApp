@@ -200,6 +200,7 @@ export default class EventController {
       where: DBQuery,
       attributes: [
         'id',
+        'days',
         'eventName',
         'startDate',
         'endDate',
@@ -211,7 +212,7 @@ export default class EventController {
       include: [{ model: Centers, attributes: ['name'] }],
       limit,
       offset,
-      order: [['createdAt', 'DESC']]
+      order: [['updatedAt', 'DESC']]
     }).then((events) => {
       if (events.rows < 1) {
         return res.status(200).json({
@@ -244,7 +245,7 @@ export default class EventController {
   static getSingleEvent(req, res) {
     return Events.findOne({
       where: { id: req.params.eventId, userId: req.decoded.id },
-      attributes: ['id', 'eventName', 'startDate', 'days', 'endDate', 'centerId', 'image', 'status']
+      attributes: ['id', 'days', 'eventName', 'startDate', 'days', 'endDate', 'centerId', 'image', 'status']
     })
       .then((event) => {
         if (!event) {

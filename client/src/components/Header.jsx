@@ -5,7 +5,6 @@ import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import UserActions from '../actions/UserActions';
 
-
 /**
  *
  */
@@ -17,8 +16,7 @@ export class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: undefined, // eslint-disable-line
-      navClassName: 'navigator', // eslint-disable-line
+      navClassName: 'navigator',
       sideNavStyle: { width: '0px' }
     };
     this.logOut = this.logOut.bind(this);
@@ -78,10 +76,15 @@ export class Header extends Component {
       );
     }
     return (
-      <div className="nav-menu" style={{ float: 'right' }}>
-        <NavLink className="events" to="/events" target="">My Events</NavLink>
-        <NavLink className="centers" to="/centers" target="">Centers</NavLink>
-        <a href="#!" onClick={this.logOut}>Logout</a>
+      <div>
+        <div className="nav-menu" style={{ float: 'left', marginLeft: '25px' }}>
+          <NavLink className="events" to="/events" target="">My Events</NavLink>
+          <NavLink className="centers" to="/centers" target="">Centers</NavLink>
+        </div>
+        <div className="nav-menu" style={{ float: 'right' }}>
+          <NavLink to="/" target="">{currentUser.data.username}</NavLink>
+          <a href="#!" onClick={this.logOut}>Logout</a>
+        </div>
       </div>
     );
   }
@@ -96,7 +99,7 @@ export class Header extends Component {
       <header style={{ zIndex: '1' }}>
         <nav>
           <div className={navClassName} id="navigator">
-            <NavLink to="/" target="">Evento</NavLink>
+            <NavLink to="/" target="" style={{ fontSize: '30px' }} >Evento</NavLink>
             {this.renderNavigation()}
             <a className="icon" onClick={this.navCLick}>&#9776;</a>
           </div>
@@ -122,7 +125,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  logout: UserActions.logout
+  logout: UserActions.logout,
 }, dispatch);
 
 Header.propTypes = {

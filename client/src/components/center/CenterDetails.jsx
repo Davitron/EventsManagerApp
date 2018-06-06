@@ -89,7 +89,8 @@ export class CenterDetails extends Component {
           id: center.id,
           name: center.name,
           address: center.address,
-          state: center.State.stateName,
+          fullAddress: center.fullAddress,
+          state: center.state.stateName,
           hallCapacity: center.hallCapacity.toString(),
           carParkCapacity: center.carParkCapacity.toString(),
           price: center.price.toString(),
@@ -262,7 +263,7 @@ export class CenterDetails extends Component {
             <div style={{ marginTop: '20px' }}>
               { userRole === 'admin' && <Label as="a" color="red" onClick={this.getPendingEvent} >{center.pendingEvent} Pending Events</Label>}<br />
               <br />
-              <span className="center-address" style={{ fontSize: '18px', marginTop: '20px' }}><Icon name="marker" />{center.address} {center.state}</span>
+              <span className="center-address" style={{ fontSize: '18px', marginTop: '20px' }}><Icon name="marker" />{center.fullAddress}</span>
             </div>
             <CenterTable center={center} />
             <div className="ui grid">
