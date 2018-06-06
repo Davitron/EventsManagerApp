@@ -2,9 +2,9 @@ import moxios from 'moxios';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import expect from 'expect';
-import mainActionType from '../../actions/actionTypes/main-action-types';
-import EventActions from '../../actions/event-action';
-import eventData from '../../__mocks__/mock-data/event-mock-data';
+import mainActionType from '../../actions/actionTypes/mainActionType';
+import EventActions from '../../actions/EventActions';
+import eventData from '../../__mocks__/mock-data/eventMockData';
 
 
 const middlewares = [thunk];

@@ -2,7 +2,7 @@ import React from 'react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
-import ConnectedRegister, { Register } from '../../../components/authentication/register';
+import ConnectedRegister, { Register } from '../../../components/authentication/Register';
 
 let mountedComponent;
 

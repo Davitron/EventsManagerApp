@@ -1,7 +1,7 @@
 import React from 'react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
-import App from '../components/app';
+import App from '../components/App';
 
 let mountedComponent;
 let wrapper;

@@ -3,9 +3,9 @@ import moxios from 'moxios';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import expect from 'expect';
-import mainActionType from '../../actions/actionTypes/main-action-types';
-import CenterActions from '../../actions/center-action';
-import centerData from '../../__mocks__/mock-data/center-mock-data';
+import mainActionType from '../../actions/actionTypes/mainActionType';
+import CenterActions from '../../actions/CenterActions';
+import centerData from '../../__mocks__/mock-data/centerMockData';
 
 
 const middlewares = [thunk];

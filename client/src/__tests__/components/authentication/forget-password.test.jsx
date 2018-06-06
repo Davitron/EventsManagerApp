@@ -2,7 +2,7 @@ import React from 'react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
-import ConnectedForgotPassword, { ForgotPassword } from '../../../components/authentication/forgot-password';
+import ConnectedForgotPassword, { ForgotPassword } from '../../../components/authentication/ForgotPassword';
 
 let mountedComponent;
 

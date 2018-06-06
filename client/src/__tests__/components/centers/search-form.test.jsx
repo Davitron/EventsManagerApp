@@ -1,7 +1,7 @@
 import React from 'react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
-import SearchForm from '../../../components/center/search-form';
+import SearchForm from '../../../components/center/SearchForm';
 
 let mountedComponent;
 let wrapper;

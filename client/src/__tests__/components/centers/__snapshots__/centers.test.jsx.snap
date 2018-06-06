@@ -35,9 +35,7 @@ ShallowWrapper {
     "key": undefined,
     "nodeType": "host",
     "props": Object {
-      "children": <div
-        className="background"
-      >
+      "children": Array [
         <div
           className="my-container"
         >
@@ -51,7 +49,7 @@ ShallowWrapper {
             <span
               style={
                 Object {
-                  "fontSize": "45px",
+                  "fontSize": "30px",
                 }
               }
             >
@@ -69,7 +67,7 @@ ShallowWrapper {
               
             </GridRow>
           </Grid>
-        </div>
+        </div>,
         <Connect(CenterFormModal)
           errors={Object {}}
           hideModal={[Function]}
@@ -77,11 +75,159 @@ ShallowWrapper {
           onSubmit={[Function]}
           open={false}
           states={Array []}
-        />
-      </div>,
+        />,
+        false,
+      ],
+      "className": "background",
     },
     "ref": null,
-    "rendered": Object {
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <div
+              style={
+                Object {
+                  "textAlign": "center",
+                }
+              }
+            >
+              <span
+                style={
+                  Object {
+                    "fontSize": "30px",
+                  }
+                }
+              >
+                Centers
+              </span>
+            </div>,
+            <SearchForm
+              onSearch={[Function]}
+              states={Array []}
+            />,
+            <Grid>
+              <GridRow
+                colunms={3}
+              >
+                
+              </GridRow>
+            </Grid>,
+            false,
+          ],
+          "className": "my-container",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <span
+                style={
+                  Object {
+                    "fontSize": "30px",
+                  }
+                }
+              >
+                Centers
+              </span>,
+              "style": Object {
+                "textAlign": "center",
+              },
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "Centers",
+                "style": Object {
+                  "fontSize": "30px",
+                },
+              },
+              "ref": null,
+              "rendered": "Centers",
+              "type": "span",
+            },
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "onSearch": [Function],
+              "states": Array [],
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "children": <GridRow
+                colunms={3}
+              >
+                
+              </GridRow>,
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "children": Array [
+                  false,
+                  "",
+                  Array [],
+                ],
+                "colunms": 3,
+              },
+              "ref": null,
+              "rendered": Array [
+                false,
+                "",
+              ],
+              "type": [Function],
+            },
+            "type": [Function],
+          },
+          false,
+        ],
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "errors": Object {},
+          "hideModal": [Function],
+          "isRequestMade": false,
+          "onSubmit": [Function],
+          "open": false,
+          "states": Array [],
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+      false,
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
       "instance": null,
       "key": undefined,
       "nodeType": "host",
@@ -100,7 +246,7 @@ ShallowWrapper {
               <span
                 style={
                   Object {
-                    "fontSize": "45px",
+                    "fontSize": "30px",
                   }
                 }
               >
@@ -149,7 +295,7 @@ ShallowWrapper {
                 <span
                   style={
                     Object {
-                      "fontSize": "45px",
+                      "fontSize": "30px",
                     }
                   }
                 >
@@ -181,7 +327,7 @@ ShallowWrapper {
                 "children": <span
                   style={
                     Object {
-                      "fontSize": "45px",
+                      "fontSize": "30px",
                     }
                   }
                 >
@@ -199,7 +345,7 @@ ShallowWrapper {
                 "props": Object {
                   "children": "Centers",
                   "style": Object {
-                    "fontSize": "45px",
+                    "fontSize": "30px",
                   },
                 },
                 "ref": null,
@@ -275,258 +421,6 @@ ShallowWrapper {
         },
         false,
       ],
-      "type": "div",
-    },
-    "type": "div",
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "host",
-      "props": Object {
-        "children": <div
-          className="background"
-        >
-          <div
-            className="my-container"
-          >
-            <div
-              style={
-                Object {
-                  "textAlign": "center",
-                }
-              }
-            >
-              <span
-                style={
-                  Object {
-                    "fontSize": "45px",
-                  }
-                }
-              >
-                Centers
-              </span>
-            </div>
-            <SearchForm
-              onSearch={[Function]}
-              states={Array []}
-            />
-            <Grid>
-              <GridRow
-                colunms={3}
-              >
-                
-              </GridRow>
-            </Grid>
-          </div>
-          <Connect(CenterFormModal)
-            errors={Object {}}
-            hideModal={[Function]}
-            isRequestMade={false}
-            onSubmit={[Function]}
-            open={false}
-            states={Array []}
-          />
-        </div>,
-      },
-      "ref": null,
-      "rendered": Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "host",
-        "props": Object {
-          "children": Array [
-            <div
-              className="my-container"
-            >
-              <div
-                style={
-                  Object {
-                    "textAlign": "center",
-                  }
-                }
-              >
-                <span
-                  style={
-                    Object {
-                      "fontSize": "45px",
-                    }
-                  }
-                >
-                  Centers
-                </span>
-              </div>
-              <SearchForm
-                onSearch={[Function]}
-                states={Array []}
-              />
-              <Grid>
-                <GridRow
-                  colunms={3}
-                >
-                  
-                </GridRow>
-              </Grid>
-            </div>,
-            <Connect(CenterFormModal)
-              errors={Object {}}
-              hideModal={[Function]}
-              isRequestMade={false}
-              onSubmit={[Function]}
-              open={false}
-              states={Array []}
-            />,
-            false,
-          ],
-          "className": "background",
-        },
-        "ref": null,
-        "rendered": Array [
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": Array [
-                <div
-                  style={
-                    Object {
-                      "textAlign": "center",
-                    }
-                  }
-                >
-                  <span
-                    style={
-                      Object {
-                        "fontSize": "45px",
-                      }
-                    }
-                  >
-                    Centers
-                  </span>
-                </div>,
-                <SearchForm
-                  onSearch={[Function]}
-                  states={Array []}
-                />,
-                <Grid>
-                  <GridRow
-                    colunms={3}
-                  >
-                    
-                  </GridRow>
-                </Grid>,
-                false,
-              ],
-              "className": "my-container",
-            },
-            "ref": null,
-            "rendered": Array [
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": <span
-                    style={
-                      Object {
-                        "fontSize": "45px",
-                      }
-                    }
-                  >
-                    Centers
-                  </span>,
-                  "style": Object {
-                    "textAlign": "center",
-                  },
-                },
-                "ref": null,
-                "rendered": Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "children": "Centers",
-                    "style": Object {
-                      "fontSize": "45px",
-                    },
-                  },
-                  "ref": null,
-                  "rendered": "Centers",
-                  "type": "span",
-                },
-                "type": "div",
-              },
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "class",
-                "props": Object {
-                  "onSearch": [Function],
-                  "states": Array [],
-                },
-                "ref": null,
-                "rendered": null,
-                "type": [Function],
-              },
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "function",
-                "props": Object {
-                  "children": <GridRow
-                    colunms={3}
-                  >
-                    
-                  </GridRow>,
-                },
-                "ref": null,
-                "rendered": Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "function",
-                  "props": Object {
-                    "children": Array [
-                      false,
-                      "",
-                      Array [],
-                    ],
-                    "colunms": 3,
-                  },
-                  "ref": null,
-                  "rendered": Array [
-                    false,
-                    "",
-                  ],
-                  "type": [Function],
-                },
-                "type": [Function],
-              },
-              false,
-            ],
-            "type": "div",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "class",
-            "props": Object {
-              "errors": Object {},
-              "hideModal": [Function],
-              "isRequestMade": false,
-              "onSubmit": [Function],
-              "open": false,
-              "states": Array [],
-            },
-            "ref": null,
-            "rendered": null,
-            "type": [Function],
-          },
-          false,
-        ],
-        "type": "div",
-      },
       "type": "div",
     },
   ],

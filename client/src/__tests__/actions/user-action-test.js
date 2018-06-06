@@ -2,11 +2,9 @@ import moxios from 'moxios';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import expect from 'expect';
-import userActionType from '../../actions/actionTypes/user-action-types';
-import UserActions from '../../actions/user-actions';
-import userData from '../../__mocks__/mock-data/user-mock-data';
-
-// now you should be able to run assertions on history.push
+import userActionType from '../../actions/actionTypes/userActionType';
+import UserActions from '../../actions/UserActions';
+import userData from '../../__mocks__/mock-data/userMockData';
 
 
 const middlewaresponse = [thunk];

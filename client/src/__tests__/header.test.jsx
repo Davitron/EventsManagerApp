@@ -2,7 +2,7 @@ import React from 'react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
-import ConnectedHeader, { Header } from '../components/header';
+import ConnectedHeader, { Header } from '../components/Header';
 
 let mountedComponent;
 let props;

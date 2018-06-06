@@ -1,4 +1,4 @@
-const centerData = {
+const centerMockData = {
 
   getAll: {
     request: {
@@ -242,4 +242,4 @@ const centerData = {
   },
 };
 
-export default centerData;
+export default centerMockData;

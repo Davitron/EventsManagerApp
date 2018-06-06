@@ -7154,10 +7154,10 @@ exports.default = initialState;
 
 /***/ }),
 
-/***/ "./client/src/reducers/app-reducer.js":
-/*!********************************************!*\
-  !*** ./client/src/reducers/app-reducer.js ***!
-  \********************************************/
+/***/ "./client/src/reducers/AppReducer.js":
+/*!*******************************************!*\
+  !*** ./client/src/reducers/AppReducer.js ***!
+  \*******************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7398,68 +7398,10 @@ exports.default = AppReducer;
 
 /***/ }),
 
-/***/ "./client/src/reducers/root-reducer.js":
-/*!*********************************************!*\
-  !*** ./client/src/reducers/root-reducer.js ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _redux = __webpack_require__(/*! redux */ "./node_modules/redux/es/index.js");
-
-var _userReducer = __webpack_require__(/*! ./user-reducer */ "./client/src/reducers/user-reducer.js");
-
-var _userReducer2 = _interopRequireDefault(_userReducer);
-
-var _appReducer = __webpack_require__(/*! ./app-reducer */ "./client/src/reducers/app-reducer.js");
-
-var _appReducer2 = _interopRequireDefault(_appReducer);
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
-
-var register = _userReducer2.default.register,
-    completeRegistration = _userReducer2.default.completeRegistration,
-    login = _userReducer2.default.login,
-    resetPassword = _userReducer2.default.resetPassword,
-    forgotPassword = _userReducer2.default.forgotPassword;
-var getAll = _appReducer2.default.getAll,
-    get = _appReducer2.default.get,
-    getAllStates = _appReducer2.default.getAllStates,
-    create = _appReducer2.default.create,
-    update = _appReducer2.default.update,
-    deleteItem = _appReducer2.default.deleteItem;
-
-var rootReducer = (0, _redux.combineReducers)({
-  register: register,
-  completeRegistration: completeRegistration,
-  login: login,
-  resetPassword: resetPassword,
-  forgotPassword: forgotPassword,
-  getAll: getAll,
-  get: get,
-  getAllStates: getAllStates,
-  create: create,
-  update: update,
-  deleteItem: deleteItem
-});
-
-exports.default = rootReducer;
-
-/***/ }),
-
-/***/ "./client/src/reducers/user-reducer.js":
-/*!*********************************************!*\
-  !*** ./client/src/reducers/user-reducer.js ***!
-  \*********************************************/
+/***/ "./client/src/reducers/UserReducer.js":
+/*!********************************************!*\
+  !*** ./client/src/reducers/UserReducer.js ***!
+  \********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7670,6 +7612,64 @@ var UserReducer = function () {
 }();
 
 exports.default = UserReducer;
+
+/***/ }),
+
+/***/ "./client/src/reducers/root-reducer.js":
+/*!*********************************************!*\
+  !*** ./client/src/reducers/root-reducer.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _redux = __webpack_require__(/*! redux */ "./node_modules/redux/es/index.js");
+
+var _UserReducer = __webpack_require__(/*! ./UserReducer */ "./client/src/reducers/UserReducer.js");
+
+var _UserReducer2 = _interopRequireDefault(_UserReducer);
+
+var _AppReducer = __webpack_require__(/*! ./AppReducer */ "./client/src/reducers/AppReducer.js");
+
+var _AppReducer2 = _interopRequireDefault(_AppReducer);
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var register = _UserReducer2.default.register,
+    completeRegistration = _UserReducer2.default.completeRegistration,
+    login = _UserReducer2.default.login,
+    resetPassword = _UserReducer2.default.resetPassword,
+    forgotPassword = _UserReducer2.default.forgotPassword;
+var getAll = _AppReducer2.default.getAll,
+    get = _AppReducer2.default.get,
+    getAllStates = _AppReducer2.default.getAllStates,
+    create = _AppReducer2.default.create,
+    update = _AppReducer2.default.update,
+    deleteItem = _AppReducer2.default.deleteItem;
+
+var rootReducer = (0, _redux.combineReducers)({
+  register: register,
+  completeRegistration: completeRegistration,
+  login: login,
+  resetPassword: resetPassword,
+  forgotPassword: forgotPassword,
+  getAll: getAll,
+  get: get,
+  getAllStates: getAllStates,
+  create: create,
+  update: update,
+  deleteItem: deleteItem
+});
+
+exports.default = rootReducer;
 
 /***/ }),
 

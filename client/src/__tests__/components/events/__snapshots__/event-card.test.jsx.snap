@@ -66,15 +66,13 @@ ShallowWrapper {
           <CardMeta>
             December 12th 2018
              - 
-            June 5th 2018
+            June 6th 2018
           </CardMeta>
           <CardDescription>
             <Link
               replace={false}
               to="/centers/2"
-            >
-              test center
-            </Link>
+            />
           </CardDescription>
         </CardContent>,
         <CardContent
@@ -138,15 +136,13 @@ ShallowWrapper {
             <CardMeta>
               December 12th 2018
                - 
-              June 5th 2018
+              June 6th 2018
             </CardMeta>,
             <CardDescription>
               <Link
                 replace={false}
                 to="/centers/2"
-              >
-                test center
-              </Link>
+              />
             </CardDescription>,
           ],
         },
@@ -184,14 +180,14 @@ ShallowWrapper {
               "children": Array [
                 "December 12th 2018",
                 " - ",
-                "June 5th 2018",
+                "June 6th 2018",
               ],
             },
             "ref": null,
             "rendered": Array [
               "December 12th 2018",
               " - ",
-              "June 5th 2018",
+              "June 6th 2018",
             ],
             "type": [Function],
           },
@@ -203,9 +199,7 @@ ShallowWrapper {
               "children": <Link
                 replace={false}
                 to="/centers/2"
-              >
-                test center
-              </Link>,
+              />,
             },
             "ref": null,
             "rendered": Object {
@@ -213,12 +207,12 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "class",
               "props": Object {
-                "children": "test center",
+                "children": undefined,
                 "replace": false,
                 "to": "/centers/2",
               },
               "ref": null,
-              "rendered": "test center",
+              "rendered": null,
               "type": [Function],
             },
             "type": [Function],
@@ -348,15 +342,13 @@ ShallowWrapper {
             <CardMeta>
               December 12th 2018
                - 
-              June 5th 2018
+              June 6th 2018
             </CardMeta>
             <CardDescription>
               <Link
                 replace={false}
                 to="/centers/2"
-              >
-                test center
-              </Link>
+              />
             </CardDescription>
           </CardContent>,
           <CardContent
@@ -420,15 +412,13 @@ ShallowWrapper {
               <CardMeta>
                 December 12th 2018
                  - 
-                June 5th 2018
+                June 6th 2018
               </CardMeta>,
               <CardDescription>
                 <Link
                   replace={false}
                   to="/centers/2"
-                >
-                  test center
-                </Link>
+                />
               </CardDescription>,
             ],
           },
@@ -466,14 +456,14 @@ ShallowWrapper {
                 "children": Array [
                   "December 12th 2018",
                   " - ",
-                  "June 5th 2018",
+                  "June 6th 2018",
                 ],
               },
               "ref": null,
               "rendered": Array [
                 "December 12th 2018",
                 " - ",
-                "June 5th 2018",
+                "June 6th 2018",
               ],
               "type": [Function],
             },
@@ -485,9 +475,7 @@ ShallowWrapper {
                 "children": <Link
                   replace={false}
                   to="/centers/2"
-                >
-                  test center
-                </Link>,
+                />,
               },
               "ref": null,
               "rendered": Object {
@@ -495,12 +483,12 @@ ShallowWrapper {
                 "key": undefined,
                 "nodeType": "class",
                 "props": Object {
-                  "children": "test center",
+                  "children": undefined,
                   "replace": false,
                   "to": "/centers/2",
                 },
                 "ref": null,
-                "rendered": "test center",
+                "rendered": null,
                 "type": [Function],
               },
               "type": [Function],

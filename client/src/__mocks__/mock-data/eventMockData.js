@@ -1,4 +1,4 @@
-const eventData = {
+const eventMockData = {
 
   getAll: {
     request: {
@@ -264,4 +264,4 @@ const eventData = {
   }
 };
 
-export default eventData;
+export default eventMockData;

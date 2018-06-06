@@ -1,6 +1,6 @@
 import expect from 'expect';
-import userActionType from '../../actions/actionTypes/user-action-types';
-import UserReducer from '../../reducers/user-reducer';
+import userActionType from '../../actions/actionTypes/userActionType';
+import UserReducer from '../../reducers/UserReducer';
 import initialState from '../../initial-state';
 
 

@@ -2,7 +2,7 @@ import React from 'react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
 import { Card } from 'semantic-ui-react';
-import EventCard from '../../../components/event/event-card';
+import EventCard from '../../../components/event/EventCard';
 
 let mountedComponent;
 const dispatch = fn => fn;

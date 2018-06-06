@@ -1,4 +1,4 @@
-const userData = {
+const userMockData = {
 
   siginUp: {
 
@@ -86,4 +86,4 @@ const userData = {
   }
 };
 
-export default userData;
+export default userMockData;
