@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Header, Icon, Modal } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
-const Prompt = ({
+const Confirm = ({
   open,
   message,
   onCancel,
@@ -26,7 +26,7 @@ const Prompt = ({
   </Modal>
 );
 
-Prompt.propTypes = {
+Confirm.propTypes = {
   open: PropTypes.bool.isRequired,
   message: PropTypes.string,
   onCancel: PropTypes.func.isRequired,
@@ -35,10 +35,10 @@ Prompt.propTypes = {
   isRequestMade: PropTypes.bool.isRequired
 };
 
-Prompt.defaultProps = {
+Confirm.defaultProps = {
   message: '',
   title: '',
 };
 
-export default Prompt;
+export default Confirm;
 

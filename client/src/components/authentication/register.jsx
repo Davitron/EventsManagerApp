@@ -100,7 +100,6 @@ export class Register extends Component {
 
     return (
       <div>
-        {/* <Header /> */}
         <div className="home">
           <main className="section__hero" id="index-banner">
             <div className="my-container">

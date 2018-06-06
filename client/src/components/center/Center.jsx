@@ -4,14 +4,14 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import { Grid, Dimmer, Loader } from 'semantic-ui-react';
-import SearchForm from './search-form';
+import SearchForm from './SearchForm';
 import CenterActions from '../../actions/center-action';
-import CenterFormModal from './create-center-form';
+import CenterFormModal from './CenterFormModal';
 import FormValidator from '../../helpers/form-validator';
 import AuthChecker from '../../helpers/auth-checker';
 import ImageUpload from '../../helpers/image-upload';
-import Paginator from '../reusables/pagination';
-import CenterCard from './center-card';
+import Paginator from '../reusables/Paginator';
+import CenterCard from './CenterCard';
 import Toast from '../../helpers/toast';
 
 /**
@@ -191,7 +191,7 @@ export class Center extends Component {
       <div className="background">
         <div className="my-container">
           <div style={{ textAlign: 'center' }}>
-            <span style={{ fontSize: '45px' }}>Centers</span>
+            <span style={{ fontSize: '30px' }}>Centers</span>
           </div>
           <SearchForm states={states} onSearch={this.onSearch} />
           <Grid>

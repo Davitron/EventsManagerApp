@@ -44,7 +44,6 @@ export class VerifiedEmail extends Component {
   render() {
     return (
       <div>
-        {/* <Header /> */}
         <div className="home">
           <div className="section section__hero" style={{ color: 'white' }}>
             <div className="my-container" style={{ paddingTop: '8em' }}>

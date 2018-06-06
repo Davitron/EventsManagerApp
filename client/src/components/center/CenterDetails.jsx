@@ -5,14 +5,14 @@ import PropTypes from 'prop-types';
 import { Icon, Button, Label } from 'semantic-ui-react';
 import CenterActions from '../../actions/center-action';
 import EventActions from '../../actions/event-action';
-import CenterTable from './center-table';
-import CenterFormModal from './create-center-form';
-import EventFormModal from '../event/create-event-form';
+import CenterTable from './CenterTable';
+import CenterFormModal from './CenterFormModal';
+import EventFormModal from '../event/EventFormModal';
 import FormValidator from '../../helpers/form-validator';
 import AuthChecker from '../../helpers/auth-checker';
 import ImageUpload from '../../helpers/image-upload';
 import Toast from '../../helpers/toast';
-import Prompt from '../reusables/prompt';
+import Prompt from '../reusables/Confirm';
 
 /**
  * @returns {*} Centers Component
@@ -254,7 +254,7 @@ export class CenterDetails extends Component {
         { center &&
           <div>
             <div style={{ textAlign: 'center' }}>
-              <span style={{ fontSize: '45px' }}>{center.name}</span>
+              <span style={{ fontSize: '30px' }}>{center.name}</span>
             </div>
             <div style={{ marginTop: '20px' }}>
               <img src={center.image} alt="Lights" className=" w3-image" />

@@ -1040,9 +1040,9 @@ exports.default = UserActions;
 
 /***/ }),
 
-/***/ "./client/src/components/app.jsx":
+/***/ "./client/src/components/App.jsx":
 /*!***************************************!*\
-  !*** ./client/src/components/app.jsx ***!
+  !*** ./client/src/components/App.jsx ***!
   \***************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -1064,57 +1064,57 @@ var _history = __webpack_require__(/*! ../helpers/history */ "./client/src/helpe
 
 var _history2 = _interopRequireDefault(_history);
 
-var _header = __webpack_require__(/*! ./header */ "./client/src/components/header.jsx");
+var _Header = __webpack_require__(/*! ./Header */ "./client/src/components/Header.jsx");
 
-var _header2 = _interopRequireDefault(_header);
+var _Header2 = _interopRequireDefault(_Header);
 
-var _home = __webpack_require__(/*! ./home */ "./client/src/components/home.jsx");
+var _Home = __webpack_require__(/*! ./Home */ "./client/src/components/Home.jsx");
 
-var _home2 = _interopRequireDefault(_home);
+var _Home2 = _interopRequireDefault(_Home);
 
-var _register = __webpack_require__(/*! ./authentication/register */ "./client/src/components/authentication/register.jsx");
+var _Register = __webpack_require__(/*! ./authentication/Register */ "./client/src/components/authentication/Register.jsx");
 
-var _register2 = _interopRequireDefault(_register);
+var _Register2 = _interopRequireDefault(_Register);
 
-var _login = __webpack_require__(/*! ./authentication/login */ "./client/src/components/authentication/login.jsx");
+var _Login = __webpack_require__(/*! ./authentication/Login */ "./client/src/components/authentication/Login.jsx");
 
-var _login2 = _interopRequireDefault(_login);
+var _Login2 = _interopRequireDefault(_Login);
 
-var _forgotPassword = __webpack_require__(/*! ./authentication/forgot-password */ "./client/src/components/authentication/forgot-password.jsx");
+var _ForgotPassword = __webpack_require__(/*! ./authentication/ForgotPassword */ "./client/src/components/authentication/ForgotPassword.jsx");
 
-var _forgotPassword2 = _interopRequireDefault(_forgotPassword);
+var _ForgotPassword2 = _interopRequireDefault(_ForgotPassword);
 
-var _resetPassword = __webpack_require__(/*! ./authentication/reset-password */ "./client/src/components/authentication/reset-password.jsx");
+var _ResetPassword = __webpack_require__(/*! ./authentication/ResetPassword */ "./client/src/components/authentication/ResetPassword.jsx");
 
-var _resetPassword2 = _interopRequireDefault(_resetPassword);
+var _ResetPassword2 = _interopRequireDefault(_ResetPassword);
 
-var _verify = __webpack_require__(/*! ./authentication/verify */ "./client/src/components/authentication/verify.jsx");
+var _VerifyEmail = __webpack_require__(/*! ./authentication/VerifyEmail */ "./client/src/components/authentication/VerifyEmail.jsx");
 
-var _verify2 = _interopRequireDefault(_verify);
+var _VerifyEmail2 = _interopRequireDefault(_VerifyEmail);
 
-var _verified = __webpack_require__(/*! ./authentication/verified */ "./client/src/components/authentication/verified.jsx");
+var _VerifiedEmail = __webpack_require__(/*! ./authentication/VerifiedEmail */ "./client/src/components/authentication/VerifiedEmail.jsx");
 
-var _verified2 = _interopRequireDefault(_verified);
+var _VerifiedEmail2 = _interopRequireDefault(_VerifiedEmail);
 
-var _centers = __webpack_require__(/*! ./center/centers */ "./client/src/components/center/centers.jsx");
+var _Center = __webpack_require__(/*! ./center/Center */ "./client/src/components/center/Center.jsx");
 
-var _centers2 = _interopRequireDefault(_centers);
+var _Center2 = _interopRequireDefault(_Center);
 
-var _eventsAdmin = __webpack_require__(/*! ./event/events-admin */ "./client/src/components/event/events-admin.jsx");
+var _CenterEvent = __webpack_require__(/*! ./event/CenterEvent */ "./client/src/components/event/CenterEvent.jsx");
 
-var _eventsAdmin2 = _interopRequireDefault(_eventsAdmin);
+var _CenterEvent2 = _interopRequireDefault(_CenterEvent);
 
-var _events = __webpack_require__(/*! ./event/events */ "./client/src/components/event/events.jsx");
+var _Event = __webpack_require__(/*! ./event/Event */ "./client/src/components/event/Event.jsx");
 
-var _events2 = _interopRequireDefault(_events);
+var _Event2 = _interopRequireDefault(_Event);
 
-var _notFound = __webpack_require__(/*! ./notFound */ "./client/src/components/notFound.jsx");
+var _NotFound = __webpack_require__(/*! ./NotFound */ "./client/src/components/NotFound.jsx");
 
-var _notFound2 = _interopRequireDefault(_notFound);
+var _NotFound2 = _interopRequireDefault(_NotFound);
 
-var _centerDetails = __webpack_require__(/*! ./center/center-details */ "./client/src/components/center/center-details.jsx");
+var _CenterDetails = __webpack_require__(/*! ./center/CenterDetails */ "./client/src/components/center/CenterDetails.jsx");
 
-var _centerDetails2 = _interopRequireDefault(_centerDetails);
+var _CenterDetails2 = _interopRequireDefault(_CenterDetails);
 
 var _userRoute = __webpack_require__(/*! ../helpers/user-route */ "./client/src/helpers/user-route.jsx");
 
@@ -1131,22 +1131,22 @@ var App = function App() {
     _react2.default.createElement(
       'div',
       null,
-      _react2.default.createElement(_header2.default, null),
+      _react2.default.createElement(_Header2.default, null),
       _react2.default.createElement(
         _reactRouter.Switch,
         null,
-        _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/', component: _home2.default }),
-        _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/register', component: _register2.default }),
-        _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/login', component: _login2.default }),
-        _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/forgot-password', component: _forgotPassword2.default }),
-        _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/reset-password', component: _resetPassword2.default }),
-        _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/verify', component: _verify2.default }),
-        _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/verified', component: _verified2.default }),
-        _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/centers/:centerId', component: _centerDetails2.default }),
-        _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/centers', component: _centers2.default }),
-        _react2.default.createElement(_userRoute2.default, { exact: true, path: '/events', component: _events2.default, redirectPath: '/login' }),
-        _react2.default.createElement(_userRoute2.default, { exact: true, path: '/pending-events', component: _eventsAdmin2.default, redirectPath: '/login' }),
-        _react2.default.createElement(_reactRouter.Route, { component: _notFound2.default })
+        _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/', component: _Home2.default }),
+        _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/register', component: _Register2.default }),
+        _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/login', component: _Login2.default }),
+        _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/forgot-password', component: _ForgotPassword2.default }),
+        _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/reset-password', component: _ResetPassword2.default }),
+        _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/verify', component: _VerifyEmail2.default }),
+        _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/verified', component: _VerifiedEmail2.default }),
+        _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/centers/:centerId', component: _CenterDetails2.default }),
+        _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/centers', component: _Center2.default }),
+        _react2.default.createElement(_userRoute2.default, { exact: true, path: '/events', component: _Event2.default, redirectPath: '/login' }),
+        _react2.default.createElement(_userRoute2.default, { exact: true, path: '/pending-events', component: _CenterEvent2.default, redirectPath: '/login' }),
+        _react2.default.createElement(_reactRouter.Route, { component: _NotFound2.default })
       )
     )
   );
@@ -1156,10 +1156,483 @@ exports.default = App;
 
 /***/ }),
 
-/***/ "./client/src/components/authentication/forgot-password.jsx":
-/*!******************************************************************!*\
-  !*** ./client/src/components/authentication/forgot-password.jsx ***!
-  \******************************************************************/
+/***/ "./client/src/components/Header.jsx":
+/*!******************************************!*\
+  !*** ./client/src/components/Header.jsx ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Header = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _redux = __webpack_require__(/*! redux */ "./node_modules/redux/es/index.js");
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _userActions = __webpack_require__(/*! ../actions/user-actions */ "./client/src/actions/user-actions.js");
+
+var _userActions2 = _interopRequireDefault(_userActions);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ *
+ */
+var Header = exports.Header = function (_Component) {
+  _inherits(Header, _Component);
+
+  /**
+   *
+   * @param {*} props
+   */
+  function Header(props) {
+    _classCallCheck(this, Header);
+
+    var _this = _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).call(this, props));
+
+    _this.state = {
+      user: undefined, // eslint-disable-line
+      navClassName: 'navigator', // eslint-disable-line
+      sideNavStyle: { width: '0px' }
+    };
+    _this.logOut = _this.logOut.bind(_this);
+    _this.navCLick = _this.navCLick.bind(_this);
+    _this.closeSideNav = _this.closeSideNav.bind(_this);
+    _this.renderNavigation = _this.renderNavigation.bind(_this);
+    return _this;
+  }
+
+  /**
+   *@returns{*} authentication status
+   */
+
+
+  _createClass(Header, [{
+    key: 'logOut',
+    value: function logOut() {
+      var logout = this.props.logout;
+
+      logout();
+    }
+
+    /**
+     * @returns {void}
+     *
+     */
+
+  }, {
+    key: 'navCLick',
+    value: function navCLick() {
+      var navClassName = this.state.navClassName;
+
+      if (navClassName === 'navigator') {
+        this.setState({
+          navClassName: 'navigator responsive',
+          sideNavStyle: { width: '250px' }
+        });
+      } else {
+        this.setState({
+          navClassName: 'navigator',
+          sideNavStyle: { width: '0px' }
+        });
+      }
+    }
+
+    /**
+     * @returns {void}
+     *
+     */
+
+  }, {
+    key: 'closeSideNav',
+    value: function closeSideNav() {
+      this.setState({ navClassName: 'navigator', sideNavStyle: { width: '0px' } });
+    }
+
+    /**
+     * @returns {void}
+     *
+     */
+
+  }, {
+    key: 'renderNavigation',
+    value: function renderNavigation() {
+      var currentUser = this.props.response.currentUser;
+
+      if (!currentUser.isAuthenticated) {
+        return _react2.default.createElement(
+          'div',
+          { className: 'nav-menu', style: { float: 'right' } },
+          _react2.default.createElement(
+            _reactRouterDom.NavLink,
+            { className: 'login', to: '/login', target: '' },
+            'Login'
+          ),
+          _react2.default.createElement(
+            _reactRouterDom.NavLink,
+            { className: 'register', to: '/register', target: '' },
+            'Register'
+          )
+        );
+      }
+      return _react2.default.createElement(
+        'div',
+        { className: 'nav-menu', style: { float: 'right' } },
+        _react2.default.createElement(
+          _reactRouterDom.NavLink,
+          { className: 'events', to: '/events', target: '' },
+          'My Events'
+        ),
+        _react2.default.createElement(
+          _reactRouterDom.NavLink,
+          { className: 'centers', to: '/centers', target: '' },
+          'Centers'
+        ),
+        _react2.default.createElement(
+          'a',
+          { href: '#!', onClick: this.logOut },
+          'Logout'
+        )
+      );
+    }
+
+    /**
+     *@returns {*} view for langing page
+     */
+
+  }, {
+    key: 'render',
+    value: function render() {
+      var currentUser = this.props.response.currentUser;
+      var _state = this.state,
+          navClassName = _state.navClassName,
+          sideNavStyle = _state.sideNavStyle;
+
+      return _react2.default.createElement(
+        'header',
+        { style: { zIndex: '1' } },
+        _react2.default.createElement(
+          'nav',
+          null,
+          _react2.default.createElement(
+            'div',
+            { className: navClassName, id: 'navigator' },
+            _react2.default.createElement(
+              _reactRouterDom.NavLink,
+              { to: '/', target: '' },
+              'Evento'
+            ),
+            this.renderNavigation(),
+            _react2.default.createElement(
+              'a',
+              { className: 'icon', onClick: this.navCLick },
+              '\u2630'
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { id: 'mySidenav', className: 'sidenav', style: sideNavStyle },
+            _react2.default.createElement(
+              'a',
+              { className: 'closebtn', onClick: this.closeSideNav },
+              '\xD7'
+            ),
+            !currentUser.isAuthenticated && _react2.default.createElement(
+              _reactRouterDom.NavLink,
+              { to: '/login', target: '' },
+              'Login'
+            ),
+            !currentUser.isAuthenticated && _react2.default.createElement(
+              _reactRouterDom.NavLink,
+              { to: '/register', target: '' },
+              'Register'
+            ),
+            currentUser.isAuthenticated && _react2.default.createElement(
+              _reactRouterDom.NavLink,
+              { to: '/events', target: '' },
+              'My Events'
+            ),
+            currentUser.isAuthenticated && _react2.default.createElement(
+              _reactRouterDom.NavLink,
+              { to: '/centers', target: '' },
+              'Centers'
+            ),
+            currentUser.isAuthenticated && _react2.default.createElement(
+              'a',
+              { href: '#!', onClick: this.logOut },
+              'Logout'
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return Header;
+}(_react.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    response: {
+      currentUser: state.login
+    }
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return (0, _redux.bindActionCreators)({
+    logout: _userActions2.default.logout
+  }, dispatch);
+};
+
+Header.propTypes = {
+  response: _propTypes2.default.objectOf(function () {
+    return null;
+  }).isRequired,
+  logout: _propTypes2.default.func
+};
+
+Header.defaultProps = {
+  logout: _userActions2.default.logout
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Header);
+
+/***/ }),
+
+/***/ "./client/src/components/Home.jsx":
+/*!****************************************!*\
+  !*** ./client/src/components/Home.jsx ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _semanticUiReact = __webpack_require__(/*! semantic-ui-react */ "./node_modules/semantic-ui-react/dist/es/index.js");
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ *
+ */
+var Home = function (_Component) {
+  _inherits(Home, _Component);
+
+  /**
+   *
+   * @param {*} props
+   */
+  function Home(props) {
+    _classCallCheck(this, Home);
+
+    var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
+
+    _this.state = {
+      search: ''
+    };
+    _this.onChange = _this.onChange.bind(_this);
+    _this.onSearch = _this.onSearch.bind(_this);
+    return _this;
+  }
+
+  /**
+   *
+   * @param {object} event
+   * @returns {void}
+   */
+
+
+  _createClass(Home, [{
+    key: 'onChange',
+    value: function onChange(event) {
+      var value = event.target.value;
+
+      this.setState({
+        search: value
+      });
+    }
+
+    /**
+     *
+     * @param {object} event
+     * @returns {void}
+     */
+
+  }, {
+    key: 'onSearch',
+    value: function onSearch() {
+      var search = this.state.search;
+
+      this.props.history.push('/centers?search=' + search);
+    }
+
+    /**
+     * @returns {*} view
+     */
+
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { id: 'home' },
+        _react2.default.createElement(
+          'div',
+          { className: 'home' },
+          _react2.default.createElement(
+            'div',
+            { className: 'section section__hero', style: { color: 'white' } },
+            _react2.default.createElement(
+              'div',
+              { className: 'my-container', style: { paddingTop: '8em' } },
+              _react2.default.createElement(
+                'h2',
+                { className: 'animated fadeInUp' },
+                'Welcome to Evento.'
+              ),
+              _react2.default.createElement(
+                'h3',
+                { style: { paddingBottom: '60px' }, className: 'animated fadeInUp' },
+                'The perfect place to find and book event centres'
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'landing-input' },
+                _react2.default.createElement(
+                  _semanticUiReact.Input,
+                  { fluid: true, size: 'huge', type: 'text', onChange: this.onChange, placeholder: 'Search by name or address', action: true },
+                  _react2.default.createElement('input', null),
+                  _react2.default.createElement(
+                    _semanticUiReact.Button,
+                    { disabled: this.state.search.length === 0, onClick: this.onSearch, type: 'submit' },
+                    'Search'
+                  )
+                )
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return Home;
+}(_react.Component);
+
+Home.propTypes = {
+  history: _propTypes2.default.objectOf(function () {
+    return null;
+  }).isRequired
+};
+
+exports.default = Home;
+
+/***/ }),
+
+/***/ "./client/src/components/NotFound.jsx":
+/*!********************************************!*\
+  !*** ./client/src/components/NotFound.jsx ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * @param {*} props
+ * @returns {*} Home
+ */
+var NotFound = function NotFound(props) {
+  return (
+    /**
+     *@returns {*} view for langing page
+     */
+    _react2.default.createElement(
+      "div",
+      { className: "background" },
+      _react2.default.createElement(
+        "div",
+        { className: "my-container", style: { paddingTop: '20em', color: 'black' } },
+        _react2.default.createElement(
+          "h1",
+          { className: "animated fadeInUp", style: { fontSize: '50px' } },
+          "Oops! Not Found"
+        ),
+        _react2.default.createElement(
+          "h3",
+          { style: { paddingBottom: '60px', fontSize: '20px' }, className: "animated fadeInUp" },
+          "Request is either invalid or the requested resouce does not exist."
+        )
+      )
+    )
+  );
+};
+
+exports.default = NotFound;
+
+/***/ }),
+
+/***/ "./client/src/components/authentication/ForgotPassword.jsx":
+/*!*****************************************************************!*\
+  !*** ./client/src/components/authentication/ForgotPassword.jsx ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1461,9 +1934,9 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 
 /***/ }),
 
-/***/ "./client/src/components/authentication/login.jsx":
+/***/ "./client/src/components/authentication/Login.jsx":
 /*!********************************************************!*\
-  !*** ./client/src/components/authentication/login.jsx ***!
+  !*** ./client/src/components/authentication/Login.jsx ***!
   \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -1763,9 +2236,9 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 
 /***/ }),
 
-/***/ "./client/src/components/authentication/register.jsx":
+/***/ "./client/src/components/authentication/Register.jsx":
 /*!***********************************************************!*\
-  !*** ./client/src/components/authentication/register.jsx ***!
+  !*** ./client/src/components/authentication/Register.jsx ***!
   \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -2053,10 +2526,10 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 
 /***/ }),
 
-/***/ "./client/src/components/authentication/reset-password.jsx":
-/*!*****************************************************************!*\
-  !*** ./client/src/components/authentication/reset-password.jsx ***!
-  \*****************************************************************/
+/***/ "./client/src/components/authentication/ResetPassword.jsx":
+/*!****************************************************************!*\
+  !*** ./client/src/components/authentication/ResetPassword.jsx ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2391,10 +2864,10 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 
 /***/ }),
 
-/***/ "./client/src/components/authentication/verified.jsx":
-/*!***********************************************************!*\
-  !*** ./client/src/components/authentication/verified.jsx ***!
-  \***********************************************************/
+/***/ "./client/src/components/authentication/VerifiedEmail.jsx":
+/*!****************************************************************!*\
+  !*** ./client/src/components/authentication/VerifiedEmail.jsx ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2541,10 +3014,10 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps)(VerifiedEmail);
 
 /***/ }),
 
-/***/ "./client/src/components/authentication/verify.jsx":
-/*!*********************************************************!*\
-  !*** ./client/src/components/authentication/verify.jsx ***!
-  \*********************************************************/
+/***/ "./client/src/components/authentication/VerifyEmail.jsx":
+/*!**************************************************************!*\
+  !*** ./client/src/components/authentication/VerifyEmail.jsx ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2598,10 +3071,420 @@ exports.default = VerifyEmail;
 
 /***/ }),
 
-/***/ "./client/src/components/center/center-card.jsx":
-/*!******************************************************!*\
-  !*** ./client/src/components/center/center-card.jsx ***!
-  \******************************************************/
+/***/ "./client/src/components/center/Center.jsx":
+/*!*************************************************!*\
+  !*** ./client/src/components/center/Center.jsx ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Center = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _redux = __webpack_require__(/*! redux */ "./node_modules/redux/es/index.js");
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _queryString = __webpack_require__(/*! query-string */ "./node_modules/query-string/index.js");
+
+var _queryString2 = _interopRequireDefault(_queryString);
+
+var _semanticUiReact = __webpack_require__(/*! semantic-ui-react */ "./node_modules/semantic-ui-react/dist/es/index.js");
+
+var _SearchForm = __webpack_require__(/*! ./SearchForm */ "./client/src/components/center/SearchForm.jsx");
+
+var _SearchForm2 = _interopRequireDefault(_SearchForm);
+
+var _centerAction = __webpack_require__(/*! ../../actions/center-action */ "./client/src/actions/center-action.js");
+
+var _centerAction2 = _interopRequireDefault(_centerAction);
+
+var _CenterFormModal = __webpack_require__(/*! ./CenterFormModal */ "./client/src/components/center/CenterFormModal.jsx");
+
+var _CenterFormModal2 = _interopRequireDefault(_CenterFormModal);
+
+var _formValidator = __webpack_require__(/*! ../../helpers/form-validator */ "./client/src/helpers/form-validator.jsx");
+
+var _formValidator2 = _interopRequireDefault(_formValidator);
+
+var _authChecker = __webpack_require__(/*! ../../helpers/auth-checker */ "./client/src/helpers/auth-checker.js");
+
+var _authChecker2 = _interopRequireDefault(_authChecker);
+
+var _imageUpload = __webpack_require__(/*! ../../helpers/image-upload */ "./client/src/helpers/image-upload.js");
+
+var _imageUpload2 = _interopRequireDefault(_imageUpload);
+
+var _Paginator = __webpack_require__(/*! ../reusables/Paginator */ "./client/src/components/reusables/Paginator.jsx");
+
+var _Paginator2 = _interopRequireDefault(_Paginator);
+
+var _CenterCard = __webpack_require__(/*! ./CenterCard */ "./client/src/components/center/CenterCard.jsx");
+
+var _CenterCard2 = _interopRequireDefault(_CenterCard);
+
+var _toast = __webpack_require__(/*! ../../helpers/toast */ "./client/src/helpers/toast.js");
+
+var _toast2 = _interopRequireDefault(_toast);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * Center Component
+ * @class
+ * @extends Component
+ */
+var Center = exports.Center = function (_Component) {
+  _inherits(Center, _Component);
+
+  /**
+   *@param {*} props
+   */
+  function Center(props) {
+    _classCallCheck(this, Center);
+
+    var _this = _possibleConstructorReturn(this, (Center.__proto__ || Object.getPrototypeOf(Center)).call(this, props));
+
+    _this.state = {
+      data: [],
+      pagingData: {},
+      states: [],
+      loading: false,
+      serverError: '',
+      openModal: false,
+      isRequestMade: false,
+      errors: {}
+    };
+    _this.onSearch = _this.onSearch.bind(_this);
+    _this.onSubmit = _this.onSubmit.bind(_this);
+    _this.onChangePage = _this.onChangePage.bind(_this);
+    _this.onPageSizeChange = _this.onPageSizeChange.bind(_this);
+    _this.showModal = _this.showModal.bind(_this);
+    _this.hideModal = _this.hideModal.bind(_this);
+    return _this;
+  }
+
+  /**
+   *@returns {object} fetches all centers
+   */
+
+
+  _createClass(Center, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _props = this.props,
+          getAll = _props.getAll,
+          getStates = _props.getStates;
+
+      var query = _queryString2.default.parse(window.location.search);
+      getStates();
+      getAll(query);
+    }
+
+    /**
+     * @param {*} nextProps
+     * @returns {*} change state if new prop is recieved
+     */
+
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      var _nextProps$response = nextProps.response,
+          _nextProps$response$c = _nextProps$response.centers,
+          data = _nextProps$response$c.data,
+          status = _nextProps$response$c.status,
+          allStates = _nextProps$response.allStates,
+          newCenter = _nextProps$response.newCenter;
+
+      var query = _queryString2.default.parse(window.location.search);
+
+      // run search if URL changes
+      if (nextProps.location.search !== this.props.location.search) {
+        this.setState({ loading: true });
+        this.props.getAll(query);
+      }
+
+      if (newCenter.status === 'success') {
+        this.setState({ openModal: false, isRequestMade: false });
+      }
+
+      if (status === 'failed') {
+        this.setState({ serverError: data.message, data: [], loading: false });
+      }
+
+      if (data && data.data !== this.state.data && status === 'success') {
+        var payload = data.data;
+        var pagination = data.metadata.pagination;
+
+        this.setState({
+          data: payload,
+          pagingData: pagination,
+          loading: false,
+          serverError: null
+        });
+      }
+
+      if (allStates.status === 'success') {
+        this.setState({ states: allStates.data });
+      }
+    }
+
+    /**
+     *
+     * @param {number} newPage
+     *
+     * @returns {void} -
+     */
+
+  }, {
+    key: 'onChangePage',
+    value: function onChangePage(newPage) {
+      var query = _queryString2.default.parse(this.props.location.search);
+      query.page = newPage;
+      var qString = _queryString2.default.stringify(query, { arrayFormat: 'bracket' });
+      this.props.history.push('/centers?' + qString);
+    }
+
+    /**
+     *
+     * @param {number} currentPage
+     *
+     * @param {number} pageSize
+     *
+     * @returns{void}
+     */
+
+  }, {
+    key: 'onPageSizeChange',
+    value: function onPageSizeChange(currentPage, pageSize) {
+      var query = _queryString2.default.parse(this.props.location.search);
+      query.limit = pageSize;
+      query.page = currentPage;
+      var qString = _queryString2.default.stringify(query, { arrayFormat: 'bracket' });
+      this.props.history.push('/centers?' + qString);
+    }
+
+    /**
+     *
+     * @param {object} query
+     *
+     * @returns {void}
+     */
+
+  }, {
+    key: 'onSearch',
+    value: function onSearch(query) {
+      var qString = _queryString2.default.stringify(query, { arrayFormat: 'bracket' });
+      this.props.history.push('/centers?' + qString);
+    }
+
+    /**
+     *
+     * @param {object} center
+     *
+     * @returns {void}
+     *
+     * this handles the event when form is submitted
+     */
+
+  }, {
+    key: 'onSubmit',
+    value: function onSubmit(center) {
+      this.setState({ isRequestMade: true, serverError: '' });
+      var fv = new _formValidator2.default();
+      var createCenter = this.props.createCenter;
+
+      var errors = fv.validateCenterForm(center);
+      if (errors) {
+        this.setState({ errors: errors, isRequestMade: false });
+      } else {
+        (0, _imageUpload2.default)(center.image).then(function (imageUrl) {
+          center.image = imageUrl;
+          createCenter(center);
+        }).catch(function () {
+          _toast2.default.error('Image Upload Error');
+        });
+      }
+    }
+
+    /**
+     * @returns {void}
+     */
+
+  }, {
+    key: 'showModal',
+    value: function showModal() {
+      this.setState({ errors: {}, openModal: true });
+    }
+
+    /**
+     * @returns {void}
+     */
+
+  }, {
+    key: 'hideModal',
+    value: function hideModal() {
+      this.setState({ openModal: false });
+    }
+
+    /**
+    *@returns {*} event for sortin
+    */
+
+  }, {
+    key: 'render',
+    value: function render() {
+      var _state = this.state,
+          data = _state.data,
+          states = _state.states,
+          loading = _state.loading,
+          serverError = _state.serverError,
+          errors = _state.errors,
+          openModal = _state.openModal,
+          isRequestMade = _state.isRequestMade;
+
+      var role = _authChecker2.default.defineRole();
+      return _react2.default.createElement(
+        'div',
+        { className: 'background' },
+        _react2.default.createElement(
+          'div',
+          { className: 'my-container' },
+          _react2.default.createElement(
+            'div',
+            { style: { textAlign: 'center' } },
+            _react2.default.createElement(
+              'span',
+              { style: { fontSize: '30px' } },
+              'Centers'
+            )
+          ),
+          _react2.default.createElement(_SearchForm2.default, { states: states, onSearch: this.onSearch }),
+          _react2.default.createElement(
+            _semanticUiReact.Grid,
+            null,
+            _react2.default.createElement(
+              _semanticUiReact.Grid.Row,
+              { colunms: 3 },
+              loading === true && _react2.default.createElement(
+                _semanticUiReact.Dimmer,
+                { active: true, inverted: true },
+                _react2.default.createElement(
+                  _semanticUiReact.Loader,
+                  { size: 'large' },
+                  'Loading'
+                )
+              ),
+              serverError && _react2.default.createElement(
+                'h2',
+                { className: 'animated fadeInUp' },
+                serverError
+              ),
+              data && data.map(function (item) {
+                return _react2.default.createElement(
+                  _semanticUiReact.Grid.Column,
+                  { key: item.id },
+                  _react2.default.createElement(_CenterCard2.default, { center: item })
+                );
+              })
+            )
+          ),
+          this.state.data.length > 0 && _react2.default.createElement(_Paginator2.default, {
+            pagingData: this.state.pagingData,
+            onChange: this.onChangePage,
+            onShowSizeChange: this.onPageSizeChange
+          })
+        ),
+        _react2.default.createElement(_CenterFormModal2.default, {
+          open: openModal,
+          states: states,
+          onSubmit: this.onSubmit,
+          errors: errors,
+          hideModal: this.hideModal,
+          isRequestMade: isRequestMade
+        }),
+        role === 'admin' && _react2.default.createElement(
+          'div',
+          { className: 'fab pulse', onClick: this.showModal },
+          ' + '
+        )
+      );
+    }
+  }]);
+
+  return Center;
+}(_react.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    response: {
+      centers: state.getAll,
+      newCenter: state.create,
+      allStates: state.getAllStates
+    }
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return (0, _redux.bindActionCreators)({
+    getAll: _centerAction2.default.getAll,
+    deleteCenter: _centerAction2.default.deleteCenter,
+    getStates: _centerAction2.default.getAllStates,
+    createCenter: _centerAction2.default.createCenter
+  }, dispatch);
+};
+
+Center.propTypes = {
+  response: _propTypes2.default.objectOf(function () {
+    return null;
+  }),
+  getAll: _propTypes2.default.func,
+  location: _propTypes2.default.objectOf(function () {
+    return null;
+  }).isRequired,
+  getStates: _propTypes2.default.func,
+  createCenter: _propTypes2.default.func,
+  history: _propTypes2.default.objectOf(function () {
+    return null;
+  }).isRequired
+};
+
+Center.defaultProps = {
+  response: {},
+  getAll: _centerAction2.default.getAll,
+  getStates: _centerAction2.default.getAllStates,
+  createCenter: _centerAction2.default.createCenter
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Center);
+
+/***/ }),
+
+/***/ "./client/src/components/center/CenterCard.jsx":
+/*!*****************************************************!*\
+  !*** ./client/src/components/center/CenterCard.jsx ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2685,10 +3568,10 @@ exports.default = CenterCard;
 
 /***/ }),
 
-/***/ "./client/src/components/center/center-details.jsx":
-/*!*********************************************************!*\
-  !*** ./client/src/components/center/center-details.jsx ***!
-  \*********************************************************/
+/***/ "./client/src/components/center/CenterDetails.jsx":
+/*!********************************************************!*\
+  !*** ./client/src/components/center/CenterDetails.jsx ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2724,17 +3607,17 @@ var _eventAction = __webpack_require__(/*! ../../actions/event-action */ "./clie
 
 var _eventAction2 = _interopRequireDefault(_eventAction);
 
-var _centerTable = __webpack_require__(/*! ./center-table */ "./client/src/components/center/center-table.jsx");
+var _CenterTable = __webpack_require__(/*! ./CenterTable */ "./client/src/components/center/CenterTable.jsx");
 
-var _centerTable2 = _interopRequireDefault(_centerTable);
+var _CenterTable2 = _interopRequireDefault(_CenterTable);
 
-var _createCenterForm = __webpack_require__(/*! ./create-center-form */ "./client/src/components/center/create-center-form.jsx");
+var _CenterFormModal = __webpack_require__(/*! ./CenterFormModal */ "./client/src/components/center/CenterFormModal.jsx");
 
-var _createCenterForm2 = _interopRequireDefault(_createCenterForm);
+var _CenterFormModal2 = _interopRequireDefault(_CenterFormModal);
 
-var _createEventForm = __webpack_require__(/*! ../event/create-event-form */ "./client/src/components/event/create-event-form.jsx");
+var _EventFormModal = __webpack_require__(/*! ../event/EventFormModal */ "./client/src/components/event/EventFormModal.jsx");
 
-var _createEventForm2 = _interopRequireDefault(_createEventForm);
+var _EventFormModal2 = _interopRequireDefault(_EventFormModal);
 
 var _formValidator = __webpack_require__(/*! ../../helpers/form-validator */ "./client/src/helpers/form-validator.jsx");
 
@@ -2752,9 +3635,9 @@ var _toast = __webpack_require__(/*! ../../helpers/toast */ "./client/src/helper
 
 var _toast2 = _interopRequireDefault(_toast);
 
-var _prompt = __webpack_require__(/*! ../reusables/prompt */ "./client/src/components/reusables/prompt.jsx");
+var _Confirm = __webpack_require__(/*! ../reusables/Confirm */ "./client/src/components/reusables/Confirm.jsx");
 
-var _prompt2 = _interopRequireDefault(_prompt);
+var _Confirm2 = _interopRequireDefault(_Confirm);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3073,7 +3956,7 @@ var CenterDetails = exports.CenterDetails = function (_Component) {
             { style: { textAlign: 'center' } },
             _react2.default.createElement(
               'span',
-              { style: { fontSize: '45px' } },
+              { style: { fontSize: '30px' } },
               center.name
             )
           ),
@@ -3102,7 +3985,7 @@ var CenterDetails = exports.CenterDetails = function (_Component) {
               center.state
             )
           ),
-          _react2.default.createElement(_centerTable2.default, { center: center }),
+          _react2.default.createElement(_CenterTable2.default, { center: center }),
           _react2.default.createElement(
             'div',
             { className: 'ui grid' },
@@ -3138,7 +4021,7 @@ var CenterDetails = exports.CenterDetails = function (_Component) {
           'div',
           { className: 'background' },
           this.renderMainView(),
-          _react2.default.createElement(_createCenterForm2.default, {
+          _react2.default.createElement(_CenterFormModal2.default, {
             open: openModal,
             states: states,
             onSubmit: this.handleUpdateCenter,
@@ -3147,14 +4030,14 @@ var CenterDetails = exports.CenterDetails = function (_Component) {
             isRequestMade: isRequestMade,
             center: center
           }),
-          _react2.default.createElement(_createEventForm2.default, {
+          _react2.default.createElement(_EventFormModal2.default, {
             open: openEventModal,
             onSubmit: this.handleEventBooking,
             errors: errors,
             hideModal: this.hideModal,
             isRequestMade: isRequestMade
           }),
-          _react2.default.createElement(_prompt2.default, {
+          _react2.default.createElement(_Confirm2.default, {
             open: openPrompt,
             title: 'Delete Center',
             message: 'Are you sure you want to delete this center',
@@ -3221,550 +4104,10 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 
 /***/ }),
 
-/***/ "./client/src/components/center/center-table.jsx":
-/*!*******************************************************!*\
-  !*** ./client/src/components/center/center-table.jsx ***!
-  \*******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _semanticUiReact = __webpack_require__(/*! semantic-ui-react */ "./node_modules/semantic-ui-react/dist/es/index.js");
-
-var _accountingJs = __webpack_require__(/*! accounting-js */ "./node_modules/accounting-js/dist/accounting.umd.js");
-
-var _accountingJs2 = _interopRequireDefault(_accountingJs);
-
-var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var CenterTable = function CenterTable(_ref) {
-  var center = _ref.center;
-  return _react2.default.createElement(
-    _semanticUiReact.Table,
-    { definition: true },
-    _react2.default.createElement(
-      _semanticUiReact.Table.Header,
-      null,
-      _react2.default.createElement(
-        _semanticUiReact.Table.Row,
-        { className: 'table-row-header' },
-        _react2.default.createElement(
-          _semanticUiReact.Table.HeaderCell,
-          { colSpan: '2' },
-          'Information about this center'
-        )
-      )
-    ),
-    _react2.default.createElement(
-      _semanticUiReact.Table.Body,
-      null,
-      _react2.default.createElement(
-        _semanticUiReact.Table.Row,
-        null,
-        _react2.default.createElement(
-          _semanticUiReact.Table.Cell,
-          null,
-          'Hall Capacity'
-        ),
-        _react2.default.createElement(
-          _semanticUiReact.Table.Cell,
-          null,
-          center.hallCapacity,
-          ' Guests'
-        )
-      ),
-      _react2.default.createElement(
-        _semanticUiReact.Table.Row,
-        null,
-        _react2.default.createElement(
-          _semanticUiReact.Table.Cell,
-          null,
-          'Carpark Capacity'
-        ),
-        _react2.default.createElement(
-          _semanticUiReact.Table.Cell,
-          null,
-          'Can occupy up to ',
-          center.carParkCapacity,
-          ' Cars'
-        )
-      ),
-      _react2.default.createElement(
-        _semanticUiReact.Table.Row,
-        null,
-        _react2.default.createElement(
-          _semanticUiReact.Table.Cell,
-          null,
-          'Price'
-        ),
-        _react2.default.createElement(
-          _semanticUiReact.Table.Cell,
-          null,
-          ' ',
-          _accountingJs2.default.formatMoney(center.price, { symbol: '₦', format: '%s%v', decimal: '.' }),
-          ' Per Event'
-        )
-      ),
-      _react2.default.createElement(
-        _semanticUiReact.Table.Row,
-        null,
-        _react2.default.createElement(
-          _semanticUiReact.Table.Cell,
-          null,
-          'Facilities'
-        ),
-        _react2.default.createElement(
-          _semanticUiReact.Table.Cell,
-          null,
-          center.facilities && center.facilities.join(' ,  ')
-        )
-      )
-    )
-  );
-};
-
-CenterTable.propTypes = {
-  center: _propTypes2.default.objectOf(function () {
-    return null;
-  })
-};
-
-CenterTable.defaultProps = {
-  center: {}
-};
-
-exports.default = CenterTable;
-
-/***/ }),
-
-/***/ "./client/src/components/center/centers.jsx":
-/*!**************************************************!*\
-  !*** ./client/src/components/center/centers.jsx ***!
-  \**************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Center = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-
-var _redux = __webpack_require__(/*! redux */ "./node_modules/redux/es/index.js");
-
-var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _queryString = __webpack_require__(/*! query-string */ "./node_modules/query-string/index.js");
-
-var _queryString2 = _interopRequireDefault(_queryString);
-
-var _semanticUiReact = __webpack_require__(/*! semantic-ui-react */ "./node_modules/semantic-ui-react/dist/es/index.js");
-
-var _searchForm = __webpack_require__(/*! ./search-form */ "./client/src/components/center/search-form.jsx");
-
-var _searchForm2 = _interopRequireDefault(_searchForm);
-
-var _centerAction = __webpack_require__(/*! ../../actions/center-action */ "./client/src/actions/center-action.js");
-
-var _centerAction2 = _interopRequireDefault(_centerAction);
-
-var _createCenterForm = __webpack_require__(/*! ./create-center-form */ "./client/src/components/center/create-center-form.jsx");
-
-var _createCenterForm2 = _interopRequireDefault(_createCenterForm);
-
-var _formValidator = __webpack_require__(/*! ../../helpers/form-validator */ "./client/src/helpers/form-validator.jsx");
-
-var _formValidator2 = _interopRequireDefault(_formValidator);
-
-var _authChecker = __webpack_require__(/*! ../../helpers/auth-checker */ "./client/src/helpers/auth-checker.js");
-
-var _authChecker2 = _interopRequireDefault(_authChecker);
-
-var _imageUpload = __webpack_require__(/*! ../../helpers/image-upload */ "./client/src/helpers/image-upload.js");
-
-var _imageUpload2 = _interopRequireDefault(_imageUpload);
-
-var _pagination = __webpack_require__(/*! ../reusables/pagination */ "./client/src/components/reusables/pagination.jsx");
-
-var _pagination2 = _interopRequireDefault(_pagination);
-
-var _centerCard = __webpack_require__(/*! ./center-card */ "./client/src/components/center/center-card.jsx");
-
-var _centerCard2 = _interopRequireDefault(_centerCard);
-
-var _toast = __webpack_require__(/*! ../../helpers/toast */ "./client/src/helpers/toast.js");
-
-var _toast2 = _interopRequireDefault(_toast);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-/**
- * Center Component
- * @class
- * @extends Component
- */
-var Center = exports.Center = function (_Component) {
-  _inherits(Center, _Component);
-
-  /**
-   *@param {*} props
-   */
-  function Center(props) {
-    _classCallCheck(this, Center);
-
-    var _this = _possibleConstructorReturn(this, (Center.__proto__ || Object.getPrototypeOf(Center)).call(this, props));
-
-    _this.state = {
-      data: [],
-      pagingData: {},
-      states: [],
-      loading: false,
-      serverError: '',
-      openModal: false,
-      isRequestMade: false,
-      errors: {}
-    };
-    _this.onSearch = _this.onSearch.bind(_this);
-    _this.onSubmit = _this.onSubmit.bind(_this);
-    _this.onChangePage = _this.onChangePage.bind(_this);
-    _this.onPageSizeChange = _this.onPageSizeChange.bind(_this);
-    _this.showModal = _this.showModal.bind(_this);
-    _this.hideModal = _this.hideModal.bind(_this);
-    return _this;
-  }
-
-  /**
-   *@returns {object} fetches all centers
-   */
-
-
-  _createClass(Center, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _props = this.props,
-          getAll = _props.getAll,
-          getStates = _props.getStates;
-
-      var query = _queryString2.default.parse(window.location.search);
-      getStates();
-      getAll(query);
-    }
-
-    /**
-     * @param {*} nextProps
-     * @returns {*} change state if new prop is recieved
-     */
-
-  }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      var _nextProps$response = nextProps.response,
-          _nextProps$response$c = _nextProps$response.centers,
-          data = _nextProps$response$c.data,
-          status = _nextProps$response$c.status,
-          allStates = _nextProps$response.allStates,
-          newCenter = _nextProps$response.newCenter;
-
-      var query = _queryString2.default.parse(window.location.search);
-
-      // run search if URL changes
-      if (nextProps.location.search !== this.props.location.search) {
-        this.setState({ loading: true });
-        this.props.getAll(query);
-      }
-
-      if (newCenter.status === 'success') {
-        this.setState({ openModal: false, isRequestMade: false });
-      }
-
-      if (status === 'failed') {
-        this.setState({ serverError: data.message, data: [], loading: false });
-      }
-
-      if (data && data.data !== this.state.data && status === 'success') {
-        var payload = data.data;
-        var pagination = data.metadata.pagination;
-
-        this.setState({
-          data: payload,
-          pagingData: pagination,
-          loading: false,
-          serverError: null
-        });
-      }
-
-      if (allStates.status === 'success') {
-        this.setState({ states: allStates.data });
-      }
-    }
-
-    /**
-     *
-     * @param {number} newPage
-     *
-     * @returns {void} -
-     */
-
-  }, {
-    key: 'onChangePage',
-    value: function onChangePage(newPage) {
-      var query = _queryString2.default.parse(this.props.location.search);
-      query.page = newPage;
-      var qString = _queryString2.default.stringify(query, { arrayFormat: 'bracket' });
-      this.props.history.push('/centers?' + qString);
-    }
-
-    /**
-     *
-     * @param {number} currentPage
-     *
-     * @param {number} pageSize
-     *
-     * @returns{void}
-     */
-
-  }, {
-    key: 'onPageSizeChange',
-    value: function onPageSizeChange(currentPage, pageSize) {
-      var query = _queryString2.default.parse(this.props.location.search);
-      query.limit = pageSize;
-      query.page = currentPage;
-      var qString = _queryString2.default.stringify(query, { arrayFormat: 'bracket' });
-      this.props.history.push('/centers?' + qString);
-    }
-
-    /**
-     *
-     * @param {object} query
-     *
-     * @returns {void}
-     */
-
-  }, {
-    key: 'onSearch',
-    value: function onSearch(query) {
-      var qString = _queryString2.default.stringify(query, { arrayFormat: 'bracket' });
-      this.props.history.push('/centers?' + qString);
-    }
-
-    /**
-     *
-     * @param {object} center
-     *
-     * @returns {void}
-     *
-     * this handles the event when form is submitted
-     */
-
-  }, {
-    key: 'onSubmit',
-    value: function onSubmit(center) {
-      this.setState({ isRequestMade: true, serverError: '' });
-      var fv = new _formValidator2.default();
-      var createCenter = this.props.createCenter;
-
-      var errors = fv.validateCenterForm(center);
-      if (errors) {
-        this.setState({ errors: errors, isRequestMade: false });
-      } else {
-        (0, _imageUpload2.default)(center.image).then(function (imageUrl) {
-          center.image = imageUrl;
-          createCenter(center);
-        }).catch(function () {
-          _toast2.default.error('Image Upload Error');
-        });
-      }
-    }
-
-    /**
-     * @returns {void}
-     */
-
-  }, {
-    key: 'showModal',
-    value: function showModal() {
-      this.setState({ errors: {}, openModal: true });
-    }
-
-    /**
-     * @returns {void}
-     */
-
-  }, {
-    key: 'hideModal',
-    value: function hideModal() {
-      this.setState({ openModal: false });
-    }
-
-    /**
-    *@returns {*} event for sortin
-    */
-
-  }, {
-    key: 'render',
-    value: function render() {
-      var _state = this.state,
-          data = _state.data,
-          states = _state.states,
-          loading = _state.loading,
-          serverError = _state.serverError,
-          errors = _state.errors,
-          openModal = _state.openModal,
-          isRequestMade = _state.isRequestMade;
-
-      var role = _authChecker2.default.defineRole();
-      return _react2.default.createElement(
-        'div',
-        { className: 'background' },
-        _react2.default.createElement(
-          'div',
-          { className: 'my-container' },
-          _react2.default.createElement(
-            'div',
-            { style: { textAlign: 'center' } },
-            _react2.default.createElement(
-              'span',
-              { style: { fontSize: '45px' } },
-              'Centers'
-            )
-          ),
-          _react2.default.createElement(_searchForm2.default, { states: states, onSearch: this.onSearch }),
-          _react2.default.createElement(
-            _semanticUiReact.Grid,
-            null,
-            _react2.default.createElement(
-              _semanticUiReact.Grid.Row,
-              { colunms: 3 },
-              loading === true && _react2.default.createElement(
-                _semanticUiReact.Dimmer,
-                { active: true, inverted: true },
-                _react2.default.createElement(
-                  _semanticUiReact.Loader,
-                  { size: 'large' },
-                  'Loading'
-                )
-              ),
-              serverError && _react2.default.createElement(
-                'h2',
-                { className: 'animated fadeInUp' },
-                serverError
-              ),
-              data && data.map(function (item) {
-                return _react2.default.createElement(
-                  _semanticUiReact.Grid.Column,
-                  { key: item.id },
-                  _react2.default.createElement(_centerCard2.default, { center: item })
-                );
-              })
-            )
-          ),
-          this.state.data.length > 0 && _react2.default.createElement(_pagination2.default, {
-            pagingData: this.state.pagingData,
-            onChange: this.onChangePage,
-            onShowSizeChange: this.onPageSizeChange
-          })
-        ),
-        _react2.default.createElement(_createCenterForm2.default, {
-          open: openModal,
-          states: states,
-          onSubmit: this.onSubmit,
-          errors: errors,
-          hideModal: this.hideModal,
-          isRequestMade: isRequestMade
-        }),
-        role === 'admin' && _react2.default.createElement(
-          'div',
-          { className: 'fab pulse', onClick: this.showModal },
-          ' + '
-        )
-      );
-    }
-  }]);
-
-  return Center;
-}(_react.Component);
-
-var mapStateToProps = function mapStateToProps(state) {
-  return {
-    response: {
-      centers: state.getAll,
-      newCenter: state.create,
-      allStates: state.getAllStates
-    }
-  };
-};
-
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return (0, _redux.bindActionCreators)({
-    getAll: _centerAction2.default.getAll,
-    deleteCenter: _centerAction2.default.deleteCenter,
-    getStates: _centerAction2.default.getAllStates,
-    createCenter: _centerAction2.default.createCenter
-  }, dispatch);
-};
-
-Center.propTypes = {
-  response: _propTypes2.default.objectOf(function () {
-    return null;
-  }),
-  getAll: _propTypes2.default.func,
-  location: _propTypes2.default.objectOf(function () {
-    return null;
-  }).isRequired,
-  getStates: _propTypes2.default.func,
-  createCenter: _propTypes2.default.func,
-  history: _propTypes2.default.objectOf(function () {
-    return null;
-  }).isRequired
-};
-
-Center.defaultProps = {
-  response: {},
-  getAll: _centerAction2.default.getAll,
-  getStates: _centerAction2.default.getAllStates,
-  createCenter: _centerAction2.default.createCenter
-};
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Center);
-
-/***/ }),
-
-/***/ "./client/src/components/center/create-center-form.jsx":
-/*!*************************************************************!*\
-  !*** ./client/src/components/center/create-center-form.jsx ***!
-  \*************************************************************/
+/***/ "./client/src/components/center/CenterFormModal.jsx":
+/*!**********************************************************!*\
+  !*** ./client/src/components/center/CenterFormModal.jsx ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4153,10 +4496,140 @@ exports.default = (0, _reactRedux.connect)(matchStateToProps)(CenterFormModal);
 
 /***/ }),
 
-/***/ "./client/src/components/center/search-form.jsx":
+/***/ "./client/src/components/center/CenterTable.jsx":
 /*!******************************************************!*\
-  !*** ./client/src/components/center/search-form.jsx ***!
+  !*** ./client/src/components/center/CenterTable.jsx ***!
   \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _semanticUiReact = __webpack_require__(/*! semantic-ui-react */ "./node_modules/semantic-ui-react/dist/es/index.js");
+
+var _accountingJs = __webpack_require__(/*! accounting-js */ "./node_modules/accounting-js/dist/accounting.umd.js");
+
+var _accountingJs2 = _interopRequireDefault(_accountingJs);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var CenterTable = function CenterTable(_ref) {
+  var center = _ref.center;
+  return _react2.default.createElement(
+    _semanticUiReact.Table,
+    { definition: true },
+    _react2.default.createElement(
+      _semanticUiReact.Table.Header,
+      null,
+      _react2.default.createElement(
+        _semanticUiReact.Table.Row,
+        { className: 'table-row-header' },
+        _react2.default.createElement(
+          _semanticUiReact.Table.HeaderCell,
+          { colSpan: '2' },
+          'Information about this center'
+        )
+      )
+    ),
+    _react2.default.createElement(
+      _semanticUiReact.Table.Body,
+      null,
+      _react2.default.createElement(
+        _semanticUiReact.Table.Row,
+        null,
+        _react2.default.createElement(
+          _semanticUiReact.Table.Cell,
+          null,
+          'Hall Capacity'
+        ),
+        _react2.default.createElement(
+          _semanticUiReact.Table.Cell,
+          null,
+          center.hallCapacity,
+          ' Guests'
+        )
+      ),
+      _react2.default.createElement(
+        _semanticUiReact.Table.Row,
+        null,
+        _react2.default.createElement(
+          _semanticUiReact.Table.Cell,
+          null,
+          'Carpark Capacity'
+        ),
+        _react2.default.createElement(
+          _semanticUiReact.Table.Cell,
+          null,
+          'Can occupy up to ',
+          center.carParkCapacity,
+          ' Cars'
+        )
+      ),
+      _react2.default.createElement(
+        _semanticUiReact.Table.Row,
+        null,
+        _react2.default.createElement(
+          _semanticUiReact.Table.Cell,
+          null,
+          'Price'
+        ),
+        _react2.default.createElement(
+          _semanticUiReact.Table.Cell,
+          null,
+          ' ',
+          _accountingJs2.default.formatMoney(center.price, { symbol: '₦', format: '%s%v', decimal: '.' }),
+          ' Per Event'
+        )
+      ),
+      _react2.default.createElement(
+        _semanticUiReact.Table.Row,
+        null,
+        _react2.default.createElement(
+          _semanticUiReact.Table.Cell,
+          null,
+          'Facilities'
+        ),
+        _react2.default.createElement(
+          _semanticUiReact.Table.Cell,
+          null,
+          center.facilities && center.facilities.join(' ,  ')
+        )
+      )
+    )
+  );
+};
+
+CenterTable.propTypes = {
+  center: _propTypes2.default.objectOf(function () {
+    return null;
+  })
+};
+
+CenterTable.defaultProps = {
+  center: {}
+};
+
+exports.default = CenterTable;
+
+/***/ }),
+
+/***/ "./client/src/components/center/SearchForm.jsx":
+/*!*****************************************************!*\
+  !*** ./client/src/components/center/SearchForm.jsx ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4361,10 +4834,981 @@ exports.default = SearchForm;
 
 /***/ }),
 
-/***/ "./client/src/components/event/create-event-form.jsx":
-/*!***********************************************************!*\
-  !*** ./client/src/components/event/create-event-form.jsx ***!
-  \***********************************************************/
+/***/ "./client/src/components/event/CenterEvent.jsx":
+/*!*****************************************************!*\
+  !*** ./client/src/components/event/CenterEvent.jsx ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CenterEvent = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _redux = __webpack_require__(/*! redux */ "./node_modules/redux/es/index.js");
+
+var _semanticUiReact = __webpack_require__(/*! semantic-ui-react */ "./node_modules/semantic-ui-react/dist/es/index.js");
+
+var _queryString = __webpack_require__(/*! query-string */ "./node_modules/query-string/index.js");
+
+var _queryString2 = _interopRequireDefault(_queryString);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _Paginator = __webpack_require__(/*! ../reusables/Paginator */ "./client/src/components/reusables/Paginator.jsx");
+
+var _Paginator2 = _interopRequireDefault(_Paginator);
+
+var _eventAction = __webpack_require__(/*! ../../actions/event-action */ "./client/src/actions/event-action.js");
+
+var _eventAction2 = _interopRequireDefault(_eventAction);
+
+var _authChecker = __webpack_require__(/*! ../../helpers/auth-checker */ "./client/src/helpers/auth-checker.js");
+
+var _authChecker2 = _interopRequireDefault(_authChecker);
+
+var _EventCard = __webpack_require__(/*! ./EventCard */ "./client/src/components/event/EventCard.jsx");
+
+var _EventCard2 = _interopRequireDefault(_EventCard);
+
+var _Confirm = __webpack_require__(/*! ../reusables/Confirm */ "./client/src/components/reusables/Confirm.jsx");
+
+var _Confirm2 = _interopRequireDefault(_Confirm);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * Event Component
+ * @class
+ * @extends Component
+ */
+var CenterEvent = exports.CenterEvent = function (_Component) {
+  _inherits(CenterEvent, _Component);
+
+  /**
+   *@param {*} props
+   */
+  function CenterEvent(props) {
+    _classCallCheck(this, CenterEvent);
+
+    var _this = _possibleConstructorReturn(this, (CenterEvent.__proto__ || Object.getPrototypeOf(CenterEvent)).call(this, props));
+
+    _this.state = {
+      data: [],
+      pagingData: {},
+      loading: false,
+      openPrompt: false,
+      isRequestMade: false,
+      mode: 'ACCEPT'
+    };
+    _this.onChangePage = _this.onChangePage.bind(_this);
+    _this.onPageSizeChange = _this.onPageSizeChange.bind(_this);
+    _this.showApprovePrompt = _this.showApprovePrompt.bind(_this);
+    _this.showDeclinePrompt = _this.showDeclinePrompt.bind(_this);
+    _this.hidePrompt = _this.hidePrompt.bind(_this);
+    _this.handleResponse = _this.handleResponse.bind(_this);
+    return _this;
+  }
+
+  /**
+   *@returns {object} fetches all events
+   */
+
+
+  _createClass(CenterEvent, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var locationSearch = window.location.search;
+      var query = _queryString2.default.parse(locationSearch);
+      if (_authChecker2.default.defineRole() && query.centerId) {
+        var getAll = this.props.getAll;
+
+        getAll(query);
+      } else {
+        this.props.history.push('/centers');
+      }
+    }
+
+    /**
+     * @param {*} nextProps
+     * @returns {*} change state if new prop is recieved
+     */
+
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      var _nextProps$response = nextProps.response,
+          _nextProps$response$e = _nextProps$response.events,
+          data = _nextProps$response$e.data,
+          status = _nextProps$response$e.status,
+          newEvent = _nextProps$response.newEvent;
+
+      var query = _queryString2.default.parse(window.location.search);
+
+      // run search if URL changes
+      if (nextProps.location.search !== this.props.location.search) {
+        this.setState({ loading: true });
+        this.props.getAll(query);
+      }
+
+      if (newEvent.status === 'success' || newEvent.status === 'failed') {
+        this.setState({ openPrompt: false, isRequestMade: false });
+      }
+
+      if (status === 'failed') {
+        this.setState({ data: [], loading: false });
+      }
+
+      if (data && data.data !== this.state.data && status === 'success') {
+        var payload = data.data;
+        var pagination = data.metadata.pagination;
+
+        this.setState({ data: payload, pagingData: pagination, loading: false });
+      }
+    }
+
+    /**
+     *
+     * @param {number} newPage
+     *
+     * @returns {void}
+     */
+
+  }, {
+    key: 'onChangePage',
+    value: function onChangePage(newPage) {
+      var query = _queryString2.default.parse(this.props.location.search);
+      query.page = newPage;
+      var qString = _queryString2.default.stringify(query, { arrayFormat: 'bracket' });
+      this.props.history.push('/events?' + qString);
+    }
+
+    /**
+     *
+     * @param {number} currentPage
+     *
+     * @param {number} pageSize
+     *
+     * @returns{void}
+     */
+
+  }, {
+    key: 'onPageSizeChange',
+    value: function onPageSizeChange(currentPage, pageSize) {
+      var query = _queryString2.default.parse(this.props.location.search);
+      query.limit = pageSize;
+      query.page = currentPage;
+      var qString = _queryString2.default.stringify(query, { arrayFormat: 'bracket' });
+      this.props.history.push('/events?' + qString);
+    }
+
+    /**
+     * @param {object} event
+     * @returns {void}
+     */
+
+  }, {
+    key: 'showApprovePrompt',
+    value: function showApprovePrompt(event) {
+      this.setState({
+        openPrompt: true,
+        selectedEvent: event,
+        isRequestMade: false,
+        mode: 'ACCEPT'
+      });
+    }
+
+    /**
+     * @param {object} event
+     * @returns {void}
+     */
+
+  }, {
+    key: 'showDeclinePrompt',
+    value: function showDeclinePrompt(event) {
+      this.setState({
+        openPrompt: true,
+        selectedEvent: event,
+        isRequestMade: false,
+        mode: 'REJECT'
+      });
+    }
+
+    /**
+     * @returns {void}
+     */
+
+  }, {
+    key: 'hidePrompt',
+    value: function hidePrompt() {
+      this.setState({ openPrompt: false });
+    }
+
+    /**
+     * @returns {*} update center modal
+     */
+
+  }, {
+    key: 'handleResponse',
+    value: function handleResponse() {
+      this.setState({ isRequestMade: true });
+      var _state$selectedEvent = this.state.selectedEvent,
+          id = _state$selectedEvent.id,
+          centerId = _state$selectedEvent.centerId;
+      var respondToEvent = this.props.respondToEvent;
+      var mode = this.state.mode;
+
+      var response = void 0;
+      if (mode === 'ACCEPT') {
+        response = { id: id, status: 'accepted', centerId: centerId };
+      } else {
+        response = { id: id, status: 'cancelled' };
+      }
+      respondToEvent(response);
+    }
+
+    /**
+    *@returns {*} event for sortin
+    */
+
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var _state = this.state,
+          data = _state.data,
+          loading = _state.loading,
+          pagingData = _state.pagingData,
+          openPrompt = _state.openPrompt,
+          mode = _state.mode,
+          isRequestMade = _state.isRequestMade;
+
+
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'div',
+          { className: 'background' },
+          _react2.default.createElement(
+            'div',
+            { className: 'my-container' },
+            _react2.default.createElement(
+              'div',
+              { style: { textAlign: 'center' } },
+              _react2.default.createElement(
+                'span',
+                { style: { fontSize: '30px' } },
+                ' Pending Events '
+              )
+            ),
+            _react2.default.createElement(
+              _semanticUiReact.Grid,
+              null,
+              _react2.default.createElement(
+                _semanticUiReact.Grid.Row,
+                { colunms: 3 },
+                loading === true && _react2.default.createElement(
+                  _semanticUiReact.Dimmer,
+                  { active: true, inverted: true },
+                  _react2.default.createElement(
+                    _semanticUiReact.Loader,
+                    { size: 'large' },
+                    'Loading'
+                  )
+                ),
+                data.length === 0 && _react2.default.createElement(
+                  'h2',
+                  { className: 'animated fadeInUp' },
+                  'No Pending Event Currently'
+                ),
+                data && data.map(function (item) {
+                  return _react2.default.createElement(
+                    _semanticUiReact.Grid.Column,
+                    { key: item.id },
+                    _react2.default.createElement(_EventCard2.default, {
+                      event: item,
+                      mode: mode,
+                      onPositive: function onPositive() {
+                        _this2.showApprovePrompt(item);
+                      },
+                      onNegative: function onNegative() {
+                        _this2.showDeclinePrompt(item);
+                      }
+                    })
+                  );
+                })
+              )
+            ),
+            this.state.data.length > 0 && _react2.default.createElement(_Paginator2.default, {
+              pagingData: pagingData,
+              onChange: this.onChangePage,
+              onShowSizeChange: this.onPageSizeChange
+            })
+          ),
+          _react2.default.createElement(_Confirm2.default, {
+            open: openPrompt,
+            title: mode === 'ACCEPT' ? 'Accept Event' : 'Reject Event',
+            message: 'Are you sure you want to respond to this Event?',
+            onCancel: this.hidePrompt,
+            onConfirm: this.handleResponse,
+            isRequestMade: isRequestMade
+          })
+        )
+      );
+    }
+  }]);
+
+  return CenterEvent;
+}(_react.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    response: {
+      events: state.getAll,
+      newEvent: state.update
+    }
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return (0, _redux.bindActionCreators)({
+    getAll: _eventAction2.default.getAll,
+    respondToEvent: _eventAction2.default.respondToEvent
+  }, dispatch);
+};
+
+CenterEvent.propTypes = {
+  response: _propTypes2.default.objectOf(function () {
+    return null;
+  }),
+  getAll: _propTypes2.default.func,
+  location: _propTypes2.default.objectOf(function () {
+    return null;
+  }).isRequired,
+  history: _propTypes2.default.objectOf(function () {
+    return null;
+  }).isRequired,
+  respondToEvent: _propTypes2.default.func
+};
+
+CenterEvent.defaultProps = {
+  response: {},
+  getAll: _eventAction2.default.getAll,
+  respondToEvent: _eventAction2.default.respondToEvent
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(CenterEvent);
+
+/***/ }),
+
+/***/ "./client/src/components/event/Event.jsx":
+/*!***********************************************!*\
+  !*** ./client/src/components/event/Event.jsx ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Event = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _redux = __webpack_require__(/*! redux */ "./node_modules/redux/es/index.js");
+
+var _semanticUiReact = __webpack_require__(/*! semantic-ui-react */ "./node_modules/semantic-ui-react/dist/es/index.js");
+
+var _queryString = __webpack_require__(/*! query-string */ "./node_modules/query-string/index.js");
+
+var _queryString2 = _interopRequireDefault(_queryString);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _Paginator = __webpack_require__(/*! ../reusables/Paginator */ "./client/src/components/reusables/Paginator.jsx");
+
+var _Paginator2 = _interopRequireDefault(_Paginator);
+
+var _eventAction = __webpack_require__(/*! ../../actions/event-action */ "./client/src/actions/event-action.js");
+
+var _eventAction2 = _interopRequireDefault(_eventAction);
+
+var _authChecker = __webpack_require__(/*! ../../helpers/auth-checker */ "./client/src/helpers/auth-checker.js");
+
+var _authChecker2 = _interopRequireDefault(_authChecker);
+
+var _EventCard = __webpack_require__(/*! ./EventCard */ "./client/src/components/event/EventCard.jsx");
+
+var _EventCard2 = _interopRequireDefault(_EventCard);
+
+var _formValidator = __webpack_require__(/*! ../../helpers/form-validator */ "./client/src/helpers/form-validator.jsx");
+
+var _formValidator2 = _interopRequireDefault(_formValidator);
+
+var _EventFormModal = __webpack_require__(/*! ../../components/event/EventFormModal */ "./client/src/components/event/EventFormModal.jsx");
+
+var _EventFormModal2 = _interopRequireDefault(_EventFormModal);
+
+var _Confirm = __webpack_require__(/*! ../reusables/Confirm */ "./client/src/components/reusables/Confirm.jsx");
+
+var _Confirm2 = _interopRequireDefault(_Confirm);
+
+var _toast = __webpack_require__(/*! ../../helpers/toast */ "./client/src/helpers/toast.js");
+
+var _toast2 = _interopRequireDefault(_toast);
+
+var _imageUpload = __webpack_require__(/*! ../../helpers/image-upload */ "./client/src/helpers/image-upload.js");
+
+var _imageUpload2 = _interopRequireDefault(_imageUpload);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * Event Component
+ * @class
+ * @extends Component
+ */
+var Event = exports.Event = function (_Component) {
+  _inherits(Event, _Component);
+
+  /**
+   *@param {*} props
+   */
+  function Event(props) {
+    _classCallCheck(this, Event);
+
+    var _this = _possibleConstructorReturn(this, (Event.__proto__ || Object.getPrototypeOf(Event)).call(this, props));
+
+    _this.state = {
+      data: [],
+      pagingData: {},
+      loading: false,
+      serverError: '',
+      openModal: false,
+      openPrompt: false,
+      isRequestMade: false,
+      errors: {}
+    };
+    _this.onSearch = _this.onSearch.bind(_this);
+    _this.onSubmit = _this.onSubmit.bind(_this);
+    _this.onChangePage = _this.onChangePage.bind(_this);
+    _this.onPageSizeChange = _this.onPageSizeChange.bind(_this);
+    _this.showModal = _this.showModal.bind(_this);
+    _this.hideModal = _this.hideModal.bind(_this);
+    _this.showPrompt = _this.showPrompt.bind(_this);
+    _this.hidePrompt = _this.hidePrompt.bind(_this);
+    _this.handleDelete = _this.handleDelete.bind(_this);
+    return _this;
+  }
+
+  /**
+   *@returns {object} fetches all events
+   */
+
+
+  _createClass(Event, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      if (_authChecker2.default.defineRole()) {
+        var getAll = this.props.getAll;
+
+        var query = _queryString2.default.parse(window.location.search);
+        getAll(query);
+      } else {
+        this.props.history.push('/centers');
+      }
+    }
+
+    /**
+     * @param {*} nextProps
+     * @returns {*} change state if new prop is recieved
+     */
+
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      var _nextProps$response = nextProps.response,
+          _nextProps$response$e = _nextProps$response.events,
+          data = _nextProps$response$e.data,
+          status = _nextProps$response$e.status,
+          newEvent = _nextProps$response.newEvent,
+          deleteStatus = _nextProps$response.deleteStatus;
+
+      var query = _queryString2.default.parse(window.location.search);
+
+      // run search if URL changes
+      if (nextProps.location.search !== this.props.location.search) {
+        this.setState({ loading: true });
+        this.props.getAll(query);
+      }
+
+      if (newEvent.status === 'success' || newEvent.status === 'failed') {
+        this.setState({ openModal: false, isRequestMade: false });
+      }
+
+      if (deleteStatus.status === 'success' || deleteStatus.status === 'failed') {
+        this.setState({ openPrompt: false, isRequestMade: false });
+      }
+
+      if (status === 'failed') {
+        this.setState({ serverError: data.message, data: [], loading: false });
+      }
+
+      if (data && data.data !== this.state.data && status === 'success') {
+        var payload = data.data;
+        var pagination = data.metadata.pagination;
+
+        this.setState({ data: payload, pagingData: pagination, loading: false });
+      }
+    }
+
+    /**
+     *
+     * @param {number} newPage
+     *
+     * @returns {void} -
+     */
+
+  }, {
+    key: 'onChangePage',
+    value: function onChangePage(newPage) {
+      var query = _queryString2.default.parse(this.props.location.search);
+      query.page = newPage;
+      var qString = _queryString2.default.stringify(query, { arrayFormat: 'bracket' });
+      this.props.history.push('/events?' + qString);
+    }
+
+    /**
+     *
+     * @param {number} currentPage
+     *
+     * @param {number} pageSize
+     *
+     * @returns{void}
+     */
+
+  }, {
+    key: 'onPageSizeChange',
+    value: function onPageSizeChange(currentPage, pageSize) {
+      var query = _queryString2.default.parse(this.props.location.search);
+      query.limit = pageSize;
+      query.page = currentPage;
+      var qString = _queryString2.default.stringify(query, { arrayFormat: 'bracket' });
+      this.props.history.push('/events?' + qString);
+    }
+
+    /**
+     *
+     * @param {object} query
+     *
+     * @returns {void}
+     */
+
+  }, {
+    key: 'onSearch',
+    value: function onSearch(query) {
+      var qString = _queryString2.default.stringify(query, { arrayFormat: 'bracket' });
+      this.props.history.push('/events?' + qString);
+    }
+
+    /**
+     *
+     * @param {object} event
+     *
+     * @returns {void}
+     *
+     * this handles the event when form is submitted
+     */
+
+  }, {
+    key: 'onSubmit',
+    value: function onSubmit(event) {
+      delete event.Center;
+      this.setState({ isRequestMade: true, serverError: '' });
+      var fv = new _formValidator2.default();
+      var updateEvent = this.props.updateEvent;
+
+      var errors = fv.validateUpdateEventForm(event);
+      if (errors) {
+        this.setState({ errors: errors, isRequestMade: false });
+      } else if (event.newImage !== event.image) {
+        (0, _imageUpload2.default)(event.newImage).then(function (imageUrl) {
+          event.image = imageUrl;
+          updateEvent(event);
+        }).catch(function (error) {
+          _toast2.default.error('Image Upload Error');
+        });
+      } else {
+        updateEvent(event);
+      }
+    }
+
+    /**
+     * @param {object} event
+     * @returns {void}
+     */
+
+  }, {
+    key: 'showModal',
+    value: function showModal(event) {
+      this.setState({ errors: {}, selectedEvent: event, openModal: true });
+    }
+
+    /**
+     * @param {number} id
+     * @returns {void}
+     */
+
+  }, {
+    key: 'hideModal',
+    value: function hideModal() {
+      this.setState({ openModal: false });
+    }
+
+    /**
+     * @param {object} event
+     * @returns {void}
+     */
+
+  }, {
+    key: 'showPrompt',
+    value: function showPrompt(event) {
+      this.setState({ openPrompt: true, selectedEvent: event, isRequestMade: false });
+    }
+
+    /**
+     * @returns {void}
+     */
+
+  }, {
+    key: 'hidePrompt',
+    value: function hidePrompt() {
+      this.setState({ openPrompt: false });
+    }
+
+    /**
+     * @returns {*} update center modal
+     */
+
+  }, {
+    key: 'handleDelete',
+    value: function handleDelete() {
+      var id = this.state.selectedEvent.id;
+      var deleteEvent = this.props.deleteEvent;
+
+      deleteEvent(id);
+    }
+
+    /**
+    *@returns {*} event for sortin
+    */
+
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var _state = this.state,
+          data = _state.data,
+          loading = _state.loading,
+          serverError = _state.serverError,
+          errors = _state.errors,
+          pagingData = _state.pagingData,
+          selectedEvent = _state.selectedEvent,
+          openPrompt = _state.openPrompt,
+          openModal = _state.openModal,
+          isRequestMade = _state.isRequestMade;
+
+
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'div',
+          { className: 'background' },
+          _react2.default.createElement(
+            'div',
+            { className: 'my-container' },
+            _react2.default.createElement(
+              'div',
+              { style: { textAlign: 'center' } },
+              _react2.default.createElement(
+                'span',
+                { style: { fontSize: '30px' } },
+                'Events'
+              )
+            ),
+            _react2.default.createElement(
+              _semanticUiReact.Grid,
+              null,
+              _react2.default.createElement(
+                _semanticUiReact.Grid.Row,
+                { colunms: 3 },
+                loading === true && _react2.default.createElement(
+                  _semanticUiReact.Dimmer,
+                  { active: true, inverted: true },
+                  _react2.default.createElement(
+                    _semanticUiReact.Loader,
+                    { size: 'large' },
+                    'Loading'
+                  )
+                ),
+                data.length === 0 && _react2.default.createElement(
+                  'h2',
+                  { className: 'animated fadeInUp' },
+                  'No Events Retrieved'
+                ),
+                data && data.map(function (item) {
+                  return _react2.default.createElement(
+                    _semanticUiReact.Grid.Column,
+                    { key: item.id },
+                    _react2.default.createElement(_EventCard2.default, {
+                      event: item,
+                      onPositive: function onPositive() {
+                        _this2.showModal(item);
+                      },
+                      onNegative: function onNegative() {
+                        _this2.showPrompt(item);
+                      }
+                    })
+                  );
+                })
+              )
+            ),
+            this.state.data.length > 0 && _react2.default.createElement(_Paginator2.default, {
+              pagingData: pagingData,
+              onChange: this.onChangePage,
+              onShowSizeChange: this.onPageSizeChange
+            })
+          ),
+          _react2.default.createElement(_EventFormModal2.default, {
+            open: openModal,
+            onSubmit: this.onSubmit,
+            errors: errors,
+            hideModal: this.hideModal,
+            isRequestMade: isRequestMade,
+            event: selectedEvent
+          }),
+          _react2.default.createElement(_Confirm2.default, {
+            open: openPrompt,
+            title: 'Delete Event',
+            message: 'Are you sure you want to delete this Event',
+            onCancel: this.hidePrompt,
+            onConfirm: this.handleDelete,
+            isRequestMade: isRequestMade
+          })
+        )
+      );
+    }
+  }]);
+
+  return Event;
+}(_react.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    response: {
+      events: state.getAll,
+      newEvent: state.update,
+      deleteStatus: state.deleteItem
+    }
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return (0, _redux.bindActionCreators)({
+    getAll: _eventAction2.default.getAll,
+    deleteEvent: _eventAction2.default.deleteEvent,
+    updateEvent: _eventAction2.default.updateEvent
+  }, dispatch);
+};
+
+Event.propTypes = {
+  response: _propTypes2.default.objectOf(function () {
+    return null;
+  }),
+  getAll: _propTypes2.default.func,
+  location: _propTypes2.default.objectOf(function () {
+    return null;
+  }).isRequired,
+  history: _propTypes2.default.objectOf(function () {
+    return null;
+  }).isRequired,
+  updateEvent: _propTypes2.default.func,
+  deleteEvent: _propTypes2.default.func
+};
+
+Event.defaultProps = {
+  response: {},
+  getAll: _eventAction2.default.getAll,
+  updateEvent: _eventAction2.default.updateEvent,
+  deleteEvent: _eventAction2.default.deleteEvent
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Event);
+
+/***/ }),
+
+/***/ "./client/src/components/event/EventCard.jsx":
+/*!***************************************************!*\
+  !*** ./client/src/components/event/EventCard.jsx ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+
+var _moment2 = _interopRequireDefault(_moment);
+
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+
+var _semanticUiReact = __webpack_require__(/*! semantic-ui-react */ "./node_modules/semantic-ui-react/dist/es/index.js");
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var getColor = function getColor(status) {
+  if (status === 'pending') return 'orange';
+  if (status === 'cancelled') return 'red';
+  if (status === 'accepted') return 'teal';
+};
+
+var EventCard = function EventCard(_ref) {
+  var event = _ref.event,
+      mode = _ref.mode,
+      onPositive = _ref.onPositive,
+      onNegative = _ref.onNegative;
+  return _react2.default.createElement(
+    _semanticUiReact.Card,
+    null,
+    _react2.default.createElement(_semanticUiReact.Image, { src: event.image }),
+    _react2.default.createElement(
+      _semanticUiReact.Card.Content,
+      null,
+      _react2.default.createElement(
+        _semanticUiReact.Label,
+        { color: getColor(event.status), ribbon: 'right' },
+        event.status
+      ),
+      _react2.default.createElement(
+        _semanticUiReact.Card.Header,
+        null,
+        event.eventName
+      ),
+      _react2.default.createElement(
+        _semanticUiReact.Card.Meta,
+        null,
+        (0, _moment2.default)(event.startDate).format('MMMM Do YYYY'),
+        ' - ',
+        (0, _moment2.default)(event.endDate).format('MMMM Do YYYY')
+      ),
+      _react2.default.createElement(
+        _semanticUiReact.Card.Description,
+        null,
+        _react2.default.createElement(
+          _reactRouterDom.Link,
+          { to: '/centers/' + event.centerId },
+          event.venue
+        )
+      )
+    ),
+    _react2.default.createElement(
+      _semanticUiReact.Card.Content,
+      { extra: true },
+      onNegative && onPositive && _react2.default.createElement(
+        'div',
+        { className: 'ui two buttons' },
+        _react2.default.createElement(
+          _semanticUiReact.Button,
+          { basic: true, onClick: onPositive, color: 'green' },
+          mode ? 'Accept' : 'Update'
+        ),
+        _react2.default.createElement(
+          _semanticUiReact.Button,
+          { basic: true, onClick: onNegative, color: 'red' },
+          mode ? 'Decline' : 'Delete'
+        )
+      )
+    )
+  );
+};
+
+EventCard.propTypes = {
+  event: _propTypes2.default.objectOf(function () {
+    return null;
+  }).isRequired,
+  mode: _propTypes2.default.string,
+  onPositive: _propTypes2.default.func,
+  onNegative: _propTypes2.default.func
+};
+
+EventCard.defaultProps = {
+  onPositive: null,
+  onNegative: null,
+  mode: null
+};
+
+exports.default = EventCard;
+
+/***/ }),
+
+/***/ "./client/src/components/event/EventFormModal.jsx":
+/*!********************************************************!*\
+  !*** ./client/src/components/event/EventFormModal.jsx ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4719,10 +6163,10 @@ exports.default = (0, _reactRedux.connect)(matchStateToProps, mapDispatchToProps
 
 /***/ }),
 
-/***/ "./client/src/components/event/event-card.jsx":
-/*!****************************************************!*\
-  !*** ./client/src/components/event/event-card.jsx ***!
-  \****************************************************/
+/***/ "./client/src/components/reusables/Confirm.jsx":
+/*!*****************************************************!*\
+  !*** ./client/src/components/reusables/Confirm.jsx ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4737,12 +6181,6 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-
-var _moment2 = _interopRequireDefault(_moment);
-
-var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
-
 var _semanticUiReact = __webpack_require__(/*! semantic-ui-react */ "./node_modules/semantic-ui-react/dist/es/index.js");
 
 var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
@@ -4751,1422 +6189,67 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var getColor = function getColor(status) {
-  if (status === 'pending') return 'orange';
-  if (status === 'cancelled') return 'red';
-  if (status === 'accepted') return 'teal';
-};
-
-var EventCard = function EventCard(_ref) {
-  var event = _ref.event,
-      mode = _ref.mode,
-      onPositive = _ref.onPositive,
-      onNegative = _ref.onNegative;
+var Confirm = function Confirm(_ref) {
+  var open = _ref.open,
+      message = _ref.message,
+      onCancel = _ref.onCancel,
+      onConfirm = _ref.onConfirm,
+      isRequestMade = _ref.isRequestMade,
+      title = _ref.title;
   return _react2.default.createElement(
-    _semanticUiReact.Card,
-    null,
-    _react2.default.createElement(_semanticUiReact.Image, { src: event.image }),
+    _semanticUiReact.Modal,
+    { dimmer: 'blurring', open: open, basic: true, size: 'small' },
+    _react2.default.createElement(_semanticUiReact.Header, { icon: 'archive', content: title }),
     _react2.default.createElement(
-      _semanticUiReact.Card.Content,
+      _semanticUiReact.Modal.Content,
       null,
       _react2.default.createElement(
-        _semanticUiReact.Label,
-        { color: getColor(event.status), ribbon: 'right' },
-        event.status
-      ),
-      _react2.default.createElement(
-        _semanticUiReact.Card.Header,
+        'p',
         null,
-        event.eventName
-      ),
-      _react2.default.createElement(
-        _semanticUiReact.Card.Meta,
-        null,
-        (0, _moment2.default)(event.startDate).format('MMMM Do YYYY'),
-        ' - ',
-        (0, _moment2.default)(event.endDate).format('MMMM Do YYYY')
-      ),
-      _react2.default.createElement(
-        _semanticUiReact.Card.Description,
-        null,
-        _react2.default.createElement(
-          _reactRouterDom.Link,
-          { to: '/centers/' + event.centerId },
-          event.venue
-        )
+        message
       )
     ),
     _react2.default.createElement(
-      _semanticUiReact.Card.Content,
-      { extra: true },
-      onNegative && onPositive && _react2.default.createElement(
-        'div',
-        { className: 'ui two buttons' },
-        _react2.default.createElement(
-          _semanticUiReact.Button,
-          { basic: true, onClick: onPositive, color: 'green' },
-          mode ? 'Accept' : 'Update'
-        ),
-        _react2.default.createElement(
-          _semanticUiReact.Button,
-          { basic: true, onClick: onNegative, color: 'red' },
-          mode ? 'Decline' : 'Delete'
-        )
-      )
-    )
-  );
-};
-
-EventCard.propTypes = {
-  event: _propTypes2.default.objectOf(function () {
-    return null;
-  }).isRequired,
-  mode: _propTypes2.default.string,
-  onPositive: _propTypes2.default.func,
-  onNegative: _propTypes2.default.func
-};
-
-EventCard.defaultProps = {
-  onPositive: null,
-  onNegative: null,
-  mode: null
-};
-
-exports.default = EventCard;
-
-/***/ }),
-
-/***/ "./client/src/components/event/events-admin.jsx":
-/*!******************************************************!*\
-  !*** ./client/src/components/event/events-admin.jsx ***!
-  \******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CenterEvent = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-
-var _redux = __webpack_require__(/*! redux */ "./node_modules/redux/es/index.js");
-
-var _semanticUiReact = __webpack_require__(/*! semantic-ui-react */ "./node_modules/semantic-ui-react/dist/es/index.js");
-
-var _queryString = __webpack_require__(/*! query-string */ "./node_modules/query-string/index.js");
-
-var _queryString2 = _interopRequireDefault(_queryString);
-
-var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _pagination = __webpack_require__(/*! ../reusables/pagination */ "./client/src/components/reusables/pagination.jsx");
-
-var _pagination2 = _interopRequireDefault(_pagination);
-
-var _eventAction = __webpack_require__(/*! ../../actions/event-action */ "./client/src/actions/event-action.js");
-
-var _eventAction2 = _interopRequireDefault(_eventAction);
-
-var _authChecker = __webpack_require__(/*! ../../helpers/auth-checker */ "./client/src/helpers/auth-checker.js");
-
-var _authChecker2 = _interopRequireDefault(_authChecker);
-
-var _eventCard = __webpack_require__(/*! ./event-card */ "./client/src/components/event/event-card.jsx");
-
-var _eventCard2 = _interopRequireDefault(_eventCard);
-
-var _prompt = __webpack_require__(/*! ../reusables/prompt */ "./client/src/components/reusables/prompt.jsx");
-
-var _prompt2 = _interopRequireDefault(_prompt);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-/**
- * Event Component
- * @class
- * @extends Component
- */
-var CenterEvent = exports.CenterEvent = function (_Component) {
-  _inherits(CenterEvent, _Component);
-
-  /**
-   *@param {*} props
-   */
-  function CenterEvent(props) {
-    _classCallCheck(this, CenterEvent);
-
-    var _this = _possibleConstructorReturn(this, (CenterEvent.__proto__ || Object.getPrototypeOf(CenterEvent)).call(this, props));
-
-    _this.state = {
-      data: [],
-      pagingData: {},
-      loading: false,
-      openPrompt: false,
-      isRequestMade: false,
-      mode: 'ACCEPT'
-    };
-    _this.onChangePage = _this.onChangePage.bind(_this);
-    _this.onPageSizeChange = _this.onPageSizeChange.bind(_this);
-    _this.showApprovePrompt = _this.showApprovePrompt.bind(_this);
-    _this.showDeclinePrompt = _this.showDeclinePrompt.bind(_this);
-    _this.hidePrompt = _this.hidePrompt.bind(_this);
-    _this.handleResponse = _this.handleResponse.bind(_this);
-    return _this;
-  }
-
-  /**
-   *@returns {object} fetches all events
-   */
-
-
-  _createClass(CenterEvent, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var locationSearch = window.location.search;
-      var query = _queryString2.default.parse(locationSearch);
-      if (_authChecker2.default.defineRole() && query.centerId) {
-        var getAll = this.props.getAll;
-
-        getAll(query);
-      } else {
-        this.props.history.push('/centers');
-      }
-    }
-
-    /**
-     * @param {*} nextProps
-     * @returns {*} change state if new prop is recieved
-     */
-
-  }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      var _nextProps$response = nextProps.response,
-          _nextProps$response$e = _nextProps$response.events,
-          data = _nextProps$response$e.data,
-          status = _nextProps$response$e.status,
-          newEvent = _nextProps$response.newEvent;
-
-      var query = _queryString2.default.parse(window.location.search);
-
-      // run search if URL changes
-      if (nextProps.location.search !== this.props.location.search) {
-        this.setState({ loading: true });
-        this.props.getAll(query);
-      }
-
-      if (newEvent.status === 'success' || newEvent.status === 'failed') {
-        this.setState({ openPrompt: false, isRequestMade: false });
-      }
-
-      if (status === 'failed') {
-        this.setState({ data: [], loading: false });
-      }
-
-      if (data && data.data !== this.state.data && status === 'success') {
-        var payload = data.data;
-        var pagination = data.metadata.pagination;
-
-        this.setState({ data: payload, pagingData: pagination, loading: false });
-      }
-    }
-
-    /**
-     *
-     * @param {number} newPage
-     *
-     * @returns {void}
-     */
-
-  }, {
-    key: 'onChangePage',
-    value: function onChangePage(newPage) {
-      var query = _queryString2.default.parse(this.props.location.search);
-      query.page = newPage;
-      var qString = _queryString2.default.stringify(query, { arrayFormat: 'bracket' });
-      this.props.history.push('/events?' + qString);
-    }
-
-    /**
-     *
-     * @param {number} currentPage
-     *
-     * @param {number} pageSize
-     *
-     * @returns{void}
-     */
-
-  }, {
-    key: 'onPageSizeChange',
-    value: function onPageSizeChange(currentPage, pageSize) {
-      var query = _queryString2.default.parse(this.props.location.search);
-      query.limit = pageSize;
-      query.page = currentPage;
-      var qString = _queryString2.default.stringify(query, { arrayFormat: 'bracket' });
-      this.props.history.push('/events?' + qString);
-    }
-
-    /**
-     * @param {object} event
-     * @returns {void}
-     */
-
-  }, {
-    key: 'showApprovePrompt',
-    value: function showApprovePrompt(event) {
-      this.setState({
-        openPrompt: true,
-        selectedEvent: event,
-        isRequestMade: false,
-        mode: 'ACCEPT'
-      });
-    }
-
-    /**
-     * @param {object} event
-     * @returns {void}
-     */
-
-  }, {
-    key: 'showDeclinePrompt',
-    value: function showDeclinePrompt(event) {
-      this.setState({
-        openPrompt: true,
-        selectedEvent: event,
-        isRequestMade: false,
-        mode: 'REJECT'
-      });
-    }
-
-    /**
-     * @returns {void}
-     */
-
-  }, {
-    key: 'hidePrompt',
-    value: function hidePrompt() {
-      this.setState({ openPrompt: false });
-    }
-
-    /**
-     * @returns {*} update center modal
-     */
-
-  }, {
-    key: 'handleResponse',
-    value: function handleResponse() {
-      this.setState({ isRequestMade: true });
-      var _state$selectedEvent = this.state.selectedEvent,
-          id = _state$selectedEvent.id,
-          centerId = _state$selectedEvent.centerId;
-      var respondToEvent = this.props.respondToEvent;
-      var mode = this.state.mode;
-
-      var response = void 0;
-      if (mode === 'ACCEPT') {
-        response = { id: id, status: 'accepted', centerId: centerId };
-      } else {
-        response = { id: id, status: 'cancelled' };
-      }
-      respondToEvent(response);
-    }
-
-    /**
-    *@returns {*} event for sortin
-    */
-
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      var _state = this.state,
-          data = _state.data,
-          loading = _state.loading,
-          pagingData = _state.pagingData,
-          openPrompt = _state.openPrompt,
-          mode = _state.mode,
-          isRequestMade = _state.isRequestMade;
-
-
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          'div',
-          { className: 'background' },
-          _react2.default.createElement(
-            'div',
-            { className: 'my-container' },
-            _react2.default.createElement(
-              'div',
-              { style: { textAlign: 'center' } },
-              _react2.default.createElement(
-                'span',
-                { style: { fontSize: '45px' } },
-                ' Pending Events '
-              )
-            ),
-            _react2.default.createElement(
-              _semanticUiReact.Grid,
-              null,
-              _react2.default.createElement(
-                _semanticUiReact.Grid.Row,
-                { colunms: 3 },
-                loading === true && _react2.default.createElement(
-                  _semanticUiReact.Dimmer,
-                  { active: true, inverted: true },
-                  _react2.default.createElement(
-                    _semanticUiReact.Loader,
-                    { size: 'large' },
-                    'Loading'
-                  )
-                ),
-                data.length === 0 && _react2.default.createElement(
-                  'h2',
-                  { className: 'animated fadeInUp' },
-                  'No Pending Event Currently'
-                ),
-                data && data.map(function (item) {
-                  return _react2.default.createElement(
-                    _semanticUiReact.Grid.Column,
-                    { key: item.id },
-                    _react2.default.createElement(_eventCard2.default, {
-                      event: item,
-                      mode: mode,
-                      onPositive: function onPositive() {
-                        _this2.showApprovePrompt(item);
-                      },
-                      onNegative: function onNegative() {
-                        _this2.showDeclinePrompt(item);
-                      }
-                    })
-                  );
-                })
-              )
-            ),
-            this.state.data.length > 0 && _react2.default.createElement(_pagination2.default, {
-              pagingData: pagingData,
-              onChange: this.onChangePage,
-              onShowSizeChange: this.onPageSizeChange
-            })
-          ),
-          _react2.default.createElement(_prompt2.default, {
-            open: openPrompt,
-            title: mode === 'ACCEPT' ? 'Accept Event' : 'Reject Event',
-            message: 'Are you sure you want to respond to this Event?',
-            onCancel: this.hidePrompt,
-            onConfirm: this.handleResponse,
-            isRequestMade: isRequestMade
-          })
-        )
-      );
-    }
-  }]);
-
-  return CenterEvent;
-}(_react.Component);
-
-var mapStateToProps = function mapStateToProps(state) {
-  return {
-    response: {
-      events: state.getAll,
-      newEvent: state.update
-    }
-  };
-};
-
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return (0, _redux.bindActionCreators)({
-    getAll: _eventAction2.default.getAll,
-    respondToEvent: _eventAction2.default.respondToEvent
-  }, dispatch);
-};
-
-CenterEvent.propTypes = {
-  response: _propTypes2.default.objectOf(function () {
-    return null;
-  }),
-  getAll: _propTypes2.default.func,
-  location: _propTypes2.default.objectOf(function () {
-    return null;
-  }).isRequired,
-  history: _propTypes2.default.objectOf(function () {
-    return null;
-  }).isRequired,
-  respondToEvent: _propTypes2.default.func
-};
-
-CenterEvent.defaultProps = {
-  response: {},
-  getAll: _eventAction2.default.getAll,
-  respondToEvent: _eventAction2.default.respondToEvent
-};
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(CenterEvent);
-
-/***/ }),
-
-/***/ "./client/src/components/event/events.jsx":
-/*!************************************************!*\
-  !*** ./client/src/components/event/events.jsx ***!
-  \************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Event = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-
-var _redux = __webpack_require__(/*! redux */ "./node_modules/redux/es/index.js");
-
-var _semanticUiReact = __webpack_require__(/*! semantic-ui-react */ "./node_modules/semantic-ui-react/dist/es/index.js");
-
-var _queryString = __webpack_require__(/*! query-string */ "./node_modules/query-string/index.js");
-
-var _queryString2 = _interopRequireDefault(_queryString);
-
-var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _pagination = __webpack_require__(/*! ../reusables/pagination */ "./client/src/components/reusables/pagination.jsx");
-
-var _pagination2 = _interopRequireDefault(_pagination);
-
-var _eventAction = __webpack_require__(/*! ../../actions/event-action */ "./client/src/actions/event-action.js");
-
-var _eventAction2 = _interopRequireDefault(_eventAction);
-
-var _authChecker = __webpack_require__(/*! ../../helpers/auth-checker */ "./client/src/helpers/auth-checker.js");
-
-var _authChecker2 = _interopRequireDefault(_authChecker);
-
-var _eventCard = __webpack_require__(/*! ./event-card */ "./client/src/components/event/event-card.jsx");
-
-var _eventCard2 = _interopRequireDefault(_eventCard);
-
-var _formValidator = __webpack_require__(/*! ../../helpers/form-validator */ "./client/src/helpers/form-validator.jsx");
-
-var _formValidator2 = _interopRequireDefault(_formValidator);
-
-var _createEventForm = __webpack_require__(/*! ../../components/event/create-event-form */ "./client/src/components/event/create-event-form.jsx");
-
-var _createEventForm2 = _interopRequireDefault(_createEventForm);
-
-var _prompt = __webpack_require__(/*! ../reusables/prompt */ "./client/src/components/reusables/prompt.jsx");
-
-var _prompt2 = _interopRequireDefault(_prompt);
-
-var _toast = __webpack_require__(/*! ../../helpers/toast */ "./client/src/helpers/toast.js");
-
-var _toast2 = _interopRequireDefault(_toast);
-
-var _imageUpload = __webpack_require__(/*! ../../helpers/image-upload */ "./client/src/helpers/image-upload.js");
-
-var _imageUpload2 = _interopRequireDefault(_imageUpload);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-/**
- * Event Component
- * @class
- * @extends Component
- */
-var Event = exports.Event = function (_Component) {
-  _inherits(Event, _Component);
-
-  /**
-   *@param {*} props
-   */
-  function Event(props) {
-    _classCallCheck(this, Event);
-
-    var _this = _possibleConstructorReturn(this, (Event.__proto__ || Object.getPrototypeOf(Event)).call(this, props));
-
-    _this.state = {
-      data: [],
-      pagingData: {},
-      loading: false,
-      serverError: '',
-      openModal: false,
-      openPrompt: false,
-      isRequestMade: false,
-      errors: {}
-    };
-    _this.onSearch = _this.onSearch.bind(_this);
-    _this.onSubmit = _this.onSubmit.bind(_this);
-    _this.onChangePage = _this.onChangePage.bind(_this);
-    _this.onPageSizeChange = _this.onPageSizeChange.bind(_this);
-    _this.showModal = _this.showModal.bind(_this);
-    _this.hideModal = _this.hideModal.bind(_this);
-    _this.showPrompt = _this.showPrompt.bind(_this);
-    _this.hidePrompt = _this.hidePrompt.bind(_this);
-    _this.handleDelete = _this.handleDelete.bind(_this);
-    return _this;
-  }
-
-  /**
-   *@returns {object} fetches all events
-   */
-
-
-  _createClass(Event, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      if (_authChecker2.default.defineRole()) {
-        var getAll = this.props.getAll;
-
-        var query = _queryString2.default.parse(window.location.search);
-        getAll(query);
-      } else {
-        this.props.history.push('/centers');
-      }
-    }
-
-    /**
-     * @param {*} nextProps
-     * @returns {*} change state if new prop is recieved
-     */
-
-  }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      var _nextProps$response = nextProps.response,
-          _nextProps$response$e = _nextProps$response.events,
-          data = _nextProps$response$e.data,
-          status = _nextProps$response$e.status,
-          newEvent = _nextProps$response.newEvent,
-          deleteStatus = _nextProps$response.deleteStatus;
-
-      var query = _queryString2.default.parse(window.location.search);
-
-      // run search if URL changes
-      if (nextProps.location.search !== this.props.location.search) {
-        this.setState({ loading: true });
-        this.props.getAll(query);
-      }
-
-      if (newEvent.status === 'success' || newEvent.status === 'failed') {
-        this.setState({ openModal: false, isRequestMade: false });
-      }
-
-      if (deleteStatus.status === 'success' || deleteStatus.status === 'failed') {
-        this.setState({ openPrompt: false, isRequestMade: false });
-      }
-
-      if (status === 'failed') {
-        this.setState({ serverError: data.message, data: [], loading: false });
-      }
-
-      if (data && data.data !== this.state.data && status === 'success') {
-        var payload = data.data;
-        var pagination = data.metadata.pagination;
-
-        this.setState({ data: payload, pagingData: pagination, loading: false });
-      }
-    }
-
-    /**
-     *
-     * @param {number} newPage
-     *
-     * @returns {void} -
-     */
-
-  }, {
-    key: 'onChangePage',
-    value: function onChangePage(newPage) {
-      var query = _queryString2.default.parse(this.props.location.search);
-      query.page = newPage;
-      var qString = _queryString2.default.stringify(query, { arrayFormat: 'bracket' });
-      this.props.history.push('/events?' + qString);
-    }
-
-    /**
-     *
-     * @param {number} currentPage
-     *
-     * @param {number} pageSize
-     *
-     * @returns{void}
-     */
-
-  }, {
-    key: 'onPageSizeChange',
-    value: function onPageSizeChange(currentPage, pageSize) {
-      var query = _queryString2.default.parse(this.props.location.search);
-      query.limit = pageSize;
-      query.page = currentPage;
-      var qString = _queryString2.default.stringify(query, { arrayFormat: 'bracket' });
-      this.props.history.push('/events?' + qString);
-    }
-
-    /**
-     *
-     * @param {object} query
-     *
-     * @returns {void}
-     */
-
-  }, {
-    key: 'onSearch',
-    value: function onSearch(query) {
-      var qString = _queryString2.default.stringify(query, { arrayFormat: 'bracket' });
-      this.props.history.push('/events?' + qString);
-    }
-
-    /**
-     *
-     * @param {object} event
-     *
-     * @returns {void}
-     *
-     * this handles the event when form is submitted
-     */
-
-  }, {
-    key: 'onSubmit',
-    value: function onSubmit(event) {
-      delete event.Center;
-      this.setState({ isRequestMade: true, serverError: '' });
-      var fv = new _formValidator2.default();
-      var updateEvent = this.props.updateEvent;
-
-      var errors = fv.validateUpdateEventForm(event);
-      if (errors) {
-        this.setState({ errors: errors, isRequestMade: false });
-      } else if (event.newImage !== event.image) {
-        (0, _imageUpload2.default)(event.newImage).then(function (imageUrl) {
-          event.image = imageUrl;
-          updateEvent(event);
-        }).catch(function (error) {
-          _toast2.default.error('Image Upload Error');
-        });
-      } else {
-        updateEvent(event);
-      }
-    }
-
-    /**
-     * @param {object} event
-     * @returns {void}
-     */
-
-  }, {
-    key: 'showModal',
-    value: function showModal(event) {
-      this.setState({ errors: {}, selectedEvent: event, openModal: true });
-    }
-
-    /**
-     * @param {number} id
-     * @returns {void}
-     */
-
-  }, {
-    key: 'hideModal',
-    value: function hideModal() {
-      this.setState({ openModal: false });
-    }
-
-    /**
-     * @param {object} event
-     * @returns {void}
-     */
-
-  }, {
-    key: 'showPrompt',
-    value: function showPrompt(event) {
-      this.setState({ openPrompt: true, selectedEvent: event, isRequestMade: false });
-    }
-
-    /**
-     * @returns {void}
-     */
-
-  }, {
-    key: 'hidePrompt',
-    value: function hidePrompt() {
-      this.setState({ openPrompt: false });
-    }
-
-    /**
-     * @returns {*} update center modal
-     */
-
-  }, {
-    key: 'handleDelete',
-    value: function handleDelete() {
-      var id = this.state.selectedEvent.id;
-      var deleteEvent = this.props.deleteEvent;
-
-      deleteEvent(id);
-    }
-
-    /**
-    *@returns {*} event for sortin
-    */
-
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      var _state = this.state,
-          data = _state.data,
-          loading = _state.loading,
-          serverError = _state.serverError,
-          errors = _state.errors,
-          pagingData = _state.pagingData,
-          selectedEvent = _state.selectedEvent,
-          openPrompt = _state.openPrompt,
-          openModal = _state.openModal,
-          isRequestMade = _state.isRequestMade;
-
-
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          'div',
-          { className: 'background' },
-          _react2.default.createElement(
-            'div',
-            { className: 'my-container' },
-            _react2.default.createElement(
-              'div',
-              { style: { textAlign: 'center' } },
-              _react2.default.createElement(
-                'span',
-                { style: { fontSize: '45px' } },
-                'Events'
-              )
-            ),
-            _react2.default.createElement(
-              _semanticUiReact.Grid,
-              null,
-              _react2.default.createElement(
-                _semanticUiReact.Grid.Row,
-                { colunms: 3 },
-                loading === true && _react2.default.createElement(
-                  _semanticUiReact.Dimmer,
-                  { active: true, inverted: true },
-                  _react2.default.createElement(
-                    _semanticUiReact.Loader,
-                    { size: 'large' },
-                    'Loading'
-                  )
-                ),
-                data.length === 0 && _react2.default.createElement(
-                  'h2',
-                  { className: 'animated fadeInUp' },
-                  'No Events Retrieved'
-                ),
-                data && data.map(function (item) {
-                  return _react2.default.createElement(
-                    _semanticUiReact.Grid.Column,
-                    { key: item.id },
-                    _react2.default.createElement(_eventCard2.default, {
-                      event: item,
-                      onPositive: function onPositive() {
-                        _this2.showModal(item);
-                      },
-                      onNegative: function onNegative() {
-                        _this2.showPrompt(item);
-                      }
-                    })
-                  );
-                })
-              )
-            ),
-            this.state.data.length > 0 && _react2.default.createElement(_pagination2.default, {
-              pagingData: pagingData,
-              onChange: this.onChangePage,
-              onShowSizeChange: this.onPageSizeChange
-            })
-          ),
-          _react2.default.createElement(_createEventForm2.default, {
-            open: openModal,
-            onSubmit: this.onSubmit,
-            errors: errors,
-            hideModal: this.hideModal,
-            isRequestMade: isRequestMade,
-            event: selectedEvent
-          }),
-          _react2.default.createElement(_prompt2.default, {
-            open: openPrompt,
-            title: 'Delete Event',
-            message: 'Are you sure you want to delete this Event',
-            onCancel: this.hidePrompt,
-            onConfirm: this.handleDelete,
-            isRequestMade: isRequestMade
-          })
-        )
-      );
-    }
-  }]);
-
-  return Event;
-}(_react.Component);
-
-var mapStateToProps = function mapStateToProps(state) {
-  return {
-    response: {
-      events: state.getAll,
-      newEvent: state.update,
-      deleteStatus: state.deleteItem
-    }
-  };
-};
-
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return (0, _redux.bindActionCreators)({
-    getAll: _eventAction2.default.getAll,
-    deleteEvent: _eventAction2.default.deleteEvent,
-    updateEvent: _eventAction2.default.updateEvent
-  }, dispatch);
-};
-
-Event.propTypes = {
-  response: _propTypes2.default.objectOf(function () {
-    return null;
-  }),
-  getAll: _propTypes2.default.func,
-  location: _propTypes2.default.objectOf(function () {
-    return null;
-  }).isRequired,
-  history: _propTypes2.default.objectOf(function () {
-    return null;
-  }).isRequired,
-  updateEvent: _propTypes2.default.func,
-  deleteEvent: _propTypes2.default.func
-};
-
-Event.defaultProps = {
-  response: {},
-  getAll: _eventAction2.default.getAll,
-  updateEvent: _eventAction2.default.updateEvent,
-  deleteEvent: _eventAction2.default.deleteEvent
-};
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Event);
-
-/***/ }),
-
-/***/ "./client/src/components/header.jsx":
-/*!******************************************!*\
-  !*** ./client/src/components/header.jsx ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Header = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _redux = __webpack_require__(/*! redux */ "./node_modules/redux/es/index.js");
-
-var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-
-var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
-
-var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _userActions = __webpack_require__(/*! ../actions/user-actions */ "./client/src/actions/user-actions.js");
-
-var _userActions2 = _interopRequireDefault(_userActions);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-/**
- *
- */
-var Header = exports.Header = function (_Component) {
-  _inherits(Header, _Component);
-
-  /**
-   *
-   * @param {*} props
-   */
-  function Header(props) {
-    _classCallCheck(this, Header);
-
-    var _this = _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).call(this, props));
-
-    _this.state = {
-      user: undefined, // eslint-disable-line
-      navClassName: 'navigator', // eslint-disable-line
-      sideNavStyle: { width: '0px' }
-    };
-    _this.logOut = _this.logOut.bind(_this);
-    _this.navCLick = _this.navCLick.bind(_this);
-    _this.closeSideNav = _this.closeSideNav.bind(_this);
-    _this.renderNavigation = _this.renderNavigation.bind(_this);
-    return _this;
-  }
-
-  /**
-   *@returns{*} authentication status
-   */
-
-
-  _createClass(Header, [{
-    key: 'logOut',
-    value: function logOut() {
-      var logout = this.props.logout;
-
-      logout();
-    }
-
-    /**
-     * @returns {void}
-     *
-     */
-
-  }, {
-    key: 'navCLick',
-    value: function navCLick() {
-      var navClassName = this.state.navClassName;
-
-      if (navClassName === 'navigator') {
-        this.setState({
-          navClassName: 'navigator responsive',
-          sideNavStyle: { width: '250px' }
-        });
-      } else {
-        this.setState({
-          navClassName: 'navigator',
-          sideNavStyle: { width: '0px' }
-        });
-      }
-    }
-
-    /**
-     * @returns {void}
-     *
-     */
-
-  }, {
-    key: 'closeSideNav',
-    value: function closeSideNav() {
-      this.setState({ navClassName: 'navigator', sideNavStyle: { width: '0px' } });
-    }
-
-    /**
-     * @returns {void}
-     *
-     */
-
-  }, {
-    key: 'renderNavigation',
-    value: function renderNavigation() {
-      var currentUser = this.props.response.currentUser;
-
-      if (!currentUser.isAuthenticated) {
-        return _react2.default.createElement(
-          'div',
-          { className: 'nav-menu', style: { float: 'right' } },
-          _react2.default.createElement(
-            _reactRouterDom.NavLink,
-            { className: 'login', to: '/login', target: '' },
-            'Login'
-          ),
-          _react2.default.createElement(
-            _reactRouterDom.NavLink,
-            { className: 'register', to: '/register', target: '' },
-            'Register'
-          )
-        );
-      }
-      return _react2.default.createElement(
-        'div',
-        { className: 'nav-menu', style: { float: 'right' } },
-        _react2.default.createElement(
-          _reactRouterDom.NavLink,
-          { className: 'events', to: '/events', target: '' },
-          'My Events'
-        ),
-        _react2.default.createElement(
-          _reactRouterDom.NavLink,
-          { className: 'centers', to: '/centers', target: '' },
-          'Centers'
-        ),
-        _react2.default.createElement(
-          'a',
-          { href: '#!', onClick: this.logOut },
-          'Logout'
-        )
-      );
-    }
-
-    /**
-     *@returns {*} view for langing page
-     */
-
-  }, {
-    key: 'render',
-    value: function render() {
-      var currentUser = this.props.response.currentUser;
-      var _state = this.state,
-          navClassName = _state.navClassName,
-          sideNavStyle = _state.sideNavStyle;
-
-      return _react2.default.createElement(
-        'header',
-        { style: { zIndex: '1' } },
-        _react2.default.createElement(
-          'nav',
-          null,
-          _react2.default.createElement(
-            'div',
-            { className: navClassName, id: 'navigator' },
-            _react2.default.createElement(
-              _reactRouterDom.NavLink,
-              { to: '/', target: '' },
-              'Evento'
-            ),
-            this.renderNavigation(),
-            _react2.default.createElement(
-              'a',
-              { className: 'icon', onClick: this.navCLick },
-              '\u2630'
-            )
-          ),
-          _react2.default.createElement(
-            'div',
-            { id: 'mySidenav', className: 'sidenav', style: sideNavStyle },
-            _react2.default.createElement(
-              'a',
-              { className: 'closebtn', onClick: this.closeSideNav },
-              '\xD7'
-            ),
-            !currentUser.isAuthenticated && _react2.default.createElement(
-              _reactRouterDom.NavLink,
-              { to: '/login', target: '' },
-              'Login'
-            ),
-            !currentUser.isAuthenticated && _react2.default.createElement(
-              _reactRouterDom.NavLink,
-              { to: '/register', target: '' },
-              'Register'
-            ),
-            currentUser.isAuthenticated && _react2.default.createElement(
-              _reactRouterDom.NavLink,
-              { to: '/events', target: '' },
-              'My Events'
-            ),
-            currentUser.isAuthenticated && _react2.default.createElement(
-              _reactRouterDom.NavLink,
-              { to: '/centers', target: '' },
-              'Centers'
-            ),
-            currentUser.isAuthenticated && _react2.default.createElement(
-              'a',
-              { href: '#!', onClick: this.logOut },
-              'Logout'
-            )
-          )
-        )
-      );
-    }
-  }]);
-
-  return Header;
-}(_react.Component);
-
-var mapStateToProps = function mapStateToProps(state) {
-  return {
-    response: {
-      currentUser: state.login
-    }
-  };
-};
-
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return (0, _redux.bindActionCreators)({
-    logout: _userActions2.default.logout
-  }, dispatch);
-};
-
-Header.propTypes = {
-  response: _propTypes2.default.objectOf(function () {
-    return null;
-  }).isRequired,
-  logout: _propTypes2.default.func
-};
-
-Header.defaultProps = {
-  logout: _userActions2.default.logout
-};
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Header);
-
-/***/ }),
-
-/***/ "./client/src/components/home.jsx":
-/*!****************************************!*\
-  !*** ./client/src/components/home.jsx ***!
-  \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _semanticUiReact = __webpack_require__(/*! semantic-ui-react */ "./node_modules/semantic-ui-react/dist/es/index.js");
-
-var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-/**
- *
- */
-var Home = function (_Component) {
-  _inherits(Home, _Component);
-
-  /**
-   *
-   * @param {*} props
-   */
-  function Home(props) {
-    _classCallCheck(this, Home);
-
-    var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
-
-    _this.state = {
-      search: ''
-    };
-    _this.onChange = _this.onChange.bind(_this);
-    _this.onSearch = _this.onSearch.bind(_this);
-    return _this;
-  }
-
-  /**
-   *
-   * @param {object} event
-   * @returns {void}
-   */
-
-
-  _createClass(Home, [{
-    key: 'onChange',
-    value: function onChange(event) {
-      var value = event.target.value;
-
-      this.setState({
-        search: value
-      });
-    }
-
-    /**
-     *
-     * @param {object} event
-     * @returns {void}
-     */
-
-  }, {
-    key: 'onSearch',
-    value: function onSearch() {
-      var search = this.state.search;
-
-      this.props.history.push('/centers?search=' + search);
-    }
-
-    /**
-     * @returns {*} view
-     */
-
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { id: 'home' },
-        _react2.default.createElement(
-          'div',
-          { className: 'home' },
-          _react2.default.createElement(
-            'div',
-            { className: 'section section__hero', style: { color: 'white' } },
-            _react2.default.createElement(
-              'div',
-              { className: 'my-container', style: { paddingTop: '8em' } },
-              _react2.default.createElement(
-                'h2',
-                { className: 'animated fadeInUp' },
-                'Welcome to Evento.'
-              ),
-              _react2.default.createElement(
-                'h3',
-                { style: { paddingBottom: '60px' }, className: 'animated fadeInUp' },
-                'The perfect place to find and book event centres'
-              ),
-              _react2.default.createElement(
-                'div',
-                { className: 'landing-input' },
-                _react2.default.createElement(
-                  _semanticUiReact.Input,
-                  { fluid: true, size: 'huge', type: 'text', onChange: this.onChange, placeholder: 'Search by name or address', action: true },
-                  _react2.default.createElement('input', null),
-                  _react2.default.createElement(
-                    _semanticUiReact.Button,
-                    { disabled: this.state.search.length === 0, onClick: this.onSearch, type: 'submit' },
-                    'Search'
-                  )
-                )
-              )
-            )
-          )
-        )
-      );
-    }
-  }]);
-
-  return Home;
-}(_react.Component);
-
-Home.propTypes = {
-  history: _propTypes2.default.objectOf(function () {
-    return null;
-  }).isRequired
-};
-
-exports.default = Home;
-
-/***/ }),
-
-/***/ "./client/src/components/notFound.jsx":
-/*!********************************************!*\
-  !*** ./client/src/components/notFound.jsx ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * @param {*} props
- * @returns {*} Home
- */
-var NotFound = function NotFound(props) {
-  return (
-    /**
-     *@returns {*} view for langing page
-     */
-    _react2.default.createElement(
-      'div',
+      _semanticUiReact.Modal.Actions,
       null,
       _react2.default.createElement(
-        'div',
-        { className: 'my-container', style: { paddingTop: '20em', color: 'black' } },
-        _react2.default.createElement(
-          'h1',
-          { className: 'animated fadeInUp', style: { fontSize: '50px' } },
-          'Oops! Not Found'
-        ),
-        _react2.default.createElement(
-          'h3',
-          { style: { paddingBottom: '60px', fontSize: '20px' }, className: 'animated fadeInUp' },
-          'Request is either invalid or the requested resouce does not exist.'
-        )
+        _semanticUiReact.Button,
+        { basic: true, color: 'red', inverted: true, onClick: onCancel },
+        _react2.default.createElement(_semanticUiReact.Icon, { name: 'remove' }),
+        ' No'
+      ),
+      _react2.default.createElement(
+        _semanticUiReact.Button,
+        { color: 'blue', inverted: true, onClick: onConfirm, loading: isRequestMade },
+        _react2.default.createElement(_semanticUiReact.Icon, { name: 'checkmark' }),
+        ' Yes'
       )
     )
   );
 };
 
-exports.default = NotFound;
+Confirm.propTypes = {
+  open: _propTypes2.default.bool.isRequired,
+  message: _propTypes2.default.string,
+  onCancel: _propTypes2.default.func.isRequired,
+  onConfirm: _propTypes2.default.func.isRequired,
+  title: _propTypes2.default.string,
+  isRequestMade: _propTypes2.default.bool.isRequired
+};
+
+Confirm.defaultProps = {
+  message: '',
+  title: ''
+};
+
+exports.default = Confirm;
 
 /***/ }),
 
-/***/ "./client/src/components/reusables/pagination.jsx":
-/*!********************************************************!*\
-  !*** ./client/src/components/reusables/pagination.jsx ***!
-  \********************************************************/
+/***/ "./client/src/components/reusables/Paginator.jsx":
+/*!*******************************************************!*\
+  !*** ./client/src/components/reusables/Paginator.jsx ***!
+  \*******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6228,89 +6311,6 @@ Paginator.propTypes = {
 };
 
 exports.default = Paginator;
-
-/***/ }),
-
-/***/ "./client/src/components/reusables/prompt.jsx":
-/*!****************************************************!*\
-  !*** ./client/src/components/reusables/prompt.jsx ***!
-  \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _semanticUiReact = __webpack_require__(/*! semantic-ui-react */ "./node_modules/semantic-ui-react/dist/es/index.js");
-
-var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Prompt = function Prompt(_ref) {
-  var open = _ref.open,
-      message = _ref.message,
-      onCancel = _ref.onCancel,
-      onConfirm = _ref.onConfirm,
-      isRequestMade = _ref.isRequestMade,
-      title = _ref.title;
-  return _react2.default.createElement(
-    _semanticUiReact.Modal,
-    { dimmer: 'blurring', open: open, basic: true, size: 'small' },
-    _react2.default.createElement(_semanticUiReact.Header, { icon: 'archive', content: title }),
-    _react2.default.createElement(
-      _semanticUiReact.Modal.Content,
-      null,
-      _react2.default.createElement(
-        'p',
-        null,
-        message
-      )
-    ),
-    _react2.default.createElement(
-      _semanticUiReact.Modal.Actions,
-      null,
-      _react2.default.createElement(
-        _semanticUiReact.Button,
-        { basic: true, color: 'red', inverted: true, onClick: onCancel },
-        _react2.default.createElement(_semanticUiReact.Icon, { name: 'remove' }),
-        ' No'
-      ),
-      _react2.default.createElement(
-        _semanticUiReact.Button,
-        { color: 'blue', inverted: true, onClick: onConfirm, loading: isRequestMade },
-        _react2.default.createElement(_semanticUiReact.Icon, { name: 'checkmark' }),
-        ' Yes'
-      )
-    )
-  );
-};
-
-Prompt.propTypes = {
-  open: _propTypes2.default.bool.isRequired,
-  message: _propTypes2.default.string,
-  onCancel: _propTypes2.default.func.isRequired,
-  onConfirm: _propTypes2.default.func.isRequired,
-  title: _propTypes2.default.string,
-  isRequestMade: _propTypes2.default.bool.isRequired
-};
-
-Prompt.defaultProps = {
-  message: '',
-  title: ''
-};
-
-exports.default = Prompt;
 
 /***/ }),
 
@@ -7105,9 +7105,9 @@ var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-r
 
 __webpack_require__(/*! animate.css */ "./node_modules/animate.css/animate.css");
 
-var _app = __webpack_require__(/*! ./components/app */ "./client/src/components/app.jsx");
+var _App = __webpack_require__(/*! ./components/App */ "./client/src/components/App.jsx");
 
-var _app2 = _interopRequireDefault(_app);
+var _App2 = _interopRequireDefault(_App);
 
 var _store = __webpack_require__(/*! ./store */ "./client/src/store.js");
 
@@ -7120,7 +7120,7 @@ var store = _store2.default;
 _reactDom2.default.render(_react2.default.createElement(
   _reactRedux.Provider,
   { store: store },
-  _react2.default.createElement(_app2.default, null)
+  _react2.default.createElement(_App2.default, null)
 ), document.getElementById('body'));
 
 /***/ }),

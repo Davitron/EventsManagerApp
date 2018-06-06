@@ -4,11 +4,11 @@ import { bindActionCreators } from 'redux';
 import { Grid, Dimmer, Loader } from 'semantic-ui-react';
 import queryString from 'query-string';
 import PropTypes from 'prop-types';
-import Paginator from '../reusables/pagination';
+import Paginator from '../reusables/Paginator';
 import EventActions from '../../actions/event-action';
 import AuthChecker from '../../helpers/auth-checker';
-import EventCard from './event-card';
-import Prompt from '../reusables/prompt';
+import EventCard from './EventCard';
+import Prompt from '../reusables/Confirm';
 
 /**
  * Event Component
@@ -179,7 +179,7 @@ export class CenterEvent extends Component {
         <div className="background">
           <div className="my-container">
             <div style={{ textAlign: 'center' }}>
-              <span style={{ fontSize: '45px' }}> Pending Events </span>
+              <span style={{ fontSize: '30px' }}> Pending Events </span>
             </div>
             <Grid>
               <Grid.Row colunms={3}>

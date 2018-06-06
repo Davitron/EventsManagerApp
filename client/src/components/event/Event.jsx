@@ -4,13 +4,13 @@ import { bindActionCreators } from 'redux';
 import { Grid, Dimmer, Loader } from 'semantic-ui-react';
 import queryString from 'query-string';
 import PropTypes from 'prop-types';
-import Paginator from '../reusables/pagination';
+import Paginator from '../reusables/Paginator';
 import EventActions from '../../actions/event-action';
 import AuthChecker from '../../helpers/auth-checker';
-import EventCard from './event-card';
+import EventCard from './EventCard';
 import FormValidator from '../../helpers/form-validator';
-import EventFormModal from '../../components/event/create-event-form';
-import Prompt from '../reusables/prompt';
+import EventFormModal from '../../components/event/EventFormModal';
+import Prompt from '../reusables/Confirm';
 import Toast from '../../helpers/toast';
 import imageUpload from '../../helpers/image-upload';
 
@@ -226,7 +226,7 @@ export class Event extends Component {
         <div className="background">
           <div className="my-container">
             <div style={{ textAlign: 'center' }}>
-              <span style={{ fontSize: '45px' }}>Events</span>
+              <span style={{ fontSize: '30px' }}>Events</span>
             </div>
             <Grid>
               <Grid.Row colunms={3}>
