@@ -3659,6 +3659,9 @@ i.icon-grey {
 .toastify {
   z-index: 1200; }
 
+.content {
+  word-wrap: break-word; }
+
 .navigator .icon {
   display: none; }
 
@@ -3821,5 +3824,3 @@ a {
   font-size: 0.9em;
   color: rgba(0, 0, 0, 0.4); }
 
-
-/*# sourceMappingURL=main.css.map*/

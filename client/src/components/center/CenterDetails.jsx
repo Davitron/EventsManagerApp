@@ -254,7 +254,7 @@ export class CenterDetails extends Component {
         { center &&
           <div>
             <div style={{ textAlign: 'center' }}>
-              <span style={{ fontSize: '30px' }}>{center.name}</span>
+              <span className="center-name" style={{ fontSize: '30px' }}>{center.name}</span>
             </div>
             <div style={{ marginTop: '20px' }}>
               <img src={center.image} alt="Lights" className=" w3-image" />
