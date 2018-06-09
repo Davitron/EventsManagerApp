@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/Davitron/EventsManagerApp.svg?branch=ft-validation)](https://travis-ci.org/Davitron/EventsManagerApp)
-[![Coverage Status](https://coveralls.io/repos/github/Davitron/EventsManagerApp/badge.svg?branch=bg-handleException)](https://coveralls.io/github/Davitron/EventsManagerApp?branch=bg-handleException)
+[![Coverage Status](https://coveralls.io/repos/github/Davitron/EventsManagerApp/badge.svg?branch=develop)](https://coveralls.io/github/Davitron/EventsManagerApp?branch=develop)
+[![codecov](https://codecov.io/gh/Davitron/EventsManagerApp/branch/develop/graph/badge.svg)](https://codecov.io/gh/Davitron/EventsManagerApp)
 [![Maintainability](https://api.codeclimate.com/v1/badges/7845bcb6e9e002aef52b/maintainability)](https://codeclimate.com/github/Davitron/EventsManagerApp/maintainability)
 [![](https://img.shields.io/badge/Protected_by-Hound-a873d1.svg)](https://houndci.com)
 # Events Manager
