@@ -1,7 +1,7 @@
 import React from 'react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
-import VerifyEmail from '../../../components/authentication/verify';
+import VerifyEmail from '../../../components/authentication/VerifyEmail';
 
 let mountedComponent;
 

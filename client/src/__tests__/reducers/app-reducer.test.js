@@ -1,6 +1,6 @@
 import expect from 'expect';
-import mainActionType from '../../actions/actionTypes/main-action-types';
-import AppReducer from '../../reducers/app-reducer';
+import mainActionType from '../../actions/actionTypes/mainActionType';
+import AppReducer from '../../reducers/AppReducer';
 import initialState from '../../initial-state';
 
 const mockData = [

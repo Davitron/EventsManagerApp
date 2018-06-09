@@ -17,7 +17,7 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test",
     "test:server": "NODE_ENV=test npm run db:migration && nyc --reporter=html --reporter=text mocha --timeout 10000 ./server/tests/* --exit --require babel-register --reporter spec",
-    "test:client": "jest /client/src && codecov",
+    "test:client": "jest -u /client/src && codecov",
     "full-test": "npm run test:client && npm run test:server",
     "server:e2e": "NODE_ENV=test npm run db:migration && npm run build:client && NODE_ENV=test nodemon --exec npm run babel-node -- ./server/server.js",
     "test:e2e": "NODE_ENV=test ./node_modules/.bin/nightwatch",
@@ -197,7 +197,8 @@
       "react"
     ],
     "setupFiles": [
-      "<rootDir>/client/src/setups/setupTests.js"
+      "<rootDir>/client/src/setups/setupTests.js",
+      "<rootDir>/client/src/setups/browserMock.js"
     ]
   }
 }

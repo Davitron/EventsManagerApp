@@ -2,7 +2,7 @@ import React from 'react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
-import ConnectedEvent, { Event } from '../../../components/event/events';
+import ConnectedEvent, { Event } from '../../../components/event/Event';
 
 jest.mock('../../../helpers/image-upload', () => jest.fn(() => Promise.resolve({})));
 

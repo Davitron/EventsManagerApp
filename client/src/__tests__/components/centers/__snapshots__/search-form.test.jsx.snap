@@ -28,6 +28,7 @@ ShallowWrapper {
           as={[Function]}
           control={[Function]}
           fluid={true}
+          id="search"
           name="search"
           onChange={[Function]}
           placeholder="Name or Addres"
@@ -104,6 +105,7 @@ ShallowWrapper {
           Search
         </FormButton>
       </FormGroup>,
+      "onSubmit": [Function],
     },
     "ref": null,
     "rendered": Object {
@@ -116,6 +118,7 @@ ShallowWrapper {
             as={[Function]}
             control={[Function]}
             fluid={true}
+            id="search"
             name="search"
             onChange={[Function]}
             placeholder="Name or Addres"
@@ -204,6 +207,7 @@ ShallowWrapper {
             "as": [Function],
             "control": [Function],
             "fluid": true,
+            "id": "search",
             "name": "search",
             "onChange": [Function],
             "placeholder": "Name or Addres",
@@ -331,6 +335,7 @@ ShallowWrapper {
             as={[Function]}
             control={[Function]}
             fluid={true}
+            id="search"
             name="search"
             onChange={[Function]}
             placeholder="Name or Addres"
@@ -407,6 +412,7 @@ ShallowWrapper {
             Search
           </FormButton>
         </FormGroup>,
+        "onSubmit": [Function],
       },
       "ref": null,
       "rendered": Object {
@@ -419,6 +425,7 @@ ShallowWrapper {
               as={[Function]}
               control={[Function]}
               fluid={true}
+              id="search"
               name="search"
               onChange={[Function]}
               placeholder="Name or Addres"
@@ -507,6 +514,7 @@ ShallowWrapper {
               "as": [Function],
               "control": [Function],
               "fluid": true,
+              "id": "search",
               "name": "search",
               "onChange": [Function],
               "placeholder": "Name or Addres",

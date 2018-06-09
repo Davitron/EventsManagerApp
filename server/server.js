@@ -5,7 +5,7 @@ import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import path from 'path';
 import './env';
-import routesV1 from './routes/v1';
+import routesV1 from './routes/v1/index';
 import swaggerDoc from './doc/swagger.json';
 
 const app = express();

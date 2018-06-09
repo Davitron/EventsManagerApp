@@ -2,7 +2,7 @@ import React from 'react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
 import { Input, Button } from 'semantic-ui-react';
-import Home from '../../components/home';
+import Home from '../../components/Home';
 
 let mountedComponent;
 

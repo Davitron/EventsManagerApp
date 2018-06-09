@@ -2,14 +2,16 @@ import React from 'react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
-import ConnectedHeader, { Header } from '../components/header';
+import ConnectedHeader, { Header } from '../components/Header';
 
 let mountedComponent;
 let props;
 let wrapper;
+let authWrapper;
 
 const response = {
   currentUser: {
+    isAuthenticated: false,
     status: null,
     data: null
   }
@@ -38,14 +40,36 @@ const getComponent = () => {
   return mountedComponent;
 };
 
+/**
+ * @description Initialise the component
+ *
+ * @returns {object} mountedComponent - Mounte
+ */
+const getComponentWithDiffProps = () => {
+  if (!mountedComponent) {
+    props = {
+      response: {
+        currentUser: {
+          ...response.currentUser,
+          isAuthenticated: true
+        }
+      },
+      logout
+    };
+    mountedComponent = shallow(<Header {...props} />);
+  }
+  return mountedComponent;
+};
 describe('Event Component', () => {
   beforeAll(() => {
     wrapper = getComponent();
+    authWrapper = getComponentWithDiffProps();
   });
 
 
   it('component successfully rendered', () => {
     expect(wrapper).toMatchSnapshot();
+    expect(authWrapper).toMatchSnapshot();
   });
 
   it('testing navCLick function', () => {

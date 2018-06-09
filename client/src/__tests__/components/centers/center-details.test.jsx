@@ -2,9 +2,8 @@ import React from 'react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
-import ConnectedCenterDetails, { CenterDetails } from '../../../components/center/center-details';
+import ConnectedCenterDetails, { CenterDetails } from '../../../components/center/CenterDetails';
 
-// const ImageUpload = jest.fn(() => Promise.resolve({}));
 jest.mock('../../../helpers/image-upload', () => jest.fn(() => Promise.resolve({})));
 
 let mountedComponent;

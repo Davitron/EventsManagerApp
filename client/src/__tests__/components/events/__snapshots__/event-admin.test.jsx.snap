@@ -56,7 +56,7 @@ ShallowWrapper {
             <span
               style={
                 Object {
-                  "fontSize": "45px",
+                  "fontSize": "30px",
                 }
               }
             >
@@ -75,7 +75,7 @@ ShallowWrapper {
             </GridRow>
           </Grid>
         </div>
-        <Prompt
+        <Confirm
           isRequestMade={false}
           message="Are you sure you want to respond to this Event?"
           onCancel={[Function]}
@@ -105,7 +105,7 @@ ShallowWrapper {
               <span
                 style={
                   Object {
-                    "fontSize": "45px",
+                    "fontSize": "30px",
                   }
                 }
               >
@@ -124,7 +124,7 @@ ShallowWrapper {
               </GridRow>
             </Grid>
           </div>,
-          <Prompt
+          <Confirm
             isRequestMade={false}
             message="Are you sure you want to respond to this Event?"
             onCancel={[Function]}
@@ -153,7 +153,7 @@ ShallowWrapper {
                 <span
                   style={
                     Object {
-                      "fontSize": "45px",
+                      "fontSize": "30px",
                     }
                   }
                 >
@@ -185,7 +185,7 @@ ShallowWrapper {
                 "children": <span
                   style={
                     Object {
-                      "fontSize": "45px",
+                      "fontSize": "30px",
                     }
                   }
                 >
@@ -203,7 +203,7 @@ ShallowWrapper {
                 "props": Object {
                   "children": " Pending Events ",
                   "style": Object {
-                    "fontSize": "45px",
+                    "fontSize": "30px",
                   },
                 },
                 "ref": null,
@@ -311,7 +311,7 @@ ShallowWrapper {
               <span
                 style={
                   Object {
-                    "fontSize": "45px",
+                    "fontSize": "30px",
                   }
                 }
               >
@@ -330,7 +330,7 @@ ShallowWrapper {
               </GridRow>
             </Grid>
           </div>
-          <Prompt
+          <Confirm
             isRequestMade={false}
             message="Are you sure you want to respond to this Event?"
             onCancel={[Function]}
@@ -360,7 +360,7 @@ ShallowWrapper {
                 <span
                   style={
                     Object {
-                      "fontSize": "45px",
+                      "fontSize": "30px",
                     }
                   }
                 >
@@ -379,7 +379,7 @@ ShallowWrapper {
                 </GridRow>
               </Grid>
             </div>,
-            <Prompt
+            <Confirm
               isRequestMade={false}
               message="Are you sure you want to respond to this Event?"
               onCancel={[Function]}
@@ -408,7 +408,7 @@ ShallowWrapper {
                   <span
                     style={
                       Object {
-                        "fontSize": "45px",
+                        "fontSize": "30px",
                       }
                     }
                   >
@@ -440,7 +440,7 @@ ShallowWrapper {
                   "children": <span
                     style={
                       Object {
-                        "fontSize": "45px",
+                        "fontSize": "30px",
                       }
                     }
                   >
@@ -458,7 +458,7 @@ ShallowWrapper {
                   "props": Object {
                     "children": " Pending Events ",
                     "style": Object {
-                      "fontSize": "45px",
+                      "fontSize": "30px",
                     },
                   },
                   "ref": null,

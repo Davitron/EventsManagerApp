@@ -2,7 +2,7 @@ import React from 'react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
-import ConnectedVerifiedEmail, { VerifiedEmail } from '../../../components/authentication/verified';
+import ConnectedVerifiedEmail, { VerifiedEmail } from '../../../components/authentication/VerifiedEmail';
 
 let mountedComponent;
 

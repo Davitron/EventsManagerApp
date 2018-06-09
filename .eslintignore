@@ -7,5 +7,4 @@ README.md
 LICENSE
 Procfile
 selenium-debug.log
-client/src/__tests__
 nightwatch.json

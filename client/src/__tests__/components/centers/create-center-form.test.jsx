@@ -2,7 +2,7 @@ import React from 'react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
-import ConnectedCenterFormModal, { CenterFormModal } from '../../../components/center/create-center-form';
+import ConnectedCenterFormModal, { CenterFormModal } from '../../../components/center/CenterFormModal';
 
 jest.mock('../../../helpers/image-upload', () => jest.fn(() => Promise.resolve({})));
 

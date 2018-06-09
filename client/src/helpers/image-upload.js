@@ -9,7 +9,7 @@ const handleImageUpload = (file) => {
   formData.append('file', file);
   formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
   return axios.post(CLOUDINARY_URL, formData)
-    .then(response => response.data.url)
+    .then(response => response.data.secure_url)
     .catch(error => error.response);
 };
 
