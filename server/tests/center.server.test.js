@@ -30,6 +30,11 @@ const validRequestForUpdate = {
   price: 1200000
 };
 
+const requestBody = {
+  name: 'The power space',
+  image: 'path/to/image',
+};
+
 describe('Testing Api endpoints for centers', () => {
   describe('POST /api/v1/centers', () => {
     it('should return HTTP 200 when email and password are correct', (done) => {
@@ -304,7 +309,6 @@ describe('Testing Api endpoints for centers', () => {
           res.body.data.should.an('array');
           res.body.metadata.should.be.an('object');
           res.body.metadata.should.have.property('pagination');
-          // res.body.mataData.pagination.should.be.an('object');
           done();
         });
     });
@@ -325,24 +329,6 @@ describe('Testing Api endpoints for centers', () => {
           res.body.data.should.an('array');
           res.body.metadata.should.be.an('object');
           res.body.metadata.should.have.property('pagination');
-          // res.body.mataData.pagination.should.be.an('object');
-          done();
-        });
-    });
-
-    it('Should return 404 with an array of all centers that match query', (done) => {
-      chai.request(app)
-        .get('/api/v1/centers?state=1&search=test&capacity=200000&facilities[]=cctv')
-        .set('x-access-token', token)
-        .end((err, res) => {
-          res.should.have.status(404);
-          res.body.should.have.property('message');
-          res.body.should.have.property('statusCode');
-          res.body.should.have.property('data');
-          res.body.should.have.property('metadata');
-          res.body.message.should.eql('No centers found');
-          res.body.statusCode.should.eql(404);
-          res.body.data.should.an('array');
           done();
         });
     });
@@ -476,6 +462,7 @@ describe('Testing Api endpoints for centers', () => {
           res.should.have.status(200);
           res.body.should.be.an('object');
           res.body.should.have.property('message');
+          res.body.should.have.property('updatedCenter');
           response.name.should.equal(validRequestForUpdate.name);
           response.address.should.equal(validRequestForUpdate.address);
           response.stateId.should.equal(validRequestForUpdate.stateId);
@@ -486,23 +473,44 @@ describe('Testing Api endpoints for centers', () => {
         });
     });
 
-    it('Should return 200 with modified center event if request body has no name field ', (done) => {
+    it('Should return 200 with modified center', (done) => {
       chai.request(app)
         .put(`/api/v1/centers/${centerID}/`)
         .set('x-access-token', token)
-        .send({
-          stateId: 1,
-          address: '7, abc avenue, lagos-island',
-          hallCapacity: '600',
-          carParkCapacity: '400',
-          facilities: ['swimming pool, projectors, cctv, vip lounges'],
-          price: '1200000'
-        })
+        .send(requestBody)
+        .end((err, res) => {
+          const response = res.body.updatedCenter;
+          res.should.have.status(200);
+          res.body.should.be.an('object');
+          res.body.should.have.property('message');
+          res.body.should.have.property('updatedCenter');
+          response.name.should.equal(requestBody.name);
+          response.image.should.equal(requestBody.image);
+          done();
+        });
+    });
+
+    it('Should return 200 with modified center event if request body has no name field ', (done) => {
+      const request = {
+        stateId: 1,
+        address: '7, abc avenue, lagos-island',
+        hallCapacity: '600',
+        carParkCapacity: '400',
+        facilities: ['swimming pool, projectors, cctv, vip lounges'],
+        price: '1200000'
+      };
+
+      chai.request(app)
+        .put(`/api/v1/centers/${centerID}/`)
+        .set('x-access-token', token)
+        .send(request)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.an('object');
           res.body.should.have.property('message');
           res.body.should.have.property('updatedCenter');
+          res.body.updatedCenter.stateId.should.equal(request.stateId);
+          res.body.updatedCenter.address.should.equal(request.address);
           done();
         });
     });

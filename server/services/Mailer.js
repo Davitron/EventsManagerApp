@@ -1,5 +1,4 @@
 import nodemailer from 'nodemailer';
-import sgMail from '@sendgrid/mail';
 import dotenv from 'dotenv';
 
 dotenv.load();
@@ -11,8 +10,6 @@ const mailTransport = nodemailer.createTransport({
     pass: process.env.EMAIL_PASSWORD
   }
 });
-
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 /**
  *

@@ -27,18 +27,6 @@ app.set('views', path.join(__dirname, '..', 'client', 'public'));
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
-app.get('*.js.gz', (req, res, next) => {
-  res.set('Content-Encoding', 'gzip');
-  res.set('Content-Type', 'application/javascript');
-  next();
-});
-
-app.get('*.css.gz', (req, res, next) => {
-  res.set('Content-Encoding', 'gzip');
-  res.set('Content-Type', 'text/css');
-  next();
-});
-
 app.use('/api/*', (req, res) => res.status(404).send({
   message: 'Sorry Route Not Found!',
   statusCode: 404
