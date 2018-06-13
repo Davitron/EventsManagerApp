@@ -384,7 +384,6 @@ describe('Event Action', () => {
 
       await store.dispatch(EventActions.deleteEvent(request));
       expect(store.getActions()).toEqual(expectedActions);
-      // expect(history.push).toHaveBeenCalled();
       done();
     });
 

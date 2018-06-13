@@ -207,9 +207,8 @@ export default class EventController {
         'image',
         'status',
         'centerId',
-        [Sequelize.col('Center.name'), 'venue']
       ],
-      include: [{ model: Centers, attributes: ['name'] }],
+      include: [{ model: Centers, as: 'center', attributes: ['name'] }],
       limit,
       offset,
       order: [['updatedAt', 'DESC']]
@@ -326,8 +325,8 @@ export default class EventController {
     return Events.findOne({
       where: { id: req.body.id },
       include: [
-        { model: model.Center, attributes: ['name'] },
-        { model: model.User, attributes: ['email', 'username'] }
+        { model: model.Center, as: 'center', attributes: ['name'] },
+        { model: model.User, as: 'user', attributes: ['email', 'username'] }
       ]
     })
       .then((event) => {
@@ -341,12 +340,12 @@ export default class EventController {
             let title;
             if (status === 'accepted') {
               title = 'Event Approved';
-              message = eventApproved(event.User.username, event.Center.name, event.startDate);
+              message = eventApproved(event.user.username, event.center.name, event.startDate);
             } else {
               title = 'Event Declined';
-              message = eventRejected(event.User.username, event.Center.name, event.startDate);
+              message = eventRejected(event.user.username, event.center.name, event.startDate);
             }
-            mailer.sendMail(event.User.email, message, title);
+            mailer.sendMail(event.user.email, message, title);
             return res.status(200).json({ event, message: title, statusCode: 200 });
           });
       });

@@ -194,6 +194,7 @@ export class Center extends Component {
             <span style={{ fontSize: '30px' }}>Centers</span>
           </div>
           <SearchForm states={states} onSearch={this.onSearch} />
+          { serverError && <h2 style={{ textAlign: 'center' }} className="animated fadeInUp">{serverError}</h2> }
           <Grid>
             <Grid.Row colunms={3}>
               { loading === true &&
@@ -201,7 +202,6 @@ export class Center extends Component {
                   <Loader size="large">Loading</Loader>
                 </Dimmer>
               }
-              { serverError && <h2 className="animated fadeInUp">{serverError}</h2> }
               { data &&
                 data.map(item => (
                   <Grid.Column key={item.id}>

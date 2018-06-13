@@ -14,23 +14,19 @@ const history = {
   },
 };
 
-
 const response = {
   isAuthenticated: false,
   status: null,
   data: null
 };
 
-const initialState = {};
-
 const mockStore = configureStore();
 let wrapper;
-let testStore; //eslint-disable-line
 
 /**
  * @description Initialise the component
  *
- * @returns {object} mountedComponent - Mounte
+ * @returns {object} mountedComponent - Mount
  */
 const getComponent = () => {
   if (!mountedComponent) {
@@ -43,17 +39,15 @@ const getComponent = () => {
   return mountedComponent;
 };
 
-describe('Register Component', () => {
-  beforeEach(() => {
-    testStore = mockStore(initialState);
-  });
+describe('ForgotPassword Component', () => {
+  beforeEach(() => {});
 
-  it('component successfully rendered', () => {
+  it('should successfully render the component', () => {
     wrapper = getComponent();
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('testing component will recieve props', () => {
+  it('should change a state in the component new props comes in from the reducer with a failed status', () => {
     const nextProps = {
       response: {
         status: 'failed',
@@ -67,7 +61,7 @@ describe('Register Component', () => {
     expect(wrapper.state().serverError).toEqual(nextProps.response.data);
   });
 
-  it('testing component will recieve props with a different props', () => {
+  it('should change a state in the component new props comes in from the reducer with a success status', () => {
     const nextProps = {
       response: {
         status: 'success',
@@ -85,14 +79,14 @@ describe('Register Component', () => {
     expect(wrapper.state().serverSuccess).toEqual(nextProps.response.data);
   });
 
-  it('testing on change function', () => {
+  it('should change state when an input filled with a value', () => {
     wrapper = getComponent();
     const event = { target: { name: 'email', value: 'testEmail@email.com' } };
     wrapper.instance().onChange(event);
     expect(wrapper.state().user.email).toEqual(event.target.value);
   });
 
-  it('testing on onSubmit function', () => {
+  it('should sumbit a form', () => {
     wrapper = getComponent();
     const event = { preventDefault: () => undefined };
     event.preventDefault = jest.fn();
@@ -100,7 +94,7 @@ describe('Register Component', () => {
     expect(event.preventDefault).toHaveBeenCalled();
   });
 
-  it('testing on onSubmit function', () => {
+  it('should change the state of the loader when input is not valid', () => {
     wrapper = getComponent();
     const event = { preventDefault: () => undefined };
     event.preventDefault = jest.fn();
@@ -114,7 +108,7 @@ describe('Register Component', () => {
     expect(wrapper.state().isLoading).toBe(false);
   });
 
-  it('testing for closeAlert function', () => {
+  it('should change the state of the alert to false when the closeAlert method is called', () => {
     wrapper = getComponent();
     wrapper.instance().closeAlert();
     expect(wrapper.state().showAlert).toBe(false);
@@ -122,8 +116,8 @@ describe('Register Component', () => {
 });
 
 describe('Connected Component', () => {
-  describe('Connected Logincomponent', () => {
-    it('component successfully rendered', () => {
+  describe('Connected Login component', () => {
+    it('should successfully render the component', () => {
       const store = mockStore({
         response
       });

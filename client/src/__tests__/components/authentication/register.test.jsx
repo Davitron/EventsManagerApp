@@ -44,12 +44,12 @@ const getComponent = () => {
 describe('Register Component', () => {
   beforeEach(() => {});
 
-  it('component successfully rendered', () => {
+  it('should successfully render the component', () => {
     wrapper = getComponent();
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('testing component will recieve props', () => {
+  it('should change a state in the component new props comes in from the reducer with a failed status', () => {
     const nextProps = {
       response: {
         status: 'failed',
@@ -63,7 +63,7 @@ describe('Register Component', () => {
     expect(wrapper.state().serverError).toEqual(nextProps.response.data);
   });
 
-  it('testing component will recieve props with a different props', () => {
+  it('should change a state in the component new props comes in from the reducer with a success status', () => {
     const nextProps = {
       response: {
         status: 'created',
@@ -77,14 +77,14 @@ describe('Register Component', () => {
     expect(history.push).toHaveBeenCalled();
   });
 
-  it('testing on change function', () => {
+  it('should change state when an input filled with a value', () => {
     wrapper = getComponent();
     const event = { target: { name: 'email', value: 'testEmail@email.com' } };
     wrapper.instance().onChange(event);
     expect(wrapper.state().user.email).toEqual(event.target.value);
   });
 
-  it('testing on onSubmit function', () => {
+  it('should sumbit a form', () => {
     wrapper = getComponent();
     const event = { preventDefault: () => undefined };
     event.preventDefault = jest.fn();
@@ -94,8 +94,8 @@ describe('Register Component', () => {
 });
 
 describe('Connected Component', () => {
-  describe('Connected Registercomponent', () => {
-    it('component successfully rendered', () => {
+  describe('Connected Register Component', () => {
+    it('should render the connected component with all props', () => {
       const store = mockStore({
         response
       });

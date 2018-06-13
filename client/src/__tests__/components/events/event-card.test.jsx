@@ -23,7 +23,7 @@ const eventObj = {
     files: []
   },
   status: 'pending',
-  Center: {
+  center: {
     name: 'test center'
   },
   startDate: '2018-12-12'
@@ -32,10 +32,7 @@ const eventObj = {
 const updateEvent = jest.fn();
 const deleteEvent = id => id;
 
-
 const location = {};
-
-let wrapper;
 
 /**
  * @description Initialise the component
@@ -61,22 +58,16 @@ const getComponent = (event, mode) => {
   return mountedComponent;
 };
 describe('Event Component', () => {
-  beforeAll(() => {
-  });
-
-
-  it('component successfully rendered', () => {
-    wrapper = getComponent(eventObj, 'Accept');
-    expect(wrapper).toMatchSnapshot();
-  });
+  beforeAll(() => {});
 
   it('testing get color function', () => {
     const newEvent = {
       ...eventObj,
-      status: 'cancelled'
+      status: 'accepted',
+      endDate: '2018-12-12'
     };
-    const card = getComponent(newEvent).find(Card);
-    expect(card.length).toBe(1);
+    const card = getComponent(newEvent, 'create').find(Card.Content);
+    expect(card.length).toBe(2);
   });
 });
 

@@ -1,0 +1,112 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Paginator Component should successfully render the component 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <Paginator
+    onChange={[Function]}
+    onShowSizeChange={[Function]}
+    pagingData={
+      Object {
+        "count": 50,
+        "currentPageSize": 10,
+        "limit": 10,
+        "offset": 0,
+        "page": 1,
+        "pages": 5,
+      }
+    }
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "class",
+    "props": Object {
+      "className": "pagination",
+      "current": 1,
+      "defaultCurrent": 1,
+      "defaultPageSize": 10,
+      "hideOnSinglePage": false,
+      "itemRender": [Function],
+      "locale": Object {
+        "items_per_page": "Items",
+      },
+      "onChange": [Function],
+      "onShowSizeChange": [Function],
+      "pageSize": 10,
+      "pageSizeOptions": Array [
+        "9",
+        "12",
+        "18",
+      ],
+      "prefixCls": "rc-pagination",
+      "selectComponentClass": [Function],
+      "selectPrefixCls": "rc-select",
+      "showLessItems": false,
+      "showPrevNextJumpers": true,
+      "showQuickJumper": false,
+      "showSizeChanger": true,
+      "showTitle": true,
+      "style": Object {},
+      "total": 50,
+    },
+    "ref": null,
+    "rendered": null,
+    "type": [Function],
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "class",
+      "props": Object {
+        "className": "pagination",
+        "current": 1,
+        "defaultCurrent": 1,
+        "defaultPageSize": 10,
+        "hideOnSinglePage": false,
+        "itemRender": [Function],
+        "locale": Object {
+          "items_per_page": "Items",
+        },
+        "onChange": [Function],
+        "onShowSizeChange": [Function],
+        "pageSize": 10,
+        "pageSizeOptions": Array [
+          "9",
+          "12",
+          "18",
+        ],
+        "prefixCls": "rc-pagination",
+        "selectComponentClass": [Function],
+        "selectPrefixCls": "rc-select",
+        "showLessItems": false,
+        "showPrevNextJumpers": true,
+        "showQuickJumper": false,
+        "showSizeChanger": true,
+        "showTitle": true,
+        "style": Object {},
+        "total": 50,
+      },
+      "ref": null,
+      "rendered": null,
+      "type": [Function],
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;

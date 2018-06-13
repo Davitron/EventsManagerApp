@@ -49,7 +49,6 @@ describe('Header Test', () => {
   it('It should call onChange function and setState when user starts to type in search input ', () => {
     const wrapper = getComponent();
     const event = { target: { name: 'search', value: 'test' } };
-
     const input = wrapper.find(Input);
     input.simulate('change', event);
     expect(wrapper.state().search).toEqual(event.target.value);

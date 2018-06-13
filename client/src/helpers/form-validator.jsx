@@ -1,6 +1,4 @@
-import isEmpty from 'lodash/isEmpty';
 import validator from 'validatorjs';
-import Logger from './logger';
 
 const signUpRules = {
   email: 'required|email',
@@ -58,25 +56,19 @@ const eventUpdateRules = {
   centerId: 'integer'
 };
 
+const sendResponse = (validation) => {
+  if (!validation.passes()) {
+    const { errors } = validation;
+    const err = errors.errors;
+    return err;
+  }
+  return null;
+};
+
 /**
  * A class to handle form validation across app
  */
 export default class FormValidator {
-  /**
-   * @param {*} data
-   *@returns {boolean} checkes validity status
-   */
-  checkStatus(data) {
-    let status = true;
-    for (const prop in data) {
-      if (!isEmpty(data[prop])) {
-        status = false;
-        break;
-      }
-    }
-    return status;
-  }
-
   /**
    *
    * @param {*} data
@@ -85,12 +77,8 @@ export default class FormValidator {
    */
   validateInput(data) {
     const validate = new validator(data, passwordResetRules);
-    if (!validate.passes()) {
-      const { errors } = validate;
-      const err = errors.errors;
-      return err;
-    }
-    return null;
+    const errors = sendResponse(validate);
+    return errors;
   }
 
   /**
@@ -101,12 +89,8 @@ export default class FormValidator {
    */
   validatePasswordReset(data) {
     const validate = new validator(data, resetRequestRules);
-    if (!validate.passes()) {
-      const { errors } = validate;
-      const err = errors.errors;
-      return err;
-    }
-    return null;
+    const errors = sendResponse(validate);
+    return errors;
   }
 
   /**
@@ -117,13 +101,8 @@ export default class FormValidator {
    */
   validateSignUp(data) {
     const validate = new validator(data, signUpRules);
-    if (!validate.passes()) {
-      const { errors } = validate;
-      const err = errors.errors;
-      Logger.log(JSON.stringify(err));
-      return err;
-    }
-    return null;
+    const errors = sendResponse(validate);
+    return errors;
   }
 
   /**
@@ -134,13 +113,8 @@ export default class FormValidator {
    */
   validateSignIn(data) {
     const validate = new validator(data, signInRules);
-    if (!validate.passes()) {
-      const { errors } = validate;
-      const err = errors.errors;
-      Logger.log(JSON.stringify(err));
-      return err;
-    }
-    return null;
+    const errors = sendResponse(validate);
+    return errors;
   }
 
   /**
@@ -151,12 +125,8 @@ export default class FormValidator {
    */
   validateCenterForm(data) {
     const validate = new validator(data, centerRules);
-    if (!validate.passes()) {
-      const { errors } = validate;
-      const err = errors.errors;
-      return err;
-    }
-    return null;
+    const errors = sendResponse(validate);
+    return errors;
   }
 
   /**
@@ -167,13 +137,8 @@ export default class FormValidator {
    */
   validateUpdateCenterForm(data) {
     const validate = new validator(data, centerUpdateRules);
-    if (!validate.passes()) {
-      const { errors } = validate;
-      const err = errors.errors;
-      Logger.log(JSON.stringify(err));
-      return err;
-    }
-    return null;
+    const errors = sendResponse(validate);
+    return errors;
   }
 
   /**
@@ -184,13 +149,8 @@ export default class FormValidator {
    */
   validateEventForm(data) {
     const validate = new validator(data, eventRules);
-    if (!validate.passes()) {
-      const { errors } = validate;
-      const err = errors.errors;
-      Logger.log(JSON.stringify(err));
-      return err;
-    }
-    return null;
+    const errors = sendResponse(validate);
+    return errors;
   }
 
   /**
@@ -201,12 +161,7 @@ export default class FormValidator {
    */
   validateUpdateEventForm(data) {
     const validate = new validator(data, eventUpdateRules);
-    if (!validate.passes()) {
-      const { errors } = validate;
-      const err = errors.errors;
-      Logger.log(JSON.stringify(err));
-      return err;
-    }
-    return null;
+    const errors = sendResponse(validate);
+    return errors;
   }
 }
