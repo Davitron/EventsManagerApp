@@ -10,7 +10,7 @@ Events Manager is a full stack application, that creates a platform event center
 http://event-manager-andela.herokuapp.com/
 
 ## API Documentation
-add link here
+http://event-manager-andela.herokuapp.com/docs
 
 
 ## Installation guide
@@ -72,11 +72,19 @@ localhost:8000
 
 ## Testing
 
-`chai` and `chai-http` are used for backend testing
+`chai` and `chai-http` are used for backend testing.
+`enzyme` and `jest` where used to test components, actions and reducers.
 
+* For backend testing run:
 ```
-$ npm run test
+$ npm run test:server
 ```
+* For frontend testing run:
+```
+$ npm run test:client
+```
+* For end-to-end test run:
+`$ npm run server:e2e` and then `npm run test:e2e` on seperate terminal
 
 ## Limitations
 
