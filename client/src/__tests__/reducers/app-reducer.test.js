@@ -87,7 +87,7 @@ describe('App Reducer', () => {
         data: null
       };
 
-      const newState = AppReducer.create(initialState.app, action);
+      const newState = AppReducer.getAll(initialState.app, action);
       expect(newState.status).toEqual(nextState.status);
       expect(newState.data).toEqual(nextState.data);
     });
@@ -173,7 +173,7 @@ describe('App Reducer', () => {
         data: null
       };
 
-      const newState = AppReducer.create(initialState.app, action);
+      const newState = AppReducer.get(initialState.app, action);
       expect(newState.status).toEqual(nextState.status);
       expect(newState.data).toEqual(nextState.data);
     });
@@ -466,6 +466,19 @@ describe('App Reducer', () => {
       const action = {
         type: mainActionType.GETSTATES_FAILED,
         data: 'Error occured'
+      };
+
+      const newState = AppReducer.getAllStates(initialState.app, action);
+      expect(newState.status).toEqual(nextState.status);
+      expect(newState.data).toEqual(nextState.data);
+    });
+
+    it('should return initial state if no action type is dispatched', () => {
+      const nextState = initialState.app;
+
+      const action = {
+        type: mainActionType.RESET_STATE,
+        data: null
       };
 
       const newState = AppReducer.getAllStates(initialState.app, action);

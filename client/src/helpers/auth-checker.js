@@ -61,22 +61,22 @@ class AuthChecker {
   //   return result;
   // }
 
-  /**
-   *@returns {object}
-   * provides userObject if user is authenticated
-   */
-  static getUserDetails() {
-    const cookies = new Cookies();
-    const token = cookies.get('jwt-events-manager');
-    if (token) {
-      const user = jwtDecode(token);
-      if (token.exp > Date.now()) {
-        return null;
-      }
-      return user;
-    }
-    return null;
-  }
+  // /**
+  //  *@returns {object}
+  //  * provides userObject if user is authenticated
+  //  */
+  // static getUserDetails() {
+  //   const cookies = new Cookies();
+  //   const token = cookies.get('jwt-events-manager');
+  //   if (token) {
+  //     const user = jwtDecode(token);
+  //     if (token.exp > Date.now()) {
+  //       return null;
+  //     }
+  //     return user;
+  //   }
+  //   return null;
+  // }
 }
 
 export default AuthChecker;

@@ -162,7 +162,7 @@ var CenterActions = function () {
       var token = cookies.get('jwt-events-manager');
 
       if (query) {
-        query.limit = query.limit || 9;
+        query.limit = query.limit || 12;
         query.page = query.page || 1;
         qString = _queryString2.default.stringify(query, { arrayFormat: 'bracket' });
         api = CENTER_BASE_URL + '?' + qString;
@@ -455,7 +455,7 @@ var EventActions = function () {
       var qString = void 0;
       var api = void 0;
       if (query) {
-        query.limit = query.limit || 9;
+        query.limit = query.limit || 12;
         query.page = query.page || 1;
         qString = _queryString2.default.stringify(query);
         api = EVENT_BASE_URL + '?' + qString;
@@ -3407,6 +3407,11 @@ var Center = exports.Center = function (_Component) {
             )
           ),
           _react2.default.createElement(_SearchForm2.default, { states: states, onSearch: this.onSearch }),
+          serverError && _react2.default.createElement(
+            'h2',
+            { style: { textAlign: 'center' }, className: 'animated fadeInUp' },
+            serverError
+          ),
           _react2.default.createElement(
             _semanticUiReact.Grid,
             null,
@@ -3421,11 +3426,6 @@ var Center = exports.Center = function (_Component) {
                   { size: 'large' },
                   'Loading'
                 )
-              ),
-              serverError && _react2.default.createElement(
-                'h2',
-                { className: 'animated fadeInUp' },
-                serverError
               ),
               data && data.map(function (item) {
                 return _react2.default.createElement(
@@ -3555,14 +3555,19 @@ var CenterCard = function CenterCard(_ref) {
         _react2.default.createElement(
           'span',
           { className: 'date' },
-          _react2.default.createElement(_semanticUiReact.Icon, { name: 'users' }),
-          center.hallCapacity
+          _react2.default.createElement(_semanticUiReact.Icon, { name: 'marker' }),
+          center.fullAddress
         )
       ),
       _react2.default.createElement(
         _semanticUiReact.Card.Description,
         null,
-        center.fullAddress
+        _react2.default.createElement(
+          'span',
+          { className: 'date' },
+          _react2.default.createElement(_semanticUiReact.Icon, { name: 'users' }),
+          center.hallCapacity
+        )
       )
     ),
     _react2.default.createElement(
@@ -4761,8 +4766,6 @@ var SearchForm = function (_Component) {
 
       this.setState({
         query: _extends({}, query, _defineProperty({}, name, value))
-      }, function () {
-        document.getElementById('search').focus();
       });
     }
 
@@ -5800,7 +5803,7 @@ var EventCard = function EventCard(_ref) {
         _react2.default.createElement(
           _reactRouterDom.Link,
           { to: '/centers/' + event.centerId },
-          event.venue
+          event.center.name
         )
       )
     ),
@@ -6337,7 +6340,7 @@ var Paginator = function Paginator(_ref) {
       pageSize: pagingData.limit,
       total: pagingData.count,
       className: 'pagination',
-      pageSizeOptions: ['9', '12', '18']
+      pageSizeOptions: ['12', '20', '28']
     });
   }
   return _react2.default.createElement('div', null);
@@ -6465,25 +6468,23 @@ var AuthChecker = function () {
     //   return result;
     // }
 
-    /**
-     *@returns {object}
-     * provides userObject if user is authenticated
-     */
+    // /**
+    //  *@returns {object}
+    //  * provides userObject if user is authenticated
+    //  */
+    // static getUserDetails() {
+    //   const cookies = new Cookies();
+    //   const token = cookies.get('jwt-events-manager');
+    //   if (token) {
+    //     const user = jwtDecode(token);
+    //     if (token.exp > Date.now()) {
+    //       return null;
+    //     }
+    //     return user;
+    //   }
+    //   return null;
+    // }
 
-  }, {
-    key: 'getUserDetails',
-    value: function getUserDetails() {
-      var cookies = new _universalCookie2.default();
-      var token = cookies.get('jwt-events-manager');
-      if (token) {
-        var user = (0, _jwtDecode2.default)(token);
-        if (token.exp > Date.now()) {
-          return null;
-        }
-        return user;
-      }
-      return null;
-    }
   }]);
 
   return AuthChecker;
@@ -6572,17 +6573,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _isEmpty = __webpack_require__(/*! lodash/isEmpty */ "./node_modules/lodash/isEmpty.js");
-
-var _isEmpty2 = _interopRequireDefault(_isEmpty);
-
 var _validatorjs = __webpack_require__(/*! validatorjs */ "./node_modules/validatorjs/src/validator.js");
 
 var _validatorjs2 = _interopRequireDefault(_validatorjs);
-
-var _logger = __webpack_require__(/*! ./logger */ "./client/src/helpers/logger.js");
-
-var _logger2 = _interopRequireDefault(_logger);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6644,6 +6637,16 @@ var eventUpdateRules = {
   centerId: 'integer'
 };
 
+var sendResponse = function sendResponse(validation) {
+  if (!validation.passes()) {
+    var errors = validation.errors;
+
+    var err = errors.errors;
+    return err;
+  }
+  return null;
+};
+
 /**
  * A class to handle form validation across app
  */
@@ -6654,22 +6657,7 @@ var FormValidator = function () {
   }
 
   _createClass(FormValidator, [{
-    key: 'checkStatus',
-
-    /**
-     * @param {*} data
-     *@returns {boolean} checkes validity status
-     */
-    value: function checkStatus(data) {
-      var status = true;
-      for (var prop in data) {
-        if (!(0, _isEmpty2.default)(data[prop])) {
-          status = false;
-          break;
-        }
-      }
-      return status;
-    }
+    key: 'validateInput',
 
     /**
      *
@@ -6677,18 +6665,10 @@ var FormValidator = function () {
      * @returns {null | object}
      * To check if given email is a valid format
      */
-
-  }, {
-    key: 'validateInput',
     value: function validateInput(data) {
       var validate = new _validatorjs2.default(data, passwordResetRules);
-      if (!validate.passes()) {
-        var errors = validate.errors;
-
-        var err = errors.errors;
-        return err;
-      }
-      return null;
+      var errors = sendResponse(validate);
+      return errors;
     }
 
     /**
@@ -6702,13 +6682,8 @@ var FormValidator = function () {
     key: 'validatePasswordReset',
     value: function validatePasswordReset(data) {
       var validate = new _validatorjs2.default(data, resetRequestRules);
-      if (!validate.passes()) {
-        var errors = validate.errors;
-
-        var err = errors.errors;
-        return err;
-      }
-      return null;
+      var errors = sendResponse(validate);
+      return errors;
     }
 
     /**
@@ -6722,14 +6697,8 @@ var FormValidator = function () {
     key: 'validateSignUp',
     value: function validateSignUp(data) {
       var validate = new _validatorjs2.default(data, signUpRules);
-      if (!validate.passes()) {
-        var errors = validate.errors;
-
-        var err = errors.errors;
-        _logger2.default.log(JSON.stringify(err));
-        return err;
-      }
-      return null;
+      var errors = sendResponse(validate);
+      return errors;
     }
 
     /**
@@ -6743,14 +6712,8 @@ var FormValidator = function () {
     key: 'validateSignIn',
     value: function validateSignIn(data) {
       var validate = new _validatorjs2.default(data, signInRules);
-      if (!validate.passes()) {
-        var errors = validate.errors;
-
-        var err = errors.errors;
-        _logger2.default.log(JSON.stringify(err));
-        return err;
-      }
-      return null;
+      var errors = sendResponse(validate);
+      return errors;
     }
 
     /**
@@ -6764,13 +6727,8 @@ var FormValidator = function () {
     key: 'validateCenterForm',
     value: function validateCenterForm(data) {
       var validate = new _validatorjs2.default(data, centerRules);
-      if (!validate.passes()) {
-        var errors = validate.errors;
-
-        var err = errors.errors;
-        return err;
-      }
-      return null;
+      var errors = sendResponse(validate);
+      return errors;
     }
 
     /**
@@ -6784,14 +6742,8 @@ var FormValidator = function () {
     key: 'validateUpdateCenterForm',
     value: function validateUpdateCenterForm(data) {
       var validate = new _validatorjs2.default(data, centerUpdateRules);
-      if (!validate.passes()) {
-        var errors = validate.errors;
-
-        var err = errors.errors;
-        _logger2.default.log(JSON.stringify(err));
-        return err;
-      }
-      return null;
+      var errors = sendResponse(validate);
+      return errors;
     }
 
     /**
@@ -6805,14 +6757,8 @@ var FormValidator = function () {
     key: 'validateEventForm',
     value: function validateEventForm(data) {
       var validate = new _validatorjs2.default(data, eventRules);
-      if (!validate.passes()) {
-        var errors = validate.errors;
-
-        var err = errors.errors;
-        _logger2.default.log(JSON.stringify(err));
-        return err;
-      }
-      return null;
+      var errors = sendResponse(validate);
+      return errors;
     }
 
     /**
@@ -6826,14 +6772,8 @@ var FormValidator = function () {
     key: 'validateUpdateEventForm',
     value: function validateUpdateEventForm(data) {
       var validate = new _validatorjs2.default(data, eventUpdateRules);
-      if (!validate.passes()) {
-        var errors = validate.errors;
-
-        var err = errors.errors;
-        _logger2.default.log(JSON.stringify(err));
-        return err;
-      }
-      return null;
+      var errors = sendResponse(validate);
+      return errors;
     }
   }]);
 
@@ -6904,65 +6844,6 @@ var handleImageUpload = function handleImageUpload(file) {
 };
 
 exports.default = handleImageUpload;
-
-/***/ }),
-
-/***/ "./client/src/helpers/logger.js":
-/*!**************************************!*\
-  !*** ./client/src/helpers/logger.js ***!
-  \**************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
-  };
-}();
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-/**
- * This is a logger class that is used for development
- */
-var Logger = function () {
-  function Logger() {
-    _classCallCheck(this, Logger);
-  }
-
-  _createClass(Logger, null, [{
-    key: "log",
-
-    /**
-     *
-     * @param {*} data
-     * @returns {*}
-     * logs data to browser console
-     */
-    value: function log(data) {
-      return console.log(data); // eslint-disable-line
-    }
-  }]);
-
-  return Logger;
-}();
-
-exports.default = Logger;
 
 /***/ }),
 

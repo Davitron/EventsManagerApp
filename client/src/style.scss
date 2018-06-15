@@ -308,7 +308,7 @@ nav {
 .ui.grid>.column:not(.row), .ui.grid>.row>.column {
   position: relative;
   display: inline-block;
-  width: 20rem !important;
+  width: 25% !important;
   padding-left: 1rem;
   padding-right: 1rem;
   vertical-align: top;
@@ -316,6 +316,30 @@ nav {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.ui.grid>.row {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  width: 100%!important;
+  padding: 0;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  justify-content: flex-start;
 }
 
 .ui.form .fields {
@@ -517,6 +541,17 @@ i.icon-grey {
     float: none;
     display: block;
     text-align: left;
+  }
+
+  .ui.grid>.row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .column{
+      width: 100% !important;
+    }
   }
 }
 

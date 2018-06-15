@@ -413,6 +413,22 @@ describe('PUT /api/v1/events/:id', () => {
       });
   });
 
+  it('Should return 200 with modified event', (done) => {
+    chai.request(app)
+      .put(`/api/v1/events/${eventID}`)
+      .set('x-access-token', token)
+      .send({})
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.an('object');
+        res.body.should.have.property('message');
+        res.body.should.have.property('modifiedEvent');
+        res.body.should.have.property('statusCode');
+        res.body.statusCode.should.eql(200);
+        done();
+      });
+  });
+
   it('Should return 400 if eventId is not a number', (done) => {
     chai.request(app)
       .put('/api/v1/events/jdwvjhv/')

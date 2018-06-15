@@ -107,7 +107,7 @@ class RequestSanitizer {
    * returns if an error occurs
    */
   static prepareGetAllRequest(req, res, next) {
-    const limit = parseInt(req.query.limit, 10) || 9;
+    const limit = parseInt(req.query.limit, 10) || 12;
     let offset = 0;
     const page = parseInt(req.query.page, 10) || 1;
     offset = limit * (page - 1);

@@ -80,7 +80,7 @@ const getComponent = () => {
 describe('Center Component', () => {
   beforeEach(() => {});
 
-  it('component successfully rendered', () => {
+  it('should successfully render the component', () => {
     wrapper = getComponent();
     wrapper.setState({
       userRole: 'admin'
@@ -88,7 +88,7 @@ describe('Center Component', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('testing component will recieve props', () => {
+  it('should set required state when it recieves new props from the store', () => {
     const nextProps = {
       ...response,
       response: {
@@ -120,7 +120,7 @@ describe('Center Component', () => {
     expect(wrapper.state().isRequestMade).toEqual(false);
   });
 
-  it('testing component will recieve props', () => {
+  it('should set required state when it recieves new props from the store', () => {
     const nextProps = {
       response: {
         singleCenter: {
@@ -176,26 +176,26 @@ describe('Center Component', () => {
     expect(wrapper.state().isRequestMade).toEqual(false);
   });
 
-  it('testing on getting pending events function', () => {
+  it('should redirect to pending events page', () => {
     wrapper = getComponent();
     wrapper.instance().getPendingEvent();
     expect(history.push).toHaveBeenCalled();
   });
 
-  it('testing on upcoming event function', () => {
+  it('should redirect to upcoming events page', () => {
     wrapper = getComponent();
     wrapper.instance().getUpcomingEvent();
     expect(history.push).toHaveBeenCalled();
   });
 
-  it('testing show modal function', () => {
+  it('should set the state that triggers the modal to open', () => {
     wrapper = getComponent();
     wrapper.instance().showModal();
     expect(wrapper.state().errors).toEqual({});
     expect(wrapper.state().openModal).toEqual(true);
   });
 
-  it('testing show event modal function', () => {
+  it('should show event modal function', () => {
     wrapper = getComponent();
     wrapper.instance().showEventModal();
     expect(wrapper.state().errors).toEqual({});

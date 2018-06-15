@@ -22,7 +22,7 @@ export default class EventActions {
     let qString;
     let api;
     if (query) {
-      query.limit = query.limit || 9;
+      query.limit = query.limit || 12;
       query.page = query.page || 1;
       qString = queryString.stringify(query);
       api = `${EVENT_BASE_URL}?${qString}`;

@@ -43,17 +43,17 @@ const getComponent = () => {
   return mountedComponent;
 };
 
-describe('Register Component', () => {
+describe('ResetPassword Component', () => {
   beforeEach(() => {
     testStore = mockStore(initialState);
   });
 
-  it('component successfully rendered', () => {
+  it('it should successfully render the component', () => {
     wrapper = getComponent();
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('testing component will recieve props', () => {
+  it('should change state depending on the props the component recieves', () => {
     const nextProps = {
       response: {
         status: 'failed',
@@ -67,7 +67,7 @@ describe('Register Component', () => {
     expect(wrapper.state().serverError).toEqual(nextProps.response.data);
   });
 
-  it('testing component will recieve props with a different props', () => {
+  it('should change state depending on the props the component recieves', () => {
     const nextProps = {
       response: {
         status: 'success',
@@ -85,7 +85,7 @@ describe('Register Component', () => {
     expect(wrapper.state().serverSuccess).toEqual(nextProps.response.data);
   });
 
-  it('testing on change function', () => {
+  it('should change state to value passed into the function', () => {
     wrapper = getComponent();
     const event = { target: { name: 'password', value: 'minerva' } };
     wrapper.instance().onChange(event);

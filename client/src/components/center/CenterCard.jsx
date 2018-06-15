@@ -12,12 +12,15 @@ const CenterCard = ({ center }) => (
       </Card.Header>
       <Card.Meta>
         <span className="date">
-          <Icon name="users" />
-          {center.hallCapacity}
+          <Icon name="marker" />
+          {center.fullAddress}
         </span>
       </Card.Meta>
       <Card.Description>
-        {center.fullAddress}
+        <span className="date">
+          <Icon name="users" />
+          {center.hallCapacity}
+        </span>
       </Card.Description>
     </Card.Content>
     <Card.Content extra>

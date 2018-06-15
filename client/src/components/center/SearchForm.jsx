@@ -70,8 +70,6 @@ class SearchForm extends Component {
         ...query,
         [name]: value
       }
-    }, () => {
-      document.getElementById('search').focus();
     });
   }
 

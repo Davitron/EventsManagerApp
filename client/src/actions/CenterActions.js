@@ -33,7 +33,7 @@ export default class CenterActions {
     const token = cookies.get('jwt-events-manager');
 
     if (query) {
-      query.limit = query.limit || 9;
+      query.limit = query.limit || 12;
       query.page = query.page || 1;
       qString = queryString.stringify(query, { arrayFormat: 'bracket' });
       api = `${CENTER_BASE_URL}?${qString}`;

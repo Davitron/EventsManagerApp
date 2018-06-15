@@ -2,7 +2,9 @@ import moxios from 'moxios';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import expect from 'expect';
+import sinon from 'sinon';
 import userActionType from '../../actions/actionTypes/userActionType';
+import mainActionType from '../../actions/actionTypes/mainActionType';
 import UserActions from '../../actions/UserActions';
 import userData from '../../__mocks__/mock-data/userMockData';
 
@@ -276,6 +278,23 @@ describe('User Aciton', () => {
 
       await store.dispatch(UserActions.resetPassword(request));
       expect(store.getActions()).toEqual(expectedActions);
+      done();
+    });
+  });
+
+  describe('User Logout', () => {
+    it('should create SIGNOUT action when user logout of the system', async (done) => {
+      const expectedActions = [
+        { type: userActionType.SIGNOUT, data: null },
+        { type: mainActionType.RESET_STATE, data: null },
+      ];
+
+      const store = mockStore({});
+      sinon.stub(window.location, 'reload');
+      await store.dispatch(UserActions.logout());
+      expect(store.getActions()).toEqual(expectedActions);
+      expect(localStorage.removeItem).toHaveBeenCalledWith('app');
+      // expect(window.location.reload).toHaveBeenCalled();
       done();
     });
   });

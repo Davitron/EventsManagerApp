@@ -22,7 +22,7 @@ const Paginator = ({
         pageSize={pagingData.limit}
         total={pagingData.count}
         className="pagination"
-        pageSizeOptions={['9', '12', '18']}
+        pageSizeOptions={['12', '20', '28']}
       />
     );
   }
