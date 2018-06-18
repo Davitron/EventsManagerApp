@@ -43,9 +43,9 @@ ShallowWrapper {
       "onShowSizeChange": [Function],
       "pageSize": 10,
       "pageSizeOptions": Array [
-        "9",
         "12",
-        "18",
+        "20",
+        "28",
       ],
       "prefixCls": "rc-pagination",
       "selectComponentClass": [Function],
@@ -81,9 +81,9 @@ ShallowWrapper {
         "onShowSizeChange": [Function],
         "pageSize": 10,
         "pageSizeOptions": Array [
-          "9",
           "12",
-          "18",
+          "20",
+          "28",
         ],
         "prefixCls": "rc-pagination",
         "selectComponentClass": [Function],

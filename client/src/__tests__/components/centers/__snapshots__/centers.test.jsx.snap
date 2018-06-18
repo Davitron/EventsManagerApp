@@ -60,12 +60,11 @@ ShallowWrapper {
             onSearch={[Function]}
             states={Array []}
           />
+          
           <Grid>
             <GridRow
               colunms={3}
-            >
-              
-            </GridRow>
+            />
           </Grid>
         </div>,
         <Connect(CenterFormModal)
@@ -109,12 +108,11 @@ ShallowWrapper {
               onSearch={[Function]}
               states={Array []}
             />,
+            "",
             <Grid>
               <GridRow
                 colunms={3}
-              >
-                
-              </GridRow>
+              />
             </Grid>,
             false,
           ],
@@ -169,6 +167,7 @@ ShallowWrapper {
             "rendered": null,
             "type": [Function],
           },
+          "",
           Object {
             "instance": null,
             "key": undefined,
@@ -176,9 +175,7 @@ ShallowWrapper {
             "props": Object {
               "children": <GridRow
                 colunms={3}
-              >
-                
-              </GridRow>,
+              />,
             },
             "ref": null,
             "rendered": Object {
@@ -188,7 +185,6 @@ ShallowWrapper {
               "props": Object {
                 "children": Array [
                   false,
-                  "",
                   Array [],
                 ],
                 "colunms": 3,
@@ -196,7 +192,6 @@ ShallowWrapper {
               "ref": null,
               "rendered": Array [
                 false,
-                "",
               ],
               "type": [Function],
             },
@@ -257,12 +252,11 @@ ShallowWrapper {
               onSearch={[Function]}
               states={Array []}
             />
+            
             <Grid>
               <GridRow
                 colunms={3}
-              >
-                
-              </GridRow>
+              />
             </Grid>
           </div>,
           <Connect(CenterFormModal)
@@ -306,12 +300,11 @@ ShallowWrapper {
                 onSearch={[Function]}
                 states={Array []}
               />,
+              "",
               <Grid>
                 <GridRow
                   colunms={3}
-                >
-                  
-                </GridRow>
+                />
               </Grid>,
               false,
             ],
@@ -366,6 +359,7 @@ ShallowWrapper {
               "rendered": null,
               "type": [Function],
             },
+            "",
             Object {
               "instance": null,
               "key": undefined,
@@ -373,9 +367,7 @@ ShallowWrapper {
               "props": Object {
                 "children": <GridRow
                   colunms={3}
-                >
-                  
-                </GridRow>,
+                />,
               },
               "ref": null,
               "rendered": Object {
@@ -385,7 +377,6 @@ ShallowWrapper {
                 "props": Object {
                   "children": Array [
                     false,
-                    "",
                     Array [],
                   ],
                   "colunms": 3,
@@ -393,7 +384,6 @@ ShallowWrapper {
                 "ref": null,
                 "rendered": Array [
                   false,
-                  "",
                 ],
                 "type": [Function],
               },

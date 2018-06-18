@@ -25,7 +25,7 @@ const EventCard = ({
   onPositive,
   onNegative
 }) => (
-  <Card>
+  <Card className="event">
     <Image src={event.image} />
     <Card.Content>
       <Label color={getColor(event.status)} ribbon="right">{event.status}</Label>

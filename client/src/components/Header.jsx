@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import UserActions from '../actions/UserActions';
+import AuthChecker from '../helpers/auth-checker';
 
 /**
  *
@@ -23,6 +24,16 @@ export class Header extends Component {
     this.navCLick = this.navCLick.bind(this);
     this.closeSideNav = this.closeSideNav.bind(this);
     this.renderNavigation = this.renderNavigation.bind(this);
+  }
+
+  /**
+   * @returns {void}
+   */
+  componentDidMount() {
+    const isAuth = AuthChecker.checkUserAuth();
+    if (isAuth === false || isAuth === null) {
+      this.logOut();
+    }
   }
 
 
