@@ -1,7 +1,6 @@
 import Cookies from 'universal-cookie';
 import axios from 'axios';
 import userActionsType from './actionTypes/userActionType';
-import mainActionsType from './actionTypes/mainActionType';
 import Dispatcher from '../helpers/dispatch';
 import Toast from '../helpers/toast';
 
@@ -138,10 +137,8 @@ export default class UserActions {
   static logout() {
     return (dispatch) => {
       cookies.remove('jwt-events-manager');
-      dispatch(Dispatcher.action(userActionsType.SIGNOUT, null));
-      dispatch(Dispatcher.action(mainActionsType.RESET_STATE, null));
       localStorage.removeItem('app');
-      window.location.reload();
+      dispatch(Dispatcher.action(userActionsType.SIGNOUT, null));
     };
   }
 }

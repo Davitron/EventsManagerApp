@@ -3504,6 +3504,12 @@ nav {
   background: rgba(0, 0, 0, 0.05);
   max-height: 120px; }
 
+.ui.card {
+  height: 274px; }
+
+.ui.card.event {
+  height: 315px; }
+
 @media only screen and (min-width: 700px) {
   .App-signup {
     display: inline-block;
@@ -3854,5 +3860,3 @@ a {
   font-size: 0.9em;
   color: rgba(0, 0, 0, 0.4); }
 
-
-/*# sourceMappingURL=main.css.map*/

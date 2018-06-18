@@ -69,6 +69,10 @@ export class CenterFormModal extends Component {
       isRequestMade
     } = nextProps;
 
+    if (open === false && this.state.mode !== 'update') {
+      this.setState({ center: {} });
+    }
+
     if (open !== this.state.open && states !== this.state.states) {
       const options = nextProps.states.map((state) => {
         const newObj = {};
