@@ -13,7 +13,7 @@
     "load-swagger": "mkdir ./build/doc && cp ./server/doc/swagger.json ./build/doc/swagger.json",
     "full-build": "npm run build:server && npm run build:client && npm run load-config && npm run load-swagger",
     "heroku-postbuild": "npm run full-build",
-    "db:migration": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
+    "db:migration": "NODE_ENV=production sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test",
     "test:server": "NODE_ENV=test npm run db:migration && nyc --reporter=html --reporter=text mocha --timeout 10000 ./server/tests/* --exit --require babel-register --reporter spec",

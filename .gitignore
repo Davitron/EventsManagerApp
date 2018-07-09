@@ -3,5 +3,4 @@ node_modules
 coverage
 .nvm-node
 .env
-build
 bin
