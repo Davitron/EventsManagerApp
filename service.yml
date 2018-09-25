@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  #Service name
+  name: node-app-demo-svc
+spec:
+  selector:
+    app: demo
+  ports:
+    - protocol: TCP
+      port: 8002
+      targetPort: 8002
+  type: LoadBalancer

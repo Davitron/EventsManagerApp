@@ -10,7 +10,7 @@ import swaggerDoc from './doc/swagger.json';
 
 const app = express();
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 8002;
 
 app.set('secret_key', process.env.SECRET_KEY);
 

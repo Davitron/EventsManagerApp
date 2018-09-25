@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  app-service:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: davitron/node-app-demo
+    ports:
+      - "8002:8002"
+
+

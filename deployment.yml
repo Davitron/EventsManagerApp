@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: lms-demo
+  labels:
+    #Project ID
+    app: demo
+spec:
+  #Run two instances of our application
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      #Container details
+      containers:
+        - name: node-app-demo
+          image: gcr.io/learning-map-app/node-app-demo:0.0.1
+          imagePullPolicy: Always
+          #Ports to expose
+          ports:
+          - containerPort: 8002
